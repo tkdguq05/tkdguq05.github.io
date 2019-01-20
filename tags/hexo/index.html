@@ -2,14 +2,14 @@
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>Archives: 2019 - Unreasonable Effectiveness</title>
+<title>Tag: hexo - Unreasonable Effectiveness</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Unreasonable Effectiveness">
-<meta property="og:url" content="http://yoursite.com/archives/2019/index.html">
+<meta property="og:url" content="http://yoursite.com/tags/hexo/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
@@ -128,61 +128,120 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        2019
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-01-19T04:45:26.000Z">2019-01-19</time>
-                        <a href="/2019/01/19/float/" class="has-link-black-ter is-size-6">Python의 실수형에 대해서 알아보자</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/blog/">blog</a> / <a class="has-link-grey -link" href="/categories/blog/hexo/">hexo</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2019/01/11/2019/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/background.jpeg" alt="2019!">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-01-11T05:58:53.000Z">2019-01-11</time>
-                        <a href="/2019/01/11/2019/" class="has-link-black-ter is-size-6">2019!</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/blog/">blog</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-        </div>
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/tags">Tags</a></li>
+            <li class="is-active"><a href="#" aria-current="page">hexo</a></li>
+        </ul>
+        </nav>
     </div>
 </div>
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-01-19T04:45:26.000Z">2019-01-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/blog/">blog</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/blog/hexo/">hexo</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1727 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/01/19/float/">Python의 실수형에 대해서 알아보자</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="컴퓨터-사이언스-부트캠프-with-Python"><a href="#컴퓨터-사이언스-부트캠프-with-Python" class="headerlink" title="컴퓨터 사이언스 부트캠프 with Python"></a>컴퓨터 사이언스 부트캠프 with Python</h1><h2 id="1-실수-연산의-함정"><a href="#1-실수-연산의-함정" class="headerlink" title="1. 실수 연산의 함정"></a>1. 실수 연산의 함정</h2><p>데이터 사이언스 공부를 하다보면 가끔 머리로 이해되지 않는 것이 생기곤 한다. 그 중 하나가 실수 연산에 대한 것이다.<br>다음 예를 살펴보자</p>
+<p>python(3.6.4)으로 다음과 같이 입력하자.</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = 0.01</span><br><span class="line">result = 0.0</span><br><span class="line">for i in range(100):</span><br><span class="line">	result += a </span><br><span class="line">result</span><br></pre></td></tr></table></figure>
+<p>result는 값이 어떻게 나오게 될까?<br>위의 코드는 쉽게 말하자면 0.01을 100번 더한 것과 다를 게 없다.<br>그렇다면 답은 1일 것이다. 하지만<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; result </span><br><span class="line">1.0000000000000007</span><br></pre></td></tr></table></figure></p>
+<p>답은 1이 아니다. 만약 내가 조건문을 이용해서<br><code>1==result</code> 판단을 내렸다면 결과는 False로 나올 것이다. </p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = 0.015625</span><br><span class="line">for i in range(100):</span><br><span class="line">	result += a</span><br><span class="line">result</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;1.5625</span><br></pre></td></tr></table></figure>
+<p>그런데 이번 경우에는 생각과 같이 1.5625라는 결과가 나온다. 왜 갑자기 오차 하나 없이 깔끔하게 값이 나오는 것일까?<br>왜 이런 일이 발생하는 것일까?</p>
+<h2 id="2-부동소수점"><a href="#2-부동소수점" class="headerlink" title="2. 부동소수점"></a>2. 부동소수점</h2><p>이 현상에 대해 이해하기 위해 부동소수점에 대해서 이해를 해야한다.</p>
+<p>부동소수점에서 ‘부’는 부유한다는 말, 즉 떠다닌다는 말이다. 123.456을 다르게 표현해 보는 경우를 생각해보자<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">123.456 = 1.23456 * 10^2</span><br><span class="line">123.456 = 12.3456 * 10 </span><br><span class="line">........</span><br></pre></td></tr></table></figure></p>
+<p>위의 예시 말고도 다양한 방식이 있다. 소숫점이 둥둥 떠다니는 것 같이 움직인다. 그래서 이러한 실수 표현 방식을 부동소수점이라고 부른다.</p>
+<h2 id="3-단정도와-배정도"><a href="#3-단정도와-배정도" class="headerlink" title="3. 단정도와 배정도"></a>3. 단정도와 배정도</h2><p>단정도(single-precision)는 실수를 32비트로 표현하며 부호 1비트, 지수부 8비트, 가수부 23비트로 구성되어 있다.<br>배정도(double-precision)는 실수를 64비트로 표현하며 부호 1비트, 지수부 11비트, 가수부 52비트로 구성되어 있다.<br>배정도가 단정도보다 두 배 정도의 비트 수가 많은데, 비트 수가 많은 만큼 정밀도가 높다고 할 수 있겠다. <strong>파이썬은 배정도를 사용한다.</strong></p>
+<h2 id="4-1바이트-실수-자료형-설계하기"><a href="#4-1바이트-실수-자료형-설계하기" class="headerlink" title="4. 1바이트 실수 자료형 설계하기"></a>4. 1바이트 실수 자료형 설계하기</h2><p>$$\pm 1.man \times 2^{(exp-bias)}$$</p>
+<p>위의 수식은 실수 자료형을 표현한 수식이다. </p>
+<p>1.man은 가수, 2는 밑수, exp-bias는 지수를 의미한다.</p>
+<p>이 식을 이용해 7.75라는 10진수 실수를 1바이트 부동소수점으로 표현해보자.</p>
+<h4 id="4-1-10진수-실수를-2진수-실수로-바꾸기"><a href="#4-1-10진수-실수를-2진수-실수로-바꾸기" class="headerlink" title="4.1 10진수 실수를 2진수 실수로 바꾸기"></a>4.1 10진수 실수를 2진수 실수로 바꾸기</h4><p>$$7.75 = 4 + 2 +1 +0.5 + 0.25 $$<br>$$= 2^2 + 2^1 + 2^0 + 2^{-1} + 2^{-2}$$<br>$$=111.11$$<br>2진수로 바꾸면 111.11이란 값이 나온다.</p>
+<h4 id="4-2-정규화"><a href="#4-2-정규화" class="headerlink" title="4.2 정규화"></a>4.2 정규화</h4><p>아 숫자를 정규화 해보자. 정규화란, 소수점 왼쪽에 위치한 가수 부분을 밑수보다 작은 자연수가 되도록 만드는 것이다.<br>111.11을 정규화 하면 다음과 같다.</p>
+<p>$$ 111.11 = 1.1111 \times 2^2$$</p>
+<h4 id="4-3-메모리-구조"><a href="#4-3-메모리-구조" class="headerlink" title="4.3 메모리 구조"></a>4.3 메모리 구조</h4><p>정규화된 부동소수점 $1.111 \times 2^2$를 앞의 수식과 비교해 보면<br>man은 1111이고 exp-bias는 2이다.<br>이제 메모리 구조를 정하고 man과 exp값만 저장하면 설계가 끝난다.<br>이때 지수부와 가수부에 할당하는 비트 수에 따라 표현 범위와 정밀도가 결정된다.</p>
+<p>1바이트 부동소수점 구조는 다음과 같다.<br>$$ 0 \ 0000 \ 000 \ [부호(sign) \ 지수부(exp) \ 가수부에서 \ man에 \ 해당되는 \ 부분] $$</p>
+<ul>
+<li>첫번째 비트 : 부호 0은 양수, 1은 음수</li>
+<li>가운데 4비트 : 지수부에 해당하며 exp 값이다. <ul>
+<li>0~15의 양수를 표현할 수 있다</li>
+<li>$bias = 2^{지수의 비트수} -1$</li>
+</ul>
+</li>
+<li>맨 뒤 3비트 :  가수부로 man 값을 저장함 </li>
+</ul>
+<p>$1.1111 \times 2^2$를 1바이트의 메모리 구조로 변경해 보자. </p>
+<ul>
+<li>부호비트는 0이다.</li>
+<li>$exp-bias$는 2이다. $bias$값이 7이므로 $exp$는 9가 된다.이것을 이진수로 나타내면 $1001_{(2)}$가 된다.</li>
+<li>가수부에 할당된 비트는 3비트이다. 1111을 3비트에 넣을때는 뒷자리 1을 생략한다. 가수부는 111이다.<br>$$ 0 \ 1001 \ 111 = 0100 \ 1111 $$<br>이것을 16진수로 나타내면 0x4f가 된다.<br><strong>정리하자면 10진수 7.75를 $ 0100 \ 1111 $로 나타낼 수 있고 이것을 다시 16진수로 나타내면 0x4f이다.</strong></li>
+</ul>
+<h4 id="4-4-1바이트-부동소수점의-표현-범위"><a href="#4-4-1바이트-부동소수점의-표현-범위" class="headerlink" title="4.4 1바이트 부동소수점의 표현 범위"></a>4.4 1바이트 부동소수점의 표현 범위</h4><ul>
+<li>표현할 수 있는 가장 작은 수(지수부0001)<ul>
+<li>$1.0000 \times = 0.0156256$</li>
+</ul>
+</li>
+<li>표현할 수 있는 가장 큰 수(지수부 1110)<ul>
+<li>$1.111 \times = 240$</li>
+</ul>
+</li>
+</ul>
+<p>단, 지수부 비트가 모두 0일때와 모두 1일때는 0.0, 정규화 불가능, 무한대, NaN 같은 특별한 상황이므로 제외한다.</p>
+<h4 id="4-5-1바이트-부동소수점의-정밀도"><a href="#4-5-1바이트-부동소수점의-정밀도" class="headerlink" title="4.5 1바이트 부동소수점의 정밀도"></a>4.5 1바이트 부동소수점의 정밀도</h4><p>7.75를 변환하는 과정에서 3비트의 가수부데이터에 1을 누락해 가면서 가수부 공간에 담았던 것을 기억할 것이다.<br>1을 누락하게 되면 0x4f는 7.75를 완벽하게 표현하지 못하게 된다.<br>$$1.111 \times 2^2 = 1 \times 2^2 + 1 \times 2^1 + 1 \times 2^{-1} = 7.5$$<br>여기서 0.25만큼 차이가 나게되고, 그만큼 정밀도도 떨어지게 된다.</p>
+<h2 id="5-정밀도에-대한-고찰"><a href="#5-정밀도에-대한-고찰" class="headerlink" title="5. 정밀도에 대한 고찰"></a>5. 정밀도에 대한 고찰</h2><h4 id="5-1-엡실론"><a href="#5-1-엡실론" class="headerlink" title="5.1 엡실론"></a>5.1 엡실론</h4><p>실수 자료형에서 엡실론이란 1.0과 그 다음으로 표현 가능한 수 사이의 차이를 말한다.</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">sys.float_info.epsilion</span><br></pre></td></tr></table></figure>
+<p>위 코드로 엡실론 값을 확인해 보자.<br>배정도의 가수부는 52비트인 것을 기억할 것이다. 1.0을 배정도에 맞춰 표현하면<br>$1.0000 ….. 0000(0:52개) \times 2^0$<br>배정도에서 1.0다음으로 표현할 수 있는 수는<br>$1.0000 ….. 0000(0:51개) \times 2^0$<br>두 수의 차이는<br>$1.0000 ….. 0000(0:51개) \times 2^0$<br>이 숫자를 10진수로 바꾸면 엡실론 값이 등장한다.<br>$2.220446049250313 \times 10^{-16}$</p>
+<h4 id="5-2-엡실론과-정밀도"><a href="#5-2-엡실론과-정밀도" class="headerlink" title="5.2 엡실론과 정밀도"></a>5.2 엡실론과 정밀도</h4><p>엡실론을 이용하면 해당 실수 다음에 표현할 수 있는 수를 알아낼 수 있다.<br>9.25라는 수를 부동소수점 방식으로 표현하면 $1.00101 \times 2^3$이다.<br>여기서 지수부분만 떼서 엡실론을 구하면 이 실수와 다음 표현 가능한 수 사이의 차이를 구할 수 있다.<br>코드로 살펴보면,</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">ep = sys.float_info.epsilion</span><br><span class="line">a= 9.25</span><br><span class="line">diff = (2**3)*ep</span><br><span class="line">diff</span><br><span class="line">&gt;&gt;1.7763568394002504e-15</span><br><span class="line">b = a + diff</span><br><span class="line">b</span><br><span class="line">&gt;&gt;&gt;9.250000000000002</span><br></pre></td></tr></table></figure>
+<p>0.000000000000002만큼 차이가 난다.</p>
+<p>그렇다면 9.25에 diff보다 작은 값을 더하면 어떻게 될까?<br>추측으로는 9.25가 나올 것 같다.<br>확인해보자</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = 9.25</span><br><span class="line">half_diff = diff/2</span><br><span class="line">c = a + half_diff</span><br><span class="line">a == c</span><br><span class="line">&gt;&gt;&gt; True</span><br></pre></td></tr></table></figure>
+<p>추측과 같이 half_diff를 더하더라도 값의 변화가 없다.<br><strong>diff보다 작은 값을 더한 수를 부동소수점 방식에서는 표현할 수 없다는 말이다.</strong><br>다르게 말하자면 정밀도가 떨어진다는 말이다.</p>
+<p>다음의 내용은 <code>혼자서하는 괴발개발 블로그</code>[<a href="https://aisolab.github.io/computer%20science/2018/08/07/CS_Real-number/]에서" target="_blank" rel="noopener">https://aisolab.github.io/computer%20science/2018/08/07/CS_Real-number/]에서</a> 가져온 글이다.<br>다음의 방법을 이용하면 상대오차(relative error) 가 엡실론보다 작으면 서로 같은 수라고 판단하는 function을 만듦으로써 위와 같은 문제를 해결할 수 있다.</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = 0.1 * 3</span><br><span class="line">b = 0.3</span><br><span class="line"></span><br><span class="line">print(a == b)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">False</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<p>$$relative \ error = {\left\vert x - y\right\vert \over \max(\left\vert x \right\vert , \left\vert y \right\vert)}$$</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">def is_equal(a, b):</span><br><span class="line">	ep = sys.float_info.epsilon</span><br><span class="line">	return abs(a - b) &lt;= max(abs(a), abs(b)) * ep</span><br><span class="line"></span><br><span class="line">a = .1 * 3</span><br><span class="line">b = .3</span><br><span class="line"></span><br><span class="line">print(is_equal(a,b))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">True</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
 
 
 
