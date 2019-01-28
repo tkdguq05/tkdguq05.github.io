@@ -131,6 +131,12 @@
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
     <div class="card">
     
+    <div class="card-image">
+        <a href="/2019/01/28/oop/" class="image is-7by1">
+            <img class="thumbnail" src="https://user-images.githubusercontent.com/31465178/51436111-143ca100-1cca-11e9-8156-35f562ada08b.png" alt="oop">
+        </a>
+    </div>
+    
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
@@ -165,7 +171,59 @@
 </ul>
 <h1 id="2-절차-지향-프로그래밍"><a href="#2-절차-지향-프로그래밍" class="headerlink" title="2. 절차 지향 프로그래밍"></a>2. 절차 지향 프로그래밍</h1><p>절차를 의미하는 procedure는 서브 루틴, 메서드, 함수라고 불린다.<br>함수는 입력을 받아 연산을 하고 출력을 내보낸다. 함수를 한 번 정의해 두면 다시 호출해서 쓸 수 있고 이름으로 어떤 일을 하는지 쉽게 알 수 있다.<br>이처럼 함수를 사용해 프로그래밍 하는 것을 절차 지향 프로그래밍이라고 한다. </p>
 <h1 id="3-절차-지향으로-학급-성적-평가-프로그램-만들기"><a href="#3-절차-지향으로-학급-성적-평가-프로그램-만들기" class="headerlink" title="3. 절차 지향으로 학급 성적 평가 프로그램 만들기"></a>3. 절차 지향으로 학급 성적 평가 프로그램 만들기</h1><p>우리가 담임 선생님이 되었다고 가정하고 엑셀에 저장된 학생들의 점수를 이용해 평균과 표준편차를 구하고 전체의 평균과 비교하여 평가하는 프로그램을 만들어 보자.</p>
-<h3 id="3-1-openpyxl모듈-설치하기"><a href="#3-1-openpyxl모듈-설치하기" class="headerlink" title="3.1 openpyxl모듈 설치하기"></a>3.1 openpyxl모듈 설치하기</h3><figure class="highlight plain hljs"><figcaption><span>install openpyxl```을 입력한다.</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 3.2 openpyxl 모듈로 데이터 읽어 들이기</span><br><span class="line">`exam.xlsx`</span><br><span class="line">name | score</span><br><span class="line">------------ | -------------</span><br><span class="line">greg | 95</span><br><span class="line">john | 25</span><br><span class="line">yang | 50</span><br><span class="line">timothy | 15</span><br><span class="line">melisa | 100</span><br><span class="line">thor | 10</span><br><span class="line">elen | 25</span><br><span class="line">mark | 80</span><br><span class="line">steve | 95</span><br><span class="line">anna | 20</span><br><span class="line"></span><br><span class="line">`function.py`</span><br><span class="line">```from openpyxl import load_workbook</span><br><span class="line">from functools import reduce</span><br><span class="line">import math</span><br><span class="line"></span><br><span class="line">def get_data_from_excel(filepath):</span><br><span class="line"></span><br><span class="line">    wb = load_workbook(filename = filepath)</span><br><span class="line">    ws = wb.active</span><br><span class="line">    rows = ws.rows</span><br><span class="line">    raw_data = &#123;name_cell.value : score_cell.value for name_cell, score_cell in rows&#125;</span><br><span class="line">    scores = raw_data.values()</span><br><span class="line">    return scores</span><br><span class="line"></span><br><span class="line">def get_average(scores):</span><br><span class="line">    </span><br><span class="line">    avrg = reduce(lambda score1, score2 : score1 + score2, scores) / len(scores)    </span><br><span class="line">    return avrg</span><br><span class="line"></span><br><span class="line">def get_variance(scores, avrg):</span><br><span class="line">    </span><br><span class="line">    tmp = 0</span><br><span class="line">    for score in scores:</span><br><span class="line">        tmp += (score - avrg)**2       </span><br><span class="line">    else:</span><br><span class="line">        var = tmp / len(scores)</span><br><span class="line">    return var</span><br><span class="line"></span><br><span class="line">def get_std_dev(var):</span><br><span class="line">    </span><br><span class="line">    std_dev = round(math.sqrt(var),1)    </span><br><span class="line">    return std_dev</span><br><span class="line"></span><br><span class="line">def evaluate_class(avrg, var, std_dev, total_avrg, total_std_dev):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    evaluate_class(avrg, var, std_dev, total_avrg, total_std_dev) -&gt; None</span><br><span class="line">    </span><br><span class="line">    Args:</span><br><span class="line">        avrg : 반평균</span><br><span class="line">        var : 반분산</span><br><span class="line">        std_dev : 반표준편차</span><br><span class="line">        total_avrg : 학년평균</span><br><span class="line">        total_std_dev : 학년분산</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    print(&quot;평균:&#123;&#125;, 분산:&#123;&#125;, 표준편차:&#123;&#125;&quot;.format(avrg, var, std_dev))</span><br><span class="line">    if avrg &lt; total_avrg and std_dev &gt; total_std_dev:</span><br><span class="line">        print(&apos;성적이 너무 저조하고 학생들의 실력 차이가 너무 크다.&apos;)</span><br><span class="line">    elif avrg &gt; total_avrg and std_dev &gt; total_std_dev:</span><br><span class="line">        print(&apos;성적은 평균 이상이지만 학생들의 실력 차이가 크다. 주의 요망!&apos;)</span><br><span class="line">    elif avrg &lt; total_avrg and std_dev &lt; total_std_dev:</span><br><span class="line">        print(&apos;학생들의 실력 차이는 크지 않지만 성적이 너무 저조하다. 주의 요망!&apos;)</span><br><span class="line">    elif avrg &gt; total_avrg and std_dev &lt; total_std_dev:</span><br><span class="line">        print(&apos;성적도 평균 이상이고 학생들의 실력 차이도 크지 않다.&apos;)</span><br></pre></td></tr></table></figure>
+<h3 id="3-1-openpyxl모듈-설치하기"><a href="#3-1-openpyxl모듈-설치하기" class="headerlink" title="3.1 openpyxl모듈 설치하기"></a>3.1 openpyxl모듈 설치하기</h3><p><code>pip install openpyxl</code> 을 입력한다.</p>
+<h3 id="3-2-openpyxl-모듈로-데이터-읽어-들이기"><a href="#3-2-openpyxl-모듈로-데이터-읽어-들이기" class="headerlink" title="3.2 openpyxl 모듈로 데이터 읽어 들이기"></a>3.2 openpyxl 모듈로 데이터 읽어 들이기</h3><p><code>exam.xlsx</code></p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>greg</td>
+<td>95</td>
+</tr>
+<tr>
+<td>john</td>
+<td>25</td>
+</tr>
+<tr>
+<td>yang</td>
+<td>50</td>
+</tr>
+<tr>
+<td>timothy</td>
+<td>15</td>
+</tr>
+<tr>
+<td>melisa</td>
+<td>100</td>
+</tr>
+<tr>
+<td>thor</td>
+<td>10</td>
+</tr>
+<tr>
+<td>elen</td>
+<td>25</td>
+</tr>
+<tr>
+<td>mark</td>
+<td>80</td>
+</tr>
+<tr>
+<td>steve</td>
+<td>95</td>
+</tr>
+<tr>
+<td>anna</td>
+<td>20</td>
+</tr>
+</tbody>
+</table>
+<p><code>function.py</code><br><figure class="highlight plain hljs"><figcaption><span>openpyxl import load_workbook</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">from functools import reduce</span><br><span class="line">import math</span><br><span class="line"></span><br><span class="line">def get_data_from_excel(filepath):</span><br><span class="line"></span><br><span class="line">    wb = load_workbook(filename = filepath)</span><br><span class="line">    ws = wb.active</span><br><span class="line">    rows = ws.rows</span><br><span class="line">    raw_data = &#123;name_cell.value : score_cell.value for name_cell, score_cell in rows&#125;</span><br><span class="line">    scores = raw_data.values()</span><br><span class="line">    return scores</span><br><span class="line"></span><br><span class="line">def get_average(scores):</span><br><span class="line">    </span><br><span class="line">    avrg = reduce(lambda score1, score2 : score1 + score2, scores) / len(scores)    </span><br><span class="line">    return avrg</span><br><span class="line"></span><br><span class="line">def get_variance(scores, avrg):</span><br><span class="line">    </span><br><span class="line">    tmp = 0</span><br><span class="line">    for score in scores:</span><br><span class="line">        tmp += (score - avrg)**2       </span><br><span class="line">    else:</span><br><span class="line">        var = tmp / len(scores)</span><br><span class="line">    return var</span><br><span class="line"></span><br><span class="line">def get_std_dev(var):</span><br><span class="line">    </span><br><span class="line">    std_dev = round(math.sqrt(var),1)    </span><br><span class="line">    return std_dev</span><br><span class="line"></span><br><span class="line">def evaluate_class(avrg, var, std_dev, total_avrg, total_std_dev):</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    evaluate_class(avrg, var, std_dev, total_avrg, total_std_dev) -&gt; None</span><br><span class="line">    </span><br><span class="line">    Args:</span><br><span class="line">        avrg : 반평균</span><br><span class="line">        var : 반분산</span><br><span class="line">        std_dev : 반표준편차</span><br><span class="line">        total_avrg : 학년평균</span><br><span class="line">        total_std_dev : 학년분산</span><br><span class="line">    &apos;&apos;&apos;</span><br><span class="line">    print(&quot;평균:&#123;&#125;, 분산:&#123;&#125;, 표준편차:&#123;&#125;&quot;.format(avrg, var, std_dev))</span><br><span class="line">    if avrg &lt; total_avrg and std_dev &gt; total_std_dev:</span><br><span class="line">        print(&apos;성적이 너무 저조하고 학생들의 실력 차이가 너무 크다.&apos;)</span><br><span class="line">    elif avrg &gt; total_avrg and std_dev &gt; total_std_dev:</span><br><span class="line">        print(&apos;성적은 평균 이상이지만 학생들의 실력 차이가 크다. 주의 요망!&apos;)</span><br><span class="line">    elif avrg &lt; total_avrg and std_dev &lt; total_std_dev:</span><br><span class="line">        print(&apos;학생들의 실력 차이는 크지 않지만 성적이 너무 저조하다. 주의 요망!&apos;)</span><br><span class="line">    elif avrg &gt; total_avrg and std_dev &lt; total_std_dev:</span><br><span class="line">        print(&apos;성적도 평균 이상이고 학생들의 실력 차이도 크지 않다.&apos;)</span><br></pre></td></tr></table></figure></p>
 
         </div>
         
@@ -552,7 +610,7 @@
             
             <a href="/2019/01/28/oop/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="oop">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/31465178/51436111-143ca100-1cca-11e9-8156-35f562ada08b.png" alt="oop">
                 </p>
             </a>
             
@@ -723,7 +781,7 @@
             
             <a href="/2019/01/28/oop/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="oop">
+                    <img class="thumbnail" src="https://user-images.githubusercontent.com/31465178/51436111-143ca100-1cca-11e9-8156-35f562ada08b.png" alt="oop">
                 </p>
             </a>
             
