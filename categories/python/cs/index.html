@@ -145,78 +145,6 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2019/01/28/class/" class="image is-7by1">
-            <img class="thumbnail" src="/images/bootcamp.jpg" alt="클래스에 대해서 알아보자">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-28T12:55:59.000Z">2019-01-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/cs/">cs</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 minutes read (About 760 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/28/class/">클래스에 대해서 알아보자</a>
-            
-        </h1>
-        <div class="content">
-            <p>Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.<br>흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는<br>객체 관계를 어떻게 표현하는지 알아보자.</p>
-<h1 id="클래스-관계"><a href="#클래스-관계" class="headerlink" title="클래스 관계"></a>클래스 관계</h1><p>클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다.</p>
-<h3 id="1-1-IS-A-상속"><a href="#1-1-IS-A-상속" class="headerlink" title="1.1 IS-A: 상속"></a>1.1 IS-A: 상속</h3><p>IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자. 노트북은 컴퓨터의 한 종류일까?<br>그렇다. 이런 관계일 경우 Computer와 laptop 클래스는 IS-A관계라고 말할 수 있다.<br>IS-A관계 인지 아닌지 분간이 안된다면, ‘한 종류다’라는 의미가 있는지 생각해 보자.</p>
-<p>이런 IS-A관계를 프로그램에서 표현할 때는 상속을 사용한다. 상속은 IS-A관계에서 설계가 쉽다.</p>
-<p>상속을 하는 클래스와 상속을 받는 클래스를 나눠 볼 수 있는데 표현은 다음과 같다.</p>
-<p><strong>상속을 하는 클래스</strong></p>
-<ul>
-<li>기본 클래스</li>
-<li>부모 클래스</li>
-<li>슈퍼 클래스</li>
-</ul>
-<p><strong>상속을 받는 클래스</strong></p>
-<ul>
-<li>파생 클래스</li>
-<li>자식 클래스</li>
-<li>서브 클래스</li>
-</ul>
-<p>코드로 laptop과 computer 클래스를 설계해 보자.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Computer</span>:</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, cpu, ram)</span>:</span></span><br><span class="line">    	self.CPU = cpu</span><br><span class="line">    	self.RAM = ram</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">browse</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">	    print(<span class="hljs-string">'browse'</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">work</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">    	print(<span class="hljs-string">'work'</span>)</span><br></pre></td></tr></table></figure></p>
-<p>이 코드에서 인스턴스 멤버는 CPU와 RAM이다. 인스턴스 메서드는 browse()와 일을 하는 work()이다.<br>노트북은 컴퓨터의 모든 멤버와 메서드를 가진다. 노트북에도 CPU와 RAM이 있고, 같은 일을 하기 때문이다.<br><strong>어떤 객체가 다른 객체의 모든 특성과 기능을 가진 상태에서 그 외에 다른 특성이나 기능을 가지고 있다면 상속해서 쓰는게 편하다.</strong></p>
-<p>노트북을 설계해보자<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Laptop</span><span class="hljs-params">(Computer)</span>:</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, cpu, ram, battery)</span>:</span></span><br><span class="line">    	super().__init__(cpu, ram)</span><br><span class="line">        self.battery = battery</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move</span><span class="hljs-params">(self, to)</span>:</span></span><br><span class="line">    	print(<span class="hljs-string">'move to &#123;&#125;'</span>.format(to))</span><br></pre></td></tr></table></figure></p>
-<p>노트북의 클래스 옆에 Computer가 붙은게 보인다. 이는 컴퓨터 클래스를 상속하겠다는 뜻이다.<br>이렇게 되면 노트북은 컴퓨터 클래스가 가진 모든 멤버와 메서드를 가지게 된다. 노트북도 browse()와<br>work()가 가능하다는 말이다. 확실히 손이 덜 피곤하다는 게 느껴질 것이다.</p>
-<p>super는 무엇일까? 이것은 기본 클래스를 의미한다. 기본 클래스는 위에서 써놨듯이, 상속을 하는 클래스, 즉<br>컴퓨터 클래스를 가리킨다. CPU와 RAM은 기본 클래스의 생성자를 이용해 초기화가 되었기 때문에 남은 한 멤버인 battery만 할당해 주면 된다.</p>
-<p>그리고 노트북에만 있는 move메서드를 입력해준다. 이렇게 되면, 노트북만의 메서드를 하나 갖게 된다.</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
         <a href="/2019/01/28/oop/" class="image is-7by1">
             <img class="thumbnail" src="/images/bootcamp.jpg" alt="객체 지향 프로그램에 대해서 알아보자">
         </a>
@@ -531,7 +459,7 @@
                 <span class="level-item">cs</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/cs/python/">
@@ -539,7 +467,7 @@
                 <span class="level-item">python</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/python/">
@@ -547,7 +475,7 @@
                 <span class="level-item">python</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">1</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/python/cs/">
@@ -555,7 +483,7 @@
                 <span class="level-item">cs</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -569,7 +497,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/cs/" style="font-size: 20px;">cs</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+        <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cs/" style="font-size: 20px;">cs</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/python-cs-class/" style="font-size: 10px;">python,cs,class</a>
     </div>
 </div>
 
@@ -597,7 +525,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-28T12:55:59.000Z">2019-01-28</time></div>
                     <a href="/2019/01/28/class/" class="has-link-black-ter is-size-6">클래스에 대해서 알아보자</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/cs/">cs</a>
+                        <a class="has-link-grey -link" href="/categories/cs/">cs</a> / <a class="has-link-grey -link" href="/categories/cs/python/">python</a>
                     </p>
                 </div>
             </div>
@@ -719,23 +647,12 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/class/">
-                        <span class="level-start">
-                            <span class="level-item">class</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
                     <a class="level is-marginless" href="/tags/cs/">
                         <span class="level-start">
                             <span class="level-item">cs</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -757,7 +674,18 @@
                             <span class="level-item">python</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/python-cs-class/">
+                        <span class="level-start">
+                            <span class="level-item">python,cs,class</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -798,7 +726,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-01-28T12:55:59.000Z">2019-01-28</time></div>
                     <a href="/2019/01/28/class/" class="has-link-black-ter is-size-6">클래스에 대해서 알아보자</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/cs/">cs</a>
+                        <a class="has-link-grey -link" href="/categories/cs/">cs</a> / <a class="has-link-grey -link" href="/categories/cs/python/">python</a>
                     </p>
                 </div>
             </div>
@@ -920,23 +848,12 @@
                 </li>
                 
                 <li>
-                    <a class="level is-marginless" href="/tags/class/">
-                        <span class="level-start">
-                            <span class="level-item">class</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
                     <a class="level is-marginless" href="/tags/cs/">
                         <span class="level-start">
                             <span class="level-item">cs</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -958,7 +875,18 @@
                             <span class="level-item">python</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/python-cs-class/">
+                        <span class="level-start">
+                            <span class="level-item">python,cs,class</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
