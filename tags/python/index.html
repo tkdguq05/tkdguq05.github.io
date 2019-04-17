@@ -149,6 +149,77 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="image is-7by1">
+            <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Coding_Word_Pattern">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-17T08:08:03.000Z">2019-04-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes read (About 710 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/17/Elice-Coding-Word-Pattern/">Elice_Coding_Word_Pattern</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="엘리스-코딩-단어-패턴을-풀어봤다"><a href="#엘리스-코딩-단어-패턴을-풀어봤다" class="headerlink" title="엘리스 코딩 단어 패턴을 풀어봤다"></a>엘리스 코딩 단어 패턴을 풀어봤다</h1><hr>
+<h4 id="단어-패턴"><a href="#단어-패턴" class="headerlink" title="단어 패턴"></a>단어 패턴</h4><blockquote>
+<p>문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.<br>패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.<br>해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.</p>
+</blockquote>
+<blockquote>
+<p>예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alice’, ‘alice’] 가 주어졌을 경우에는 함수가 True를 반환해야 합니다. 이 경우에는 a가 elice에, b가 alice에 대응되도록 하면 배열을 해당 패턴으로 표현 하는 것이 가능하기 때문이죠.</p>
+</blockquote>
+<blockquote>
+<p>반면, aabb 와 [‘elice’, ‘alice’, ‘elice’, ‘alice’] 가 주어졌을 경우에는 함수가 False를 반환해야 합니다.<br>모든 문자는 영어 소문자라고 가정합니다.</p>
+</blockquote>
+<p>문제를 보고 쉬울거라고 생각했다. 패턴을 쪼개서 각 단어에 매칭을 시켜주면 간단히 해결될 것 같았다.<br>하지만 패턴을 쪼개서 단어에 매칭 시키는 게 간단한 문제가 아니었다. </p>
+<p>지금은 a와 b뿐이지만 만약에 단어리스트가 주어지는개 100개라면 abcd…로 매칭시키는게 힘들다.<br>물론 그 정도까지로 테스트 케이스가 나올 것 같지는 않지만…</p>
+<p>따라서, 일일이 패턴을 매칭시켜서 판단하는 건 힘들다고 판단해서 이렇게 가는 건 아니라고 생각했고<br>다른 방향을 모색했다.</p>
+<p>그러던 중에 불현듯 패턴과 단어리스트를 <code>zip</code>해보고 싶어졌다. 일단 길이는 서로 무조건 같을 거니까.<br>그리고 패턴이 일치하는 것을 찾는 거니까 <code>set</code>을 하면 의미있는 결과가 나올 듯 싶었다.<br>코드와 결과는 다음과 같다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pattern = <span class="hljs-string">"aabb"</span></span><br><span class="line"></span><br><span class="line">strList = [<span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span>]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(zip(pattern, strList))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Out : &#123;(<span class="hljs-string">'a'</span>, <span class="hljs-string">'elice'</span>), (<span class="hljs-string">'b'</span>, <span class="hljs-string">'alice'</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p>잘 생각해보니, set을 한 pattern하고 길이가 똑같을 것 같았다. 직관적으로 그런 생각이 들었다.<br>일단 테스트로 다음과 같은 코드를 작성해봤다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pattern1 = <span class="hljs-string">"abab"</span></span><br><span class="line">strList1 = <span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set(zip(pattern1, strList1))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Out : &#123;(<span class="hljs-string">'a'</span>, <span class="hljs-string">'alice'</span>), (<span class="hljs-string">'a'</span>, <span class="hljs-string">'elice'</span>), (<span class="hljs-string">'b'</span>, <span class="hljs-string">'alice'</span>), (<span class="hljs-string">'b'</span>, <span class="hljs-string">'elice'</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p>역시 단어리스트의 패턴이 다르면 주어진 패턴의 set과는 길이가 달랐다.</p>
+<p>그래서 전체코드로는 다음과 같이 작성했다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wordPattern</span><span class="hljs-params">(pattern, strList)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">return</span> len(set(pattern)) == len(set(zip(pattern, strList)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    print(wordPattern(<span class="hljs-string">"aabb"</span>, [<span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span>])) <span class="hljs-comment"># should return True</span></span><br><span class="line">    print(wordPattern(<span class="hljs-string">"abab"</span>, [<span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span>])) <span class="hljs-comment"># should return False</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+<p>제출결과 빵끗 웃는 토끼가 나왔고, 테스트 점수 100점이 나왔다. </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/04/12/programmers-carpet/" class="image is-7by1">
             <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers Carpet">
         </a>
@@ -452,7 +523,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        9
+                        10
                     </p>
                 </div>
             </div>
@@ -462,7 +533,7 @@
                         Categories
                     </p>
                     <p class="title has-text-weight-normal">
-                        10
+                        11
                     </p>
                 </div>
             </div>
@@ -472,7 +543,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        12
+                        13
                     </p>
                 </div>
             </div>
@@ -607,7 +678,7 @@
                 <span class="level-item">python</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/python/coding-test/">
@@ -615,7 +686,7 @@
                 <span class="level-item">coding test</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/python/cs/">
@@ -637,7 +708,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 20px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+        <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 10px;">elice</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 15px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
     </div>
 </div>
 
@@ -651,6 +722,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Coding_Word_Pattern">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:08:03.000Z">2019-04-17</time></div>
+                    <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="has-link-black-ter is-size-6">Elice_Coding_Word_Pattern</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -728,25 +818,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/25/Programmers/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/programmers.jpeg" alt="Programmers 124 나라의 숫자를 풀어보자">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-25T07:09:55.000Z">2019-02-25</time></div>
-                    <a href="/2019/02/25/Programmers/" class="has-link-black-ter is-size-6">Programmers 124 나라의 숫자를 풀어보자</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -765,7 +836,7 @@
                     <span class="level-item">April 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -866,7 +937,7 @@
                             <span class="level-item">code</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -875,6 +946,17 @@
                     <a class="level is-marginless" href="/tags/debug/">
                         <span class="level-start">
                             <span class="level-item">debug</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/elice/">
+                        <span class="level-start">
+                            <span class="level-item">elice</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -932,7 +1014,7 @@
                             <span class="level-item">python</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -962,6 +1044,25 @@
         
         <article class="media">
             
+            <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Coding_Word_Pattern">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:08:03.000Z">2019-04-17</time></div>
+                    <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="has-link-black-ter is-size-6">Elice_Coding_Word_Pattern</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/04/12/programmers-carpet/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers Carpet">
@@ -1036,25 +1137,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/02/25/Programmers/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/programmers.jpeg" alt="Programmers 124 나라의 숫자를 풀어보자">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-02-25T07:09:55.000Z">2019-02-25</time></div>
-                    <a href="/2019/02/25/Programmers/" class="has-link-black-ter is-size-6">Programmers 124 나라의 숫자를 풀어보자</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1073,7 +1155,7 @@
                     <span class="level-item">April 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1174,7 +1256,7 @@
                             <span class="level-item">code</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
@@ -1183,6 +1265,17 @@
                     <a class="level is-marginless" href="/tags/debug/">
                         <span class="level-start">
                             <span class="level-item">debug</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/elice/">
+                        <span class="level-start">
+                            <span class="level-item">elice</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1240,7 +1333,7 @@
                             <span class="level-item">python</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">3</span>
+                            <span class="level-item tag">4</span>
                         </span>
                     </a>
                 </li>
