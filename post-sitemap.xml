@@ -9,7 +9,15 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/17/Elice-Start/</loc>
-        <lastmod>2019-04-17T08:50:47.724Z</lastmod>
+        <lastmod>2019-04-21T12:51:52.511Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/04/17/Elice-Coding-Word-Pattern/</loc>
+        <lastmod>2019-04-21T12:51:21.604Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -34,14 +42,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/04/12/programmers-carpet/</loc>
         <lastmod>2019-04-17T08:24:21.445Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/04/17/Elice-Coding-Word-Pattern/</loc>
-        <lastmod>2019-04-17T08:23:53.879Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

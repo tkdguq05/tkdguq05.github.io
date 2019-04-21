@@ -15,10 +15,12 @@
 <meta property="og:site_name" content="Unreasonable Effectiveness">
 <meta property="og:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.   예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘ali">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-04-17T08:23:53.879Z">
+<meta property="og:image" content="http://tkdguq05.github.io/images/elice.png">
+<meta property="og:updated_time" content="2019-04-21T12:51:21.604Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elice_Coding_Word_Pattern">
 <meta name="twitter:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.   예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘ali">
+<meta name="twitter:image" content="http://tkdguq05.github.io/images/elice.png">
 
 
 
@@ -162,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 minutes read (About 710 words)
+                    5 minutes read (About 719 words)
                 </span>
                 
             </div>
@@ -195,7 +197,7 @@
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Out : &#123;(<span class="hljs-string">'a'</span>, <span class="hljs-string">'alice'</span>), (<span class="hljs-string">'a'</span>, <span class="hljs-string">'elice'</span>), (<span class="hljs-string">'b'</span>, <span class="hljs-string">'alice'</span>), (<span class="hljs-string">'b'</span>, <span class="hljs-string">'elice'</span>)&#125;</span><br></pre></td></tr></table></figure>
 <p>역시 단어리스트의 패턴이 다르면 주어진 패턴의 set과는 길이가 달랐다.</p>
 <p>그래서 전체코드로는 다음과 같이 작성했다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">wordPattern</span><span class="hljs-params">(pattern, strList)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">return</span> len(set(pattern)) == len(set(zip(pattern, strList)))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    print(wordPattern(<span class="hljs-string">"aabb"</span>, [<span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span>])) <span class="hljs-comment"># should return True</span></span><br><span class="line">    print(wordPattern(<span class="hljs-string">"abab"</span>, [<span class="hljs-string">"elice"</span>, <span class="hljs-string">"elice"</span>, <span class="hljs-string">"alice"</span>, <span class="hljs-string">"alice"</span>])) <span class="hljs-comment"># should return False</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
-<p>제출결과 빵끗 웃는 토끼가 나왔고, 테스트 점수 100점이 나왔다. </p>
+<p><img src="/images/elice.png" alt="빵끗 웃는 토끼"><br>제출결과 빵끗 웃는 토끼가 나왔고, 테스트 점수 100점이 나왔다. </p>
 
         </div>
         
