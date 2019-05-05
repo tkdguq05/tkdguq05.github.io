@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    15 minutes read (About 2298 words)
+                    16 minutes read (About 2463 words)
                 </span>
                 
             </div>
@@ -242,7 +242,8 @@
 </ul>
 <h3 id="Weakness-of-Bagging"><a href="#Weakness-of-Bagging" class="headerlink" title="Weakness of Bagging"></a>Weakness of Bagging</h3><p>배깅은 엄청나게 효과적인 것처럼 보이지만 약점이 존재한다. 배깅은 feature를 모두 사용하고, row를 랜덤하게 선택하는 것이다. Decision Tree를 만든다고 해보자, 만약 영향력이 높은, Information Gain이 높은 모델을 사용한다고 했을때, 특정 Feature만 계속 선택되서 트리가 만들어질 가능성이 있다. 즉, 중요한 칼럼들이 트리의 초기 분기때 모든 표본에 그대로 존재하게 된다. 이렇게 되면 만들어진 대다수의 트리들의 결과가 비슷해진다. 이것이 반복되면 트리간의 상관관계가 발생해서 분산 감소의 효과가 줄어들게 된다.<br>(배깅의 약점은 IID condition이다. IID 조건을 만족하는 경우 분산은 $Var={\sigma^2\over n}$이 되지만, IID를 만족하지 못하는 경우, 상관관계가 발생하여 $Corr = p$이라고 할때, $Var = p\sigma^2$가 된다.)</p>
 <p>그래서 혁신적인 아이디어와 함께 등장하게 된 것이 Random Forest이다.</p>
-<h3 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h3><p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
+<h3 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h3><p>랜덤 포레스트는 일반적으로 bagging 방법(또는 pasting)을 적용한 결정 트리의 앙상블이다.<br>랜덤 포레스트 알고리즘은 트리의 노드를 분할할 때 전체 특성 중에서 최선의 특성을 찾는 대신 무작위로 선택한 특성 후보 중에서 최적의 특성을 찾는 식으로 무작위성을 더 주입한다. 트리를 더욱 다양하게 생성하고 (트리의 의존성을 낮추고, 다양성을 증가) 편향을 손해 보는 대신 분산을 낮추어 전체적으로 더 훌륭한 모델을 생성한다.</p>
+<p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
 <blockquote>
 <h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
 </blockquote>
