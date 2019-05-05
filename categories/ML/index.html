@@ -150,6 +150,131 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/05/Ensemble-Model/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Ensemble_Model">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-05T07:19:05.000Z">2019-05-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2298 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/05/Ensemble-Model/">Ensemble_Model</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest"><a href="#Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest" class="headerlink" title="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)"></a>Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)</h1><p>앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다.</p>
+<h3 id="NFL-No-Free-Lunch"><a href="#NFL-No-Free-Lunch" class="headerlink" title="NFL (No Free Lunch)"></a>NFL (No Free Lunch)</h3><p>No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이론이다. ‘어떤 특정 정책에 의해 얼핏 보면 이득을 얻는 것 같지만, 그것은 한 측면의 이득일 뿐이고 반드시 이면에 다른 측면이 있고 그 측면에서 손해가 발생한다.’는 것이 핵심이다.</p>
+<p>이 이론에 따라서 혼성모델의 필요성이 대두되었다. 혼성모델이란 여러 알고리즘을 결합하는 모델이다. 이 모델은 특정 문제가 주어진 상황에서 그 문제를 가장 높은 성능으로 풀 수 있는 알고리즘에 대한 필요성에 의해서 제시되었다.</p>
+<h3 id="Resampling"><a href="#Resampling" class="headerlink" title="Resampling"></a>Resampling</h3><p>리샘플링은 데이터가 부족할 때 같은 샘플을 여러번 사용하는 것을 말한다. 성능 통계치의 신뢰도를 높이기 위해 사용된다. Resample을 하는 이유는 다음과 같다.</p>
+<ul>
+<li>실제 상황에서는 만족할 만한 큰 샘플을 얻기가 힘들다.</li>
+<li>Bias-Variance Trade off를 통해 큰 샘플이 중요하다는 것을 알 수 있다.<ul>
+<li>sample의 집합이 커지면 variance가 감소한다!, MSE도 감소한다!</li>
+</ul>
+</li>
+<li>모델의 선택은 별도의 검증이 필요하다.(검증용 데이터, 큰 샘플의 필요성)</li>
+</ul>
+<h3 id="Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”"><a href="#Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”" class="headerlink" title="Bootstrap, Statistical term for “roll n-face dice n times”"></a>Bootstrap, Statistical term for “roll n-face dice n times”</h3><p>부트스트랩은 Resampling을 이용하여, 분류기의 성능을 측정하는 방법 중 하나이다. 통계에서는 추정치에 대한 검증용(가설 검증)으로 많이 사용된다. 부트스트랩의 장점은 한번도 뽑히지 않은 데이터가 발생한다는 것이다. 이를 통해 데이터를 아낄 수 있게 된다.</p>
+<h3 id="Ensemble"><a href="#Ensemble" class="headerlink" title="Ensemble"></a>Ensemble</h3><p>앙상블 모델은 혼성모델 중 하나이다. 앙상블은 두가지 방식이 존재한다.</p>
+<ul>
+<li>같은 문제에 대해 서로 다른 여러 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
+<li>문제와 유사한 여러 하위 문제들에 대해 하나의 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
+</ul>
+<p>앙상블의 동기는 단순히 통계적, 수학적일 뿐만 아니라, 사람들의 심리 등 여러부분을 관통하는 내용이기도 하다.<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">어느 도시에서는 소를 광장에 매어 놓고 참가자들에게 체중을 추정하여 적어 내게 하고 실제 체중에 가장 가까운 사람에게</span><br><span class="line">상품을 주는 대회가 있다고 한다. 수백 명이 참가하는데 그들이 적어낸 숫자들을 평균해 보면 답과 아주 근사하다고 한다.</span><br></pre></td></tr></table></figure></p>
+<p>사람들은 중요한 결정을 할때 여러 사람의 의견을 들어보고 결정하려는 경향이 있고, 이런 경향은, 통계학이 아닌 다른 분야에서도 사용되는 개념이다.</p>
+<blockquote>
+<h4 id="다양성"><a href="#다양성" class="headerlink" title="다양성"></a>다양성</h4><p>앙상블 모델의 핵심은 다양성이다. 앙상블에 참여한 모델이 모두 같은 결과를 낸다면, 그것은 앙상블 모델로써 어떠한 장점도 갖고 있지 않다. 한 분류기가 틀리는 어떤 문제를, 다른 분류기에서는 맞출 수 있어야 앙상블 모델로써 가치가 있을 것이다. </p>
+</blockquote>
+<p>앙상블 분류기 시스템은 앙상블 생성, 앙상블 선택, 앙상블 결합의 단계를 거친다.</p>
+<blockquote>
+<h4 id="앙상블-생성"><a href="#앙상블-생성" class="headerlink" title="앙상블 생성"></a>앙상블 생성</h4><ul>
+<li>Resample을 이용해서 (Bagging, Bootstrap) 샘플 집합들을 생성하고, 분류기를 훈련한다.</li>
+<li>Feature Vector의 subspace를 이용해서 샘플 부분 집합을 생성하고 분류기를 훈련한다.</li>
+<li>앙상블의 분류기는 요소분류기와 기초분류기로 구분된다.</li>
+</ul>
+</blockquote>
+<blockquote>
+<h4 id="앙상블-결합"><a href="#앙상블-결합" class="headerlink" title="앙상블 결합"></a>앙상블 결합</h4><p>요소 분류기(기초 학습기)들의 출력을 결합하여 하나의 분류 결과를 만드는 과정이다.<br>요소 분류기의 출력은 세가지의 방식으로 나뉜다.</p>
+<ul>
+<li>Class Label<ul>
+<li>Majority Vote : class 라벨이 많이 나온 쪽으로 분류한다.</li>
+<li>Weighted Majority Vote : 성능 좋은 분류기에 가중치를 부여한다.(Adaboost)</li>
+<li>Behavior knowledge space(BKS/행위지식공간) : 경험한 케이스를 테이블로 갖고 분류기 결과를 보고 경험적으로 결정한다(테이블에서 찾아서). 다수결 방법의 성능을 고도화 할때 사용됨</li>
+</ul>
+</li>
+<li>Class Ranking <ul>
+<li>Borda 계수</li>
+</ul>
+</li>
+<li>Class Probability<ul>
+<li>Softmax</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="Bagging-Bootstrap-Aggregating"><a href="#Bagging-Bootstrap-Aggregating" class="headerlink" title="Bagging (Bootstrap + Aggregating)"></a>Bagging (Bootstrap + Aggregating)</h3><p>부트스트랩을 다중 분류기 생성 기법으로 확장한 것이다. 부트스트랩 된 샘플 집합에서 훈련을 하고, 입력 값에 대해 분류기들의 평균값이나, 다수결 투표를 취한다. 샘플링은 복원추출하는 방식으로 하고, 훈련된 분류기의 결과를 모두 종합하기 때문에 Bagging이라고 부른다.</p>
+<ul>
+<li>반복적인 복원 추출 (Bootstrap)</li>
+<li>결과를 모두 종합 (Aggregation)</li>
+</ul>
+<h4 id="Bagging-배깅은-언제-사용할까"><a href="#Bagging-배깅은-언제-사용할까" class="headerlink" title="Bagging, 배깅은 언제 사용할까?"></a>Bagging, 배깅은 언제 사용할까?</h4><p>배깅은 편향이 작고 분산이 높은 모델에 사용하면 효과적이다. </p>
+<ul>
+<li>트리 분류기와 같이 불안정성을 보이는 분류기에 큰 효과를 발휘</li>
+<li>훈련 집합이 달라지면 차이가 큰 트리가 생성 ⇒ 다양성 확보</li>
+<li>Bias를 변화시키지 않고 variance를 감소시킨다.(Bias를 쪼오오오오끔 희생한다.)</li>
+</ul>
+<p>배깅은 분산을 감소시키기 위해, 훈련데이터에서 많은 샘플링을 하고(Bootstrap), 샘플들로 별도의 Decision Tree를 구성한 후, 회귀나 분류문제를 푸는데 사용된다. 회귀는 분류기 결과의 평균값을 사용하고, 분류는 최빈값을 취한다.</p>
+<p>배깅은 이미 저분산 모델인 경우 별로 효과가 없다. Bias-Variance Tradeoff 를조금만 생각해보자. 분산이 이미 줄어있는 상태에서는 더 줄일 분산이 없다. 배깅은 오직 분산을 줄이는 데 효과적이다.</p>
+<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.<br>부트스트랩되지 않은 샘플들은 한번도 사용되지 않은 샘플들로 검증데이터에 활용할 수 있다. 이런 training observations은 out-of-bag observations이라고 불린다.</p>
+<h4 id="OOB-estimate-of-test-error"><a href="#OOB-estimate-of-test-error" class="headerlink" title="OOB estimate of test error"></a>OOB estimate of test error</h4><ul>
+<li>부트스트랩 샘플을 이용하여 개별 학습기를 학습한 후, OOB에 속하는 샘플들에 대한 예측값을 모두 구한다.</li>
+<li>OOB의 실제 라벨값과 OOB의 예측값을 이용하여 OOB error를  구한다.</li>
+<li>모든 부트스트랩 샘플 sets에 대하여 위의 과정을 반복하면, 샘플 sets 수 만큼의, errors를 모을 수 있다.</li>
+<li>OOB errors의 평균값을 이용하여 bagging 모델의 최종 테스트 error를 계산한다.</li>
+</ul>
+<h3 id="Weakness-of-Bagging"><a href="#Weakness-of-Bagging" class="headerlink" title="Weakness of Bagging"></a>Weakness of Bagging</h3><p>배깅은 엄청나게 효과적인 것처럼 보이지만 약점이 존재한다. 배깅은 feature를 모두 사용하고, row를 랜덤하게 선택하는 것이다. Decision Tree를 만든다고 해보자, 만약 영향력이 높은, Information Gain이 높은 모델을 사용한다고 했을때, 특정 Feature만 계속 선택되서 트리가 만들어질 가능성이 있다. 즉, 중요한 칼럼들이 트리의 초기 분기때 모든 표본에 그대로 존재하게 된다. 이렇게 되면 만들어진 대다수의 트리들의 결과가 비슷해진다. 이것이 반복되면 트리간의 상관관계가 발생해서 분산 감소의 효과가 줄어들게 된다.<br>(배깅의 약점은 IID condition이다. IID 조건을 만족하는 경우 분산은 $Var={\sigma^2\over n}$이 되지만, IID를 만족하지 못하는 경우, 상관관계가 발생하여 $Corr = p$이라고 할때, $Var = p\sigma^2$가 된다.)</p>
+<p>그래서 혁신적인 아이디어와 함께 등장하게 된 것이 Random Forest이다.</p>
+<h3 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h3><p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
+<blockquote>
+<h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
+</blockquote>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="image is-7by1">
             <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture_Selection_Information_Value">
         </a>
@@ -169,7 +294,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 minutes read (About 1135 words)
+                    8 minutes read (About 1144 words)
                 </span>
                 
             </div>
@@ -181,7 +306,7 @@
             
         </h1>
         <div class="content">
-            <h1 id="Feature-Selection"><a href="#Feature-Selection" class="headerlink" title="Feature Selection"></a>Feature Selection</h1><h2 id="Information-Value를-이용한-방법"><a href="#Information-Value를-이용한-방법" class="headerlink" title="Information Value를 이용한 방법"></a>Information Value를 이용한 방법</h2><hr>
+            <h1 id="Feature-Selection에-Information-Value를-이용해보자"><a href="#Feature-Selection에-Information-Value를-이용해보자" class="headerlink" title="Feature Selection에 Information Value를 이용해보자."></a>Feature Selection에 Information Value를 이용해보자.</h1><h2 id="Information-Value를-이용한-방법"><a href="#Information-Value를-이용한-방법" class="headerlink" title="Information Value를 이용한 방법"></a>Information Value를 이용한 방법</h2><hr>
 <p>Kaggle이나 데이터 분석을 하다보면 성능을 높이기 위해 여러가지 feature들을 만들어낸다. 그런데 feature를 무조건 많이 만든다고 성능이 올라갈까? 아니다. target에 대한 영향력이 큰 feature들이어야 성능에 영향을 줄 수 있을 것이다. 그렇다면 중요한 건, 만들어낸 feature들을 어떻게 평가할 것인가이다.</p>
 <p>Kaggle에서 Feature Selection 하는 방법들을 보면 gbm모델들의 Feature Importance를 이용하거나 DecisionTree나 RandomForest의 Classifier 객체의 feature_importances_ 메서드를 활용해 Feature Importance를 구해서 비교하는 모습들이 자주 보인다.</p>
 <p>하지만 또 다른 방법으로, Information Value를 이용한 Feature Selection을 소개해보고자 한다.</p>
@@ -199,7 +324,6 @@
 <ul>
 <li>Information Value 값의 의미</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -230,7 +354,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>Information Value를 통해서 ‘이 feature를 꼭 사용해야하나?’에 대해 어느정도 답을 내릴 수 있다.</p>
 <p>Information Value가 0.5~1.0인 구간을 보면, 강한 예측이지만 의심되는 수치라고 되어있다. 처음보면 이게 무슨 의미인지 잘 이해가 안될 것이다. ‘너무 예측을 잘하는데 수치를 의심하라고?’</p>
 <p>하지만 잘 생각해보자. IV는 WOE를 활용한다. WOE는 good과 bad의 분포를 이용하는데, 데이터가 good으로 쏠려있을 경우 WOE는 무조건 잘 나올 수 밖에 없고, 이에 따라 IV값도 잘 나오게 된다. </p>
@@ -239,7 +362,6 @@
 <p>Column이 제대로 되어있지 않기 때문에 노가다로 넣어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">COL = [</span><br><span class="line">    <span class="hljs-string">'Status_of_existing_checking_account'</span>, </span><br><span class="line">    <span class="hljs-string">'Duration_in_month'</span>,</span><br><span class="line">    <span class="hljs-string">'Credit_history'</span>,</span><br><span class="line">    <span class="hljs-string">'Purpose'</span>, </span><br><span class="line">    <span class="hljs-string">'Credit_amount'</span>, </span><br><span class="line">    <span class="hljs-string">'Savings_account_bonds'</span>, </span><br><span class="line">    <span class="hljs-string">'Present_employment_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Installment_rate_in_percentage_of_disposable_income'</span>,</span><br><span class="line">    <span class="hljs-string">'Personal_status_and_sex'</span>,</span><br><span class="line">    <span class="hljs-string">'Other_debtors_guarantors'</span>,</span><br><span class="line">    <span class="hljs-string">'Present_residence_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Property'</span>, </span><br><span class="line">    <span class="hljs-string">'Age_in_years'</span>, </span><br><span class="line">    <span class="hljs-string">'Other_installment_plans'</span>, </span><br><span class="line">    <span class="hljs-string">'Housing'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_existing_credits_at_this_bank'</span>,</span><br><span class="line">    <span class="hljs-string">'Job'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_people_being_liable_to_provide_maintenance_for'</span>,</span><br><span class="line">    <span class="hljs-string">'Telephone'</span>,</span><br><span class="line">    <span class="hljs-string">'foreign_worker'</span>,</span><br><span class="line">    <span class="hljs-string">'Target'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>Target값을 0, 1로 만들어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="hljs-string">'Target'</span>] = dataset[<span class="hljs-string">'Target'</span>] - <span class="hljs-number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>Information Value를 구하는 코드<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">max_bin = <span class="hljs-number">10</span>  <span class="hljs-comment"># 전체 데이터의 예측력에 해를 가하지 않는 한에서 구간을 테스트하였습니다. 통상적으로 10개로 나눔, 15개 20개 다 나눠보고</span></span><br><span class="line"><span class="hljs-comment"># 값이 잘나오는 bin을 선택함</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calc_iv</span><span class="hljs-params">(df, col, label, max_bin = max_bin)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""IV helper function"""</span></span><br><span class="line">    bin_df = df[[col, label]].copy()</span><br><span class="line">    <span class="hljs-comment"># Categorical column</span></span><br><span class="line">    <span class="hljs-keyword">if</span> bin_df[col].dtype == <span class="hljs-string">'object'</span>:</span><br><span class="line">        bin_df = bin_df.groupby(col)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    <span class="hljs-comment"># Numerical column</span></span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        bin_df.loc[:, <span class="hljs-string">'bins'</span>] = pd.qcut(bin_df[col].rank(method=<span class="hljs-string">'first'</span>), max_bin)</span><br><span class="line"><span class="hljs-comment">#         bin_df.loc[:, 'bins'] = pd.cut(bin_df[col], max_bin)</span></span><br><span class="line">        bin_df = bin_df.groupby(<span class="hljs-string">'bins'</span>)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.columns = [<span class="hljs-string">'total'</span>, <span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal'</span>] = bin_df[<span class="hljs-string">'total'</span>] - bin_df[<span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal_dist'</span>] = bin_df[<span class="hljs-string">'normal'</span>] / sum(bin_df[<span class="hljs-string">'normal'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'abuse_dist'</span>] = bin_df[<span class="hljs-string">'abuse'</span>] / sum(bin_df[<span class="hljs-string">'abuse'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'woe'</span>] = np.log(bin_df[<span class="hljs-string">'normal_dist'</span>] / bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'iv'</span>] = bin_df[<span class="hljs-string">'woe'</span>] * (bin_df[<span class="hljs-string">'normal_dist'</span>] - bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.replace([np.inf, -np.inf], <span class="hljs-number">0</span>, inplace=<span class="hljs-keyword">True</span>)</span><br><span class="line">    bin_df = bin_df[bin_df[<span class="hljs-string">'total'</span>] &gt; <span class="hljs-number">0</span>]</span><br><span class="line">    iv_val = sum(filter(<span class="hljs-keyword">lambda</span> x: x != float(<span class="hljs-string">'inf'</span>), bin_df[<span class="hljs-string">'iv'</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> bin_df, col, iv_val</span><br><span class="line">``` </span><br><span class="line">```python</span><br><span class="line">ch_df, ch, ch_i_val = calc_iv(dataset,<span class="hljs-string">'Credit_history'</span>, <span class="hljs-string">'Target'</span>)</span><br><span class="line">ch_df</span><br></pre></td></tr></table></figure></p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -316,7 +438,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 
         </div>
         
@@ -373,7 +494,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        12
+                        13
                     </p>
                 </div>
             </div>
@@ -393,7 +514,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        15
+                        17
                     </p>
                 </div>
             </div>
@@ -472,7 +593,7 @@
                 <span class="level-item">ML</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ML/Statistics/">
@@ -480,7 +601,7 @@
                 <span class="level-item">Statistics</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/blog/">
@@ -590,7 +711,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+        <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
     </div>
 </div>
 
@@ -604,6 +725,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/05/Ensemble-Model/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Ensemble_Model">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-05T07:19:05.000Z">2019-05-05</time></div>
+                    <a href="/2019/05/05/Ensemble-Model/" class="has-link-black-ter is-size-6">Ensemble_Model</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -681,25 +821,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/12/programmers-the-Biggest-Number/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers the Biggest Number">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-12T05:43:10.000Z">2019-04-12</time></div>
-                    <a href="/2019/04/12/programmers-the-Biggest-Number/" class="has-link-black-ter is-size-6">programmers the Biggest Number</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -711,6 +832,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -759,6 +891,17 @@
             <ul class="menu-list">
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Ensemble/">
+                        <span class="level-start">
+                            <span class="level-item">Ensemble</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
@@ -784,6 +927,17 @@
                     <a class="level is-marginless" href="/tags/Naive-Bayes/">
                         <span class="level-start">
                             <span class="level-item">Naive Bayes</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RandomForest/">
+                        <span class="level-start">
+                            <span class="level-item">RandomForest</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -948,6 +1102,25 @@
         
         <article class="media">
             
+            <a href="/2019/05/05/Ensemble-Model/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Ensemble_Model">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-05T07:19:05.000Z">2019-05-05</time></div>
+                    <a href="/2019/05/05/Ensemble-Model/" class="has-link-black-ter is-size-6">Ensemble_Model</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture_Selection_Information_Value">
@@ -1022,25 +1195,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/12/programmers-the-Biggest-Number/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers the Biggest Number">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-12T05:43:10.000Z">2019-04-12</time></div>
-                    <a href="/2019/04/12/programmers-the-Biggest-Number/" class="has-link-black-ter is-size-6">programmers the Biggest Number</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1052,6 +1206,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/04/">
@@ -1100,6 +1265,17 @@
             <ul class="menu-list">
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Ensemble/">
+                        <span class="level-start">
+                            <span class="level-item">Ensemble</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
@@ -1125,6 +1301,17 @@
                     <a class="level is-marginless" href="/tags/Naive-Bayes/">
                         <span class="level-start">
                             <span class="level-item">Naive Bayes</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RandomForest/">
+                        <span class="level-start">
+                            <span class="level-item">RandomForest</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
