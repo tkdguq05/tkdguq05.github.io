@@ -146,6 +146,66 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 947 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/15/cross-entropy-KL-divergence/">cross_entropy_KL_divergence</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Cross-Entropy와-KL-Divergence에-대해서-알아보자"><a href="#Cross-Entropy와-KL-Divergence에-대해서-알아보자" class="headerlink" title="Cross Entropy와 KL-Divergence에 대해서 알아보자"></a>Cross Entropy와 KL-Divergence에 대해서 알아보자</h1><h3 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h3><p>크로스 엔트로피에 대해서 알아보기 전에, 엔트로피 식을 다시한번 확인해 보자<br>엔트로피는 $H(x)=-\sum P(x)log_2P(x)$로 확률분포 P(X)P(X)에 대한 기댓값이다. 엔트로피는 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
+<p>이제 크로스 엔트로피 식을 확인해 보자<br>$H(P,Q)=-\sum_{X} P(x)logQ(x)$(자연로그 또는 이진로그)<br>식을 자세히 보면, $P(x)$가 들어갈 자리에 $Q(x)$가 들어가 있다. 어떤 의미가 숨어져 있는 것 같은데,</p>
+<p>이 수식이 의미하는 것이 무엇일까?</p>
+<p>크로스 엔트로피(Cross Entropy)는 실제 데이터는 $P$의 분포로부터 생성되지만, 분포 $Q$를 사용해서 정보량을 측정해서 나타낸 평균적 bit수를 의미한다. 이제 수식이 눈에 들어오기 시작할 것이다.</p>
+<p><code>실제 데이터는 분포 P로 부터 생성되는데, 우리가 실제 P에 대해서 몰라서 분포 Q의 정보(or 코딩 스킴)을 대신 활용하면 어떨까?</code>에 대한 답으로써 만들어졌다고 생각하면 편할 것이다.</p>
+<p>크로스 엔트로피는 $H(P,Q)$와 같이 나타내고 일반적으로 $H(P,Q) &gt;=H(P)$이다. 항상 크로스 엔트로피가 크거나 같을 수 밖에 없는 것은 데이터의분포를 Q로 가정한 코딩방식을 사용하게 되면, 실제의 분포 P를 가정한 코딩방식 보다 질의응답에 필요한 코드의 수(code length)가 많아지게 되기 때문이다.</p>
+<h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
+<p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
+<p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
+<p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/05/15/Boosting/" class="image is-7by1">
             <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
         </a>
@@ -298,7 +358,7 @@
 <p>이번에는 예를 바꿔서, 우리가 쉽게 알 수 있는 주사위 case를 갖고 와 보자.<br>주사위를 던져서 짝수가 나타날 사상 $E_1$의 정보량은 몇일까?<br>공식에 의해서 $p(x) = {1\over2}$이므로<br>$P(E_1) = {1\over2}\longrightarrow I = -log_2{1\over2}=1(bit)$ 가 된다.</p>
 <h2 id="엔트로피-Entropy"><a href="#엔트로피-Entropy" class="headerlink" title="엔트로피(Entropy)"></a>엔트로피(Entropy)</h2><p>엔트로피는 흔히 열역학에서 자주 볼 수 있는 단어지만, 정보이론에서도 사용되는 말이기도 하다. 엔트로피라는 말에 대해서는 정보이론의 아버지인 Shannon이 정립하였다.</p>
 <p>엔트로피의 공식을 먼저 확인해보자.<br>$H(X) = -\sum_{X}P(X)log_2P(X)$이다.</p>
-<p>확률과 통계를 기본부터 잘 다져온 사람이라면 익숙한 공식이 눈에 들어올 것이다.<br>바로 기댓값이다. 수식을 그럼 천천히 다시봤을때, 엔트로피 공식이 뜻하는 것은 바로 확률분포 $P(X)$에 대한 기댓값이다. 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정보를 뜻하는 것이라고 생각하면 된다.</p>
+<p>확률과 통계를 기본부터 잘 다져온 사람이라면 익숙한 공식이 눈에 들어올 것이다.<br>바로 기댓값이다. 수식을 그럼 천천히 다시봤을때, 엔트로피 공식이 뜻하는 것은 바로 확률분포 $P(X)$에 대한 기댓값이다. 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
 <p>엔트로피는 정보이론에서 사용되는 단어이므로, 이 역시 불확실도를 나타내는 척도로 사용된다.<br>직관적으로 이해하기 위해 그림을 통해 살펴보자.</p>
 <p><img src="/images/entropy.png" alt="Entropy Distribution"></p>
 <p>위 그림에서 보면 왼쪽의 분포는 몰려있고, 즉 정규분포로 따지자면 표본오차가 작은 모양이고, 오른쪽의 분포는 넓게 퍼진, 표본오차가 매우 큰 모습이다. 정보이론을 따라 분포를 다시 보면 왼쪽의 그림은 불균형한 분포로 불확실성이 적은 모양이다. 다시말해 엔트로피 값이 낮은 분포이다. 반면에 오른쪽 그림은 균등한 분포이며, 어떤 값이 나올지 모르는, 불확실성이 높은 모양이다. 즉, 엔트로피 값이 높은 분포라고 할 수 있다.</p>
@@ -979,95 +1039,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/28/supervised-learning/" class="image is-7by1">
-            <img class="thumbnail" src="/images/lizard_book.jpg" alt="지도 학습과 쉬운 모델을 사용하는 이유에 대해서">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-28T05:45:24.000Z">2019-02-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/book/">book</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/book/ML/">ML</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    17 minutes read (About 2490 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/28/supervised-learning/">지도 학습과 쉬운 모델을 사용하는 이유에 대해서</a>
-            
-        </h1>
-        <div class="content">
-            <hr>
-<p>출처 : [파이썬 라이브러리를 활용한 머신러닝]</p>
-<h1 id="지도-학습에-대해서-알아보자"><a href="#지도-학습에-대해서-알아보자" class="headerlink" title="지도 학습에 대해서 알아보자"></a><strong>지도 학습에 대해서 알아보자</strong></h1><p>도마뱀 책의 지도 학습에는 상당한 분량의 내용이 있지만, 그 중 쉬운 모델, 선형모델과 나이브 베이즈 모델에 대해서 살펴볼 것이고, 왜 굳이 쉬운 모델을 사용해야 하는지에 대해서 알아보려 한다.</p>
-<p>그 전에 잠깐 KNN(K-Nearest Neighbors)알고리즘에 대해서 살펴보자.</p>
-<h2 id="K-NN-k-Nearest-Neighbors"><a href="#K-NN-k-Nearest-Neighbors" class="headerlink" title="K-NN (k-Nearest Neighbors)"></a><strong>K-NN (k-Nearest Neighbors)</strong></h2><p>K-NN알고리즘은 가장 간단한 머신러닝 알고리즘 중 하나이다.<br>이 알고리즘은 말 그대로 훈련 데이터셋에서 가장 거리가 가까운 데이터 포인트, ‘최근접 이웃’을 찾는다.</p>
-<p>K-NN을 이용해서 분류와 회귀를 할 수 있다.<br>간단히 분류만 알아보자</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split</span><br><span class="line">X, y = mglearn.datasets.make_forge()</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="hljs-number">0</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.neighbors <span class="hljs-keyword">import</span> KNeighborsClassifier</span><br><span class="line">clf = KNeighborsClassifier(n_neighbors=<span class="hljs-number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>데이터를 불러왔고, 알고리즘을 임포트 해서 인스턴스화 하였다.<br>여기서 n_neighbors=3이라고 설정했는데 이 뜻은 데이터 포인트 주위의 이웃을 세 개만 보겠다는 뜻이다.</p>
-<p>이웃의 수는 적을 수록 모델을 복잡하게 만드는 것이며, 많아질 수록 모델을 단순하게 만든다. 이웃의 수가 많아지게 되면 결정 경계는 부드러워진다. 이웃의 수가 하나라면, 이 모델은 훈련 데이터에서 완벽하게 예측을 할 수 있게 된다. 하지만 이웃의 수가 늘어나면, 모델은 단순해지고 훈련 데이터의 정확도는 떨어지게 된다. 일반화 되는 것이다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clf.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="hljs-string">'prediction of test set : &#123;&#125;'</span>.format(clf.predict(X_test)))</span><br></pre></td></tr></table></figure>
-<p>이렇게 예측을 하고 결과값을 뽑아낼 수 있다. 예측을 하는 방법은, 테스트 세트의 각 데이터 포인트에 대해 훈련 세트에서 가장 가까운 이웃을 계산하고 가장 많은 클래스를 찾는 방식이다.</p>
-<p>정리를 해보자면, K-NN 분류기의 중요변수는 두 개이다.</p>
-<ul>
-<li>데이터 포인트 사이의 거리를 재는 방법</li>
-<li>이웃의 수<br>거리를 재는 방법은 주로 유클리디안 거리 방식을 사용한다. 일반적으로 노름(Norm)이라고 알려져 있는 방식이다. </li>
-</ul>
-<p>K-NN의 장점은 이해하기 매우매우매우 쉬운 모델이라는 것이다. 그리고 별로 조정할 것 없이 꽤 성능이 잘 나온다. 그래서, 이 알고리즘은 복잡한 알고리즘을 적용하기 전에 시도할 수 있는 좋은 시작점이 될 수 있다. K-NN을 한번 돌려보면서 데이터를 파악해 볼 수 있는 것이다. </p>
-<p>하지만 K-NN은 데이터 셋이 매우 커지면 예측이 느려진다. 또한 전처리하는 과정이 중요하다. 유클리디안 거리를 재는 방식이기 때문에, 특성마다의 값의 범위가 달라지면 범위가 작은 특성에 영향이 매우 커지게 된다. 그래서 K-NN을 사용하기 전에는 Scaling해주는 작업이 필요하다.</p>
-<p>또한 K-NN은 많은 특성을 가진 데이터 셋에는 잘 동작하지 않고, Sparse한 데이터 셋에서는 잘 동작하지 않는다. 결국 전처리가 중요한 모델이다.</p>
-<p>K-NN은 그래서 단점이 꽤 있는 모델 중에 하나이다. 이해하긴 쉬워도 예측이 느린편이고, 많은 특성을 처리해야 하는 작업에 어울리지 않아, 현업에서는 잘 사용되지 않는다. 그래서 단점이 별로 없는 모델을 사용하게 되는데, 그것이 바로 선형 모델이다.</p>
-<h2 id="선형-모델-Linear-Model"><a href="#선형-모델-Linear-Model" class="headerlink" title="선형 모델, Linear Model"></a><strong>선형 모델, Linear Model</strong></h2><p>회귀의 경우 선형 모델을 위한 일반화된 예측 함수는<br>$\hat{y}$ = $w$$\times$ $\vec{x}$ + b 이다.<br>여기서 w는 기울기이고 b 는 절편값이 된다. </p>
-<p>회귀를 위한 선형 모델은 특성이 하나일 땐 직선, 두 개일 땐 평민이며, 더 높은 차원일 경우에는 hyperplane이 되는 특징을 갖고 있다.</p>
-<p>특성이 많은 데이터 셋이라면 선형 모델은 매우 훌륭한 성능을 낼 수 있다. 특히 훈련 데이터보다 특성이 더 많은 경우에 선형 함수로 모델링이 잘 된다.</p>
-<h4 id="최소제곱법"><a href="#최소제곱법" class="headerlink" title="최소제곱법"></a><strong>최소제곱법</strong></h4><p>선형 회귀는 OLS(Ordinary Least Squares)라고도 불리며, 가장 간단하고 오래된 회귀용 알고리즘이다. 선형 회귀는 MSE(Mean Square Error)를 최소화 하는 파라미터 w와 b를 찾는다. 평균제곱오차는 예측값과 타깃값의 차이를 제곱하여 더한 후에 샘플의 개수로 나눈 것이다. 선형 회귀는 매개 변수가 없다, 이것은 장점이기도 하고 복잡도를 제어할 별 방법이 없다는 것을 뜻하기도 한다.</p>
-<p>선형 모델은 다음과 같이 만들 수 있다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LinearRegression</span><br><span class="line">X, y = mglearn.datasets.make_wave(n_samples=<span class="hljs-number">60</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="hljs-number">43</span>)</span><br><span class="line"></span><br><span class="line">lr = LinearRegression().fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<p>데이터 셋이 복잡해 지면서 모델은 과대적합이 될 가능성이 높아진다. 이럴 때 규제가 필요하게 되는데,<br>주로 사용되는 모델은 릿지 회귀이다.</p>
-<h4 id="Ridge-Regularization"><a href="#Ridge-Regularization" class="headerlink" title="Ridge Regularization"></a><strong>Ridge Regularization</strong></h4><p>릿지 회귀에서의 가중치 선택은 훈련 데이터를 잘 예측하기 위해서와 더불어 추가 제약 조건을 만족시키기 위한 목적도 있다. 가중치의 절댓값을 가능한 한 작게 만드는 것이다. 즉, w의 모든 원소가 <strong>0에 가깝게</strong>(0이 되지는 않는다.) 되길 원한다. 이렇게 되면, 모든 특성이 출력에 주는 영향을 최소한으로 만들게 된다.(기울기가 작아진다.)</p>
-<p>이것을 Regularization이라고 부른다. Ridge Regularization은 L2규제라고 부르기도 한다.<br>L1은 Lasso이다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> Ridge</span><br><span class="line">ridge = Ridge().fit(X_train, y_train)</span><br><span class="line">print(<span class="hljs-string">'훈련 세트 점수 :&#123;:2f&#125;'</span>.format(ridge.score(X_train, y_train)))</span><br></pre></td></tr></table></figure>
-<p>릿지 회귀는 다음과 같이 사용할 수 있다.<br>릿지를 사용하게 되면 모델이 더 일반화 되어서 테스트 셋에서 성능이 좋게 된다.<br>사용자는 하이퍼 파라미터 alpha로 훈련세트의 성능 대비 모델을 얼마나 단순화할지를 정할 수 있다. alpha값을 높이면 규제를 높여서 일반화에 도움을 주는 것이고, alpha를 낮추면 규제를 낮춰서 모델을 복잡하게 만드는 것이다.</p>
-<h4 id="Lasso"><a href="#Lasso" class="headerlink" title="Lasso"></a><strong>Lasso</strong></h4><p>라쏘는 L1규제라고도 하며, 릿지와의 차이점은, 라쏘는 어떤 계수는 정말 0이 된다는 점이다. 모델에서 완전히 제외되는 특성이 발생한다. Feature Selection이 자동적으로 이루어지게 되는데, 중요특성을 뽑고 싶다면 Lasso를 활용해도 된다.</p>
-<p>실제로 라쏘와 릿지 중에서는 릿지를 더 선호한다. 하지만 특성이 많고 그중 일부분만 중요하다면 Lasso가 더 좋을 수도 있다. 또한 특성이 줄어들어 쉽게 해석할 수 있기 때문에, 라쏘가 사용되는 경우도 있다. 하지만 최상의 방법은 Elastic Net으로 L1과 L2를 섞은 것이다. 둘의 매개변수를 잘 조정하면 최상의 결과가 도출될 수 있다.</p>
-<h4 id="Naive-Bayes-분류기"><a href="#Naive-Bayes-분류기" class="headerlink" title="Naive Bayes 분류기"></a><strong>Naive Bayes 분류기</strong></h4><p>나이브 베이즈는 선형 모델과 매우 유사하다. 훈련 속도도 빠르고 단순하지만 성능이 좋은 편이다. 하지만 일반화 성능은 조금 뒤진다.</p>
-<p>scikit-learn의 나이브 베이즈에는 Gaussian, Multinomial, Bernoulli 총 세가지가 구현되어 있다. Gaussain은 연속적인 어떤 데이터에도 적용할 수 있고, Bernoulli는 이진 데이터를, Multinomial은 카운트 데이터에 적용된다. 가우시안은 연속, 베르누이와 다항은 이산 데이터에 적용된다고 생각하면 된다.</p>
-<p>MultinomialNB와 BernoulliNB는 모델의 복잡도를 조절하는 알파 하이퍼파라미터를 갖고 있다. 알파가 주어지면 알고리즘이 모든 특성에 양의 값을 가진 가상의 데이터 포인트를 알파 개수만큼 추가한다. 이렇게 되면 통계 데이터가 완만해진다. 알파가 크면 더 완만해지고 모델의 복잡도는 낮아진다. 하지만 알파는 성능에 크게 기여하지 않는다.</p>
-<p>GaussianNB는 대부분 고차원인 데이터셋에 사용하고, 다른 나이브 베이즈 모델들은 텍스트 같은 희소한 데이터를 카운트 하는데 사용된다. MultinomialNB는 0이 아닌 특성이 많은 데이터셋(큰 문서)에서 Bernoulli보다 성능이 좋다.</p>
-<p><strong>나이브 베이즈 모델과 선형 모델의 장단점은 비슷하다.</strong> 훈련과 예측 속도가 빠르고 훈련 과정을 이해하기가 쉽다. 일단 한번 빠르게 돌려보고 과정을 보면서 데이터에 대해 이해할 수 있게 된다는 것이다. 또한 희소한 고차원 데이터에서 잘 작동하고 비교적 하이퍼 파라미터에 민감하지 않다. 선형 모델로 일단 한번 훅 돌려보고 너무 오래 걸린다 싶으면 나이브 베이즈 모델을 시도해서 돌려볼만 하다. </p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1128,7 +1099,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        15
+                        16
                     </p>
                 </div>
             </div>
@@ -1148,7 +1119,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        24
                     </p>
                 </div>
             </div>
@@ -1227,7 +1198,7 @@
                 <span class="level-item">ML</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ML/Information-Theory/">
@@ -1235,7 +1206,7 @@
                 <span class="level-item">Information Theory</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/ML/Statistics/">
@@ -1353,7 +1324,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 10px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 10px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+        <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
     </div>
 </div>
 
@@ -1367,6 +1338,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
+                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1444,25 +1434,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/17/Elice-Start/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time></div>
-                    <a href="/2019/04/17/Elice-Start/" class="has-link-black-ter is-size-6">Elice_Start</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1481,7 +1452,7 @@
                     <span class="level-item">May 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1555,6 +1526,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Cross Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Ensemble/">
                         <span class="level-start">
                             <span class="level-item">Ensemble</span>
@@ -1571,7 +1553,7 @@
                             <span class="level-item">Entropy</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1593,7 +1575,7 @@
                             <span class="level-item">Information</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1602,6 +1584,17 @@
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/KL-Divergence/">
+                        <span class="level-start">
+                            <span class="level-item">KL Divergence</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1799,6 +1792,25 @@
         
         <article class="media">
             
+            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
+                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/05/15/Boosting/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
@@ -1873,25 +1885,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/17/Elice-Start/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time></div>
-                    <a href="/2019/04/17/Elice-Start/" class="has-link-black-ter is-size-6">Elice_Start</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1910,7 +1903,7 @@
                     <span class="level-item">May 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1984,6 +1977,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Cross Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Ensemble/">
                         <span class="level-start">
                             <span class="level-item">Ensemble</span>
@@ -2000,7 +2004,7 @@
                             <span class="level-item">Entropy</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -2022,7 +2026,7 @@
                             <span class="level-item">Information</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -2031,6 +2035,17 @@
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/KL-Divergence/">
+                        <span class="level-start">
+                            <span class="level-item">KL Divergence</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

@@ -9,14 +9,14 @@
   });
 </script>
     <meta charset="utf-8">
-<title>Tag: programmers - Unreasonable Effectiveness</title>
+<title>Tag: KL Divergence - Unreasonable Effectiveness</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
     <meta property="og:type" content="website">
 <meta property="og:title" content="Unreasonable Effectiveness">
-<meta property="og:url" content="http://tkdguq05.github.io/tags/programmers/index.html">
+<meta property="og:url" content="http://tkdguq05.github.io/tags/KL-Divergence/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
 <meta property="og:locale" content="en">
 <meta name="twitter:card" content="summary">
@@ -147,7 +147,7 @@
         <nav class="breadcrumb" aria-label="breadcrumbs">
         <ul>
             <li><a href="/tags">Tags</a></li>
-            <li class="is-active"><a href="#" aria-current="page">programmers</a></li>
+            <li class="is-active"><a href="#" aria-current="page">KL Divergence</a></li>
         </ul>
         </nav>
     </div>
@@ -156,8 +156,8 @@
     <div class="card">
     
     <div class="card-image">
-        <a href="/2019/04/12/programmers-carpet/" class="image is-7by1">
-            <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers Carpet">
+        <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
         </a>
     </div>
     
@@ -165,17 +165,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-12T07:48:10.000Z">2019-04-12</time>
+                <time class="level-item has-text-grey" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 minutes read (About 917 words)
+                    6 minutes read (About 947 words)
                 </span>
                 
             </div>
@@ -183,226 +183,21 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/04/12/programmers-carpet/">programmers Carpet</a>
+                <a class="has-link-black-ter" href="/2019/05/15/cross-entropy-KL-divergence/">cross_entropy_KL_divergence</a>
             
         </h1>
         <div class="content">
-            <h2 id="프로그래머스-코딩테스트-연습문제-카펫을-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-카펫을-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 카펫을 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 카펫을 풀어봤다</h2><h4 id="카펫"><a href="#카펫" class="headerlink" title="카펫"></a>카펫</h4><hr>
-<p><strong>문제 설명</strong></p>
-<blockquote>
-<p>Leo는 카펫을 사러 갔다가 아래 그림과 같이 중앙에는 빨간색으로 칠해져 있고 모서리는 갈색으로 칠해져 있는 격자 모양 카펫을 봤습니다.</p>
-</blockquote>
-<p><img src="/images/leo.png" alt="leo"></p>
-<blockquote>
-<p>Leo는 집으로 돌아와서 아까 본 카펫의 빨간색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.</p>
-</blockquote>
-<blockquote>
-<p>Leo가 본 카펫에서 갈색 격자의 수 brown, 빨간색 격자의 수 red가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.</p>
-</blockquote>
-<p><strong>제한사항</strong></p>
-<blockquote>
-<p>갈색 격자의 수 brown은 8 이상 5,000 이하인 자연수입니다.<br>빨간색 격자의 수 red는 1 이상 2,000,000 이하인 자연수입니다.<br>카펫의 가로 길이는 세로 길이와 같거나, 세로 길이보다 깁니다.</p>
-</blockquote>
-<hr>
-<p>문제는 완전탐색으로 풀라고 하는 것 같았지만, 이 문제는 수학적으로 풀 수 있을 것 같았다.<br>Brown과 Red를 이루는 수를 Red의 m과 n으로 표현해보고 <code>(Red = (m x n)꼴, m&gt;n)</code> 나온 (m,n)꼴에 +2를 해주면,<br>return값이 <code>(m+2,n+2)</code> 나오게 된다는 것을 깨달았다.</p>
-<p>하지만 문제가 있었다. 이 경우는 Red가 Square꼴이 아닐 때만 해당했던 것이었다.<br>Red가 Square꼴일 경우, m과 n으로 문제를 풀 수 없다.</p>
-<p>이 경우는 다른 케이스를 생각해 봐야 한다.<br>R을 <code>(nxn)</code>꼴이면 Brown이 <code>4(n+1)</code>로 나온 다는 것을 알아야 한다.<br>return은 처음의 케이스와 같이 2만 더해주면 된다.</p>
-<p>첫번째 케이스의 경우를 n에 대해서 쭉 풀어주면 이차방정식 꼴이 나온다.<br>아마도 테스트 케이스는 근이 정수로 나올 것 같아서 중근이나 허근이 나올 경우를 제외한, 근의 공식을 코딩해서 함수화 하였다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fun</span><span class="hljs-params">(a,b,c)</span>:</span></span><br><span class="line">    D=b*b<span class="hljs-number">-4</span>*a*c</span><br><span class="line">    <span class="hljs-keyword">if</span> D&gt;<span class="hljs-number">0</span>:</span><br><span class="line">        x1=round((-b-D**<span class="hljs-number">0.5</span>)/<span class="hljs-number">2</span>*a)</span><br><span class="line">        x2=round((-b+D**<span class="hljs-number">0.5</span>)/<span class="hljs-number">2</span>*a)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> x1&gt;x2:</span><br><span class="line">        <span class="hljs-keyword">return</span> [x1+<span class="hljs-number">2</span>,x2+<span class="hljs-number">2</span>]</span><br><span class="line">    <span class="hljs-keyword">else</span> :</span><br><span class="line">        <span class="hljs-keyword">return</span> [x2+<span class="hljs-number">2</span>,x1+<span class="hljs-number">2</span>]</span><br></pre></td></tr></table></figure></p>
-<p>그 다음 두번째 케이스로 넘어가는 것이 중요했는데, Brown과 Red를 받았을 때, 특히 Red를 가지고 제곱수인지 판별하는 함수가 필요했다. 만약 Red가 제곱수라면 Red에 루트를 씌워서 값을 받아 2만 더해주면 될 것이고, 제곱수가 아니라면 위의 함수를 이용해서 return을 받으면 된다.<br>그래서 제곱수 판별하는 함수를 다음과 같이 작성했다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> numpy <span class="hljs-keyword">as</span> np</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">issquare</span><span class="hljs-params">(n)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">if</span> int(n ** <span class="hljs-number">0.5</span>) ** <span class="hljs-number">2</span> == n :</span><br><span class="line">        <span class="hljs-keyword">return</span> int(np.sqrt(n))</span><br></pre></td></tr></table></figure></p>
-<p>마지막으로 solution 함수에서는 이 함수들을 모두 합쳐주고 조건문을 통해서 return값을 다르게 받아준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(brown, red)</span>:</span></span><br><span class="line"><span class="hljs-comment"># return이 제곱 수 아닐 때</span></span><br><span class="line">    <span class="hljs-keyword">if</span> issquare(red) :</span><br><span class="line">        <span class="hljs-keyword">return</span> [issquare(red) + <span class="hljs-number">2</span>,issquare(red) + <span class="hljs-number">2</span>]</span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        a = <span class="hljs-number">1</span></span><br><span class="line">        b = (<span class="hljs-number">4</span>-brown)/<span class="hljs-number">2</span></span><br><span class="line">        c = red</span><br><span class="line">        <span class="hljs-keyword">return</span> fun(a,b,c)</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p>정리 : 코딩 연습을 꾸준히 해야하는 것이 느껴진 문제였다. 제곱수를 판별하는 문제나, 이차방정식의 해를 구하는 문제는 연습문제로 간간히 나오던 것이었다. 기초적인 문제가 제대로 학습이 되어있지 않으면, 문제 푸는데 굉장히 오랜 시간이 걸리지 않을까 생각했다. <strong>기본적인 문제도 중요하다!</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/04/12/programmers-the-Biggest-Number/" class="image is-7by1">
-            <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers the Biggest Number">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-12T05:43:10.000Z">2019-04-12</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 minutes read (About 709 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/04/12/programmers-the-Biggest-Number/">programmers the Biggest Number</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="프로그래머스-코딩테스트-연습문제-가장-큰-수를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-가장-큰-수를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 가장 큰 수를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 가장 큰 수를 풀어봤다</h2><h4 id="가장-큰-수"><a href="#가장-큰-수" class="headerlink" title="가장 큰 수"></a>가장 큰 수</h4><hr>
-<p><strong>문제 설명</strong></p>
-<blockquote>
-<p>0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.</p>
-</blockquote>
-<blockquote>
-<p>예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.</p>
-</blockquote>
-<blockquote>
-<p>0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.</p>
-</blockquote>
-<p><strong>제한 사항</strong></p>
-<blockquote>
-<p>numbers의 길이는 1 이상 100,000 이하입니다.<br>numbers의 원소는 0 이상 1,000 이하입니다.<br>정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.</p>
-</blockquote>
-<hr>
-<p>처음 이 문제를 봤을 때, ‘어 permutation 쓰면 끝이네 개꿀ㅎㅎ’ 이런 생각이 들었다.<br>바로 itertool을 import 해서</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> permutations</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(numbers)</span>:</span></span><br><span class="line">    str_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> numbers:</span><br><span class="line">        str_list.append(str(i))</span><br><span class="line">    first=list(map(<span class="hljs-string">''</span>.join, permutations(str_list)))</span><br><span class="line">    int_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> li <span class="hljs-keyword">in</span> first:</span><br><span class="line">        int_list.append(int(li))</span><br><span class="line">    answer = sorted(int_list, reverse=<span class="hljs-keyword">True</span>)[<span class="hljs-number">0</span>]</span><br><span class="line">    <span class="hljs-keyword">return</span> str(answer)</span><br></pre></td></tr></table></figure>
-<p>이런 코드를 작성해서 제출했다.</p>
-<p>결과는!!</p>
-<p><img src="./images/timeout.png" alt="시간초과"></p>
-<p>시간초과가 떠 버렸다. 효율성이 제로라는 말이다.<br>검색해보니 permutation은 필요하지 않은 부분까지 순열 조합을 만들어 내기 때문에<br>굉장히 비효율적인 코드라는 것을 알아냈다.</p>
-<p>‘그렇다면 순열같이 코드를 짜되 효율적으로 작성해야 한다는 것인가?’ 라는 고찰과 함께<br>코딩을 시작했고 하루를 날렸다.</p>
-<p>당연했다. 문제푸는 방향이 완전히 잘못되었었다. 효율적으로 순열조합 만드는 코드를 짠다면 내가 라이브러리를 새로 만드는 수준인 것이었다.</p>
-<hr>
-<p>방향을 다시 생각해봤다.<br>사실 이 문제를 풀다보면 list에 있는 원소를 편하게 처리하기 위해 str으로 바꿔야 하고 비교하기 위해<br>int로 다시 바꿔줘야 하는 번거로움이 있다.</p>
-<p>그런데 굳이 int–&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
-<p>왜냐하면 정수모양의 str도 정수 값이 증가함에 따라 메모리 값도 증가하기 때문이다.</p>
-<p>이를 <code>id()</code>를 통해 확인해 볼 수 있다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(id(<span class="hljs-string">'1'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'2'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'3'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'4'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'5'</span>))</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Out:</span><br><span class="line">4380097928</span><br><span class="line">4380098040</span><br><span class="line">4380111232</span><br><span class="line">4380111288</span><br><span class="line">4379241192</span><br></pre></td></tr></table></figure>
-<p>이를 이용해서 문제를 푼다면 다음과 같은 코드를 작성할 수 있다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(numbers)</span>:</span></span><br><span class="line">    numbers = list(map(str, numbers))</span><br><span class="line">    numbers.sort(key=<span class="hljs-keyword">lambda</span> x : x*<span class="hljs-number">3</span>, reverse = <span class="hljs-keyword">True</span>)</span><br><span class="line">    answer = str(int(<span class="hljs-string">''</span>.join(numbers)))</span><br><span class="line">    <span class="hljs-keyword">return</span> answer</span><br></pre></td></tr></table></figure>
-<p>결론 : 메모리 값에 대한 지식이 있다면, 훨씬 간단하게 문제를 해결할 수 있다!</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/25/Programmers/" class="image is-7by1">
-            <img class="thumbnail" src="/images/programmers.jpeg" alt="Programmers 124 나라의 숫자를 풀어보자">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-25T07:09:55.000Z">2019-02-25</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 minutes read (About 457 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/25/Programmers/">Programmers 124 나라의 숫자를 풀어보자</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다</h2><h4 id="124-나라"><a href="#124-나라" class="headerlink" title="124 나라"></a>124 나라</h4><p>참고[<a href="https://thisisablog.tistory.com/14]" target="_blank" rel="noopener">https://thisisablog.tistory.com/14]</a><br>124 나라가 있습니다. 124 나라에서는 10진법이 아닌 다음과 같은 자신들만의 규칙으로 수를 표현합니다.</p>
-<p>124 나라에는 자연수만 존재합니다.<br>124 나라에는 모든 수를 표현할 때 1, 2, 4만 사용합니다.<br>예를 들어서 124 나라에서 사용하는 숫자는 다음과 같이 변환됩니다.</p>
-<table>
-<thead>
-<tr>
-<th>10진법</th>
-<th>124 나라</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1</td>
-<td>1</td>
-</tr>
-<tr>
-<td>2</td>
-<td>2</td>
-</tr>
-<tr>
-<td>3</td>
-<td>4    </td>
-</tr>
-<tr>
-<td>4</td>
-<td>11</td>
-</tr>
-<tr>
-<td>5</td>
-<td>12</td>
-</tr>
-<tr>
-<td>6</td>
-<td>14</td>
-</tr>
-<tr>
-<td>7</td>
-<td>21</td>
-</tr>
-<tr>
-<td>8</td>
-<td>22</td>
-</tr>
-<tr>
-<td>9</td>
-<td>24</td>
-</tr>
-<tr>
-<td>10</td>
-<td>41</td>
-</tr>
-</tbody>
-</table>
-<p>자연수 n이 매개변수로 주어질 때, n을 124 나라에서 사용하는 숫자로 바꾼 값을 return 하도록 solution 함수를 완성해 주세요.</p>
-<hr>
-<p>문제를 보고 패턴을 찾아야겠다는 생각부터 했다.<br>3의 배수로 끊어지고, 끝자리가 1, 2, 4로 반복된다는 것을 파악했다.</p>
-<p>끝자리는 그럼 1,2,4를 돌려주는 것으로 끝낼 수 있는데, 이제 앞자리가 문제가 된다.<br>앞자리 패턴을 찾기 위해서 문제 표에는 10까지만 나와있지만, 21까지 구해봤다.<br>21까지 쭉 따라 쓰다보니, 앞자리 역시 1,2,4가 반복되고 있다는 것을 파악했다.<br>맨 뒷자리 1,2,4가 끝나면 그 다음 자리 index가 하나 올라가고 그 앞의자리도 마찬가지였다.</p>
-<p>그렇다면, 뒤에서부터 자리 수를 채워주는 게 낫다고 생각했고<br>다 채워준 다음에 뒤집어 버리는 방식을 택했다.<br>그래서<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[::<span class="hljs-number">-1</span>]</span><br></pre></td></tr></table></figure></p>
-<p>을 이용해 줬고 코드는 다음과 같이 작성했다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(n)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">if</span> n&lt;<span class="hljs-number">3</span>:</span><br><span class="line">    	<span class="hljs-keyword">return</span> n</span><br><span class="line">    <span class="hljs-keyword">elif</span> n==<span class="hljs-number">3</span>:</span><br><span class="line">    	<span class="hljs-keyword">return</span> <span class="hljs-number">4</span></span><br><span class="line">    result=<span class="hljs-string">''</span></span><br><span class="line">    index=[<span class="hljs-string">'4'</span>,<span class="hljs-string">'1'</span>,<span class="hljs-string">'2'</span>]</span><br><span class="line">    rem=<span class="hljs-number">0</span></span><br><span class="line">    quo=<span class="hljs-number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">while</span> n&gt;<span class="hljs-number">3</span>:</span><br><span class="line">        rem=n%<span class="hljs-number">3</span></span><br><span class="line">        quo=n//<span class="hljs-number">3</span></span><br><span class="line">        print(rem,quo)</span><br><span class="line">        result+=index[rem]</span><br><span class="line">        print(<span class="hljs-string">'res = '</span>,result)</span><br><span class="line">        <span class="hljs-keyword">if</span> rem==<span class="hljs-number">0</span>: quo-=<span class="hljs-number">1</span></span><br><span class="line">        n=quo</span><br><span class="line">        print(<span class="hljs-string">'n=&#123;&#125;, rem=&#123;&#125;, result=&#123;&#125;'</span>.format(n, rem, result))</span><br><span class="line">    </span><br><span class="line">    result+=str(n)</span><br><span class="line">    result=result.replace(<span class="hljs-string">'3'</span>,<span class="hljs-string">'4'</span>)</span><br><span class="line">    <span class="hljs-keyword">return</span> result[::<span class="hljs-number">-1</span>]</span><br></pre></td></tr></table></figure>
+            <h1 id="Cross-Entropy와-KL-Divergence에-대해서-알아보자"><a href="#Cross-Entropy와-KL-Divergence에-대해서-알아보자" class="headerlink" title="Cross Entropy와 KL-Divergence에 대해서 알아보자"></a>Cross Entropy와 KL-Divergence에 대해서 알아보자</h1><h3 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h3><p>크로스 엔트로피에 대해서 알아보기 전에, 엔트로피 식을 다시한번 확인해 보자<br>엔트로피는 $H(x)=-\sum P(x)log_2P(x)$로 확률분포 P(X)P(X)에 대한 기댓값이다. 엔트로피는 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
+<p>이제 크로스 엔트로피 식을 확인해 보자<br>$H(P,Q)=-\sum_{X} P(x)logQ(x)$(자연로그 또는 이진로그)<br>식을 자세히 보면, $P(x)$가 들어갈 자리에 $Q(x)$가 들어가 있다. 어떤 의미가 숨어져 있는 것 같은데,</p>
+<p>이 수식이 의미하는 것이 무엇일까?</p>
+<p>크로스 엔트로피(Cross Entropy)는 실제 데이터는 $P$의 분포로부터 생성되지만, 분포 $Q$를 사용해서 정보량을 측정해서 나타낸 평균적 bit수를 의미한다. 이제 수식이 눈에 들어오기 시작할 것이다.</p>
+<p><code>실제 데이터는 분포 P로 부터 생성되는데, 우리가 실제 P에 대해서 몰라서 분포 Q의 정보(or 코딩 스킴)을 대신 활용하면 어떨까?</code>에 대한 답으로써 만들어졌다고 생각하면 편할 것이다.</p>
+<p>크로스 엔트로피는 $H(P,Q)$와 같이 나타내고 일반적으로 $H(P,Q) &gt;=H(P)$이다. 항상 크로스 엔트로피가 크거나 같을 수 밖에 없는 것은 데이터의분포를 Q로 가정한 코딩방식을 사용하게 되면, 실제의 분포 P를 가정한 코딩방식 보다 질의응답에 필요한 코드의 수(code length)가 많아지게 되기 때문이다.</p>
+<h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
+<p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
+<p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
+<p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
 
         </div>
         

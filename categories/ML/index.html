@@ -157,6 +157,66 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 947 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/15/cross-entropy-KL-divergence/">cross_entropy_KL_divergence</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Cross-Entropy와-KL-Divergence에-대해서-알아보자"><a href="#Cross-Entropy와-KL-Divergence에-대해서-알아보자" class="headerlink" title="Cross Entropy와 KL-Divergence에 대해서 알아보자"></a>Cross Entropy와 KL-Divergence에 대해서 알아보자</h1><h3 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h3><p>크로스 엔트로피에 대해서 알아보기 전에, 엔트로피 식을 다시한번 확인해 보자<br>엔트로피는 $H(x)=-\sum P(x)log_2P(x)$로 확률분포 P(X)P(X)에 대한 기댓값이다. 엔트로피는 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
+<p>이제 크로스 엔트로피 식을 확인해 보자<br>$H(P,Q)=-\sum_{X} P(x)logQ(x)$(자연로그 또는 이진로그)<br>식을 자세히 보면, $P(x)$가 들어갈 자리에 $Q(x)$가 들어가 있다. 어떤 의미가 숨어져 있는 것 같은데,</p>
+<p>이 수식이 의미하는 것이 무엇일까?</p>
+<p>크로스 엔트로피(Cross Entropy)는 실제 데이터는 $P$의 분포로부터 생성되지만, 분포 $Q$를 사용해서 정보량을 측정해서 나타낸 평균적 bit수를 의미한다. 이제 수식이 눈에 들어오기 시작할 것이다.</p>
+<p><code>실제 데이터는 분포 P로 부터 생성되는데, 우리가 실제 P에 대해서 몰라서 분포 Q의 정보(or 코딩 스킴)을 대신 활용하면 어떨까?</code>에 대한 답으로써 만들어졌다고 생각하면 편할 것이다.</p>
+<p>크로스 엔트로피는 $H(P,Q)$와 같이 나타내고 일반적으로 $H(P,Q) &gt;=H(P)$이다. 항상 크로스 엔트로피가 크거나 같을 수 밖에 없는 것은 데이터의분포를 Q로 가정한 코딩방식을 사용하게 되면, 실제의 분포 P를 가정한 코딩방식 보다 질의응답에 필요한 코드의 수(code length)가 많아지게 되기 때문이다.</p>
+<h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
+<p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
+<p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
+<p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/05/15/Boosting/" class="image is-7by1">
             <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
         </a>
@@ -309,7 +369,7 @@
 <p>이번에는 예를 바꿔서, 우리가 쉽게 알 수 있는 주사위 case를 갖고 와 보자.<br>주사위를 던져서 짝수가 나타날 사상 $E_1$의 정보량은 몇일까?<br>공식에 의해서 $p(x) = {1\over2}$이므로<br>$P(E_1) = {1\over2}\longrightarrow I = -log_2{1\over2}=1(bit)$ 가 된다.</p>
 <h2 id="엔트로피-Entropy"><a href="#엔트로피-Entropy" class="headerlink" title="엔트로피(Entropy)"></a>엔트로피(Entropy)</h2><p>엔트로피는 흔히 열역학에서 자주 볼 수 있는 단어지만, 정보이론에서도 사용되는 말이기도 하다. 엔트로피라는 말에 대해서는 정보이론의 아버지인 Shannon이 정립하였다.</p>
 <p>엔트로피의 공식을 먼저 확인해보자.<br>$H(X) = -\sum_{X}P(X)log_2P(X)$이다.</p>
-<p>확률과 통계를 기본부터 잘 다져온 사람이라면 익숙한 공식이 눈에 들어올 것이다.<br>바로 기댓값이다. 수식을 그럼 천천히 다시봤을때, 엔트로피 공식이 뜻하는 것은 바로 확률분포 $P(X)$에 대한 기댓값이다. 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정보를 뜻하는 것이라고 생각하면 된다.</p>
+<p>확률과 통계를 기본부터 잘 다져온 사람이라면 익숙한 공식이 눈에 들어올 것이다.<br>바로 기댓값이다. 수식을 그럼 천천히 다시봤을때, 엔트로피 공식이 뜻하는 것은 바로 확률분포 $P(X)$에 대한 기댓값이다. 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
 <p>엔트로피는 정보이론에서 사용되는 단어이므로, 이 역시 불확실도를 나타내는 척도로 사용된다.<br>직관적으로 이해하기 위해 그림을 통해 살펴보자.</p>
 <p><img src="/images/entropy.png" alt="Entropy Distribution"></p>
 <p>위 그림에서 보면 왼쪽의 분포는 몰려있고, 즉 정규분포로 따지자면 표본오차가 작은 모양이고, 오른쪽의 분포는 넓게 퍼진, 표본오차가 매우 큰 모습이다. 정보이론을 따라 분포를 다시 보면 왼쪽의 그림은 불균형한 분포로 불확실성이 적은 모양이다. 다시말해 엔트로피 값이 낮은 분포이다. 반면에 오른쪽 그림은 균등한 분포이며, 어떤 값이 나올지 모르는, 불확실성이 높은 모양이다. 즉, 엔트로피 값이 높은 분포라고 할 수 있다.</p>
@@ -684,7 +744,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        15
+                        16
                     </p>
                 </div>
             </div>
@@ -704,7 +764,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        24
                     </p>
                 </div>
             </div>
@@ -783,7 +843,7 @@
                 <span class="level-item">ML</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ML/Information-Theory/">
@@ -791,7 +851,7 @@
                 <span class="level-item">Information Theory</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/ML/Statistics/">
@@ -909,7 +969,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 10px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 10px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
+        <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 10px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a>
     </div>
 </div>
 
@@ -923,6 +983,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
+                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1000,25 +1079,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/17/Elice-Start/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time></div>
-                    <a href="/2019/04/17/Elice-Start/" class="has-link-black-ter is-size-6">Elice_Start</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1037,7 +1097,7 @@
                     <span class="level-item">May 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1111,6 +1171,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Cross Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Ensemble/">
                         <span class="level-start">
                             <span class="level-item">Ensemble</span>
@@ -1127,7 +1198,7 @@
                             <span class="level-item">Entropy</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1149,7 +1220,7 @@
                             <span class="level-item">Information</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1158,6 +1229,17 @@
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/KL-Divergence/">
+                        <span class="level-start">
+                            <span class="level-item">KL Divergence</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1355,6 +1437,25 @@
         
         <article class="media">
             
+            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
+                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/05/15/Boosting/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
@@ -1429,25 +1530,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/04/17/Elice-Start/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time></div>
-                    <a href="/2019/04/17/Elice-Start/" class="has-link-black-ter is-size-6">Elice_Start</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1466,7 +1548,7 @@
                     <span class="level-item">May 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1540,6 +1622,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Cross Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/Ensemble/">
                         <span class="level-start">
                             <span class="level-item">Ensemble</span>
@@ -1556,7 +1649,7 @@
                             <span class="level-item">Entropy</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1578,7 +1671,7 @@
                             <span class="level-item">Information</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1587,6 +1680,17 @@
                     <a class="level is-marginless" href="/tags/Information-Value/">
                         <span class="level-start">
                             <span class="level-item">Information Value</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/KL-Divergence/">
+                        <span class="level-start">
+                            <span class="level-item">KL Divergence</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
