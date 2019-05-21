@@ -8,6 +8,22 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2019/05/21/SQL-Recipe-01/</loc>
+        <lastmod>2019-05-21T09:16:38.967Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/04/01/My-SQL-Workbench-Bug-issue/</loc>
+        <lastmod>2019-05-21T08:54:04.090Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2019/05/15/cross-entropy-KL-divergence/</loc>
         <lastmod>2019-05-15T07:49:53.705Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -90,14 +106,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/04/12/programmers-carpet/</loc>
         <lastmod>2019-04-17T08:24:21.445Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/04/01/My-SQL-Workbench-Bug-issue/</loc>
-        <lastmod>2019-04-12T08:13:35.263Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
