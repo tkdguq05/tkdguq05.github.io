@@ -187,7 +187,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    14 minutes read (About 2090 words)
+                    15 minutes read (About 2269 words)
                 </span>
                 
             </div>
@@ -199,20 +199,25 @@
             
         </h1>
         <div class="content">
-            <h1 id="Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자"><a href="#Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자" class="headerlink" title="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자"></a>Dimensional Reduction에 쓰이는 PCA에 대해 알아보자</h1><h2 id="PCA-Principal-Component-Analysis"><a href="#PCA-Principal-Component-Analysis" class="headerlink" title="PCA(Principal Component Analysis)"></a>PCA(Principal Component Analysis)</h2><p>데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분하게 나오고, 노이즈도 많이 껴있는 것 같다. PCA는 이런 경우에 자주 사용되는 알고리즘이다. PCA는 그러니까 relative하지만 redundant한 feature를 제거하는데 자주 사용된다.</p>
-<p>PCA를 이용했을때, 두가지의 효과를 가져올 수 있다.</p>
+            <h1 id="Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자"><a href="#Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자" class="headerlink" title="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자"></a>Dimensional Reduction에 쓰이는 PCA에 대해 알아보자</h1><h2 id="PCA-Principal-Component-Analysis"><a href="#PCA-Principal-Component-Analysis" class="headerlink" title="PCA(Principal Component Analysis)"></a>PCA(Principal Component Analysis)</h2><p>데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분하게 나오고, 노이즈도 많이 껴있는 것 같다. PCA는 이런 경우에 자주 사용되는 알고리즘이다. PCA는 그러니까 relative하지만 redundant한 feature를 제거하는데 자주 사용되거나 데이터를 단순화 할때 사용된다.</p>
+<p>데이터를 단순화하는데는 다음의 두 가지 방법이 있다.</p>
 <ul>
 <li>차원 축소(Dimensional Reduction) : 데이터를 표현하는 속성의 수를 축소</li>
 <li>요소 분석(Factor Analysis) : 관찰 가능한 데이터 = 잠재적인 변수(latent variable)와 noise의 선형결합</li>
 </ul>
 <p>우리는 차원 축소에 대한 내용을 살펴볼 것이다.</p>
-<p>아까의 상황을 다시 가져와보자. 이전의 예에서 복잡한 feature들은 사실 highly correlated 되어 있기 때문에 문제가 있는 것이다. 변수들의 서로 연관되어 있으면 설명량은 올라가지만, 좋은 모델이라고 볼 수 없고, 어떤 변수가 타겟에 어떻게 영향을 주는지 알지 못한다. 불필요한(서로 연관되어 있거나, 결과와 상관없는) 변수들은, 변수들을 모으고 분석하는데 드는 비용을 증가시켜서, 예측 모델 또는 분류 모델을 만들 때 전체 비용을 증가시키는 원인이 된다.</p>
-<p>따라서 불필요한 변수들을 제거하는 필요성이 제기되고 Machine Learning 영역에서는 본래 모델이 가지고 있던 성질이나 정확도를 최대한 유지하면서 차원을 줄이는 방법을 통하여 위에서 설명된 문제점을 해결하려고 한다.</p>
-<p>모델의 차원(dimensionality)은 모델에 사용되는 독립(independence) 변수 또는 입력(input) 변수의 개수(number)를 의미한다. 우리가 GLM(Generalized Linear Model)을 사용하는 이유처럼 독립변수가 타겟에 미치는 영향을 제대로 알기 위해서 독립적인 변수가 필요한 것이다. 통계에서 항상 IID 조건을 사용하는 것과 유사하다.</p>
-<h3 id="Dimensional-Reduction"><a href="#Dimensional-Reduction" class="headerlink" title="Dimensional Reduction"></a>Dimensional Reduction</h3><p>Dimensional Reduction의 핵심 아이디어는, 상관도가 높은(interrelated, correlated) 변수들이 많이 존재하는 데이터 집합의 차원(Dimensionality)을 줄이면서, 동시에 데이터 집합에 존재하고 있는 차이(Variation, 정보)를 최대한 유지하는 것이다. 즉, 차원을 줄이되 “정보 손실을 최소화”하는 것이다. 여기서 정보란 데이터간의 거리, 실제적인 위치를 정보라고 표현한다. 위치, 상대적인 거리를 뜻하는 것이다. 차원이 줄어들기 때문에 정보의 손실은 어느 정도 감수해야 한다.</p>
-<p>Dimensional Reduction은 원래 공간에서 데이터가 퍼져 있는 정도를 변환된(축소된) 공간에서 얼마나 잘 유지하느냐를 척도로 삼는다. 원래 공간의 정보가 변환된 공간에서 얼마나 잘 유지하는지는 변환된 공간에서의 데이터의 분산으로 측정한다.따라서, 변환된 공간에서 데이터의 분산을 최대로 할 수 있는 좌표축을 찾아야 한다.</p>
+<p>아까의 상황을 다시 가져와보자. 이전의 예에서 복잡한 feature들은 사실 highly correlated 되어 있기 때문에 문제가 있는 것이다. 변수들의 서로 연관되어 있으면 설명량은 올라가지만, 좋은 모델이라고 볼 수 없고, 어떤 변수가 타겟에 어떻게 영향을 주는지 알 수 없다. 불필요한(서로 연관되어 있거나, 결과와 상관없는) 변수들은, 변수들을 모으고 분석하는데 드는 비용을 증가시켜서, 예측 모델 또는 분류 모델을 만들 때 전체 비용을 증가시키는 원인이 된다.</p>
+<p>따라서 불필요한 변수들을 제거할 필요가 있고, Machine Learning 영역에서는 본래 모델이 가지고 있던 성질이나 정확도를 최대한 유지하면서 차원을 줄이는 방법을 통하여 위에서 설명된 문제점을 해결하려고 한다.</p>
+<p>모델의 차원(dimensionality)은 모델에 사용되는 독립(independence) 변수 또는 입력(input) 변수의 개수(number)를 의미한다. 우리가 GLM(Generalized Linear Model)을 사용하는 이유처럼 독립변수가 타겟에 미치는 영향을 제대로 알기 위해서 독립적인 변수가 필요한 것이다. 통계에서 항상 IID 조건을 사용하는 것과 의미가 비슷할 것이다.</p>
+<p>정리하자면 PCA를 사용하는 이유는 다음과 같다.</p>
+<ul>
+<li>feature가 너무 많으면 연산에 사용되는 cost가 너무 높고, 시간도 너무 오래 걸리기 때문에, 변수들을 줄여줄 필요가 있다.</li>
+<li>많은 feature들 중에서는 상관관계가 높은 feature들이 있다(high correlated). 이런 feature들은 모델의 설명량은 높일 수 있지만, 모델의 성능은 떨어트릴 수 있다. 또한 우리가 흥미 있어 하는 결과와 상관없는 변수들이 존재할 수 있는 상황이 발생할 수 있다.</li>
+</ul>
+<h3 id="Dimensional-Reduction"><a href="#Dimensional-Reduction" class="headerlink" title="Dimensional Reduction"></a>Dimensional Reduction</h3><p>Dimensional Reduction의 핵심 아이디어는, 상관도가 높은(interrelated, correlated) 변수들이 많이 존재하는 데이터 집합의 차원(Dimensionality)을 줄이면서, 동시에 데이터 집합에 존재하고 있는 차이(Variation, 정보)를 최대한 유지하는 것이다. 즉, 차원을 줄이되 “정보 손실을 최소화”하는 것이다. 여기서 정보란 데이터간의 거리, 실제적인 위치를 정보라고 표현한다. 다시말하면 위치, 상대적인 거리를 뜻한다. 하지만 차원축소는 정보의 손실을 어느 정도 감수해야 한다.</p>
+<p>Dimensional Reduction은 원래 공간에서 데이터가 퍼져 있는 정도를 변환된(축소된) 공간에서 얼마나 잘 유지하느냐를 척도로 삼는다. 원래 공간의 정보가 변환된 공간에서 얼마나 잘 유지하는지는 변환된 공간에서의 데이터의 분산으로 측정한다. 따라서, 변환된 공간에서 데이터의 분산을 최대로 유지 할 수 있는 좌표축을 찾아야 한다.</p>
 <p>즉, PCA는 원래 공간에서 데이터가 분산되어 있는 주요한 방향(Principal direction)을 찾는 것이 목표가 된다.<br>여러축으로 구성되어 있는 데이터를 주성분 분석으로 통해 기존의 feature들과는 다른 새로운 축으로써 다시 구성해보되, 분산을 최대로 유지한다.</p>
-<h3 id="PCA"><a href="#PCA" class="headerlink" title="PCA"></a>PCA</h3><p>PCA에서 데이터가 분산되어 있는 주요한 방향(Principal Component)을 찾는 단계는 다음과 같다.</p>
+<h3 id="PCA-수행방법"><a href="#PCA-수행방법" class="headerlink" title="PCA 수행방법"></a>PCA 수행방법</h3><p>PCA에서 데이터가 분산되어 있는 주요한 방향(Principal Component)을 찾는 단계는 다음과 같다.</p>
 <ol>
 <li>데이터를 투영(Projection)하기</li>
 <li>투영된 공간에서 분산 측정하기</li>
@@ -222,22 +227,26 @@
 <p>이제 투영된 공간에서 분산을 측정해보자. 먼저, PCA를 실행하기 전에 데이터의 평균(mean)과 분산(variance)를 정규화(standardization) 해 준다.(Pre-process the data) 데이터는 특성 벡터로 표현되는데, 특성 벡터의 각 원소들에서 각각의 평균과 빼 주고, 분산의 제곱근으로 나누어 준다.</p>
 <p>정규화 과정에서</p>
 <ul>
-<li>데이터에서평균을빼는것:데이터의 평균이 0이 되도록 만든다.</li>
-<li>데이터에서 분산의 제곱근을 나누어 주는 것 : 데이터의 값 들이 unit variance를 갖게 해 준다.</li>
+<li>데이터에서 평균을 빼는것:데이터의 평균이 0이 되도록 만든다.</li>
+<li>데이터에서 분산의 제곱근을 나누어 주는 것 : 데이터의 값들이 unit variance를 갖게 해 준다.</li>
 </ul>
 <h4 id="새-축으로-이동된-데이터의-분산-구하기"><a href="#새-축으로-이동된-데이터의-분산-구하기" class="headerlink" title="새 축으로 이동된 데이터의 분산 구하기"></a>새 축으로 이동된 데이터의 분산 구하기</h4><p>각각의 attribute의 평균이 0이 되고, 분산이 1이 된다. 즉 같은 “scale”을 가지게 되어, attribute간의 비교가 가능 해진다.<br>데이터 포인트 $x_{1}, x_{2}, x_{3}, x_{4}, x_{5}$가 있을 때, u의 축으로 투영된 데이터 포인트$x_{1}^Tu, x_{2}^Tu, x_{3}^Tu, x_{4}^Tu, x_{5}^Tu$의 분산을 구해보자.</p>
 <p>먼저 평균값을 구해놓자.</p>
 <p>$$\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0$$<br>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
 <p>분산을 구해보자.</p>
-<p>$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 = \sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$ ($\mu$가 0이므로)<br>$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$ (u는 unit vector이다.)</p>
-<p>이것은 결론적으로<br>$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$<br>$=u^T\sum u$ 식이 도출된다.</p>
-<p>= Σ는 (공 분산 행렬)로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 분산을 구할 수 있다.</p>
+<p>$$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$$<br>($\mu$가 0이므로)</p>
+<p>$$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$$</p>
+<p>($u$는 unit vector이다.)</p>
+<p>이것은 결론적으로<br>$$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$$</p>
+<p>$$=u^T\sum u$$<br>식이 도출된다.</p>
+<p>Σ는 공분산 행렬로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 새 축의 분산을 구할 수 있다.</p>
 <h4 id="분산의-최대치-구하기"><a href="#분산의-최대치-구하기" class="headerlink" title="분산의 최대치 구하기"></a>분산의 최대치 구하기</h4><p>우리는 Principal Component, 즉, 주성분을 구하는 것이 목적이므로, 데이터의 분산이 최대가 되도록 만드는 축을 구해야 한다. 분산의 최대치를 구하기 위해서 변환된(투영된) 공간에서 분산을 최대화 해 줄 수 있는 벡터 $u$를 찾아야 한다. $u$는 unit vector라고 생각하자. 우리가 구하고자 하는 $u$는 방향이 중요하기 때문이다. 즉, $u^Tu = 1$이다.</p>
 <p>따라서 문제는 $u$가 unit vector일 때의 $u^T\sum u$의 최대값을 구하는 조건부 최적화 문제가 된다.</p>
-<p>$Maximize$ $u^T\sum u$<br>$s.t$ $u^Tu=1$</p>
+<p>$$\max u^T\sum u$$</p>
+<p>$$s.t \space u^Tu=1$$</p>
 <p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.<br>$$\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)$$</p>
 <p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
-<p>이렇게 구한식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
+<p>이렇게 구한 식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
 <p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.<br>$$argmax_{u}u^T\sum u = argmax_{u}\lambda$$</p>
 <p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
 <p>분산의 최대값은, 𝕦가 Σ의 eigenvalue 중 가장 큰 값을 가지는 eigenvalue에 대응되는 eigenvector일 때 달성된다. 우리는 이것을 주성분이라고도 부른다.</p>
