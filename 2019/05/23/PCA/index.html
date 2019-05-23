@@ -9,20 +9,25 @@
   });
 </script>
     <meta charset="utf-8">
-<title>Archives: 2019/4 - Unreasonable Effectiveness</title>
+<title>PCA - Unreasonable Effectiveness</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<link rel="canonical" href="http://tkdguq05.github.io/archives/2019/04/">
+<link rel="canonical" href="http://tkdguq05.github.io/2019/05/23/pca/">
 
 
 
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Unreasonable Effectiveness">
-<meta property="og:url" content="http://tkdguq05.github.io/archives/2019/04/index.html">
+    <meta name="description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
+<meta name="keywords" content="PCA,Dimensional Reduction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PCA">
+<meta property="og:url" content="http://tkdguq05.github.io/2019/05/23/PCA/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-05-23T07:38:20.161Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Unreasonable Effectiveness">
+<meta name="twitter:title" content="PCA">
+<meta name="twitter:description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
 
 
 
@@ -101,7 +106,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="Unreasonable Effectiveness" height="28">
+                <img src="/images/logo.svg" alt="PCA" height="28">
             
             </a>
         </div>
@@ -153,170 +158,143 @@
     enable_page_level_ads: true
   });
 </script>
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="tag is-link">
-        April 2019
-        </h3>
-        <div class="timeline">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
         
-            <article class="media">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time>
                 
-                <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture_Selection_Information_Value">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-25T02:40:50.000Z">2019-04-25</time>
-                        <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="has-link-black-ter is-size-6">Fearuture_Selection_Information_Value</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>
                 </div>
-            </article>
-        
-            <article class="media">
                 
-                <a href="/2019/04/17/Elice-Start/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-                    </p>
-                </a>
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time>
-                        <a href="/2019/04/17/Elice-Start/" class="has-link-black-ter is-size-6">Elice_Start</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a> / <a class="has-link-grey -link" href="/categories/coding-test/Algorithm/blog/">blog</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+                <span class="level-item has-text-grey">
+                    
+                    
+                    14 minutes read (About 2090 words)
+                </span>
                 
-                <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Coding_Word_Pattern">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-17T08:08:03.000Z">2019-04-17</time>
-                        <a href="/2019/04/17/Elice-Coding-Word-Pattern/" class="has-link-black-ter is-size-6">Elice_Coding_Word_Pattern</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2019/04/12/programmers-carpet/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers Carpet">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-12T07:48:10.000Z">2019-04-12</time>
-                        <a href="/2019/04/12/programmers-carpet/" class="has-link-black-ter is-size-6">programmers Carpet</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2019/04/12/programmers-the-Biggest-Number/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers the Biggest Number">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-12T05:43:10.000Z">2019-04-12</time>
-                        <a href="/2019/04/12/programmers-the-Biggest-Number/" class="has-link-black-ter is-size-6">programmers the Biggest Number</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/python/">python</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a> / <a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <a href="/2019/04/01/My-SQL-Workbench-Bug-issue/" class="media-left">
-                    <p class="image is-64x64">
-                        <img class="thumbnail" src="/images/mysql_workbench.png" alt="My SQL Workbench Bug issue">
-                    </p>
-                </a>
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-04-01T12:33:54.000Z">2019-04-01</time>
-                        <a href="/2019/04/01/My-SQL-Workbench-Bug-issue/" class="has-link-black-ter is-size-6">My SQL Workbench Bug issue</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/sql/">sql</a> / <a class="has-link-grey -link" href="/categories/sql/debug/">debug</a> / <a class="has-link-grey -link" href="/categories/sql/debug/삽질/">삽질</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
+            </div>
         </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                PCA
+            
+        </h1>
+        <div class="content">
+            <h1 id="Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자"><a href="#Dimensional-Reduction에-쓰이는-PCA에-대해-알아보자" class="headerlink" title="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자"></a>Dimensional Reduction에 쓰이는 PCA에 대해 알아보자</h1><h2 id="PCA-Principal-Component-Analysis"><a href="#PCA-Principal-Component-Analysis" class="headerlink" title="PCA(Principal Component Analysis)"></a>PCA(Principal Component Analysis)</h2><p>데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분하게 나오고, 노이즈도 많이 껴있는 것 같다. PCA는 이런 경우에 자주 사용되는 알고리즘이다. PCA는 그러니까 relative하지만 redundant한 feature를 제거하는데 자주 사용된다.</p>
+<p>PCA를 이용했을때, 두가지의 효과를 가져올 수 있다.</p>
+<ul>
+<li>차원 축소(Dimensional Reduction) : 데이터를 표현하는 속성의 수를 축소</li>
+<li>요소 분석(Factor Analysis) : 관찰 가능한 데이터 = 잠재적인 변수(latent variable)와 noise의 선형결합</li>
+</ul>
+<p>우리는 차원 축소에 대한 내용을 살펴볼 것이다.</p>
+<p>아까의 상황을 다시 가져와보자. 이전의 예에서 복잡한 feature들은 사실 highly correlated 되어 있기 때문에 문제가 있는 것이다. 변수들의 서로 연관되어 있으면 설명량은 올라가지만, 좋은 모델이라고 볼 수 없고, 어떤 변수가 타겟에 어떻게 영향을 주는지 알지 못한다. 불필요한(서로 연관되어 있거나, 결과와 상관없는) 변수들은, 변수들을 모으고 분석하는데 드는 비용을 증가시켜서, 예측 모델 또는 분류 모델을 만들 때 전체 비용을 증가시키는 원인이 된다.</p>
+<p>따라서 불필요한 변수들을 제거하는 필요성이 제기되고 Machine Learning 영역에서는 본래 모델이 가지고 있던 성질이나 정확도를 최대한 유지하면서 차원을 줄이는 방법을 통하여 위에서 설명된 문제점을 해결하려고 한다.</p>
+<p>모델의 차원(dimensionality)은 모델에 사용되는 독립(independence) 변수 또는 입력(input) 변수의 개수(number)를 의미한다. 우리가 GLM(Generalized Linear Model)을 사용하는 이유처럼 독립변수가 타겟에 미치는 영향을 제대로 알기 위해서 독립적인 변수가 필요한 것이다. 통계에서 항상 IID 조건을 사용하는 것과 유사하다.</p>
+<h3 id="Dimensional-Reduction"><a href="#Dimensional-Reduction" class="headerlink" title="Dimensional Reduction"></a>Dimensional Reduction</h3><p>Dimensional Reduction의 핵심 아이디어는, 상관도가 높은(interrelated, correlated) 변수들이 많이 존재하는 데이터 집합의 차원(Dimensionality)을 줄이면서, 동시에 데이터 집합에 존재하고 있는 차이(Variation, 정보)를 최대한 유지하는 것이다. 즉, 차원을 줄이되 “정보 손실을 최소화”하는 것이다. 여기서 정보란 데이터간의 거리, 실제적인 위치를 정보라고 표현한다. 위치, 상대적인 거리를 뜻하는 것이다. 차원이 줄어들기 때문에 정보의 손실은 어느 정도 감수해야 한다.</p>
+<p>Dimensional Reduction은 원래 공간에서 데이터가 퍼져 있는 정도를 변환된(축소된) 공간에서 얼마나 잘 유지하느냐를 척도로 삼는다. 원래 공간의 정보가 변환된 공간에서 얼마나 잘 유지하는지는 변환된 공간에서의 데이터의 분산으로 측정한다.따라서, 변환된 공간에서 데이터의 분산을 최대로 할 수 있는 좌표축을 찾아야 한다.</p>
+<p>즉, PCA는 원래 공간에서 데이터가 분산되어 있는 주요한 방향(Principal direction)을 찾는 것이 목표가 된다.<br>여러축으로 구성되어 있는 데이터를 주성분 분석으로 통해 기존의 feature들과는 다른 새로운 축으로써 다시 구성해보되, 분산을 최대로 유지한다.</p>
+<h3 id="PCA"><a href="#PCA" class="headerlink" title="PCA"></a>PCA</h3><p>PCA에서 데이터가 분산되어 있는 주요한 방향(Principal Component)을 찾는 단계는 다음과 같다.</p>
+<ol>
+<li>데이터를 투영(Projection)하기</li>
+<li>투영된 공간에서 분산 측정하기</li>
+<li>분산의 최대치는 어떻게 찾는가?</li>
+</ol>
+<p>데이터를 여러 축에 투영해보면서 투영된 공간에서 분산을 측정하고, 가장 분산이 큰 축을 선택하는 것이 바로 PCA이다.<br>새로운 축이 $u$이라고 했을때, 축으로 이동된 새 데이터 포인트 $X_{new} = u^TX$이다. (𝕦t 𝕩= 𝕦 ⋅ 𝕩 cos𝜃= 𝕩 cos𝜃) </p>
+<p>이제 투영된 공간에서 분산을 측정해보자. 먼저, PCA를 실행하기 전에 데이터의 평균(mean)과 분산(variance)를 정규화(standardization) 해 준다.(Pre-process the data) 데이터는 특성 벡터로 표현되는데, 특성 벡터의 각 원소들에서 각각의 평균과 빼 주고, 분산의 제곱근으로 나누어 준다.</p>
+<p>정규화 과정에서</p>
+<ul>
+<li>데이터에서평균을빼는것:데이터의 평균이 0이 되도록 만든다.</li>
+<li>데이터에서 분산의 제곱근을 나누어 주는 것 : 데이터의 값 들이 unit variance를 갖게 해 준다.</li>
+</ul>
+<h4 id="새-축으로-이동된-데이터의-분산-구하기"><a href="#새-축으로-이동된-데이터의-분산-구하기" class="headerlink" title="새 축으로 이동된 데이터의 분산 구하기"></a>새 축으로 이동된 데이터의 분산 구하기</h4><p>각각의 attribute의 평균이 0이 되고, 분산이 1이 된다. 즉 같은 “scale”을 가지게 되어, attribute간의 비교가 가능 해진다.<br>데이터 포인트 $x_{1}, x_{2}, x_{3}, x_{4}, x_{5}$가 있을 때, u의 축으로 투영된 데이터 포인트$x_{1}^Tu, x_{2}^Tu, x_{3}^Tu, x_{4}^Tu, x_{5}^Tu$의 분산을 구해보자.</p>
+<p>먼저 평균값을 구해놓자.</p>
+<p>$$\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0$$<br>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
+<p>분산을 구해보자.</p>
+<p>$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 = \sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$ ($\mu$가 0이므로)<br>$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$ (u는 unit vector이다.)</p>
+<p>이것은 결론적으로<br>$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$<br>$=u^T\sum u$ 식이 도출된다.</p>
+<p>= Σ는 (공 분산 행렬)로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 분산을 구할 수 있다.</p>
+<h4 id="분산의-최대치-구하기"><a href="#분산의-최대치-구하기" class="headerlink" title="분산의 최대치 구하기"></a>분산의 최대치 구하기</h4><p>우리는 Principal Component, 즉, 주성분을 구하는 것이 목적이므로, 데이터의 분산이 최대가 되도록 만드는 축을 구해야 한다. 분산의 최대치를 구하기 위해서 변환된(투영된) 공간에서 분산을 최대화 해 줄 수 있는 벡터 $u$를 찾아야 한다. $u$는 unit vector라고 생각하자. 우리가 구하고자 하는 $u$는 방향이 중요하기 때문이다. 즉, $u^Tu = 1$이다.</p>
+<p>따라서 문제는 $u$가 unit vector일 때의 $u^T\sum u$의 최대값을 구하는 조건부 최적화 문제가 된다.</p>
+<p>$Maximize$ $u^T\sum u$<br>$s.t$ $u^Tu=1$</p>
+<p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.<br>$$\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)$$</p>
+<p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
+<p>이렇게 구한식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
+<p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.<br>$$argmax_{u}u^T\sum u = argmax_{u}\lambda$$</p>
+<p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
+<p>분산의 최대값은, 𝕦가 Σ의 eigenvalue 중 가장 큰 값을 가지는 eigenvalue에 대응되는 eigenvector일 때 달성된다. 우리는 이것을 주성분이라고도 부른다.</p>
+<p>이 다음의 주성분을 구하는 것은 간단하다. D차원에서 주성분은 데이터 공분산 행렬의 가장 큰 eigenvalue에서 부터 D번째로 큰 eigenvalue까지에 대 응되는 D개의 eigenvector가 될 것이다.</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Dimensional-Reduction/">Dimensional Reduction</a>, <a class="has-link-grey -link" href="/tags/PCA/">PCA</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
     </div>
 </div>
 
 
 
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/21/SQL-Recipe-01/">
+                <span class="level-item">SQL_Recipe_01</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2019/05/23/PCA/';
+        this.page.identifier = '2019/05/23/PCA/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = 'https://https-tkdguq05-github-io.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
 </div>
                 
 
@@ -1560,7 +1538,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="Unreasonable Effectiveness" height="28">
+                    <img src="/images/logo.svg" alt="PCA" height="28">
                 
                 </a>
                 <p class="is-size-7">
