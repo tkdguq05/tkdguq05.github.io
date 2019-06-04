@@ -1,6 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>클래스에 대해서 알아보자 - Unreasonable Effectiveness</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<link rel="canonical" href="http://tkdguq05.github.io/2019/01/28/class/">
+
+
+
+    <meta name="description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+<meta name="keywords" content="class">
+<meta property="og:type" content="article">
+<meta property="og:title" content="클래스에 대해서 알아보자">
+<meta property="og:url" content="http://tkdguq05.github.io/2019/01/28/class/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-02-13T08:29:13.696Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="클래스에 대해서 알아보자">
+<meta name="twitter:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+
+
+
+
+
+<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({
