@@ -1,105 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.8.0">
-<!-- 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9443112709859631",
-    enable_page_level_ads: true
-  });
-</script>
-    <meta charset="utf-8">
-<title>Ensemble_Model - Unreasonable Effectiveness</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<link rel="canonical" href="http://tkdguq05.github.io/2019/05/05/ensemble-model/">
-
-
-
-    <meta name="description" content="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다. NFL (No Free Lunch)No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이">
-<meta name="keywords" content="Ensemble,RandomForest">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Ensemble_Model">
-<meta property="og:url" content="http://tkdguq05.github.io/2019/05/05/Ensemble-Model/index.html">
-<meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다. NFL (No Free Lunch)No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-15T05:04:26.951Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ensemble_Model">
-<meta name="twitter:description" content="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다. NFL (No Free Lunch)No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이">
-
-
-
-
-
-<link rel="icon" href="/images/favicon.svg">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-140404038-1');
-</script>
-
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-
-    
-
-
-<link rel="stylesheet" href="/css/style.css"> -->
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({
           google_ad_client: "ca-pub-9443112709859631",
@@ -158,13 +60,8 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9443112709859631",
-    enable_page_level_ads: true
-  });
-</script>
+
+
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-image">

@@ -1,105 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head><meta name="generator" content="Hexo 3.8.0">
-<!-- 	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9443112709859631",
-    enable_page_level_ads: true
-  });
-</script>
-    <meta charset="utf-8">
-<title>PCA - Unreasonable Effectiveness</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<link rel="canonical" href="http://tkdguq05.github.io/2019/05/23/pca/">
-
-
-
-    <meta name="description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
-<meta name="keywords" content="PCA,Dimensional Reduction">
-<meta property="og:type" content="article">
-<meta property="og:title" content="PCA">
-<meta property="og:url" content="http://tkdguq05.github.io/2019/05/23/PCA/index.html">
-<meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-05-23T13:12:37.196Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PCA">
-<meta name="twitter:description" content="Dimensional Reduction에 쓰이는 PCA에 대해 알아보자PCA(Principal Component Analysis)데이터 분석을 하다보면 답답한 경우가 자주 발생한다. 모델을 돌려야 하는데 feature가 너무 많아서 연산 코스트가 너무 많이 들고, 계산하는데 너무 오랜 시간이 걸리는 것이다. 결과를 봤더니, 복잡한 feature때문에 지저분">
-
-
-
-
-
-<link rel="icon" href="/images/favicon.svg">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
-
-
-    
-    
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
-
-    
-    
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
-
-    
-    
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-
-    
-    
-    
-    
-
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-
-    
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-140404038-1');
-</script>
-
-
-    
-    
-    
-    
-
-    
-    
-<link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
-    
-    
-    
-
-    
-
-
-<link rel="stylesheet" href="/css/style.css"> -->
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <script>
      (adsbygoogle = window.adsbygoogle || []).push({
           google_ad_client: "ca-pub-9443112709859631",
@@ -158,13 +60,8 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-9443112709859631",
-    enable_page_level_ads: true
-  });
-</script>
+
+
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
     
     <div class="card-image">
