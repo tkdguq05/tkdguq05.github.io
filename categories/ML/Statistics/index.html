@@ -356,20 +356,23 @@
 </ul>
 <h4 id="새-축으로-이동된-데이터의-분산-구하기"><a href="#새-축으로-이동된-데이터의-분산-구하기" class="headerlink" title="새 축으로 이동된 데이터의 분산 구하기"></a>새 축으로 이동된 데이터의 분산 구하기</h4><p>각각의 attribute의 평균이 0이 되고, 분산이 1이 된다. 즉 같은 “scale”을 가지게 되어, attribute간의 비교가 가능 해진다.<br>데이터 포인트 $x_{1}, x_{2}, x_{3}, x_{4}, x_{5}$가 있을 때, u의 축으로 투영된 데이터 포인트$x_{1}^Tu, x_{2}^Tu, x_{3}^Tu, x_{4}^Tu, x_{5}^Tu$의 분산을 구해보자.</p>
 <p>먼저 평균값을 구해놓자.</p>
-<script type="math/tex; mode=display">\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0</script><p>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
+<p>$$\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0$$<br>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
 <p>분산을 구해보자.</p>
-<script type="math/tex; mode=display">\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2</script><p>($\mu$가 0이므로)</p>
-<script type="math/tex; mode=display">={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u</script><p>($u$는 unit vector이다.)</p>
-<p>이것은 결론적으로</p>
-<script type="math/tex; mode=display">=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u</script><script type="math/tex; mode=display">=u^T\sum u</script><p>식이 도출된다.</p>
+<p>$$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$$<br>($\mu$가 0이므로)</p>
+<p>$$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$$</p>
+<p>($u$는 unit vector이다.)</p>
+<p>이것은 결론적으로<br>$$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$$</p>
+<p>$$=u^T\sum u$$<br>식이 도출된다.</p>
 <p>Σ는 공분산 행렬로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 새 축의 분산을 구할 수 있다.</p>
 <h4 id="분산의-최대치-구하기"><a href="#분산의-최대치-구하기" class="headerlink" title="분산의 최대치 구하기"></a>분산의 최대치 구하기</h4><p>우리는 Principal Component, 즉, 주성분을 구하는 것이 목적이므로, 데이터의 분산이 최대가 되도록 만드는 축을 구해야 한다. 분산의 최대치를 구하기 위해서 변환된(투영된) 공간에서 분산을 최대화 해 줄 수 있는 벡터 $u$를 찾아야 한다. $u$는 unit vector라고 생각하자. 우리가 구하고자 하는 $u$는 방향이 중요하기 때문이다. 즉, $u^Tu = 1$이다.</p>
 <p>따라서 문제는 $u$가 unit vector일 때의 $u^T\sum u$의 최대값을 구하는 조건부 최적화 문제가 된다.</p>
-<script type="math/tex; mode=display">\max u^T\sum u</script><script type="math/tex; mode=display">s.t \space u^Tu=1</script><p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.</p>
-<script type="math/tex; mode=display">\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)</script><p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
-<p>이렇게 구한 식을 나타내면</p>
-<script type="math/tex; mode=display">u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda</script><p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.</p>
-<script type="math/tex; mode=display">argmax_{u}u^T\sum u = argmax_{u}\lambda</script><p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
+<p>$$\max u^T\sum u$$</p>
+<p>$$s.t \space u^Tu=1$$</p>
+<p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.<br>$$\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)$$</p>
+<p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
+<p>이렇게 구한 식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
+<p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.<br>$$argmax_{u}u^T\sum u = argmax_{u}\lambda$$</p>
+<p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
 <p>분산의 최대값은, 𝕦가 Σ의 eigenvalue 중 가장 큰 값을 가지는 eigenvalue에 대응되는 eigenvector일 때 달성된다. 우리는 이것을 주성분이라고도 부른다.</p>
 <p>이 다음의 주성분을 구하는 것은 간단하다. D차원에서 주성분은 데이터 공분산 행렬의 가장 큰 eigenvalue에서 부터 D번째로 큰 eigenvalue까지에 대응되는 D개의 eigenvector가 될 것이다.</p>
 
@@ -437,6 +440,8 @@
 <li>훈련 데이터에서 다수의 표본을 추출하고, 개별 트리의 결과를 병합하여 단일 예측 모델을 생성</li>
 <li>각 bootstrap 과정이 독립적이므로 병렬 처리가 가능</li>
 </ul>
+</blockquote>
+<blockquote>
 <p>Boosting</p>
 <ul>
 <li>Bagging과는 달리 순차적으로 시행되며 bootstrap 과정이 없음</li>
@@ -558,6 +563,8 @@
 <li>Feature Vector의 subspace를 이용해서 샘플 부분 집합을 생성하고 분류기를 훈련한다.</li>
 <li>앙상블의 분류기는 요소분류기와 기초분류기로 구분된다.</li>
 </ul>
+</blockquote>
+<blockquote>
 <h4 id="앙상블-결합"><a href="#앙상블-결합" class="headerlink" title="앙상블 결합"></a>앙상블 결합</h4><p>요소 분류기(기초 학습기)들의 출력을 결합하여 하나의 분류 결과를 만드는 과정이다.<br>요소 분류기의 출력은 세가지의 방식으로 나뉜다.</p>
 <ul>
 <li>Class Label<ul>
@@ -589,7 +596,7 @@
 </ul>
 <p>배깅은 분산을 감소시키기 위해, 훈련데이터에서 많은 샘플링을 하고(Bootstrap), 샘플들로 별도의 Decision Tree를 구성한 후, 회귀나 분류문제를 푸는데 사용된다. 회귀는 분류기 결과의 평균값을 사용하고, 분류는 최빈값을 취한다.</p>
 <p>배깅은 이미 저분산 모델인 경우 별로 효과가 없다. Bias-Variance Tradeoff 를조금만 생각해보자. 분산이 이미 줄어있는 상태에서는 더 줄일 분산이 없다. 배깅은 오직 분산을 줄이는 데 효과적이다.</p>
-<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e" target="_blank" rel="noopener">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e</a>])</p>
+<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]" target="_blank" rel="noopener">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]</a>)</p>
 <p>부트스트랩되지 않은 샘플들은 한번도 사용되지 않은 샘플들로 검증데이터에 활용할 수 있다. 이런 training observations은 out-of-bag observations이라고 불린다.</p>
 <h4 id="OOB-estimate-of-test-error"><a href="#OOB-estimate-of-test-error" class="headerlink" title="OOB estimate of test error"></a>OOB estimate of test error</h4><ul>
 <li>부트스트랩 샘플을 이용하여 개별 학습기를 학습한 후, OOB에 속하는 샘플들에 대한 예측값을 모두 구한다.</li>
@@ -603,6 +610,8 @@
 <p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
 <blockquote>
 <h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
+</blockquote>
+<blockquote>
 <h4 id="Random-Forest-모델의-장단점"><a href="#Random-Forest-모델의-장단점" class="headerlink" title="Random Forest 모델의 장단점?"></a>Random Forest 모델의 장단점?</h4><p>장점 : 굉장히 간편하다. 스케일링도 필요없고 파라미터 튜닝을 많이 안해도 성능이 뛰어나다. 의사결정의 트리의와 배깅의 단점은 극복하고 장점만을 가져온 것이라고 할 수 있다.</p>
 </blockquote>
 <p>단점 : 차원이 높고 매우 희소한 데이터에서는 잘 작동하지 않는다. 이런 희소한 데이터에는 선형 모델이 더 적합할 수 있다.</p>
@@ -673,7 +682,6 @@
 <ul>
 <li>Information Value 값의 의미</li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -704,7 +712,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>Information Value를 통해서 ‘이 feature를 꼭 사용해야하나?’에 대해 어느정도 답을 내릴 수 있다.</p>
 <p>Information Value가 0.5~1.0인 구간을 보면, 강한 예측이지만 의심되는 수치라고 되어있다. 처음보면 이게 무슨 의미인지 잘 이해가 안될 것이다. ‘너무 예측을 잘하는데 수치를 의심하라고?’</p>
 <p>하지만 잘 생각해보자. IV는 WOE를 활용한다. WOE는 good과 bad의 분포를 이용하는데, 데이터가 good으로 쏠려있을 경우 WOE는 무조건 잘 나올 수 밖에 없고, 이에 따라 IV값도 잘 나오게 된다. </p>
@@ -713,7 +720,6 @@
 <p>Column이 제대로 되어있지 않기 때문에 노가다로 넣어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">COL = [</span><br><span class="line">    <span class="hljs-string">'Status_of_existing_checking_account'</span>, </span><br><span class="line">    <span class="hljs-string">'Duration_in_month'</span>,</span><br><span class="line">    <span class="hljs-string">'Credit_history'</span>,</span><br><span class="line">    <span class="hljs-string">'Purpose'</span>, </span><br><span class="line">    <span class="hljs-string">'Credit_amount'</span>, </span><br><span class="line">    <span class="hljs-string">'Savings_account_bonds'</span>, </span><br><span class="line">    <span class="hljs-string">'Present_employment_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Installment_rate_in_percentage_of_disposable_income'</span>,</span><br><span class="line">    <span class="hljs-string">'Personal_status_and_sex'</span>,</span><br><span class="line">    <span class="hljs-string">'Other_debtors_guarantors'</span>,</span><br><span class="line">    <span class="hljs-string">'Present_residence_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Property'</span>, </span><br><span class="line">    <span class="hljs-string">'Age_in_years'</span>, </span><br><span class="line">    <span class="hljs-string">'Other_installment_plans'</span>, </span><br><span class="line">    <span class="hljs-string">'Housing'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_existing_credits_at_this_bank'</span>,</span><br><span class="line">    <span class="hljs-string">'Job'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_people_being_liable_to_provide_maintenance_for'</span>,</span><br><span class="line">    <span class="hljs-string">'Telephone'</span>,</span><br><span class="line">    <span class="hljs-string">'foreign_worker'</span>,</span><br><span class="line">    <span class="hljs-string">'Target'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>Target값을 0, 1로 만들어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="hljs-string">'Target'</span>] = dataset[<span class="hljs-string">'Target'</span>] - <span class="hljs-number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>Information Value를 구하는 코드<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">max_bin = <span class="hljs-number">10</span>  <span class="hljs-comment"># 전체 데이터의 예측력에 해를 가하지 않는 한에서 구간을 테스트하였습니다. 통상적으로 10개로 나눔, 15개 20개 다 나눠보고</span></span><br><span class="line"><span class="hljs-comment"># 값이 잘나오는 bin을 선택함</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calc_iv</span><span class="hljs-params">(df, col, label, max_bin = max_bin)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""IV helper function"""</span></span><br><span class="line">    bin_df = df[[col, label]].copy()</span><br><span class="line">    <span class="hljs-comment"># Categorical column</span></span><br><span class="line">    <span class="hljs-keyword">if</span> bin_df[col].dtype == <span class="hljs-string">'object'</span>:</span><br><span class="line">        bin_df = bin_df.groupby(col)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    <span class="hljs-comment"># Numerical column</span></span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        bin_df.loc[:, <span class="hljs-string">'bins'</span>] = pd.qcut(bin_df[col].rank(method=<span class="hljs-string">'first'</span>), max_bin)</span><br><span class="line"><span class="hljs-comment">#         bin_df.loc[:, 'bins'] = pd.cut(bin_df[col], max_bin)</span></span><br><span class="line">        bin_df = bin_df.groupby(<span class="hljs-string">'bins'</span>)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.columns = [<span class="hljs-string">'total'</span>, <span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal'</span>] = bin_df[<span class="hljs-string">'total'</span>] - bin_df[<span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal_dist'</span>] = bin_df[<span class="hljs-string">'normal'</span>] / sum(bin_df[<span class="hljs-string">'normal'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'abuse_dist'</span>] = bin_df[<span class="hljs-string">'abuse'</span>] / sum(bin_df[<span class="hljs-string">'abuse'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'woe'</span>] = np.log(bin_df[<span class="hljs-string">'normal_dist'</span>] / bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'iv'</span>] = bin_df[<span class="hljs-string">'woe'</span>] * (bin_df[<span class="hljs-string">'normal_dist'</span>] - bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.replace([np.inf, -np.inf], <span class="hljs-number">0</span>, inplace=<span class="hljs-keyword">True</span>)</span><br><span class="line">    bin_df = bin_df[bin_df[<span class="hljs-string">'total'</span>] &gt; <span class="hljs-number">0</span>]</span><br><span class="line">    iv_val = sum(filter(<span class="hljs-keyword">lambda</span> x: x != float(<span class="hljs-string">'inf'</span>), bin_df[<span class="hljs-string">'iv'</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> bin_df, col, iv_val</span><br><span class="line">``` </span><br><span class="line">```python</span><br><span class="line">ch_df, ch, ch_i_val = calc_iv(dataset,<span class="hljs-string">'Credit_history'</span>, <span class="hljs-string">'Target'</span>)</span><br><span class="line">ch_df</span><br></pre></td></tr></table></figure></p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -790,7 +796,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 
         </div>
         
@@ -847,7 +852,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        19
+                        20
                     </p>
                 </div>
             </div>
@@ -867,7 +872,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        29
+                        30
                     </p>
                 </div>
             </div>
@@ -970,7 +975,7 @@
                 <span class="level-item">blog</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/book/">
@@ -1080,7 +1085,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a>
+        <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 10px;">글또</a>
     </div>
 </div>
 
@@ -1094,6 +1099,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/geultto/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/geultto/" class="has-link-black-ter is-size-6">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1171,25 +1195,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/15/Boosting/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T05:20:51.000Z">2019-05-15</time></div>
-                    <a href="/2019/05/15/Boosting/" class="has-link-black-ter is-size-6">Boosting</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1201,6 +1206,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/05/">
@@ -1574,6 +1590,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/글또/">
+                        <span class="level-start">
+                            <span class="level-item">글또</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
@@ -1603,6 +1630,25 @@
         
         <article class="media">
             
+            <a href="/2019/07/07/geultto/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/geultto/" class="has-link-black-ter is-size-6">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/05/29/Metrics/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
@@ -1677,25 +1723,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/15/Boosting/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T05:20:51.000Z">2019-05-15</time></div>
-                    <a href="/2019/05/15/Boosting/" class="has-link-black-ter is-size-6">Boosting</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1707,6 +1734,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/05/">
@@ -2080,6 +2118,17 @@
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/글또/">
+                        <span class="level-start">
+                            <span class="level-item">글또</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
