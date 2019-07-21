@@ -25,7 +25,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="/Lato.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
 
@@ -87,15 +87,8 @@
 
 
 <link rel="stylesheet" href="/css/style.css">
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({
-          google_ad_client: "ca-pub-9443112709859631",
-          enable_page_level_ads: true
-     });
-</script>
 </head>
-<body class="is-3-column">
+<body class="is-2-column">
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
@@ -146,9 +139,137 @@
     <section class="section">
         <div class="container">
             <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-12-widescreen has-order-2 column-main">
+    <div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/07/18/Bandit/" class="image is-7by1">
+            <img class="thumbnail" src="/images/bandit.png" alt="Multi Armed Bandit 알고리즘?">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-18T01:13:21.000Z">2019-07-18</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Algorithm/">Algorithm</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Algorithm/Automation/">Automation</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    26 minutes read (About 3922 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/07/18/Bandit/">Multi Armed Bandit 알고리즘?</a>
+            
+        </h1>
+        <div class="content">
+            <p>이 글의 주 소스 링크를 먼저 밝힙니다. 원작자에게 먼저 허락을 구하고 글을 작성했습니다.<br>[<a href="https://www.kaggle.com/ruslankl/how-to-deal-with-multi-armed-bandit-problem]" target="_blank" rel="noopener">https://www.kaggle.com/ruslankl/how-to-deal-with-multi-armed-bandit-problem]</a></p>
+<h1 id="Multi-Armed-Bandit-MAB-란"><a href="#Multi-Armed-Bandit-MAB-란" class="headerlink" title="Multi Armed Bandit(MAB) 란?"></a>Multi Armed Bandit(MAB) 란?</h1><p>마케팅이든 아니면 의학적인 실험에서든 사용자에게 어떤 게 가장 좋은 것 인지 확인하는 방법은 무엇일까요?<br>바로 Multi Armed Bandit Algorithm입니다. 특히 Thompson Sampling이라는 기법과 같이 사용된다면 굉장히 효과적으로 가장 좋은 선택이 무엇인지 알아낼 수 있습니다.(실제로 추천 알고리즘의 Cold Start 문제 등에 효과적으로 적용되고 있는 알고리즘 중 하나입니다.)</p>
+<p>마케팅 캠페인을 한다고 합시다. 마케팅 캠페인에서는 보통 CTR(Click Through Rate)을 이용해서 광고가 효과적인지 판단하곤 합니다.(물론 마케팅 회사마다 케이스 바이 케이스이긴 합니다만, 일단 CTR이라고 가정하고 넘어가 봅시다)</p>
+<ul>
+<li>CTR 예시, 어떤 광고가 100번 노출되고 유저가 10번 클릭을 한다면, 이 광고의 CTR은 10/100으로 0.1입니다.</li>
+</ul>
+<p>이야기가 나온김에 Regret도 같이 설명하자면, Regret은 가능한 CTR중 최고의 CTR과 지금 있는 CTR을 빼준 값입니다. 광고 A의 CTR이 0.1이고 B가 0.3이라고 할 때, A를 보여줬을 때 Regret은 $0.3 - 0.1 = 0.2$가 됩니다.</p>
+<p>이제 광고에 대한 여러 안들이 있고, 어떤 광고가 가장 효과적인지 확인하려고 합니다. 하지만 광고에 대해서 어떤 사전 정보도 없다면 어떨까요?, 어떻게 여러 대안중에 효과적인 광고를 골라낼 수 있을까요? 이럴 때는 보통 사용하는 방법이 A/B test입니다. A/B 테스트는 말 그대로 A안과 B안을 노출시켜서(노출 비율은 정할 수 있다) 두 집단의 각각 다른 효과를 확인하기 위해서 사용되는 방법입니다. (wiki 설명 : A/B 테스트는 변수 A에 비해 대상이 변수 B에 대해 보이는 응답을 테스트하고, 두 변수 중 어떤 것이 더 효과적인지를 판단함으로써 단일 변수에 대한 두 가지 버전을 비교하는 방법이다, <a href="https://ko.wikipedia.org/wiki/A/B_%ED%85%8C%EC%8A%A4%ED%8A%B8" target="_blank" rel="noopener">https://ko.wikipedia.org/wiki/A/B_%ED%85%8C%EC%8A%A4%ED%8A%B8</a>) </p>
+<p>‘아 그럼 A/B 테스트 하고 좋은 거 그냥 뽑으면 되겠네!’라고 생각할 수 있겠지만, 회사에서 이 테스팅을 진행한다고 생각해 봅시다. 주의할 점이 있습니다. A안을 기존에 하던 광고라고 하고 B를 실험하는 광고라고 해봅시다. A안 광고를 통해서는 꾸준히 매출을 기록하고 있고, B안은 아직 확실하지 않습니다. B가 아마 효과적이라고 하는데 아직 의심스럽습니다. 만약 테스팅을 하는데 B의 효과가 너무 떨어진다면 어떨까요?</p>
+<ul>
+<li>기존 광고 효과의 목표치에 도달하지 못한다.</li>
+<li>매출이 떨어진다.</li>
+<li>고객이 실망하고 이탈한다.</li>
+</ul>
+<p>이런 상황이 가능하지 않을까요? 그래서 MAB에서 중요한 것은, <code>Exploration</code>과 <code>Exploitaion</code>입니다. 한국어로 쉽게 말하면, 탐색하기와 뽑아먹기 입니다. 쉽게 탐색과 이용이라고 하겠습니다.</p>
+<h4 id="Exploration은-탐색하는-것입니다-새로운-안에-대해서-계속-테스트하고-실험해-보는-것입니다"><a href="#Exploration은-탐색하는-것입니다-새로운-안에-대해서-계속-테스트하고-실험해-보는-것입니다" class="headerlink" title="Exploration은 탐색하는 것입니다. 새로운 안에 대해서 계속 테스트하고 실험해 보는 것입니다."></a>Exploration은 탐색하는 것입니다. 새로운 안에 대해서 계속 테스트하고 실험해 보는 것입니다.</h4><h4 id="Exploitation은-이용하는-것입니다-즉-기존에-효과적이었던-광고를-계속-하는-것입니다"><a href="#Exploitation은-이용하는-것입니다-즉-기존에-효과적이었던-광고를-계속-하는-것입니다" class="headerlink" title="Exploitation은 이용하는 것입니다. 즉, 기존에 효과적이었던 광고를 계속 하는 것입니다."></a>Exploitation은 이용하는 것입니다. 즉, 기존에 효과적이었던 광고를 계속 하는 것입니다.</h4><p>결국 A/B테스트이든, MAB이든 중요한 것은, 이 비율을 적절하게 맞춰서 탐색을 간결하게 하고 최대한 효과적으로 이용할 수 있는 대안을 선정하는 것입니다.</p>
+<p>MAB, 즉 Multi Armed Bandit 알고리즘은 여러 대안들(슬롯머신의 Arm에서 이름을 따왔습니다)을 자동으로 실험하고 최적의 광고를 탐색과 이용사이에서 균형을 잡으면서 빠르게 찾는데 좋은 알고리즘입니다. Multi Armed Bandit 알고리즘들은 몇 가지 종류가 있습니다만 거의 모든 알고리즘은 위에서 소개한 Regret을 줄이는 것을 목표로 하고 있습니다.</p>
+<p>주요 알고리즘들은 다음과 같습니다.</p>
+<ul>
+<li>Random Selection</li>
+<li>Epsilon Greedy</li>
+<li>Thompson Sampling</li>
+<li>Upper Confidence Bound (UCB1)</li>
+</ul>
+<p>이 알고리즘들을 가지고 실험을 하기 전에 CTR을 사전에 설정해 둘 필요가 있습니다. 설정해둔 CTR로 광고가 주어졌을 때 클릭에 대한 시뮬레이션을 진행할 수 있습니다.</p>
+<p>먼저 CTR을 비현실적이지만 0.45와 0.65로 설정하겠습니다.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ACTUAL_CTR = [<span class="hljs-number">.45</span>, <span class="hljs-number">.65</span>]</span><br></pre></td></tr></table></figure>
+<h3 id="1-Random-Selection"><a href="#1-Random-Selection" class="headerlink" title="1. Random Selection"></a>1. Random Selection</h3><p>Random Selection은 말그대로 탐색을 하지 않고 동전 튕기기를 이용해서 앞면이면 광고0, 뒷면이면 광고1을 보여주는 알고리즘입니다. 정말 간단합니다!</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">n=<span class="hljs-number">1000</span></span><br><span class="line"></span><br><span class="line">regret = <span class="hljs-number">0</span></span><br><span class="line">total_reward = <span class="hljs-number">0</span></span><br><span class="line">regret_list = []</span><br><span class="line">ctr = &#123;<span class="hljs-number">0</span>: [], <span class="hljs-number">1</span>:[]&#125; <span class="hljs-comment">#lists for collecting the calculated CTR</span></span><br><span class="line">index_list = [] <span class="hljs-comment"># lists for collecting the number of randomly choosen Ad</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">#initial values for impressons and clicks</span></span><br><span class="line">impressions = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line">clicks = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):</span><br><span class="line">    random_index = np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>] <span class="hljs-comment"># randomly choose the value between [0,1]</span></span><br><span class="line">    index_list.append(random_index)</span><br><span class="line">    impressions[random_index] += <span class="hljs-number">1</span></span><br><span class="line">    did_click = bernoulli.rvs(actual_ctr[random_index])</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">if</span> did_click:</span><br><span class="line">        clicks[random_index] += did_click</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">if</span> impressions[<span class="hljs-number">0</span>] == <span class="hljs-number">0</span> :</span><br><span class="line">        ctr_0 = <span class="hljs-number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">else</span> :</span><br><span class="line">         ctr_0 = clicks[<span class="hljs-number">0</span>]/impressions[<span class="hljs-number">0</span>]</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">if</span> impressions[<span class="hljs-number">1</span>] == <span class="hljs-number">0</span>:</span><br><span class="line">        ctr_1 = <span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">else</span> :</span><br><span class="line">        ctr_1 = clicks[<span class="hljs-number">1</span>]/impressions[<span class="hljs-number">1</span>]</span><br><span class="line">    </span><br><span class="line">    ctr[<span class="hljs-number">0</span>].append(ctr_0)</span><br><span class="line">    ctr[<span class="hljs-number">1</span>].append(ctr_1)</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">## calculate the regret and reward</span></span><br><span class="line">    regret += max(actual_ctr) - actual_ctr[random_index]</span><br><span class="line">    regret_list.append(regret)</span><br><span class="line">    total_reward += did_click</span><br></pre></td></tr></table></figure>
+<p><img src="/images/newplot.png" height="100%" width="100%"></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">Ad #0 has been shown 48.4 % of the time.</span><br><span class="line">Ad #1 has been shown 51.6 % of the time.</span><br><span class="line">Total Reward (Number of Clicks): 546</span><br><span class="line">``` </span><br><span class="line">CTR이야 0.65, 0.45를 잘 찾아간다지만, 중요한 것은 Regret입니다. Regret함수를 보면 함수값이 거의 100대에 육박하는 것을 볼 수 있습니다. 좀 더 좋은 알고리즘을 통해서 Regret을 낮출 필요가 있겠습니다. 마케팅 예산이 무한대라면 그냥 마구잡이로 보여주고 CTR을 측정해서, 높은 CTR을 보이는 광고안을 선정하면 그만입니다. 하지만 일개 사원인 우리들은 예산을 최대한 아껴서 좋은 효율적인 광고를 통해 매출을 극대화 해야하는 사람들입니다. 그렇다면 좀 더 좋은 알고리즘을 살펴보겠습니다.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 2. Epsilon Greedy</span><br><span class="line">Epsilon Greedy 알고리즘은 Random Selection에서 한 단계 업그레이드 된 모델입니다.</span><br><span class="line">이 알고리즘은 탐색과 이용의 비율을 어느정도 조정한다는 것이 큰 특징입니다.</span><br><span class="line"></span><br><span class="line">* ~15%까지는 Exploration</span><br><span class="line">* ~85%까지 Exploitation</span><br><span class="line"></span><br><span class="line">로직은 다음과 같습니다.</span><br><span class="line">1. 초기 몇번 까지는 Exploration(초기 값이 중요!)</span><br><span class="line">2. 각 Exploration마다 최고 점수를 받는 variant 고르기</span><br><span class="line">3. Epsilon 설정</span><br><span class="line">4. (1-E)%의 winning variant를 고르고 다른 옵션에는 E%를 설정한다.</span><br><span class="line"></span><br><span class="line">``` python</span><br><span class="line">e = 0.05</span><br><span class="line">n_init = 100</span><br><span class="line">impressions = [0,0]</span><br><span class="line">clicks = [0,0]</span><br><span class="line"></span><br><span class="line">for i in range(n_init):</span><br><span class="line">    random_index = np.random.randint(0,2,1)[0]</span><br><span class="line">    </span><br><span class="line">    impressions[random_index] += 1</span><br><span class="line">    did_click = bernoulli.rvs(actual_ctr[random_index])</span><br><span class="line">    if did_click:</span><br><span class="line">        clicks[random_index] += did_click</span><br><span class="line">    </span><br><span class="line">ctr_0 = clicks[0] / impressions[0]</span><br><span class="line">ctr_1 = clicks[1] / impressions[1]</span><br><span class="line">win_index = np.argmax([ctr_0, ctr_1])</span><br><span class="line"></span><br><span class="line">print(&apos;After&apos;, n_init, &apos;initial trials Ad #&apos;, \</span><br><span class="line">      win_index, &apos;got the highest CTR&apos;, round(np.max([ctr_0, ctr_1]),2),</span><br><span class="line">     &apos;(Real CTR value is&apos;, actual_ctr[win_index], &apos;)&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">regret = <span class="hljs-number">0</span></span><br><span class="line">total_reward = <span class="hljs-number">0</span></span><br><span class="line">regret_list = []</span><br><span class="line">ctr = &#123;<span class="hljs-number">0</span> : [], <span class="hljs-number">1</span>: []&#125;</span><br><span class="line">index_list = []</span><br><span class="line">impressions = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line">clicks = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):</span><br><span class="line">    epsilon_index = random.choices([win_index, <span class="hljs-number">1</span>-win_index],</span><br><span class="line">                                  [<span class="hljs-number">1</span>-e, e])[<span class="hljs-number">0</span>]</span><br><span class="line">    index_list.append(epsilon_index)</span><br><span class="line">    </span><br><span class="line">    impressions[epsilon_index] +=<span class="hljs-number">1</span></span><br><span class="line">    did_click = bernoulli.rvs(actual_ctr[epsilon_index])</span><br><span class="line">    <span class="hljs-keyword">if</span> did_click :</span><br><span class="line">        clicks[epsilon_index] += did_click</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-keyword">if</span> impressions[<span class="hljs-number">0</span>] == <span class="hljs-number">0</span> :</span><br><span class="line">        ctr_0 = <span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">else</span> :</span><br><span class="line">        ctr_0 = clicks[<span class="hljs-number">0</span>]/impressions[<span class="hljs-number">0</span>]</span><br><span class="line">        </span><br><span class="line">    <span class="hljs-keyword">if</span> impressions[<span class="hljs-number">1</span>] ==<span class="hljs-number">0</span> :</span><br><span class="line">        ctr_1 = <span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">else</span> :</span><br><span class="line">        ctr_1 = clicks[<span class="hljs-number">1</span>]/impressions[<span class="hljs-number">1</span>]</span><br><span class="line">        </span><br><span class="line">    ctr[<span class="hljs-number">0</span>].append(ctr_0)</span><br><span class="line">    ctr[<span class="hljs-number">1</span>].append(ctr_1)</span><br><span class="line">    </span><br><span class="line">    regret += max(actual_ctr) - actual_ctr[epsilon_index]</span><br><span class="line">    regret_list.append(regret)</span><br><span class="line">    total_reward += did_click</span><br></pre></td></tr></table></figure>
+<p><img src="/images/newplot (1).png" height="100%" width="100%"></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ad #0 has been shown 6.2 % of the time.</span><br><span class="line">Ad #1 has been shown 93.8 % of the time.</span><br><span class="line">Total Reward (Number of Clicks): 642</span><br></pre></td></tr></table></figure>
+<p>Random Selection model보다는 훨씬 괜찮은 결과가 나왔습니다. 간단한데 결과는 훨씬 좋아지네요. 하지만 탐색시의 winning variant는 최적의 variant가 아닐 수 있습니다. 사실 suboptimal variant로 탐색 한 것입니다. 이것은 regret을 올리고 보상을 감소시킬 수 밖에 없습니다. 큰 수의 법칙에 따르면, 초기 시도를 많이 할수록, winning variant를 찾을 가능성이 커집니다. 하지만 마케팅에서는 큰 수의 법칙에 결코 따를 수가 없을 겁니다. <del>우리는 일개 사원…</del></p>
+<p>이 알고리즘의 좋은 점은 어떤 비율을 설정할 수 있다는 것입니다. 각기 다른 epsilon값을 선택함으로써 얼마나 자주 winning ad를 보여줄 수 있는지 조정할 수 있는 것입니다.</p>
+<p>좀 더 좋은 알고리즘을 살펴볼까요?</p>
+<h2 id="3-Thompson-Samling"><a href="#3-Thompson-Samling" class="headerlink" title="3. Thompson Samling"></a>3. Thompson Samling</h2><ul>
+<li>50% Exploration</li>
+<li><p>50% Exploitation<br>Thompson Sampling의 탐색 부분은 Epsilon-greedy알고리즘보다 복잡합니다. 이 알고리즘은 단순히 epsilon을 정하는 것이 아니라, Beta distribution을 이용하기 때문입니다. 왜냐하면 광고를 클릭하는 것은 베르누의 과정에 속하기 때문입니다.(클릭했다, 안했다는 1,0으로 표현 가능합니다) 하지만 톰슨 샘플링은 일반적으로 어떤 분포, 어떤 파라미터에서든지 샘플링이 가능하다. 이게 가장 큰 장점 중 하나라고 생각합니다.</p>
+</li>
+<li><p>참고로 Beta 분포는 alpha와 beta 파라미터로 분포의 모양을 조절한다.(prior 조정 가능)</p>
+</li>
+</ul>
+<p>로직은 다음과 같습니다.</p>
+<ol>
+<li>alpha와 beta를 고른다.</li>
+<li>$\alpha=prior+hits$, $\beta=prior+misses$로 계산한다. 우리의 경우는 hits는 클릭 수를 말하고, misses는 클릭없이 impression된 경우를 말합니다(클릭 없는 노출). prior는 CTR에 대한 prior정보가 있으면 유용합니다. 우리는 갖고 있지 않으므로 1.0을 사용할 것 입니다..</li>
+<li>CTR을 추정합니다. 실제 CTR을 베타 분포에서 샘플링하고 $B(\alpha_i,\beta_i)$에서, 추정 CTR이 가장 높은 것을 선택한다.</li>
+<li>2-3을 반복한다.</li>
+</ol>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">regret = <span class="hljs-number">0</span></span><br><span class="line">total_reward = <span class="hljs-number">0</span></span><br><span class="line">regret_list = []</span><br><span class="line">ctr = &#123;<span class="hljs-number">0</span> : [], <span class="hljs-number">1</span>: []&#125;</span><br><span class="line">index_list = []</span><br><span class="line">impressions = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line">clicks = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line">priors = (<span class="hljs-number">1</span>,<span class="hljs-number">1</span>)</span><br><span class="line"><span class="hljs-comment">#randomly choose the first shown ad</span></span><br><span class="line">win_index = np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>] </span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):</span><br><span class="line">    impressions[win_index] += <span class="hljs-number">1</span></span><br><span class="line">    did_click = bernoulli.rvs(actual_ctr[win_index])</span><br><span class="line">    <span class="hljs-keyword">if</span> did_click :</span><br><span class="line">        clicks[win_index] += did_click</span><br><span class="line">    </span><br><span class="line">    ctr_0 = random.betavariate(priors[<span class="hljs-number">0</span>] + clicks[<span class="hljs-number">0</span>], priors[<span class="hljs-number">1</span>] + impressions[<span class="hljs-number">0</span>] - clicks[<span class="hljs-number">0</span>])</span><br><span class="line">    ctr_1 = random.betavariate(priors[<span class="hljs-number">1</span>] + clicks[<span class="hljs-number">1</span>], priors[<span class="hljs-number">1</span>] + impressions[<span class="hljs-number">1</span>] - clicks[<span class="hljs-number">1</span>])</span><br><span class="line">    </span><br><span class="line">    win_index = np.argmax([ctr_0, ctr_1])</span><br><span class="line">    index_list.append(win_index)</span><br><span class="line">    </span><br><span class="line">    ctr[<span class="hljs-number">0</span>].append(ctr_0)</span><br><span class="line">    ctr[<span class="hljs-number">1</span>].append(ctr_1)</span><br><span class="line">    </span><br><span class="line">    regret += max(actual_ctr) - actual_ctr[win_index]</span><br><span class="line">    regret_list.append(regret)</span><br><span class="line">    total_reward += did_click</span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">x = np.arange (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0.01</span>)</span><br><span class="line">y = beta.pdf(x, priors[<span class="hljs-number">0</span>]+clicks[<span class="hljs-number">0</span>], priors[<span class="hljs-number">1</span>] + impressions[<span class="hljs-number">0</span>] - clicks[<span class="hljs-number">0</span>])</span><br><span class="line">y /= y.max() <span class="hljs-comment">## normalize</span></span><br><span class="line"></span><br><span class="line">data1 = go.Scatter(x=x,</span><br><span class="line">                   y=y,</span><br><span class="line">                   name=<span class="hljs-string">'(Ad #0)'</span>,</span><br><span class="line">                   marker = dict(color=(<span class="hljs-string">'rgba(10, 108, 94, 1)'</span>)),</span><br><span class="line">                   fill=<span class="hljs-string">'tozeroy'</span>,</span><br><span class="line">                   fillcolor = <span class="hljs-string">'rgba(10, 108, 94, .7)'</span>)</span><br><span class="line"></span><br><span class="line">data2 = go.Scatter(x = [actual_ctr[<span class="hljs-number">0</span>]] * <span class="hljs-number">2</span>,</span><br><span class="line">                   y = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>],</span><br><span class="line">                   name = <span class="hljs-string">'Actual CTR #0 Value'</span>,</span><br><span class="line">                   mode=<span class="hljs-string">'lines'</span>,</span><br><span class="line">                   line = dict(</span><br><span class="line">                       color = (<span class="hljs-string">'rgb(205, 12, 24)'</span>),</span><br><span class="line">                       width = <span class="hljs-number">2</span>,</span><br><span class="line">                       dash = <span class="hljs-string">'dash'</span>))</span><br><span class="line"></span><br><span class="line">y = beta.pdf(x, priors[<span class="hljs-number">0</span>]+clicks[<span class="hljs-number">1</span>], priors[<span class="hljs-number">1</span>] + impressions[<span class="hljs-number">1</span>] - clicks[<span class="hljs-number">1</span>])</span><br><span class="line">y /= y.max()</span><br><span class="line"></span><br><span class="line">data3 = go.Scatter(x=x,</span><br><span class="line">                   y=y,</span><br><span class="line">                   name=<span class="hljs-string">'(Ad #1)'</span>,</span><br><span class="line">                   marker = dict(color=(<span class="hljs-string">'rgba(187, 121, 24, 1)'</span>)),</span><br><span class="line">                   fill=<span class="hljs-string">'tozeroy'</span>,</span><br><span class="line">                   fillcolor = <span class="hljs-string">'rgba(187, 121, 24, .7)'</span>)</span><br><span class="line"></span><br><span class="line">data4 = go.Scatter(x = [actual_ctr[<span class="hljs-number">1</span>]] * <span class="hljs-number">2</span>,</span><br><span class="line">                   y = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>],</span><br><span class="line">                   name = <span class="hljs-string">'Actual CTR #1 Value'</span>,</span><br><span class="line">                   mode=<span class="hljs-string">'lines'</span>,</span><br><span class="line">                   line = dict(</span><br><span class="line">                       color = (<span class="hljs-string">'rgb(205, 12, 24)'</span>),</span><br><span class="line">                       width = <span class="hljs-number">2</span>,</span><br><span class="line">                       dash = <span class="hljs-string">'dash'</span>))</span><br><span class="line"></span><br><span class="line">layout = go.Layout(title=<span class="hljs-string">'Beta Distributions for both Ads'</span>,</span><br><span class="line">                   xaxis=&#123;<span class="hljs-string">'title'</span>: <span class="hljs-string">'Possible CTR values'</span>&#125;,</span><br><span class="line">                   yaxis=&#123;<span class="hljs-string">'title'</span>: <span class="hljs-string">'Probability Density'</span>&#125;)</span><br><span class="line"></span><br><span class="line">fig = go.Figure(data=[data1, data2, data3, data4], layout=layout)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># fig = tools.make_subplots(rows=1, cols=2, print_grid=False, shared_xaxes=False,</span></span><br><span class="line"><span class="hljs-comment">#                           subplot_titles=('Beta Distribution (Ad #0)','Beta Distribution (Ad #1)'))</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># fig.append_trace(data1, 1, 1)</span></span><br><span class="line"><span class="hljs-comment"># fig.append_trace(data2, 1, 1)</span></span><br><span class="line"><span class="hljs-comment"># fig.append_trace(data3, 1, 2)</span></span><br><span class="line"><span class="hljs-comment"># fig.append_trace(data4, 1, 2)</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment"># fig['layout'].update(showlegend=False)</span></span><br><span class="line"></span><br><span class="line">iplot(fig, show_link=<span class="hljs-keyword">False</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/newplot (3).png" height="100%" width="100%"></p>
+<p><img src="/images/newplot (2).png" height="100%" width="100%"></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ad #0 has been shown 4.2 % of the time.</span><br><span class="line">Ad #1 has been shown 95.8 % of the time.</span><br><span class="line">Total Reward (Number of Clicks): 647</span><br></pre></td></tr></table></figure>
+<p>지금까지 본 regret중 가장 낮은 regret을 확인할 수 있습니다. </p>
+<p>이 알고리즘은 지속적으로 탐색합니다. 자연스럽게 Beta distribution을 이용해 가장 가치가 높은 샘플을 가져와서 이용할 수 있습니다. Beta distribution Ad#1은 더 높고 좁은 분포를 갖고 있습니다. 이것은 샘플된 값들이 항상 Ad#0보다 높을 것이라는 것을 의미합니다. 결국 Ad#1이 우리가 원하는 광고임을 빠르게 파악할 수 있습니다.</p>
+<h2 id="UCB-Upper-Confidence-Bound"><a href="#UCB-Upper-Confidence-Bound" class="headerlink" title="UCB (Upper Confidence Bound)"></a>UCB (Upper Confidence Bound)</h2><ul>
+<li>50% Exploration</li>
+<li>50% Exploitation<br>Thompson Sampling과 달리 UCB는 불확실성에 더 초점을 맞춥니다. 한 variant에 대해 더 불확실 할 수록, 더 탐색을 해야만 하는 알고리즘입니다.</li>
+</ul>
+<p>알고리즘은 가장 높은 UCB가 나오는 variant를 선택합니다. UCB를 통해 가장 높은 보상이 나올 것이라고 생각되는 variant를 고르는 것입니다.</p>
+<p>$$UCB = \bar x_i + \sqrt{\frac{2 \cdot \log{t}}{n}}$$<br>이 수식을 따르며 뒤에 term에 따라 UCB의 파생 알고리즘들이 등장하게 됩니다.</p>
+<p>$\bar x_i$ CTR이 i번째 단계일 때,<br>$t$ - 모든 variant에 대해 impression을 다 더한 숫자이다.<br>$n$ - 선택된 variant에 대해 impression을 다 더한 숫자이다.</p>
+<p>로직은 직관적입니다.</p>
+<ol>
+<li>UCB를 모든 변량들에 대해 구합니다.</li>
+<li>가장 높은 UCB를 가진 변량을 선택합니다.</li>
+<li>1번으로 다시 돌아갑니다.</li>
+</ol>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">regret = <span class="hljs-number">0</span> </span><br><span class="line">total_reward = <span class="hljs-number">0</span></span><br><span class="line">regret_list = [] </span><br><span class="line">index_list = [] </span><br><span class="line">impressions = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] </span><br><span class="line">clicks = [<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]</span><br><span class="line">ctr = &#123;<span class="hljs-number">0</span>: [], <span class="hljs-number">1</span>: []&#125;</span><br><span class="line">total_reward = <span class="hljs-number">0</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):</span><br><span class="line">    </span><br><span class="line">    index = <span class="hljs-number">0</span></span><br><span class="line">    max_upper_bound = <span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">for</span> k <span class="hljs-keyword">in</span> [<span class="hljs-number">0</span>,<span class="hljs-number">1</span>]:</span><br><span class="line">        <span class="hljs-keyword">if</span> (impressions[k] &gt; <span class="hljs-number">0</span>):</span><br><span class="line">            CTR = clicks[k] / impressions[k]</span><br><span class="line">            delta = math.sqrt(<span class="hljs-number">2</span> * math.log(i+<span class="hljs-number">1</span>) / impressions[k])</span><br><span class="line">            upper_bound = CTR + delta</span><br><span class="line">            ctr[k].append(CTR)</span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            upper_bound = <span class="hljs-number">1e400</span></span><br><span class="line">        <span class="hljs-keyword">if</span> upper_bound &gt; max_upper_bound:</span><br><span class="line">            max_upper_bound = upper_bound</span><br><span class="line">            index = k</span><br><span class="line">    index_list.append(index)</span><br><span class="line">    impressions[index] += <span class="hljs-number">1</span></span><br><span class="line">    reward = bernoulli.rvs(actual_ctr[index])</span><br><span class="line">    </span><br><span class="line">    clicks[index] += reward</span><br><span class="line">    total_reward += reward</span><br><span class="line">    </span><br><span class="line">    regret += max(actual_ctr) - actual_ctr[index]</span><br><span class="line">    regret_list.append(regret)</span><br></pre></td></tr></table></figure>
+<p><img src="/images/newplot (4).png" height="100%" width="100%"></p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Ad #0 has been shown 19.2 % of the time.</span><br><span class="line">Ad #1 has been shown 80.80000000000001 % of the time.</span><br><span class="line">Total Reward (Number of Clicks): 596</span><br></pre></td></tr></table></figure>
+<p>결과는 다음과 같습니다. Regret이 생각보다 높네요, UCB알고리즘도 현업에서 자주 사용하는 알고리즘입니다만, 이 알고리즘은 가장 기본적인 알고리즘이기 때문에 그런 것 같습니다.</p>
+<h2 id="결론-및-성능-비교"><a href="#결론-및-성능-비교" class="headerlink" title="결론 및 성능 비교"></a>결론 및 성능 비교</h2><p>이제 살펴봤던 모든 알고리즘의 성능을 비교해 볼 시간입니다. 기대가 되네요, 나온 결과를 시각화를 해서 살펴 보겠습니다.</p>
+<p><img src="/images/newplot (5).png" height="100%" width="100%"><br>1000번의 시도에 어떤 광고를 얼마나 노출시켰는 지에 대한 막대그래프입니다.<br>Random Selection은 CTR이 낮은 광고를 너무 많이 노출 시켰네요, 그 다음은 UCB1, Epsilon Greedy, Thompson Sampling 순 입니다. Thompson Sampling이 가장 좋네요! 하지만 놀라운 것은 Epsilon Greedy입니다. 정말 간단한 알고리즘인데 성능이 좋군요.</p>
+<p><img src="/images/newplot (6).png" height="100%" width="100%"><br>다음 자료는 Regret에 대한 것입니다. 시도가 늘어날 수록, Random Selection이나 UCB는 쭉 쭉 증가하는 것이 보입니다. 하지만 Thomspon Sampling은 굉장히 안정적으로 Regret이 유지되네요.</p>
+<p><img src="/images/newplot (7).png" height="100%" width="100%"><br>마지막은 1000번의 시도에서 총 몇번의 클릭을 받았는가에 대한 시각화 자료입니다. 클릭이 많다면 더 효과적으로 실험을 하면서 광고를 했다고 할 수 있겠네요. 역시 Thompson Sampling이 가장 많은 클릭 수를 얻었습니다. 그 다음은 Epsilon Greedy, UCB1, Random Selection 순 입니다.</p>
+<p>물론 Regret이 낮다고 가장 높은 보상이 있는 것은 아닙니다. 이 실험에서는 우연히 Thompson Sampling이 Regret도 낮고, 높은 보상을 얻었습니다. 알고리즘은 적절한 광고를(right ads) 보여줄 뿐 이고, 유저가 클릭하는 것은 보장하지 않습니다.</p>
+<p>일반적으로 Thompson Sampling이 좋은 결과를 보여줍니다. 하지만 다른 알고리즘을 보면서 어떻게, 그리고 언제 그 알고리즘이 유용할지 생각해봐야 합니다. 어떤 문제를 풀 지는 각 개인 마다 다르기 때문에, 여러 알고리즘들 중에서 문제에 적합한 것을 선택할 수 있어야 합니다. 어떤 사전 정보를 갖고 있고, 알고리즘 적용 후에 어떤 정보를 알고싶은지를  명확하게 설정하는 것이 더 중요하다고 할 수 있겠습니다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
 
 
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+
+
+
+
+
+
     <div class="card">
     
     <div class="card-image">
@@ -1050,60 +1171,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/04/17/Elice-Start/" class="image is-7by1">
-            <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-17T08:30:34.000Z">2019-04-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/coding-test/Algorithm/">Algorithm</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/coding-test/Algorithm/blog/">blog</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 829 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/04/17/Elice-Start/">Elice_Start</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="엘리스-코딩을-구독했다"><a href="#엘리스-코딩을-구독했다" class="headerlink" title="엘리스 코딩을 구독했다."></a>엘리스 코딩을 구독했다.</h1><p>프로그래머스 문제를 쭉 풀면서, 코딩테스트를 몇번 보게 되면서 느낀 점은, 내가 알고리즘 기초가 부족하다는 것이었다. 문제를 보고 고민하는 시간이 너무 길었다. 고수들의 코드를 보면 고민한 시간은 잘 모르겠지만, 생각하는 방향이 딱딱 정해져서 배운 알고리즘과 자료구조 지식을 활용해서 답을 작성한 것이 눈에 띄었다.</p>
-<p>반면에 나는 너무 막코딩하는게 아닌가 하는 생각이 들었다. 막코딩의 단점은 문제를 풀었어도 머리 속에 정리가 되지 않는다는 점이다. 머리에 남지 않으면 비슷한 문제가 나와도 틀릴 확률과 문제에 푸는 시간이 증가한다. </p>
-<p>막코딩의 이러한 악효과를 차단하기 위해서 프로그래머스도 뒤져보고 엘리스도 뒤져보던 도중 엘리스의 프로그램 중 <code>구독</code> 시스템이 맘에 들어서 신청하게 되었다. 사실 엘리스는 <code>양재 RNCD AI 실무자 양성 과정</code>을 참여하고, 각종 무료 교육을 들으면서 친숙했다. 엘리스의 플랫폼에서는 메세지를 통해서 소통을 빠르게 할 수 있었던 것이 기억이 났다. 답답한 게 있으면 빠르게 물어보고 답을 얻어야 하는데 이런 점을 통해서 내가 원하는 바를 만족시킬 수 있을 것 같았다. 또한 개인적으로 문제를 다 풀고 100점이 나오면 토끼 애니메이션이 나오는데 이게 은근히 성취감을 불러일으킨다. 혼자 알고리즘 공부하다보면 문제를 깔끔하게 풀어도 ‘칭찬해 주는 사람도 없는데…’라는 생각이 항상 드는데, 토끼 애니메이션이 문제를 더 잘 풀고 싶게 하는 자극을 주는 게 참 맘에 들었다. 칭찬은 고래도 춤추게 한다고 하지 않은가. <del>나는 칭찬에 약하고 인정욕이 강한 동물이다.</del><br><img src="/images/elice.png" alt="귀여운 소리와 함께 등장한다"></p>
-<p>어쨌든 큰 맘 먹고 10만원으로 퍼플키를 질렀다. 퍼플키를 지르게 되면 곧 튜터가 배정된다. 튜터는 쉽게 말해서 막히는 문제에 대해서 도움을 줄 수 있는 사람이다. 메세지를 통해서 소통하고, 문제가 있으면 답을 해준다. 아직 튜터에게 완전한 답을 받은 적은 없지만, 맘에 드는 시스템 중 하나다.</p>
-<p>현재 수강 신청한 건 알고리즘 트랙(트랙으로 강의를 보거나, 구독을 하면 원하는 강의를 한달 동안 볼 수 있다.), 자료구조, 알고리즘1, 알고리즘2이다. 맘 같아서는 다 보고 싶은데, 실습 문제를 풀어야 하니 은근히 시간이 소요가 된다. 자료구조 먼저 끝내고 싶지만, 문제가 있는 것 같아서 알고리즘 트랙부터 끝내고 다른 강의들을 마저 들어야겠다.</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1120,6 +1187,8 @@
             
             <li><a class="pagination-link has-text-black-ter" href="/page/2/">2</a></li>
             
+            <li><a class="pagination-link has-text-black-ter" href="/page/3/">3</a></li>
+            
         </ul>
     </nav>
 </div>
@@ -1129,7 +1198,7 @@
 
 
 
-<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-1 column-left ">
     
         
 <div class="card widget">
@@ -1164,7 +1233,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        20
+                        21
                     </p>
                 </div>
             </div>
@@ -1174,7 +1243,7 @@
                         Categories
                     </p>
                     <p class="title has-text-weight-normal">
-                        20
+                        22
                     </p>
                 </div>
             </div>
@@ -1184,7 +1253,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        30
+                        32
                     </p>
                 </div>
             </div>
@@ -1258,6 +1327,22 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/ML/">
             <span class="level-start">
                 <span class="level-item">ML</span>
@@ -1397,1062 +1482,558 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 10px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/18/Bandit/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/bandit.png" alt="Multi Armed Bandit 알고리즘?">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T01:13:21.000Z">2019-07-18</time></div>
+                    <a href="/2019/07/18/Bandit/" class="has-link-black-ter is-size-6">Multi Armed Bandit 알고리즘?</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Algorithm/">Algorithm</a> / <a class="has-link-grey -link" href="/categories/Algorithm/Automation/">Automation</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/07/geultto/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time></div>
+                    <a href="/2019/07/07/geultto/" class="has-link-black-ter is-size-6">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/29/Metrics/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T05:27:17.000Z">2019-05-29</time></div>
+                    <a href="/2019/05/29/Metrics/" class="has-link-black-ter is-size-6">Classification Metrics</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/23/PCA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time></div>
+                    <a href="/2019/05/23/PCA/" class="has-link-black-ter is-size-6">PCA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/21/SQL-Recipe-01/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/mysql_workbench.png" alt="SQL_Recipe_01">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-21T08:52:21.000Z">2019-05-21</time></div>
+                    <a href="/2019/05/21/SQL-Recipe-01/" class="has-link-black-ter is-size-6">SQL_Recipe_01</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/sql/">sql</a> / <a class="has-link-grey -link" href="/categories/sql/code/">code</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">April 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/A-B-test/">
+                        <span class="level-start">
+                            <span class="level-item">A/B test</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Accuracy/">
+                        <span class="level-start">
+                            <span class="level-item">Accuracy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Ada-Boosting/">
+                        <span class="level-start">
+                            <span class="level-item">Ada Boosting</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Boosting/">
+                        <span class="level-start">
+                            <span class="level-item">Boosting</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Cross Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dimensional-Reduction/">
+                        <span class="level-start">
+                            <span class="level-item">Dimensional Reduction</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Ensemble/">
+                        <span class="level-start">
+                            <span class="level-item">Ensemble</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Entropy/">
+                        <span class="level-start">
+                            <span class="level-item">Entropy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Gradient-Boosting/">
+                        <span class="level-start">
+                            <span class="level-item">Gradient Boosting</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Information/">
+                        <span class="level-start">
+                            <span class="level-item">Information</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Information-Value/">
+                        <span class="level-start">
+                            <span class="level-item">Information Value</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/KL-Divergence/">
+                        <span class="level-start">
+                            <span class="level-item">KL Divergence</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Linear-Regression/">
+                        <span class="level-start">
+                            <span class="level-item">Linear Regression</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/MAB/">
+                        <span class="level-start">
+                            <span class="level-item">MAB</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Metrics/">
+                        <span class="level-start">
+                            <span class="level-item">Metrics</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Naive-Bayes/">
+                        <span class="level-start">
+                            <span class="level-item">Naive Bayes</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/PCA/">
+                        <span class="level-start">
+                            <span class="level-item">PCA</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RandomForest/">
+                        <span class="level-start">
+                            <span class="level-item">RandomForest</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Supervised-Learning/">
+                        <span class="level-start">
+                            <span class="level-item">Supervised Learning</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/blog/">
+                        <span class="level-start">
+                            <span class="level-item">blog</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/class/">
+                        <span class="level-start">
+                            <span class="level-item">class</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/code/">
+                        <span class="level-start">
+                            <span class="level-item">code</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/debug/">
+                        <span class="level-start">
+                            <span class="level-item">debug</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/elice/">
+                        <span class="level-start">
+                            <span class="level-item">elice</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/feature-selection/">
+                        <span class="level-start">
+                            <span class="level-item">feature selection</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/float/">
+                        <span class="level-start">
+                            <span class="level-item">float</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/mysql/">
+                        <span class="level-start">
+                            <span class="level-item">mysql</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/oop/">
+                        <span class="level-start">
+                            <span class="level-item">oop</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/programmers/">
+                        <span class="level-start">
+                            <span class="level-item">programmers</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/python/">
+                        <span class="level-start">
+                            <span class="level-item">python</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/sql/">
+                        <span class="level-start">
+                            <span class="level-item">sql</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/글또/">
+                        <span class="level-start">
+                            <span class="level-item">글또</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
     
     
         <div class="column-right-shadow is-hidden-widescreen ">
         
-            
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/07/07/geultto/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time></div>
-                    <a href="/2019/07/07/geultto/" class="has-link-black-ter is-size-6">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/29/Metrics/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T05:27:17.000Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/Metrics/" class="has-link-black-ter is-size-6">Classification Metrics</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/23/PCA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time></div>
-                    <a href="/2019/05/23/PCA/" class="has-link-black-ter is-size-6">PCA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/21/SQL-Recipe-01/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/mysql_workbench.png" alt="SQL_Recipe_01">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-21T08:52:21.000Z">2019-05-21</time></div>
-                    <a href="/2019/05/21/SQL-Recipe-01/" class="has-link-black-ter is-size-6">SQL_Recipe_01</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/sql/">sql</a> / <a class="has-link-grey -link" href="/categories/sql/code/">code</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
-                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
-                <span class="level-start">
-                    <span class="level-item">July 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/05/">
-                <span class="level-start">
-                    <span class="level-item">May 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">7</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/04/">
-                <span class="level-start">
-                    <span class="level-item">April 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/02/">
-                <span class="level-start">
-                    <span class="level-item">February 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/01/">
-                <span class="level-start">
-                    <span class="level-item">January 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-        
-            <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Accuracy/">
-                        <span class="level-start">
-                            <span class="level-item">Accuracy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ada-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Ada Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Cross Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Dimensional-Reduction/">
-                        <span class="level-start">
-                            <span class="level-item">Dimensional Reduction</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ensemble/">
-                        <span class="level-start">
-                            <span class="level-item">Ensemble</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Gradient-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Gradient Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information/">
-                        <span class="level-start">
-                            <span class="level-item">Information</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information-Value/">
-                        <span class="level-start">
-                            <span class="level-item">Information Value</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/KL-Divergence/">
-                        <span class="level-start">
-                            <span class="level-item">KL Divergence</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Linear-Regression/">
-                        <span class="level-start">
-                            <span class="level-item">Linear Regression</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Metrics/">
-                        <span class="level-start">
-                            <span class="level-item">Metrics</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Naive-Bayes/">
-                        <span class="level-start">
-                            <span class="level-item">Naive Bayes</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/PCA/">
-                        <span class="level-start">
-                            <span class="level-item">PCA</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/RandomForest/">
-                        <span class="level-start">
-                            <span class="level-item">RandomForest</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Supervised-Learning/">
-                        <span class="level-start">
-                            <span class="level-item">Supervised Learning</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/blog/">
-                        <span class="level-start">
-                            <span class="level-item">blog</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/class/">
-                        <span class="level-start">
-                            <span class="level-item">class</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/code/">
-                        <span class="level-start">
-                            <span class="level-item">code</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/debug/">
-                        <span class="level-start">
-                            <span class="level-item">debug</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/elice/">
-                        <span class="level-start">
-                            <span class="level-item">elice</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/feature-selection/">
-                        <span class="level-start">
-                            <span class="level-item">feature selection</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/float/">
-                        <span class="level-start">
-                            <span class="level-item">float</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/mysql/">
-                        <span class="level-start">
-                            <span class="level-item">mysql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/oop/">
-                        <span class="level-start">
-                            <span class="level-item">oop</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/programmers/">
-                        <span class="level-start">
-                            <span class="level-item">programmers</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/python/">
-                        <span class="level-start">
-                            <span class="level-item">python</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/sql/">
-                        <span class="level-start">
-                            <span class="level-item">sql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/글또/">
-                        <span class="level-start">
-                            <span class="level-item">글또</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
-    </div>
-</div>
-        
         </div>
     
 </div>
 
                 
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Recent
-        </h3>
-        
-        <article class="media">
-            
-            <a href="/2019/07/07/geultto/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time></div>
-                    <a href="/2019/07/07/geultto/" class="has-link-black-ter is-size-6">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/29/Metrics/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T05:27:17.000Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/Metrics/" class="has-link-black-ter is-size-6">Classification Metrics</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/23/PCA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time></div>
-                    <a href="/2019/05/23/PCA/" class="has-link-black-ter is-size-6">PCA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/21/SQL-Recipe-01/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/mysql_workbench.png" alt="SQL_Recipe_01">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-21T08:52:21.000Z">2019-05-21</time></div>
-                    <a href="/2019/05/21/SQL-Recipe-01/" class="has-link-black-ter is-size-6">SQL_Recipe_01</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/sql/">sql</a> / <a class="has-link-grey -link" href="/categories/sql/code/">code</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/05/15/cross-entropy-KL-divergence/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time></div>
-                    <a href="/2019/05/15/cross-entropy-KL-divergence/" class="has-link-black-ter is-size-6">cross_entropy_KL_divergence</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-    </div>
-</div>
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-        <h3 class="menu-label">
-            Archives
-        </h3>
-        <ul class="menu-list">
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/07/">
-                <span class="level-start">
-                    <span class="level-item">July 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">1</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/05/">
-                <span class="level-start">
-                    <span class="level-item">May 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">7</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/04/">
-                <span class="level-start">
-                    <span class="level-item">April 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">6</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/02/">
-                <span class="level-start">
-                    <span class="level-item">February 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">2</span>
-                </span>
-            </a>
-        </li>
-        
-        <li>
-            <a class="level is-marginless" href="/archives/2019/01/">
-                <span class="level-start">
-                    <span class="level-item">January 2019</span>
-                </span>
-                <span class="level-end">
-                    <span class="level-item tag">4</span>
-                </span>
-            </a>
-        </li>
-        
-        </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Accuracy/">
-                        <span class="level-start">
-                            <span class="level-item">Accuracy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ada-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Ada Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Cross Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Dimensional-Reduction/">
-                        <span class="level-start">
-                            <span class="level-item">Dimensional Reduction</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ensemble/">
-                        <span class="level-start">
-                            <span class="level-item">Ensemble</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Gradient-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Gradient Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information/">
-                        <span class="level-start">
-                            <span class="level-item">Information</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information-Value/">
-                        <span class="level-start">
-                            <span class="level-item">Information Value</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/KL-Divergence/">
-                        <span class="level-start">
-                            <span class="level-item">KL Divergence</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Linear-Regression/">
-                        <span class="level-start">
-                            <span class="level-item">Linear Regression</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Metrics/">
-                        <span class="level-start">
-                            <span class="level-item">Metrics</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Naive-Bayes/">
-                        <span class="level-start">
-                            <span class="level-item">Naive Bayes</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/PCA/">
-                        <span class="level-start">
-                            <span class="level-item">PCA</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/RandomForest/">
-                        <span class="level-start">
-                            <span class="level-item">RandomForest</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Supervised-Learning/">
-                        <span class="level-start">
-                            <span class="level-item">Supervised Learning</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/blog/">
-                        <span class="level-start">
-                            <span class="level-item">blog</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/class/">
-                        <span class="level-start">
-                            <span class="level-item">class</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/code/">
-                        <span class="level-start">
-                            <span class="level-item">code</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/debug/">
-                        <span class="level-start">
-                            <span class="level-item">debug</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/elice/">
-                        <span class="level-start">
-                            <span class="level-item">elice</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/feature-selection/">
-                        <span class="level-start">
-                            <span class="level-item">feature selection</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/float/">
-                        <span class="level-start">
-                            <span class="level-item">float</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/mysql/">
-                        <span class="level-start">
-                            <span class="level-item">mysql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/oop/">
-                        <span class="level-start">
-                            <span class="level-item">oop</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/programmers/">
-                        <span class="level-start">
-                            <span class="level-item">programmers</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/python/">
-                        <span class="level-start">
-                            <span class="level-item">python</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/sql/">
-                        <span class="level-start">
-                            <span class="level-item">sql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/글또/">
-                        <span class="level-start">
-                            <span class="level-item">글또</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
-    
-</div>
-
             </div>
         </div>
     </section>
