@@ -188,11 +188,9 @@
 <li>F1스코어</li>
 <li>ROC AUC</li>
 </ul>
-<h3 id="정확도-Accuracy"><a href="#정확도-Accuracy" class="headerlink" title="정확도(Accuracy)"></a>정확도(Accuracy)</h3><p>정확도는 실제 데이터에서 예측 데이터가 얼마나 같은지를 판단하는 지표이다.</p>
-<script type="math/tex; mode=display">Accuracy = {TP+TN\over TP+TN+FP+FN}</script><p>정확도는 직관적으로 모델 예측 성능을 나타내는 평가 지표이며, 기본적으로 많이 사용하는 지표중 하나이다.<br>하지만 정확도는 치명적인 약점이 존재하는데, 바로 불균형한 데이터 셋에서는 제대로 평가가 안된다는 것이다. 예를 들어보자 1000개의 샘플에 10개만 문제가 있는 샘플이다. 이럴 경우에 엉터리 분류기, 즉 모든 샘플에 대해서 정상이라고 분류하는 분류기를 이용해서 분류하고 정확도로 성능 평가를 한다면, 결과는 990/1000, 99%의 정확도를 보이게 된다.<br>엉터리 분류기가 과연 좋은 분류기일지 생각해보자. 만약 이 분류기에 문제가 있는 샘플을 더 추가한다면, 정확도는 기하급수적으로 떨어지게 될 것이다.</p>
+<h3 id="정확도-Accuracy"><a href="#정확도-Accuracy" class="headerlink" title="정확도(Accuracy)"></a>정확도(Accuracy)</h3><p>정확도는 실제 데이터에서 예측 데이터가 얼마나 같은지를 판단하는 지표이다.<br>$$Accuracy = {TP+TN\over TP+TN+FP+FN}$$<br>정확도는 직관적으로 모델 예측 성능을 나타내는 평가 지표이며, 기본적으로 많이 사용하는 지표중 하나이다.<br>하지만 정확도는 치명적인 약점이 존재하는데, 바로 불균형한 데이터 셋에서는 제대로 평가가 안된다는 것이다. 예를 들어보자 1000개의 샘플에 10개만 문제가 있는 샘플이다. 이럴 경우에 엉터리 분류기, 즉 모든 샘플에 대해서 정상이라고 분류하는 분류기를 이용해서 분류하고 정확도로 성능 평가를 한다면, 결과는 990/1000, 99%의 정확도를 보이게 된다.<br>엉터리 분류기가 과연 좋은 분류기일지 생각해보자. 만약 이 분류기에 문제가 있는 샘플을 더 추가한다면, 정확도는 기하급수적으로 떨어지게 될 것이다.</p>
 <h3 id="오차행렬-Confusion-Matrix"><a href="#오차행렬-Confusion-Matrix" class="headerlink" title="오차행렬(Confusion Matrix)"></a>오차행렬(Confusion Matrix)</h3><p>오차행렬은 학습된 분류 모델이 예측을 수행하면서 얼마나 헷갈리고 있는지도 함께 보여주는 지표이다. 즉, 이진 분류의 예측 오류가 얼마인지와 어떤 유형의 예측 오류가 발생하고 있는지를 같이 나타내 주는 지표이다.</p>
 <p>오차행렬은 다음과 같이 표현한다.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -214,7 +212,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>위의 표에서 진하게 표시된 것이 예측 클래스에 대한 것이고(Predicted Calss) 옅게 표시된 것이 실제 클래스(Actual Class)이다.</p>
 <ul>
 <li>TP는 예측값을 Positive값 1으로 예측했고, 실제 값 역시 Positive값 1</li>
@@ -225,11 +222,10 @@
 <p>오차행렬을 기반으로 해서 정확도의 식을 다시 보면 결국, True에 해당하는 값인 TP와 TN에 값이 좌우되고 있다는 것을 알 수 있다. 정확도 = 예측 결과와 실제 값이 동일한 건수 / 전체 데이터 수 라고 다시 말할 수 있다.</p>
 <p>불균형한 이진 분류 데이터 셋에서는 Positive 건수가 매우 작기 때문에 이러한 데이터로 학습된 ML 알고리즘은 Positive보다는 Negative로 예측 정확도가 높아지는 경향이 발생한다. TN값이 높아진다는 것이다. 결과적으로 불균형 데이터 셋에서는 Positive에 대한 예측 정확도를 판단하지 못하고 Negative에 대한 예측 정확도만으로 분류의 정확도가 매우 높게 나타나는 수치적인 판단 오류를 일으키게 된다.</p>
 <p>이런 판단 오류를 극복하기 위해서 정밀도(Precision)와 재현율(Recall)이 성능지표로 사용된다.</p>
-<h3 id="정밀도와-재현율-Precision-and-Recall"><a href="#정밀도와-재현율-Precision-and-Recall" class="headerlink" title="정밀도와 재현율 (Precision and Recall)"></a>정밀도와 재현율 (Precision and Recall)</h3><p>정밀도와 재현율은 다음과 같은 공식으로 정의된다.</p>
-<script type="math/tex; mode=display">Precision = {TP \over FP+TP}</script><script type="math/tex; mode=display">Recall = {TP \over FN+TP}</script><p>정밀도는 <code>예측</code>을 Positive로 한 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 정밀도의공식에서 분모는 예측을 Positive로 한 모든 데이터 건수이다. Positive 예측 성능을 더욱 정밀하게 측정하기 위한 평가 지표로 양성 예측도라고 불린다.</p>
+<h3 id="정밀도와-재현율-Precision-and-Recall"><a href="#정밀도와-재현율-Precision-and-Recall" class="headerlink" title="정밀도와 재현율 (Precision and Recall)"></a>정밀도와 재현율 (Precision and Recall)</h3><p>정밀도와 재현율은 다음과 같은 공식으로 정의된다.<br>$$Precision = {TP \over FP+TP}$$<br>$$Recall = {TP \over FN+TP}$$<br>정밀도는 <code>예측</code>을 Positive로 한 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 정밀도의공식에서 분모는 예측을 Positive로 한 모든 데이터 건수이다. Positive 예측 성능을 더욱 정밀하게 측정하기 위한 평가 지표로 양성 예측도라고 불린다.</p>
 <p>재현율은 <code>실제 값</code>이 Positive인 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 공식의 분모는 실제 값이 Positive인 모든 데이터 건수이다. 민감도 또는 TPR(True Positive Rate)라고도 불린다.</p>
-<p>정밀도와 재현율은 중요하게 생각하는 부분이 서로 다르기 때문에, 주어진 업무 특성에 따라서 특정 평가 지표가 더 중요한 지표로 간주될 수 있다. 재현율이 중요한 경우를 생각해보자. 재현율이 중요 지표로 사용되는 경우는 실제 Positive 양성 데이터를 Negative로 잘못 판단하게 되면 크리티컬한 영향이 발생하는 경우이다. 예를 들어 암 판단 모델은 재현율이 중요한데, 실제 Positive인 경우, 즉, 암환자를 Negative, 정상으로 분류하는 경우 오류의 대가가 생명이 될 수 있을 정도로 치명적이다. 만약 정상환자를 암환자로 분류하는 경우에는, 재검진을 하는 정도의 비용이 소모된다.(Positive—&gt;Negative로 잘못분류) </p>
-<p>정밀도가 중요한 경우를 생각해보자. 스팸메일 여부를 확인하는 예를 들어보면, 실제 Positive인 스팸 메일을 Negative 정상 메일이라고 분류하게 되면 사용자가 불편함을 느끼는 정도지만, 정상메일을 Spam으로 분류해 버리면 업무메일 등이 스팸으로 처리되어 메일을 받지 못하게 돼 업무에 차질이 생길 수 있다.(Negative—&gt;Positive로 잘못분류)</p>
+<p>정밀도와 재현율은 중요하게 생각하는 부분이 서로 다르기 때문에, 주어진 업무 특성에 따라서 특정 평가 지표가 더 중요한 지표로 간주될 수 있다. 재현율이 중요한 경우를 생각해보자. 재현율이 중요 지표로 사용되는 경우는 실제 Positive 양성 데이터를 Negative로 잘못 판단하게 되면 크리티컬한 영향이 발생하는 경우이다. 예를 들어 암 판단 모델은 재현율이 중요한데, 실제 Positive인 경우, 즉, 암환자를 Negative, 정상으로 분류하는 경우 오류의 대가가 생명이 될 수 있을 정도로 치명적이다. 만약 정상환자를 암환자로 분류하는 경우에는, 재검진을 하는 정도의 비용이 소모된다.(Positive–&gt;Negative로 잘못분류) </p>
+<p>정밀도가 중요한 경우를 생각해보자. 스팸메일 여부를 확인하는 예를 들어보면, 실제 Positive인 스팸 메일을 Negative 정상 메일이라고 분류하게 되면 사용자가 불편함을 느끼는 정도지만, 정상메일을 Spam으로 분류해 버리면 업무메일 등이 스팸으로 처리되어 메일을 받지 못하게 돼 업무에 차질이 생길 수 있다.(Negative–&gt;Positive로 잘못분류)</p>
 <p>정리하자면,</p>
 <ul>
 <li>재현율이 더 중요한 경우, 실제 Positive 양성 데이터 예측을 Negative로 잘못 판단하게 되면 업무 상 큰 차질이 발생하는 경우</li>
@@ -246,8 +242,8 @@
 <h4 id="정밀도-100-만들기"><a href="#정밀도-100-만들기" class="headerlink" title="정밀도 100% 만들기"></a>정밀도 100% 만들기</h4><p>확실한 기준이 되는 것만 Positive로 예측하고 나머지는 모두 Negative로 예측한다. 정밀도 = TP / (TP+FP) 이다. 예를 들어 암환자를 예측한다고 해보자. 전체환자 1000명 중에 확실한 Positive 징후만 가진 환자가 단 1명이라면(죽기 일보직전의) 한명만 Positive로 예측하고 나머지는 모두 Negative로 예측하더라도 FP는 0, TP는 1이기 때문에, 정밀도는 1/(1+0)으로 100%가 된다. Precision은 100%지만, 초기 암진단을 예측하는 경우는 희박하고, 위험한 정도의 암환자도 정상이라고 분류할 수 있기 때문에 좋은 분류기라고 할 수 없을 것이다.</p>
 <h4 id="재현율-100-만들기"><a href="#재현율-100-만들기" class="headerlink" title="재현율 100% 만들기"></a>재현율 100% 만들기</h4><p>모든 환자를 Positive로 예측하면 된다. 재현율 = TP / (TP+FN)이므로 전체 환자 1000명을 다 Positive로 예측하는 것이다. 이 중 실제 양성인 사람이 30명 정도라도 TN이 수치에 포함되지 않고 FN은 아예 0이므로 30/(30+0)으로 100%가 된다. 이렇게 되면 재현율은 100%지만 모델을 정말 신뢰할 수 있는지에 대해 의심이 발생할 것이다. 이런 모델은 정상인 사람도 암 환자로 예측하게 되므로, 재검사 비율을 매우 높이게 된다. 병원에서 재검사 비용을 대줘야 한다면, 혹은 환자로 분류된 사람이 재검사 비용을 내야 한다면, 병원이 손해를 막심하게 보거나, 고객들이 병원에 대해 신뢰를 하지 않을 것이다.</p>
 <p>따라서 정밀도와 재현율을 적절하게 고려한 평가 지표가 필요하게 된다.</p>
-<h3 id="F1-Score"><a href="#F1-Score" class="headerlink" title="F1 Score"></a>F1 Score</h3><p>F1-Score는 정밀도와 재현율을 조화 평균한 지표이다. F1-Score는 정밀도와 재현율이 어느 한 쪽으로 치우치지 않는 수치를 나타낼 때 상대적으로 높은 값을 가진다. 공식은 다음과 같다.</p>
-<script type="math/tex; mode=display">F1={2\over{1\over{recall}}+{1\over{precision}}}=2\times{precision*\space recall\over precision+recall}</script><p>만일 A 예측 모델의 경우 Precision이 0.9, Recall이 0.1로 극단적인 차이가 나고, B 예측 모델은 Precision과 Recall이 0.5로 큰 차이가 없다면 A의 F1-Score는 0.18이고, B의 F1-Score는 0.5로 B의 모델이 좋은 점수를 얻게 된다. 사실 F1 Score는 Precision과 Recall에 동일한 가중치인 0.5를 적용한 값이다. F-Measure는 $\beta$를 이용해 가중치를 조절한다. 공식을 살펴보자.</p>
+<h3 id="F1-Score"><a href="#F1-Score" class="headerlink" title="F1 Score"></a>F1 Score</h3><p>F1-Score는 정밀도와 재현율을 조화 평균한 지표이다. F1-Score는 정밀도와 재현율이 어느 한 쪽으로 치우치지 않는 수치를 나타낼 때 상대적으로 높은 값을 가진다. 공식은 다음과 같다.<br>$$F1={2\over{1\over{recall}}+{1\over{precision}}}=2\times{precision*\space recall\over precision+recall}$$ </p>
+<p>만일 A 예측 모델의 경우 Precision이 0.9, Recall이 0.1로 극단적인 차이가 나고, B 예측 모델은 Precision과 Recall이 0.5로 큰 차이가 없다면 A의 F1-Score는 0.18이고, B의 F1-Score는 0.5로 B의 모델이 좋은 점수를 얻게 된다. 사실 F1 Score는 Precision과 Recall에 동일한 가중치인 0.5를 적용한 값이다. F-Measure는 $\beta$를 이용해 가중치를 조절한다. 공식을 살펴보자.</p>
 <p>$F_\beta=$$(1+\beta^2)(Precision * Recall)\over{\beta^2 Precision + Recall}$</p>
 <p>$\beta$가 1보다 크면 Recall이 강조되고 1보다 작으면 Precision이 강조된다. 1일때의 점수를 $F_1$점수라고 한다.</p>
 <h3 id="ROC-amp-AUC"><a href="#ROC-amp-AUC" class="headerlink" title="ROC &amp; AUC"></a>ROC &amp; AUC</h3><p>ROC곡선(Receiver Operation Characteristic Curve)은 수신자 판단 곡선으로, 2차대전 때 통신 장비 성능 평가를 위해 고안된 수치이다. 요즘에는 이진 분류의 성능 평가 지표로 자주 사용된다. ROC Curve는 FPR(False Positive Rate)이 변할 때 TPR(True Positive Rate)이 어떻게 변하는지를 나타내는 곡선이다. FPR을 x축으로, TPR을 y축으로 잡으면 FPR에 대한 TPR의 변화가 곡선 형태로 나타난다.</p>
