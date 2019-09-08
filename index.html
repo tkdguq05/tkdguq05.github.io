@@ -143,6 +143,107 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/09/08/Time-Series02/" class="image is-7by1">
+            <img class="thumbnail" src="/images/timeseries.png" alt="시계열 분석 시리즈 두 번째">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-09-08T10:57:22.000Z">2019-09-08</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1765 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/09/08/Time-Series02/">시계열 분석 시리즈 두 번째</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Dive-into-시계열-데이터-분석"><a href="#Dive-into-시계열-데이터-분석" class="headerlink" title="Dive into 시계열 데이터 분석"></a>Dive into 시계열 데이터 분석</h1><h2 id="시계열-데이터-분석에-대해서-공부해보자-02"><a href="#시계열-데이터-분석에-대해서-공부해보자-02" class="headerlink" title="시계열 데이터 분석에 대해서 공부해보자 02"></a>시계열 데이터 분석에 대해서 공부해보자 02</h2><p>시계열 데이터도 그렇고 데이터 분석 자체도 그렇습니다만, 내가 어떤 문제를 풀어야 하는지 알게 되면, 문제에 대한 기획/접근/해결 방향은 단순해집니다. </p>
+<ul>
+<li><p>문제가 무엇일까?</p>
+</li>
+<li><p>내가 사용가능한 알고리즘은?</p>
+</li>
+<li><p>알고리즘의 입력과 형식은?</p>
+</li>
+<li><p>알고리즘의 출력은?</p>
+</li>
+</ul>
+<p>보통 이런 4단계를 거치게 되겠습니다. 항상 알고리즘을 사용하기 전에 위의 4가지 물음에 대해서 고민해 보는 게 좋을 것 같습니다. 학습하는 방향에 따라서 알고리즘은 달라집니다. 대표적인 알고리즘 유형은 다음과 같습니다.</p>
+<h3 id="Supervised-Learning"><a href="#Supervised-Learning" class="headerlink" title="Supervised Learning"></a>Supervised Learning</h3><ul>
+<li>Regression</li>
+<li>Instance Based</li>
+<li>Regularization</li>
+<li>Tree</li>
+<li>Bayesian</li>
+<li>ANN</li>
+</ul>
+<h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3><ul>
+<li>Clustering</li>
+<li>Association Rule</li>
+<li>Dimensionality Reduction</li>
+<li>Ensemble</li>
+<li>Deep Learning</li>
+</ul>
+<p>머신러닝에 대해서는 어느정도 알고 있습니다. 그렇다면 머신러닝과 시계열 분석의 차이는 무엇일까요? 큰 차이점은 바로 <code>시간축</code>을 고려하는가? 아닌가?에 관한 것입니다. 시계열 분석은 시간축에 대해서 고려를 해야하고, 학습데이터와 테스트 데이터를 나눌때도 시간축을 신경 써서 나누어야 합니다.</p>
+<h2 id="시계열-데이터의-독자적인-성분들-7종"><a href="#시계열-데이터의-독자적인-성분들-7종" class="headerlink" title="시계열 데이터의 독자적인 성분들 7종"></a>시계열 데이터의 독자적인 성분들 7종</h2><p>시계열 데이터를 다루다 보면 시계열 데이터만의 독특한 성분들이 발견됩니다. 대표적인 7종을 알아보겠습니다. </p>
+<ol>
+<li><p>빈도<br>빈도는 말 그대로 frequency를 나타내는 말입니다. 하지만 조금 다른게 있다면, 계절성 패턴이 나타나기 전까지의 데이터 갯수로 사람이 정해야 한다는 점입니다. 일 단위, 월 단위, 연 단위로 나누어서 빈도를 측정합니다. 나누는 기준은 따로 없지만, 비즈니스 사이클이 복잡할수록 작은 시간축, 단순하다면 크게 월로 해도 어느정도 맞아들어갑니다. 혹시 작업을 하다가 시간축이 안맞아 Null이 발생할 수 있는데, 파이썬의 여러 메서드를 사용한다면 금방 채울 수 있습니다. <code>bfill</code>(Backward fill)이나 <code>ffill</code>(Forward fill)등을 이용하면 됩니다.</p>
+</li>
+<li><p>추세<br>추세는 트렌드를 말합니다. 시계열이 시간에 따라 증가, 감소 또는 일정 수준을 유지하는 경우를 말하며, 아마존의 주식 챠트를 보면 우상향하는 그래프를 볼 수 있는데, 그런 경향을 바로 트렌드라고 합니다. 확률과정(Yt)이 추정이 가능한 결정론적 추세함수 f(t)와 정상확률과정(Yt)의 합으로 나타내어집니다.<br>$$Y_t = f(t) + Y_t(Seasonal)$$<br>추세를 제거하게 되면 추세를 제외한 함수로 예측하는 것이 일반적이고 상한, 하한을 만들어 놓습니다. X에 대해서는 일/월/년 인지 모르기 때문에 frequency 세팅을 꼭 해주어야 합니다.</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>계절성<br>계절성은 일정한 빈도로 주기적으로 반복되는 패턴(m), 특정한 달/요일에 따라 기대값이 달라지는 것을 말합니다. 주기적 패턴이 12개월마다 반복된다면 m=12로 설정합니다. $Sin$함수나 $Cos$함수를 그려보면 이해가 빠를 것 같습니다.<br><img src="/images/seasoanlity.png" alt="계절성이란?"></p>
+</li>
+<li><p>주기<br>주기는 계절성과 많이 헷갈릴 수 있습니다. 주기는 일정하지 않은 빈도로 발생하는 패턴을 말합니다. 계절성과는 일정한 빈도라는 부분에서 차이가 납니다. 빈도가 1일 때도 발생가능하며, 쉽게말해 Variance가 비슷하면 계절성이고, 다르면 주기(Cycle)이라고 볼 수 있습니다.<br><img src="/images/cycle.png" alt="Cycle이란?"></p>
+</li>
+<li><p>더미변수<br>더미변수는 이진수의 형태로 변수를 생성하는 것으로 휴일, 이벤트, 캠페인, Outlier 등을 생성할 수 있습니다. 범주형 변수의 기준값을 미리 결정해야 하며, 기준 값을 제외한 채 더미변수를 생성합니다.(N개의 변수라면 하나는 빼주어야 합니다.) 각 더미변수의 값을 0 또는 1로 채우며 1은 각 더미변수의 정의와 같음을 의미합니다. 물론 더미변수는 N-1개를 만들어야 하지만, 더미변수는 해석에 자신이 있을때의 경우이고 자신이 없다면 N개 만들어도 됩니다.</p>
+</li>
+<li><p>지연값(Lag)<br>Lag는 변수의 지연된 값을 독립변수로 반영합니다. 과거의 X를 현재에 반영하고 싶을 때 사용하고 python의 shift를 이용해서 간단하게 Lag를 만들 수 있습니다. shift(1) 바로 이전의 것, shift(2) 두 단계 전의 값. ARIMA, VAR, NNAR 등이 활용합니다.<br><img src="/images/shift.png" alt="Lag란?"></p>
+</li>
+<li><p>시간변수<br>시간 변수를 미시/거시적으로 분리하거나 통합하여 생성된 변수를 말합니다.</p>
+</li>
+</ol>
+<p>시계열 구성요소는 각 변수의 시간패턴을 알아내는 데 중요합니다. Feature Engineering을 통해 생성된 변수의 input형태로 모델 선택을 하는 데 필요합니다. 생성된 변수의 패턴이 이전 모델에서 발견되지 않은 패턴이라면 모델의 성능을 높일 수 있습니다. 또한, 예측 성능 뿐 아니라, 결과를 해석하고 해당 속성을 분석하며 가능한 원인 식별에 도움이 됩니다.</p>
+<p>기본적으로 시계열 데이터 분석은 Numpy와 Pandas를 가지고 분석을 하게 됩니다. statsmodels라는 패키지의(sm)<br><code>sm.tsa.seasonal_decompose</code>를 통해 분석을 하게 됩니다. 여기서 parameter를 살펴보면, <code>additive</code>와 <code>multiplicative</code>모델을 고르는 부분이 있습니다. 뭘 선택해야 할지 고민을 할 수 있습니다. 일반적으로 additive모델을 주로 사용합니다. multiplicative모델은 언제 사용하느냐 하면, y가 %, 즉 비율로 표현되어 있을 때 사용하면 됩니다.<br><code>sm.tsa.seasonal_decompose</code>를 통해서 개략적으로 파악하고, 잔차까지 확인합니다.</p>
+<p><img src="/images/analysis.png" alt="sm.tsa.seanoal_decompose를 사용하자"></p>
+<p>Residual을 확인하면서 추출해 나가야합니다. Residual을 봤는데, Y = T + S + Residual이므로<br>Residual은 Y-T-S가 됩니다. </p>
+<p>이런식으로 잔차를 확인하고, 잔차에 트렌드가 있으면 트렌드를 잘못 추출한 것이고 잔차에 계절성이 있으면 계절성을 잘못 추출한 것이라고 판단하면서 분석의 방향을 잡아나아가면 됩니다. </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/08/25/Time-Series-Begins/" class="image is-7by1">
             <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
         </a>
@@ -331,7 +432,7 @@
 <li>50% Exploitation<br>Thompson Sampling과 달리 UCB는 불확실성에 더 초점을 맞춥니다. 한 variant에 대해 더 불확실 할 수록, 더 탐색을 해야만 하는 알고리즘입니다.</li>
 </ul>
 <p>알고리즘은 가장 높은 UCB가 나오는 variant를 선택합니다. UCB를 통해 가장 높은 보상이 나올 것이라고 생각되는 variant를 고르는 것입니다.</p>
-<script type="math/tex; mode=display">UCB = \bar x_i + \sqrt{\frac{2 \cdot \log{t}}{n}}</script><p>이 수식을 따르며 뒤에 term에 따라 UCB의 파생 알고리즘들이 등장하게 됩니다.</p>
+<p>$$UCB = \bar x_i + \sqrt{\frac{2 \cdot \log{t}}{n}}$$<br>이 수식을 따르며 뒤에 term에 따라 UCB의 파생 알고리즘들이 등장하게 됩니다.</p>
 <p>$\bar x_i$ CTR이 i번째 단계일 때,<br>$t$ - 모든 variant에 대해 impression을 다 더한 숫자이다.<br>$n$ - 선택된 variant에 대해 impression을 다 더한 숫자이다.</p>
 <p>로직은 직관적입니다.</p>
 <ol>
@@ -468,11 +569,9 @@
 <li>F1스코어</li>
 <li>ROC AUC</li>
 </ul>
-<h3 id="정확도-Accuracy"><a href="#정확도-Accuracy" class="headerlink" title="정확도(Accuracy)"></a>정확도(Accuracy)</h3><p>정확도는 실제 데이터에서 예측 데이터가 얼마나 같은지를 판단하는 지표이다.</p>
-<script type="math/tex; mode=display">Accuracy = {TP+TN\over TP+TN+FP+FN}</script><p>정확도는 직관적으로 모델 예측 성능을 나타내는 평가 지표이며, 기본적으로 많이 사용하는 지표중 하나이다.<br>하지만 정확도는 치명적인 약점이 존재하는데, 바로 불균형한 데이터 셋에서는 제대로 평가가 안된다는 것이다. 예를 들어보자 1000개의 샘플에 10개만 문제가 있는 샘플이다. 이럴 경우에 엉터리 분류기, 즉 모든 샘플에 대해서 정상이라고 분류하는 분류기를 이용해서 분류하고 정확도로 성능 평가를 한다면, 결과는 990/1000, 99%의 정확도를 보이게 된다.<br>엉터리 분류기가 과연 좋은 분류기일지 생각해보자. 만약 이 분류기에 문제가 있는 샘플을 더 추가한다면, 정확도는 기하급수적으로 떨어지게 될 것이다.</p>
+<h3 id="정확도-Accuracy"><a href="#정확도-Accuracy" class="headerlink" title="정확도(Accuracy)"></a>정확도(Accuracy)</h3><p>정확도는 실제 데이터에서 예측 데이터가 얼마나 같은지를 판단하는 지표이다.<br>$$Accuracy = {TP+TN\over TP+TN+FP+FN}$$<br>정확도는 직관적으로 모델 예측 성능을 나타내는 평가 지표이며, 기본적으로 많이 사용하는 지표중 하나이다.<br>하지만 정확도는 치명적인 약점이 존재하는데, 바로 불균형한 데이터 셋에서는 제대로 평가가 안된다는 것이다. 예를 들어보자 1000개의 샘플에 10개만 문제가 있는 샘플이다. 이럴 경우에 엉터리 분류기, 즉 모든 샘플에 대해서 정상이라고 분류하는 분류기를 이용해서 분류하고 정확도로 성능 평가를 한다면, 결과는 990/1000, 99%의 정확도를 보이게 된다.<br>엉터리 분류기가 과연 좋은 분류기일지 생각해보자. 만약 이 분류기에 문제가 있는 샘플을 더 추가한다면, 정확도는 기하급수적으로 떨어지게 될 것이다.</p>
 <h3 id="오차행렬-Confusion-Matrix"><a href="#오차행렬-Confusion-Matrix" class="headerlink" title="오차행렬(Confusion Matrix)"></a>오차행렬(Confusion Matrix)</h3><p>오차행렬은 학습된 분류 모델이 예측을 수행하면서 얼마나 헷갈리고 있는지도 함께 보여주는 지표이다. 즉, 이진 분류의 예측 오류가 얼마인지와 어떤 유형의 예측 오류가 발생하고 있는지를 같이 나타내 주는 지표이다.</p>
 <p>오차행렬은 다음과 같이 표현한다.</p>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -494,7 +593,6 @@
 </tr>
 </tbody>
 </table>
-</div>
 <p>위의 표에서 진하게 표시된 것이 예측 클래스에 대한 것이고(Predicted Calss) 옅게 표시된 것이 실제 클래스(Actual Class)이다.</p>
 <ul>
 <li>TP는 예측값을 Positive값 1으로 예측했고, 실제 값 역시 Positive값 1</li>
@@ -505,11 +603,10 @@
 <p>오차행렬을 기반으로 해서 정확도의 식을 다시 보면 결국, True에 해당하는 값인 TP와 TN에 값이 좌우되고 있다는 것을 알 수 있다. 정확도 = 예측 결과와 실제 값이 동일한 건수 / 전체 데이터 수 라고 다시 말할 수 있다.</p>
 <p>불균형한 이진 분류 데이터 셋에서는 Positive 건수가 매우 작기 때문에 이러한 데이터로 학습된 ML 알고리즘은 Positive보다는 Negative로 예측 정확도가 높아지는 경향이 발생한다. TN값이 높아진다는 것이다. 결과적으로 불균형 데이터 셋에서는 Positive에 대한 예측 정확도를 판단하지 못하고 Negative에 대한 예측 정확도만으로 분류의 정확도가 매우 높게 나타나는 수치적인 판단 오류를 일으키게 된다.</p>
 <p>이런 판단 오류를 극복하기 위해서 정밀도(Precision)와 재현율(Recall)이 성능지표로 사용된다.</p>
-<h3 id="정밀도와-재현율-Precision-and-Recall"><a href="#정밀도와-재현율-Precision-and-Recall" class="headerlink" title="정밀도와 재현율 (Precision and Recall)"></a>정밀도와 재현율 (Precision and Recall)</h3><p>정밀도와 재현율은 다음과 같은 공식으로 정의된다.</p>
-<script type="math/tex; mode=display">Precision = {TP \over FP+TP}</script><script type="math/tex; mode=display">Recall = {TP \over FN+TP}</script><p>정밀도는 <code>예측</code>을 Positive로 한 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 정밀도의공식에서 분모는 예측을 Positive로 한 모든 데이터 건수이다. Positive 예측 성능을 더욱 정밀하게 측정하기 위한 평가 지표로 양성 예측도라고 불린다.</p>
+<h3 id="정밀도와-재현율-Precision-and-Recall"><a href="#정밀도와-재현율-Precision-and-Recall" class="headerlink" title="정밀도와 재현율 (Precision and Recall)"></a>정밀도와 재현율 (Precision and Recall)</h3><p>정밀도와 재현율은 다음과 같은 공식으로 정의된다.<br>$$Precision = {TP \over FP+TP}$$<br>$$Recall = {TP \over FN+TP}$$<br>정밀도는 <code>예측</code>을 Positive로 한 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 정밀도의공식에서 분모는 예측을 Positive로 한 모든 데이터 건수이다. Positive 예측 성능을 더욱 정밀하게 측정하기 위한 평가 지표로 양성 예측도라고 불린다.</p>
 <p>재현율은 <code>실제 값</code>이 Positive인 대상 중에 예측과 실제 값이 Positive로 일치한 데이터의 비율을 뜻한다. 공식의 분모는 실제 값이 Positive인 모든 데이터 건수이다. 민감도 또는 TPR(True Positive Rate)라고도 불린다.</p>
-<p>정밀도와 재현율은 중요하게 생각하는 부분이 서로 다르기 때문에, 주어진 업무 특성에 따라서 특정 평가 지표가 더 중요한 지표로 간주될 수 있다. 재현율이 중요한 경우를 생각해보자. 재현율이 중요 지표로 사용되는 경우는 실제 Positive 양성 데이터를 Negative로 잘못 판단하게 되면 크리티컬한 영향이 발생하는 경우이다. 예를 들어 암 판단 모델은 재현율이 중요한데, 실제 Positive인 경우, 즉, 암환자를 Negative, 정상으로 분류하는 경우 오류의 대가가 생명이 될 수 있을 정도로 치명적이다. 만약 정상환자를 암환자로 분류하는 경우에는, 재검진을 하는 정도의 비용이 소모된다.(Positive—&gt;Negative로 잘못분류) </p>
-<p>정밀도가 중요한 경우를 생각해보자. 스팸메일 여부를 확인하는 예를 들어보면, 실제 Positive인 스팸 메일을 Negative 정상 메일이라고 분류하게 되면 사용자가 불편함을 느끼는 정도지만, 정상메일을 Spam으로 분류해 버리면 업무메일 등이 스팸으로 처리되어 메일을 받지 못하게 돼 업무에 차질이 생길 수 있다.(Negative—&gt;Positive로 잘못분류)</p>
+<p>정밀도와 재현율은 중요하게 생각하는 부분이 서로 다르기 때문에, 주어진 업무 특성에 따라서 특정 평가 지표가 더 중요한 지표로 간주될 수 있다. 재현율이 중요한 경우를 생각해보자. 재현율이 중요 지표로 사용되는 경우는 실제 Positive 양성 데이터를 Negative로 잘못 판단하게 되면 크리티컬한 영향이 발생하는 경우이다. 예를 들어 암 판단 모델은 재현율이 중요한데, 실제 Positive인 경우, 즉, 암환자를 Negative, 정상으로 분류하는 경우 오류의 대가가 생명이 될 수 있을 정도로 치명적이다. 만약 정상환자를 암환자로 분류하는 경우에는, 재검진을 하는 정도의 비용이 소모된다.(Positive–&gt;Negative로 잘못분류) </p>
+<p>정밀도가 중요한 경우를 생각해보자. 스팸메일 여부를 확인하는 예를 들어보면, 실제 Positive인 스팸 메일을 Negative 정상 메일이라고 분류하게 되면 사용자가 불편함을 느끼는 정도지만, 정상메일을 Spam으로 분류해 버리면 업무메일 등이 스팸으로 처리되어 메일을 받지 못하게 돼 업무에 차질이 생길 수 있다.(Negative–&gt;Positive로 잘못분류)</p>
 <p>정리하자면,</p>
 <ul>
 <li>재현율이 더 중요한 경우, 실제 Positive 양성 데이터 예측을 Negative로 잘못 판단하게 되면 업무 상 큰 차질이 발생하는 경우</li>
@@ -526,8 +623,8 @@
 <h4 id="정밀도-100-만들기"><a href="#정밀도-100-만들기" class="headerlink" title="정밀도 100% 만들기"></a>정밀도 100% 만들기</h4><p>확실한 기준이 되는 것만 Positive로 예측하고 나머지는 모두 Negative로 예측한다. 정밀도 = TP / (TP+FP) 이다. 예를 들어 암환자를 예측한다고 해보자. 전체환자 1000명 중에 확실한 Positive 징후만 가진 환자가 단 1명이라면(죽기 일보직전의) 한명만 Positive로 예측하고 나머지는 모두 Negative로 예측하더라도 FP는 0, TP는 1이기 때문에, 정밀도는 1/(1+0)으로 100%가 된다. Precision은 100%지만, 초기 암진단을 예측하는 경우는 희박하고, 위험한 정도의 암환자도 정상이라고 분류할 수 있기 때문에 좋은 분류기라고 할 수 없을 것이다.</p>
 <h4 id="재현율-100-만들기"><a href="#재현율-100-만들기" class="headerlink" title="재현율 100% 만들기"></a>재현율 100% 만들기</h4><p>모든 환자를 Positive로 예측하면 된다. 재현율 = TP / (TP+FN)이므로 전체 환자 1000명을 다 Positive로 예측하는 것이다. 이 중 실제 양성인 사람이 30명 정도라도 TN이 수치에 포함되지 않고 FN은 아예 0이므로 30/(30+0)으로 100%가 된다. 이렇게 되면 재현율은 100%지만 모델을 정말 신뢰할 수 있는지에 대해 의심이 발생할 것이다. 이런 모델은 정상인 사람도 암 환자로 예측하게 되므로, 재검사 비율을 매우 높이게 된다. 병원에서 재검사 비용을 대줘야 한다면, 혹은 환자로 분류된 사람이 재검사 비용을 내야 한다면, 병원이 손해를 막심하게 보거나, 고객들이 병원에 대해 신뢰를 하지 않을 것이다.</p>
 <p>따라서 정밀도와 재현율을 적절하게 고려한 평가 지표가 필요하게 된다.</p>
-<h3 id="F1-Score"><a href="#F1-Score" class="headerlink" title="F1 Score"></a>F1 Score</h3><p>F1-Score는 정밀도와 재현율을 조화 평균한 지표이다. F1-Score는 정밀도와 재현율이 어느 한 쪽으로 치우치지 않는 수치를 나타낼 때 상대적으로 높은 값을 가진다. 공식은 다음과 같다.</p>
-<script type="math/tex; mode=display">F1={2\over{1\over{recall}}+{1\over{precision}}}=2\times{precision*\space recall\over precision+recall}</script><p>만일 A 예측 모델의 경우 Precision이 0.9, Recall이 0.1로 극단적인 차이가 나고, B 예측 모델은 Precision과 Recall이 0.5로 큰 차이가 없다면 A의 F1-Score는 0.18이고, B의 F1-Score는 0.5로 B의 모델이 좋은 점수를 얻게 된다. 사실 F1 Score는 Precision과 Recall에 동일한 가중치인 0.5를 적용한 값이다. F-Measure는 $\beta$를 이용해 가중치를 조절한다. 공식을 살펴보자.</p>
+<h3 id="F1-Score"><a href="#F1-Score" class="headerlink" title="F1 Score"></a>F1 Score</h3><p>F1-Score는 정밀도와 재현율을 조화 평균한 지표이다. F1-Score는 정밀도와 재현율이 어느 한 쪽으로 치우치지 않는 수치를 나타낼 때 상대적으로 높은 값을 가진다. 공식은 다음과 같다.<br>$$F1={2\over{1\over{recall}}+{1\over{precision}}}=2\times{precision*\space recall\over precision+recall}$$ </p>
+<p>만일 A 예측 모델의 경우 Precision이 0.9, Recall이 0.1로 극단적인 차이가 나고, B 예측 모델은 Precision과 Recall이 0.5로 큰 차이가 없다면 A의 F1-Score는 0.18이고, B의 F1-Score는 0.5로 B의 모델이 좋은 점수를 얻게 된다. 사실 F1 Score는 Precision과 Recall에 동일한 가중치인 0.5를 적용한 값이다. F-Measure는 $\beta$를 이용해 가중치를 조절한다. 공식을 살펴보자.</p>
 <p>$F_\beta=$$(1+\beta^2)(Precision * Recall)\over{\beta^2 Precision + Recall}$</p>
 <p>$\beta$가 1보다 크면 Recall이 강조되고 1보다 작으면 Precision이 강조된다. 1일때의 점수를 $F_1$점수라고 한다.</p>
 <h3 id="ROC-amp-AUC"><a href="#ROC-amp-AUC" class="headerlink" title="ROC &amp; AUC"></a>ROC &amp; AUC</h3><p>ROC곡선(Receiver Operation Characteristic Curve)은 수신자 판단 곡선으로, 2차대전 때 통신 장비 성능 평가를 위해 고안된 수치이다. 요즘에는 이진 분류의 성능 평가 지표로 자주 사용된다. ROC Curve는 FPR(False Positive Rate)이 변할 때 TPR(True Positive Rate)이 어떻게 변하는지를 나타내는 곡선이다. FPR을 x축으로, TPR을 y축으로 잡으면 FPR에 대한 TPR의 변화가 곡선 형태로 나타난다.</p>
@@ -622,20 +719,23 @@
 </ul>
 <h4 id="새-축으로-이동된-데이터의-분산-구하기"><a href="#새-축으로-이동된-데이터의-분산-구하기" class="headerlink" title="새 축으로 이동된 데이터의 분산 구하기"></a>새 축으로 이동된 데이터의 분산 구하기</h4><p>각각의 attribute의 평균이 0이 되고, 분산이 1이 된다. 즉 같은 “scale”을 가지게 되어, attribute간의 비교가 가능 해진다.<br>데이터 포인트 $x_{1}, x_{2}, x_{3}, x_{4}, x_{5}$가 있을 때, u의 축으로 투영된 데이터 포인트$x_{1}^Tu, x_{2}^Tu, x_{3}^Tu, x_{4}^Tu, x_{5}^Tu$의 분산을 구해보자.</p>
 <p>먼저 평균값을 구해놓자.</p>
-<script type="math/tex; mode=display">\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0</script><p>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
+<p>$$\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0$$<br>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
 <p>분산을 구해보자.</p>
-<script type="math/tex; mode=display">\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2</script><p>($\mu$가 0이므로)</p>
-<script type="math/tex; mode=display">={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u</script><p>($u$는 unit vector이다.)</p>
-<p>이것은 결론적으로</p>
-<script type="math/tex; mode=display">=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u</script><script type="math/tex; mode=display">=u^T\sum u</script><p>식이 도출된다.</p>
+<p>$$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$$<br>($\mu$가 0이므로)</p>
+<p>$$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$$</p>
+<p>($u$는 unit vector이다.)</p>
+<p>이것은 결론적으로<br>$$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$$</p>
+<p>$$=u^T\sum u$$<br>식이 도출된다.</p>
 <p>Σ는 공분산 행렬로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 새 축의 분산을 구할 수 있다.</p>
 <h4 id="분산의-최대치-구하기"><a href="#분산의-최대치-구하기" class="headerlink" title="분산의 최대치 구하기"></a>분산의 최대치 구하기</h4><p>우리는 Principal Component, 즉, 주성분을 구하는 것이 목적이므로, 데이터의 분산이 최대가 되도록 만드는 축을 구해야 한다. 분산의 최대치를 구하기 위해서 변환된(투영된) 공간에서 분산을 최대화 해 줄 수 있는 벡터 $u$를 찾아야 한다. $u$는 unit vector라고 생각하자. 우리가 구하고자 하는 $u$는 방향이 중요하기 때문이다. 즉, $u^Tu = 1$이다.</p>
 <p>따라서 문제는 $u$가 unit vector일 때의 $u^T\sum u$의 최대값을 구하는 조건부 최적화 문제가 된다.</p>
-<script type="math/tex; mode=display">\max u^T\sum u</script><script type="math/tex; mode=display">s.t \space u^Tu=1</script><p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.</p>
-<script type="math/tex; mode=display">\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)</script><p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
-<p>이렇게 구한 식을 나타내면</p>
-<script type="math/tex; mode=display">u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda</script><p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.</p>
-<script type="math/tex; mode=display">argmax_{u}u^T\sum u = argmax_{u}\lambda</script><p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
+<p>$$\max u^T\sum u$$</p>
+<p>$$s.t \space u^Tu=1$$</p>
+<p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.<br>$$\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)$$</p>
+<p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
+<p>이렇게 구한 식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
+<p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.<br>$$argmax_{u}u^T\sum u = argmax_{u}\lambda$$</p>
+<p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
 <p>분산의 최대값은, 𝕦가 Σ의 eigenvalue 중 가장 큰 값을 가지는 eigenvalue에 대응되는 eigenvector일 때 달성된다. 우리는 이것을 주성분이라고도 부른다.</p>
 <p>이 다음의 주성분을 구하는 것은 간단하다. D차원에서 주성분은 데이터 공분산 행렬의 가장 큰 eigenvalue에서 부터 D번째로 큰 eigenvalue까지에 대응되는 D개의 eigenvector가 될 것이다.</p>
 
@@ -701,7 +801,7 @@
 <p>책에 있는 코드와 다른점은 EXTRACT를 사용하지 않았다는 것이다. MySQL에는 EXTRACT가 없기 때문에 년도를 이용해 일일이 계산해 주어야 한다. YEAR함수를 이용해 년도만 가져와서 계산해준다. 주의해야 할 점은, YEAR함수에 today를 넣어주는 게 아니라 CURRENT_DATE를 넣어주어야 한다는 것이다. today를 넣어주면 syntax에러가 발생한다.</p>
 <p>하지만 YEAR로 계산한 경우 연 부분만의 차이가 계산되므로, 해당 연의 생일을 넘었는지 제대로 계산이 되지 않는 문제가 발생한다.</p>
 <figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> user_id,</span><br><span class="line"><span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> register_date, birth_date,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>,<span class="hljs-number">10</span>), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>))  / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> register_age,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">CURRENT_DATE</span> <span class="hljs-keyword">as</span> signed), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">as</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>)) / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> current_age</span><br><span class="line"><span class="hljs-keyword">from</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
-<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED—&gt;INTEGER이고, SIGNED—&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
+<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED–&gt;INTEGER이고, SIGNED–&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
 
         </div>
         
@@ -760,7 +860,7 @@
 <h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
 <p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
 <p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
-<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/</a>]</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
 <p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
 
         </div>
@@ -827,6 +927,8 @@
 <li>훈련 데이터에서 다수의 표본을 추출하고, 개별 트리의 결과를 병합하여 단일 예측 모델을 생성</li>
 <li>각 bootstrap 과정이 독립적이므로 병렬 처리가 가능</li>
 </ul>
+</blockquote>
+<blockquote>
 <p>Boosting</p>
 <ul>
 <li>Bagging과는 달리 순차적으로 시행되며 bootstrap 과정이 없음</li>
@@ -952,133 +1054,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/05/05/Ensemble-Model/" class="image is-7by1">
-            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Ensemble_Model">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-05T07:19:05.000Z">2019-05-05</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    18 minutes read (About 2650 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/05/05/Ensemble-Model/">Ensemble_Model</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest"><a href="#Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest" class="headerlink" title="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)"></a>Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)</h1><p>앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다.</p>
-<h3 id="NFL-No-Free-Lunch"><a href="#NFL-No-Free-Lunch" class="headerlink" title="NFL (No Free Lunch)"></a>NFL (No Free Lunch)</h3><p>No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이론이다. ‘어떤 특정 정책에 의해 얼핏 보면 이득을 얻는 것 같지만, 그것은 한 측면의 이득일 뿐이고 반드시 이면에 다른 측면이 있고 그 측면에서 손해가 발생한다.’는 것이 핵심이다.</p>
-<p>이 이론에 따라서 혼성모델의 필요성이 대두되었다. 혼성모델이란 여러 알고리즘을 결합하는 모델이다. 이 모델은 특정 문제가 주어진 상황에서 그 문제를 가장 높은 성능으로 풀 수 있는 알고리즘에 대한 필요성에 의해서 제시되었다.</p>
-<h3 id="Resampling"><a href="#Resampling" class="headerlink" title="Resampling"></a>Resampling</h3><p>리샘플링은 데이터가 부족할 때 같은 샘플을 여러번 사용하는 것을 말한다. 성능 통계치의 신뢰도를 높이기 위해 사용된다. Resample을 하는 이유는 다음과 같다.</p>
-<ul>
-<li>실제 상황에서는 만족할 만한 큰 샘플을 얻기가 힘들다.</li>
-<li>Bias-Variance Trade off를 통해 큰 샘플이 중요하다는 것을 알 수 있다.<ul>
-<li>sample의 집합이 커지면 variance가 감소한다!, MSE도 감소한다!</li>
-</ul>
-</li>
-<li>모델의 선택은 별도의 검증이 필요하다.(검증용 데이터, 큰 샘플의 필요성)</li>
-</ul>
-<h3 id="Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”"><a href="#Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”" class="headerlink" title="Bootstrap, Statistical term for “roll n-face dice n times”"></a>Bootstrap, Statistical term for “roll n-face dice n times”</h3><p>부트스트랩은 Resampling을 이용하여, 분류기의 성능을 측정하는 방법 중 하나이다. 통계에서는 추정치에 대한 검증용(가설 검증)으로 많이 사용된다. 부트스트랩의 장점은 한번도 뽑히지 않은 데이터가 발생한다는 것이다. 이를 통해 데이터를 아낄 수 있게 된다.</p>
-<h3 id="Ensemble"><a href="#Ensemble" class="headerlink" title="Ensemble"></a>Ensemble</h3><p>앙상블 모델은 혼성모델 중 하나이다. 앙상블은 두가지 방식이 존재한다.</p>
-<ul>
-<li>같은 문제에 대해 서로 다른 여러 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
-<li>문제와 유사한 여러 하위 문제들에 대해 하나의 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
-</ul>
-<p>앙상블의 동기는 단순히 통계적, 수학적일 뿐만 아니라, 사람들의 심리 등 여러부분을 관통하는 내용이기도 하다.<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">어느 도시에서는 소를 광장에 매어 놓고 참가자들에게 체중을 추정하여 적어 내게 하고 실제 체중에 가장 가까운 사람에게</span><br><span class="line">상품을 주는 대회가 있다고 한다. 수백 명이 참가하는데 그들이 적어낸 숫자들을 평균해 보면 답과 아주 근사하다고 한다.</span><br></pre></td></tr></table></figure></p>
-<p>사람들은 중요한 결정을 할때 여러 사람의 의견을 들어보고 결정하려는 경향이 있고, 이런 경향은, 통계학이 아닌 다른 분야에서도 사용되는 개념이다.</p>
-<blockquote>
-<h4 id="다양성"><a href="#다양성" class="headerlink" title="다양성"></a>다양성</h4><p>앙상블 모델의 핵심은 다양성이다. 앙상블에 참여한 모델이 모두 같은 결과를 낸다면, 그것은 앙상블 모델로써 어떠한 장점도 갖고 있지 않다. 한 분류기가 틀리는 어떤 문제를, 다른 분류기에서는 맞출 수 있어야 앙상블 모델로써 가치가 있을 것이다. </p>
-</blockquote>
-<p>앙상블 분류기 시스템은 앙상블 생성, 앙상블 선택, 앙상블 결합의 단계를 거친다.</p>
-<blockquote>
-<h4 id="앙상블-생성"><a href="#앙상블-생성" class="headerlink" title="앙상블 생성"></a>앙상블 생성</h4><ul>
-<li>Resample을 이용해서 (Bagging, Bootstrap) 샘플 집합들을 생성하고, 분류기를 훈련한다.</li>
-<li>Feature Vector의 subspace를 이용해서 샘플 부분 집합을 생성하고 분류기를 훈련한다.</li>
-<li>앙상블의 분류기는 요소분류기와 기초분류기로 구분된다.</li>
-</ul>
-<h4 id="앙상블-결합"><a href="#앙상블-결합" class="headerlink" title="앙상블 결합"></a>앙상블 결합</h4><p>요소 분류기(기초 학습기)들의 출력을 결합하여 하나의 분류 결과를 만드는 과정이다.<br>요소 분류기의 출력은 세가지의 방식으로 나뉜다.</p>
-<ul>
-<li>Class Label<ul>
-<li>Majority Vote : class 라벨이 많이 나온 쪽으로 분류한다.</li>
-<li>Weighted Majority Vote : 성능 좋은 분류기에 가중치를 부여한다.(Adaboost)</li>
-<li>Behavior knowledge space(BKS/행위지식공간) : 경험한 케이스를 테이블로 갖고 분류기 결과를 보고 경험적으로 결정한다(테이블에서 찾아서). 다수결 방법의 성능을 고도화 할때 사용됨</li>
-</ul>
-</li>
-<li>Class Ranking <ul>
-<li>Borda 계수</li>
-</ul>
-</li>
-<li>Class Probability<ul>
-<li>Softmax</li>
-</ul>
-</li>
-</ul>
-</blockquote>
-<h3 id="Bagging-Bootstrap-Aggregating"><a href="#Bagging-Bootstrap-Aggregating" class="headerlink" title="Bagging (Bootstrap + Aggregating)"></a>Bagging (Bootstrap + Aggregating)</h3><p>부트스트랩을 다중 분류기 생성 기법으로 확장한 것이다. 부트스트랩 된 샘플 집합에서 훈련을 하고, 입력 값에 대해 분류기들의 평균값이나, 다수결 투표를 취한다. 샘플링은 복원추출하는 방식으로 하고, 훈련된 분류기의 결과를 모두 종합하기 때문에 Bagging이라고 부른다.</p>
-<ul>
-<li>반복적인 복원 추출 (Bootstrap)</li>
-<li>결과를 모두 종합 (Aggregation)</li>
-</ul>
-<h4 id="Bagging-배깅은-언제-사용할까"><a href="#Bagging-배깅은-언제-사용할까" class="headerlink" title="Bagging, 배깅은 언제 사용할까?"></a>Bagging, 배깅은 언제 사용할까?</h4><p>배깅은 편향이 작고 분산이 높은 모델에 사용하면 효과적이다. </p>
-<ul>
-<li>트리 분류기와 같이 불안정성을 보이는 분류기에 큰 효과를 발휘</li>
-<li>훈련 집합이 달라지면 차이가 큰 트리가 생성 ⇒ 다양성 확보</li>
-<li>Bias를 변화시키지 않고 variance를 감소시킨다.(Bias를 쪼오오오오끔 희생한다.)</li>
-</ul>
-<p>배깅은 분산을 감소시키기 위해, 훈련데이터에서 많은 샘플링을 하고(Bootstrap), 샘플들로 별도의 Decision Tree를 구성한 후, 회귀나 분류문제를 푸는데 사용된다. 회귀는 분류기 결과의 평균값을 사용하고, 분류는 최빈값을 취한다.</p>
-<p>배깅은 이미 저분산 모델인 경우 별로 효과가 없다. Bias-Variance Tradeoff 를조금만 생각해보자. 분산이 이미 줄어있는 상태에서는 더 줄일 분산이 없다. 배깅은 오직 분산을 줄이는 데 효과적이다.</p>
-<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e" target="_blank" rel="noopener">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e</a>])</p>
-<p>부트스트랩되지 않은 샘플들은 한번도 사용되지 않은 샘플들로 검증데이터에 활용할 수 있다. 이런 training observations은 out-of-bag observations이라고 불린다.</p>
-<h4 id="OOB-estimate-of-test-error"><a href="#OOB-estimate-of-test-error" class="headerlink" title="OOB estimate of test error"></a>OOB estimate of test error</h4><ul>
-<li>부트스트랩 샘플을 이용하여 개별 학습기를 학습한 후, OOB에 속하는 샘플들에 대한 예측값을 모두 구한다.</li>
-<li>OOB의 실제 라벨값과 OOB의 예측값을 이용하여 OOB error를  구한다.</li>
-<li>모든 부트스트랩 샘플 sets에 대하여 위의 과정을 반복하면, 샘플 sets 수 만큼의, errors를 모을 수 있다.</li>
-<li>OOB errors의 평균값을 이용하여 bagging 모델의 최종 테스트 error를 계산한다.</li>
-</ul>
-<h3 id="Weakness-of-Bagging"><a href="#Weakness-of-Bagging" class="headerlink" title="Weakness of Bagging"></a>Weakness of Bagging</h3><p>배깅은 엄청나게 효과적인 것처럼 보이지만 약점이 존재한다. 배깅은 feature를 모두 사용하고, row를 랜덤하게 선택하는 것이다. Decision Tree를 만든다고 해보자, 만약 영향력이 높은, Information Gain이 높은 모델을 사용한다고 했을때, 특정 Feature만 계속 선택되서 트리가 만들어질 가능성이 있다. 즉, 중요한 칼럼들이 트리의 초기 분기때 모든 표본에 그대로 존재하게 된다. 이렇게 되면 만들어진 대다수의 트리들의 결과가 비슷해진다. 이것이 반복되면 트리간의 상관관계가 발생해서 분산 감소의 효과가 줄어들게 된다.<br>(배깅의 약점은 IID condition이다. IID 조건을 만족하는 경우 분산은 $Var={\sigma^2\over n}$이 되지만, IID를 만족하지 못하는 경우, 상관관계가 발생하여 $Corr = p$이라고 할때, $Var = p\sigma^2$가 된다.)</p>
-<p>그래서 혁신적인 아이디어와 함께 등장하게 된 것이 Random Forest이다.</p>
-<h3 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h3><p>랜덤 포레스트는 일반적으로 bagging 방법(또는 pasting)을 적용한 결정 트리의 앙상블이다.<br>랜덤 포레스트 알고리즘은 트리의 노드를 분할할 때 전체 특성 중에서 최선의 특성을 찾는 대신 무작위로 선택한 특성 후보 중에서 최적의 특성을 찾는 식으로 무작위성을 더 주입한다. 트리를 더욱 다양하게 생성하고 (트리의 의존성을 낮추고, 다양성을 증가) 편향을 손해 보는 대신 분산을 낮추어 전체적으로 더 훌륭한 모델을 생성한다.</p>
-<p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
-<blockquote>
-<h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
-<h4 id="Random-Forest-모델의-장단점"><a href="#Random-Forest-모델의-장단점" class="headerlink" title="Random Forest 모델의 장단점?"></a>Random Forest 모델의 장단점?</h4><p>장점 : 굉장히 간편하다. 스케일링도 필요없고 파라미터 튜닝을 많이 안해도 성능이 뛰어나다. 의사결정의 트리의와 배깅의 단점은 극복하고 장점만을 가져온 것이라고 할 수 있다.</p>
-</blockquote>
-<p>단점 : 차원이 높고 매우 희소한 데이터에서는 잘 작동하지 않는다. 이런 희소한 데이터에는 선형 모델이 더 적합할 수 있다.</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1141,7 +1116,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        23
                     </p>
                 </div>
             </div>
@@ -1280,7 +1255,7 @@
                 <span class="level-item">Statistics</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/blog/">
@@ -1398,7 +1373,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 10px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 13.33px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -1409,6 +1384,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/08/Time-Series02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/timeseries.png" alt="시계열 분석 시리즈 두 번째">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T10:57:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/Time-Series02/" class="has-link-black-ter is-size-6">시계열 분석 시리즈 두 번째</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1486,25 +1480,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/23/PCA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time></div>
-                    <a href="/2019/05/23/PCA/" class="has-link-black-ter is-size-6">PCA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1516,6 +1491,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/08/">
@@ -1811,7 +1797,7 @@
                             <span class="level-item">Timeseries</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

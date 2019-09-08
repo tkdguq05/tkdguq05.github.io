@@ -154,6 +154,107 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/09/08/Time-Series02/" class="image is-7by1">
+            <img class="thumbnail" src="/images/timeseries.png" alt="시계열 분석 시리즈 두 번째">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-09-08T10:57:22.000Z">2019-09-08</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1765 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/09/08/Time-Series02/">시계열 분석 시리즈 두 번째</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Dive-into-시계열-데이터-분석"><a href="#Dive-into-시계열-데이터-분석" class="headerlink" title="Dive into 시계열 데이터 분석"></a>Dive into 시계열 데이터 분석</h1><h2 id="시계열-데이터-분석에-대해서-공부해보자-02"><a href="#시계열-데이터-분석에-대해서-공부해보자-02" class="headerlink" title="시계열 데이터 분석에 대해서 공부해보자 02"></a>시계열 데이터 분석에 대해서 공부해보자 02</h2><p>시계열 데이터도 그렇고 데이터 분석 자체도 그렇습니다만, 내가 어떤 문제를 풀어야 하는지 알게 되면, 문제에 대한 기획/접근/해결 방향은 단순해집니다. </p>
+<ul>
+<li><p>문제가 무엇일까?</p>
+</li>
+<li><p>내가 사용가능한 알고리즘은?</p>
+</li>
+<li><p>알고리즘의 입력과 형식은?</p>
+</li>
+<li><p>알고리즘의 출력은?</p>
+</li>
+</ul>
+<p>보통 이런 4단계를 거치게 되겠습니다. 항상 알고리즘을 사용하기 전에 위의 4가지 물음에 대해서 고민해 보는 게 좋을 것 같습니다. 학습하는 방향에 따라서 알고리즘은 달라집니다. 대표적인 알고리즘 유형은 다음과 같습니다.</p>
+<h3 id="Supervised-Learning"><a href="#Supervised-Learning" class="headerlink" title="Supervised Learning"></a>Supervised Learning</h3><ul>
+<li>Regression</li>
+<li>Instance Based</li>
+<li>Regularization</li>
+<li>Tree</li>
+<li>Bayesian</li>
+<li>ANN</li>
+</ul>
+<h3 id="Unsupervised-Learning"><a href="#Unsupervised-Learning" class="headerlink" title="Unsupervised Learning"></a>Unsupervised Learning</h3><ul>
+<li>Clustering</li>
+<li>Association Rule</li>
+<li>Dimensionality Reduction</li>
+<li>Ensemble</li>
+<li>Deep Learning</li>
+</ul>
+<p>머신러닝에 대해서는 어느정도 알고 있습니다. 그렇다면 머신러닝과 시계열 분석의 차이는 무엇일까요? 큰 차이점은 바로 <code>시간축</code>을 고려하는가? 아닌가?에 관한 것입니다. 시계열 분석은 시간축에 대해서 고려를 해야하고, 학습데이터와 테스트 데이터를 나눌때도 시간축을 신경 써서 나누어야 합니다.</p>
+<h2 id="시계열-데이터의-독자적인-성분들-7종"><a href="#시계열-데이터의-독자적인-성분들-7종" class="headerlink" title="시계열 데이터의 독자적인 성분들 7종"></a>시계열 데이터의 독자적인 성분들 7종</h2><p>시계열 데이터를 다루다 보면 시계열 데이터만의 독특한 성분들이 발견됩니다. 대표적인 7종을 알아보겠습니다. </p>
+<ol>
+<li><p>빈도<br>빈도는 말 그대로 frequency를 나타내는 말입니다. 하지만 조금 다른게 있다면, 계절성 패턴이 나타나기 전까지의 데이터 갯수로 사람이 정해야 한다는 점입니다. 일 단위, 월 단위, 연 단위로 나누어서 빈도를 측정합니다. 나누는 기준은 따로 없지만, 비즈니스 사이클이 복잡할수록 작은 시간축, 단순하다면 크게 월로 해도 어느정도 맞아들어갑니다. 혹시 작업을 하다가 시간축이 안맞아 Null이 발생할 수 있는데, 파이썬의 여러 메서드를 사용한다면 금방 채울 수 있습니다. <code>bfill</code>(Backward fill)이나 <code>ffill</code>(Forward fill)등을 이용하면 됩니다.</p>
+</li>
+<li><p>추세<br>추세는 트렌드를 말합니다. 시계열이 시간에 따라 증가, 감소 또는 일정 수준을 유지하는 경우를 말하며, 아마존의 주식 챠트를 보면 우상향하는 그래프를 볼 수 있는데, 그런 경향을 바로 트렌드라고 합니다. 확률과정(Yt)이 추정이 가능한 결정론적 추세함수 f(t)와 정상확률과정(Yt)의 합으로 나타내어집니다.<br>$$Y_t = f(t) + Y_t(Seasonal)$$<br>추세를 제거하게 되면 추세를 제외한 함수로 예측하는 것이 일반적이고 상한, 하한을 만들어 놓습니다. X에 대해서는 일/월/년 인지 모르기 때문에 frequency 세팅을 꼭 해주어야 합니다.</p>
+</li>
+</ol>
+<ol start="3">
+<li><p>계절성<br>계절성은 일정한 빈도로 주기적으로 반복되는 패턴(m), 특정한 달/요일에 따라 기대값이 달라지는 것을 말합니다. 주기적 패턴이 12개월마다 반복된다면 m=12로 설정합니다. $Sin$함수나 $Cos$함수를 그려보면 이해가 빠를 것 같습니다.<br><img src="/images/seasoanlity.png" alt="계절성이란?"></p>
+</li>
+<li><p>주기<br>주기는 계절성과 많이 헷갈릴 수 있습니다. 주기는 일정하지 않은 빈도로 발생하는 패턴을 말합니다. 계절성과는 일정한 빈도라는 부분에서 차이가 납니다. 빈도가 1일 때도 발생가능하며, 쉽게말해 Variance가 비슷하면 계절성이고, 다르면 주기(Cycle)이라고 볼 수 있습니다.<br><img src="/images/cycle.png" alt="Cycle이란?"></p>
+</li>
+<li><p>더미변수<br>더미변수는 이진수의 형태로 변수를 생성하는 것으로 휴일, 이벤트, 캠페인, Outlier 등을 생성할 수 있습니다. 범주형 변수의 기준값을 미리 결정해야 하며, 기준 값을 제외한 채 더미변수를 생성합니다.(N개의 변수라면 하나는 빼주어야 합니다.) 각 더미변수의 값을 0 또는 1로 채우며 1은 각 더미변수의 정의와 같음을 의미합니다. 물론 더미변수는 N-1개를 만들어야 하지만, 더미변수는 해석에 자신이 있을때의 경우이고 자신이 없다면 N개 만들어도 됩니다.</p>
+</li>
+<li><p>지연값(Lag)<br>Lag는 변수의 지연된 값을 독립변수로 반영합니다. 과거의 X를 현재에 반영하고 싶을 때 사용하고 python의 shift를 이용해서 간단하게 Lag를 만들 수 있습니다. shift(1) 바로 이전의 것, shift(2) 두 단계 전의 값. ARIMA, VAR, NNAR 등이 활용합니다.<br><img src="/images/shift.png" alt="Lag란?"></p>
+</li>
+<li><p>시간변수<br>시간 변수를 미시/거시적으로 분리하거나 통합하여 생성된 변수를 말합니다.</p>
+</li>
+</ol>
+<p>시계열 구성요소는 각 변수의 시간패턴을 알아내는 데 중요합니다. Feature Engineering을 통해 생성된 변수의 input형태로 모델 선택을 하는 데 필요합니다. 생성된 변수의 패턴이 이전 모델에서 발견되지 않은 패턴이라면 모델의 성능을 높일 수 있습니다. 또한, 예측 성능 뿐 아니라, 결과를 해석하고 해당 속성을 분석하며 가능한 원인 식별에 도움이 됩니다.</p>
+<p>기본적으로 시계열 데이터 분석은 Numpy와 Pandas를 가지고 분석을 하게 됩니다. statsmodels라는 패키지의(sm)<br><code>sm.tsa.seasonal_decompose</code>를 통해 분석을 하게 됩니다. 여기서 parameter를 살펴보면, <code>additive</code>와 <code>multiplicative</code>모델을 고르는 부분이 있습니다. 뭘 선택해야 할지 고민을 할 수 있습니다. 일반적으로 additive모델을 주로 사용합니다. multiplicative모델은 언제 사용하느냐 하면, y가 %, 즉 비율로 표현되어 있을 때 사용하면 됩니다.<br><code>sm.tsa.seasonal_decompose</code>를 통해서 개략적으로 파악하고, 잔차까지 확인합니다.</p>
+<p><img src="/images/analysis.png" alt="sm.tsa.seanoal_decompose를 사용하자"></p>
+<p>Residual을 확인하면서 추출해 나가야합니다. Residual을 봤는데, Y = T + S + Residual이므로<br>Residual은 Y-T-S가 됩니다. </p>
+<p>이런식으로 잔차를 확인하고, 잔차에 트렌드가 있으면 트렌드를 잘못 추출한 것이고 잔차에 계절성이 있으면 계절성을 잘못 추출한 것이라고 판단하면서 분석의 방향을 잡아나아가면 됩니다. </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/08/25/Time-Series-Begins/" class="image is-7by1">
             <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
         </a>
@@ -272,7 +373,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        23
                     </p>
                 </div>
             </div>
@@ -411,7 +512,7 @@
                 <span class="level-item">Statistics</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/blog/">
@@ -529,7 +630,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 10px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 13.33px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -540,6 +641,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/08/Time-Series02/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/timeseries.png" alt="시계열 분석 시리즈 두 번째">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-08T10:57:22.000Z">2019-09-08</time></div>
+                    <a href="/2019/09/08/Time-Series02/" class="has-link-black-ter is-size-6">시계열 분석 시리즈 두 번째</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -617,25 +737,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/23/PCA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="PCA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T06:28:50.000Z">2019-05-23</time></div>
-                    <a href="/2019/05/23/PCA/" class="has-link-black-ter is-size-6">PCA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -647,6 +748,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/09/">
+                <span class="level-start">
+                    <span class="level-item">September 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/08/">
@@ -942,7 +1054,7 @@
                             <span class="level-item">Timeseries</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
