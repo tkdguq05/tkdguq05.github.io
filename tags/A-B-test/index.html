@@ -261,7 +261,7 @@
 <li>50% Exploitation<br>Thompson Sampling과 달리 UCB는 불확실성에 더 초점을 맞춥니다. 한 variant에 대해 더 불확실 할 수록, 더 탐색을 해야만 하는 알고리즘입니다.</li>
 </ul>
 <p>알고리즘은 가장 높은 UCB가 나오는 variant를 선택합니다. UCB를 통해 가장 높은 보상이 나올 것이라고 생각되는 variant를 고르는 것입니다.</p>
-<script type="math/tex; mode=display">UCB = \bar x_i + \sqrt{\frac{2 \cdot \log{t}}{n}}</script><p>이 수식을 따르며 뒤에 term에 따라 UCB의 파생 알고리즘들이 등장하게 됩니다.</p>
+<p>$$UCB = \bar x_i + \sqrt{\frac{2 \cdot \log{t}}{n}}$$<br>이 수식을 따르며 뒤에 term에 따라 UCB의 파생 알고리즘들이 등장하게 됩니다.</p>
 <p>$\bar x_i$ CTR이 i번째 단계일 때,<br>$t$ - 모든 variant에 대해 impression을 다 더한 숫자이다.<br>$n$ - 선택된 variant에 대해 impression을 다 더한 숫자이다.</p>
 <p>로직은 직관적입니다.</p>
 <ol>
