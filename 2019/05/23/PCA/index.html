@@ -211,23 +211,20 @@
 </ul>
 <h4 id="새-축으로-이동된-데이터의-분산-구하기"><a href="#새-축으로-이동된-데이터의-분산-구하기" class="headerlink" title="새 축으로 이동된 데이터의 분산 구하기"></a>새 축으로 이동된 데이터의 분산 구하기</h4><p>각각의 attribute의 평균이 0이 되고, 분산이 1이 된다. 즉 같은 “scale”을 가지게 되어, attribute간의 비교가 가능 해진다.<br>데이터 포인트 $x_{1}, x_{2}, x_{3}, x_{4}, x_{5}$가 있을 때, u의 축으로 투영된 데이터 포인트$x_{1}^Tu, x_{2}^Tu, x_{3}^Tu, x_{4}^Tu, x_{5}^Tu$의 분산을 구해보자.</p>
 <p>먼저 평균값을 구해놓자.</p>
-<p>$$\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0$$<br>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
+<script type="math/tex; mode=display">\mu={1\over{m}}\sum_{i=1}^{m}x_i^Tu = 0</script><p>투영된 공간에서의 기댓값은 0이다. 왜냐하면 데이터 포인트들은 이미 standardizing을 한 상태이기 때문이다. 평균의 평균을 구하니까 0이 되는 것이다. </p>
 <p>분산을 구해보자.</p>
-<p>$$\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2$$<br>($\mu$가 0이므로)</p>
-<p>$$={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u$$</p>
-<p>($u$는 unit vector이다.)</p>
-<p>이것은 결론적으로<br>$$=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u$$</p>
-<p>$$=u^T\sum u$$<br>식이 도출된다.</p>
+<script type="math/tex; mode=display">\sigma^2={1\over{m}}\sum_{i=1}^{m}(x_i^Tu - \mu)^2 ={1\over{m}}\sum_{i=1}^{m}(x_i^Tu)^2</script><p>($\mu$가 0이므로)</p>
+<script type="math/tex; mode=display">={1\over{m}}\sum_{i=1}^{m}(u^Tx_ix_i^Tu) = u^T({1\over{m}}\sum_{i=1}^{m}(x_ix_i^T))u</script><p>($u$는 unit vector이다.)</p>
+<p>이것은 결론적으로</p>
+<script type="math/tex; mode=display">=u^T({1\over{m}}\sum_{i=1}^{m}(x_i-\mathbb{o})(x_i-\mathbb{o})^T)u</script><script type="math/tex; mode=display">=u^T\sum u</script><p>식이 도출된다.</p>
 <p>Σ는 공분산 행렬로 기존 데이터의 공분산 행렬을 사용한다.<br>결국 투영하려고 하는 축과 기존 데이터의 공분산 행렬의 곱으로 간단하게 새 축의 분산을 구할 수 있다.</p>
 <h4 id="분산의-최대치-구하기"><a href="#분산의-최대치-구하기" class="headerlink" title="분산의 최대치 구하기"></a>분산의 최대치 구하기</h4><p>우리는 Principal Component, 즉, 주성분을 구하는 것이 목적이므로, 데이터의 분산이 최대가 되도록 만드는 축을 구해야 한다. 분산의 최대치를 구하기 위해서 변환된(투영된) 공간에서 분산을 최대화 해 줄 수 있는 벡터 $u$를 찾아야 한다. $u$는 unit vector라고 생각하자. 우리가 구하고자 하는 $u$는 방향이 중요하기 때문이다. 즉, $u^Tu = 1$이다.</p>
 <p>따라서 문제는 $u$가 unit vector일 때의 $u^T\sum u$의 최대값을 구하는 조건부 최적화 문제가 된다.</p>
-<p>$$\max u^T\sum u$$</p>
-<p>$$s.t \space u^Tu=1$$</p>
-<p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.<br>$$\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)$$</p>
-<p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
-<p>이렇게 구한 식을 나타내면<br>$$u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda$$</p>
-<p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.<br>$$argmax_{u}u^T\sum u = argmax_{u}\lambda$$</p>
-<p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
+<script type="math/tex; mode=display">\max u^T\sum u</script><script type="math/tex; mode=display">s.t \space u^Tu=1</script><p>이 문제는 라그랑지 승수 (Laglange Multiplier)를 이용해 해결 할 수 있다.</p>
+<script type="math/tex; mode=display">\mathcal{L}(u,\lambda)= u^T\sum u - \lambda(u^Tu-1)</script><p>$\mathcal{L}(u,\lambda)$를 미분해서 $u$의 최대치를 구한다.</p>
+<p>이렇게 구한 식을 나타내면</p>
+<script type="math/tex; mode=display">u^T\sum u = u^T\lambda u=\lambda u^T u=\lambda</script><p>즉, 분산을 최대화 하는 문제는 Σ의 eigenvalue를 최대화 하는 문제가 된다.</p>
+<script type="math/tex; mode=display">argmax_{u}u^T\sum u = argmax_{u}\lambda</script><p>따라서, 변환된(축소된) 공간에서 분산의 최대값은 Σ의 eigenvalue의 최대값이다.</p>
 <p>분산의 최대값은, 𝕦가 Σ의 eigenvalue 중 가장 큰 값을 가지는 eigenvalue에 대응되는 eigenvector일 때 달성된다. 우리는 이것을 주성분이라고도 부른다.</p>
 <p>이 다음의 주성분을 구하는 것은 간단하다. D차원에서 주성분은 데이터 공분산 행렬의 가장 큰 eigenvalue에서 부터 D번째로 큰 eigenvalue까지에 대응되는 D개의 eigenvector가 될 것이다.</p>
 
@@ -338,7 +335,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        24
                     </p>
                 </div>
             </div>
@@ -477,7 +474,7 @@
                 <span class="level-item">Statistics</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/blog/">
@@ -595,7 +592,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 13.33px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -606,6 +603,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/20/Time-Series-03/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/timeseries.png" alt="Time_Series_03">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-20T02:08:36.000Z">2019-09-20</time></div>
+                    <a href="/2019/09/20/Time-Series-03/" class="has-link-black-ter is-size-6">Time_Series_03</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -683,25 +699,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/29/Metrics/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T05:27:17.000Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/Metrics/" class="has-link-black-ter is-size-6">Classification Metrics</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -720,7 +717,7 @@
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1019,7 +1016,7 @@
                             <span class="level-item">Timeseries</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>

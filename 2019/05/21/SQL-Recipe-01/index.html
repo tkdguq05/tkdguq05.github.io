@@ -192,7 +192,7 @@
 <p>책에 있는 코드와 다른점은 EXTRACT를 사용하지 않았다는 것이다. MySQL에는 EXTRACT가 없기 때문에 년도를 이용해 일일이 계산해 주어야 한다. YEAR함수를 이용해 년도만 가져와서 계산해준다. 주의해야 할 점은, YEAR함수에 today를 넣어주는 게 아니라 CURRENT_DATE를 넣어주어야 한다는 것이다. today를 넣어주면 syntax에러가 발생한다.</p>
 <p>하지만 YEAR로 계산한 경우 연 부분만의 차이가 계산되므로, 해당 연의 생일을 넘었는지 제대로 계산이 되지 않는 문제가 발생한다.</p>
 <figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> user_id,</span><br><span class="line"><span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> register_date, birth_date,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>,<span class="hljs-number">10</span>), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>))  / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> register_age,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">CURRENT_DATE</span> <span class="hljs-keyword">as</span> signed), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">as</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>)) / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> current_age</span><br><span class="line"><span class="hljs-keyword">from</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
-<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED–&gt;INTEGER이고, SIGNED–&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
+<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED—&gt;INTEGER이고, SIGNED—&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
 
         </div>
         
@@ -301,7 +301,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        23
+                        24
                     </p>
                 </div>
             </div>
@@ -440,7 +440,7 @@
                 <span class="level-item">Statistics</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">2</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/blog/">
@@ -558,7 +558,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 13.33px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -569,6 +569,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/09/20/Time-Series-03/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/timeseries.png" alt="Time_Series_03">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-09-20T02:08:36.000Z">2019-09-20</time></div>
+                    <a href="/2019/09/20/Time-Series-03/" class="has-link-black-ter is-size-6">Time_Series_03</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -646,25 +665,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/29/Metrics/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Classification Metrics">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T05:27:17.000Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/Metrics/" class="has-link-black-ter is-size-6">Classification Metrics</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ML/">ML</a> / <a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -683,7 +683,7 @@
                     <span class="level-item">September 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -982,7 +982,7 @@
                             <span class="level-item">Timeseries</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">2</span>
+                            <span class="level-item tag">3</span>
                         </span>
                     </a>
                 </li>
