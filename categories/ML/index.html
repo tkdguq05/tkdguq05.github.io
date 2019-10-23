@@ -769,7 +769,7 @@
     
     <div class="card-image">
         <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="image is-7by1">
-            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture_Selection_Information_Value">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture Selection with Information Value">
         </a>
     </div>
     
@@ -795,7 +795,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/04/25/Fearuture-Selection-Information-Value/">Fearuture_Selection_Information_Value</a>
+                <a class="has-link-black-ter" href="/2019/04/25/Fearuture-Selection-Information-Value/">Fearuture Selection with Information Value</a>
             
         </h1>
         <div class="content">
@@ -804,16 +804,12 @@
 <p>Kaggle에서 Feature Selection 하는 방법들을 보면 gbm모델들의 Feature Importance를 이용하거나 DecisionTree나 RandomForest의 Classifier 객체의 feature_importances_ 메서드를 활용해 Feature Importance를 구해서 비교하는 모습들이 자주 보인다.</p>
 <p>하지만 또 다른 방법으로, Information Value를 이용한 Feature Selection을 소개해보고자 한다.</p>
 <h3 id="1-Information-Value-정보-가치"><a href="#1-Information-Value-정보-가치" class="headerlink" title="1. Information Value (정보 가치)"></a>1. Information Value (정보 가치)</h3><p>모델에서 변수의 사용유무를 판단하는 feature selection에서 유용한 방법이다. 주로 모델을 학습하기전 첫 단계에서 변수들을 제거하는 데 사용한다. 최종 모델에서는 대략 10개 내외의 변수를 사용하도록 한다(여러개 만들어 보고 비교해보는 것이 좋다). IV와 WOE 신용채무능력이 가능한(good) 고객과 불가능한(bad) 고객을 예측하는 로지스틱 회귀 모델링과 밀접한 관계가 있다. 신용 정보 관련분야에서는 good customer는 부채를 갚을 수 있는 고객, bad customer는 부채를 갚을 수 없는 고객을 뜻한다. 일반적으로 이야기할 때는 good customer는 non-events를 의미하고 bad customer는 events를 의미한다.</p>
-<blockquote>
-<p>신용 관련 분야</p>
-</blockquote>
-<p>${WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}$</p>
-<p>${IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}$</p>
-<blockquote>
-<p>일반적</p>
-</blockquote>
-<p>${WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}$</p>
-<p>${IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}$</p>
+<p><code>신용 관련 분야</code></p>
+<p>$${WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}$$</p>
+<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}$$</p>
+<p><code>일반적</code></p>
+<p>$${WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}$$</p>
+<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}$$</p>
 <ul>
 <li>Information Value 값의 의미</li>
 </ul>
