@@ -161,6 +161,92 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/11/10/ubuntu/" class="image is-7by1">
+            <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1743 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/11/10/ubuntu/">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Installation-of-Ubuntu-18-04-LTS-for-Deep-Learning-Computer-1"><a href="#Installation-of-Ubuntu-18-04-LTS-for-Deep-Learning-Computer-1" class="headerlink" title="Installation of Ubuntu 18.04 LTS for Deep Learning Computer -1"></a>Installation of Ubuntu 18.04 LTS for Deep Learning Computer -1</h1><h2 id="Ubuntu-Installation-The-Trouble-Shooting"><a href="#Ubuntu-Installation-The-Trouble-Shooting" class="headerlink" title="Ubuntu Installation - The Trouble Shooting"></a>Ubuntu Installation - The Trouble Shooting</h2><p>평소에 캐글 대회에 관심이 있었고, 제대로 대회에 참여해봐야지 하는 생각이 있었습니다. 그러다가 IEEE 대회에 참여해 봤습니다. 결과는 노메달!, 동메달이라도 따보고 싶었는데 아쉽게 메달을 놓치게 되었습니다. 그때 정말로 캐글 대회에서 메달을 따보고 싶다는 생각이 들었고, 올해가 되기 전에 대회에 한번 더 참여하는 것과, 내년 초까지 Competition으로 Expert를 따보자는 계획을 하게 되었습니다.</p>
+<p>계획을 위해서는 딥러닝용 사양 좋은 PC가 필수라는 생각이 들었고, 시원하게 2백만원 정도의 사양의 컴퓨터를 맞추게 되었습니다.</p>
+<p><img src="/images/spec.jpeg" alt="PC의 사양"></p>
+<p>딥러닝용 PC서버를 만들기 위해서 OS를 정해야 했는데, 캐글 고수분들께서 Ubuntu로 세팅을 많이 하시는 걸 보고 바로 usb에 부팅용 iso를 받아서 시동 디스크를 만들었습니다.</p>
+<p>제가 주로 보고 따라한 블로그 주소는 다음과 같습니다. <a href="https://simonjisu.github.io/datascience/2018/06/02/gpuserver.html" target="_blank" rel="noopener">장지수님 블로그, 개인 딥러닝용 서버 설치 과정기</a></p>
+<p>이 과정을 보고 쭉 따라했고, usb를 넣고 부팅을 시켰더니,<br><img src="/images/error.jpeg" alt="에러에러에러!!!!"></p>
+<h3 id="Ubuntu-18-04-USB-설치-error-Mac-OS-이용"><a href="#Ubuntu-18-04-USB-설치-error-Mac-OS-이용" class="headerlink" title="Ubuntu 18.04 USB 설치 error (Mac OS 이용)"></a>Ubuntu 18.04 USB 설치 error (Mac OS 이용)</h3><p>쉽게 될 줄 알았더니 똭!! 에러가 떠버렸습니다. Google신을 답을 알고 계시겠죠? 하지만 답을 쉽게 주지는 않으시는 것 같습니다. 3시간의 서칭 끝에 ‘<code>nouveau</code> unknown chipset’, 누보(새 시작 이라는 말이라고 합니다)에 대한 해결법을 찾았습니다. 부팅 디스크를 넣고, ubuntu Grub화면까지 간 다음(grub 화면이 안나올 경우 shift를 누르면 된다고 하네요), e를 눌러서 텍스트 편집기로 갑니다. 이후 나타나는 화면에서 <code>quiet splash</code> 혹은 <code>quiet ---</code>로 표시된 부분으로 갑니다. <code>quiet splash nomodeset</code> 또는 <code>quiet splash nomodeset</code>을 입력 후 F10을 눌러 저장하고 리부팅 합니다.</p>
+<p>보통 이렇게 하면 문제없이 ubuntu화면으로 넘어가서 설치가 될 것입니다. 하지만 신은 저에게 편한 삶을 허락하지 않는 것 같습니다. 일요일에 좀 쉬고싶었는데 눈치없이 등장하는 에러들… <code>couldn&#39;t get size 0x80000000000e</code>와 <code>MODSIGN: Couldn&#39;t get UEFI db list</code> 그리고 <code>line 7: can&#39;t open /dev/sdc: No medium found</code>. 또 다시 Google 신에게 달려가서 2시간 동안 서칭하고 실패하고를 반복했습니다. 그러다가 사막의 오아시스 같은 솔루션을 발견했습니다.</p>
+<p><a href="https://askubuntu.com/questions/47076/usb-boot-problems" target="_blank" rel="noopener">line 7 no medium found 솔루션</a></p>
+<p>3 보트업 받은 솔루션을 보면 약간의 야매 방법이 등장합니다. 아까 nouveau 메시지에 대한 해결을 하기 위해 <code>nomodeset</code>을 사용했는데 그것 대신 <code>break debug</code>를 입력하는 것 입니다. 이렇게 하면 debug 메시지가 쭈우욱 등장하고 엔터를 눌렀을 때 입력할 수 있는 터미널이 나오게 됩니다. 여기서</p>
+<ol>
+<li>부팅 디스크인 USB를 빼고</li>
+<li>다시 USB를 넣은 후에</li>
+<li>exit을 입력하고 엔터를 누릅니다.</li>
+</ol>
+<p>이렇게 되면 화면이 후루룩 쭉죽 지나가면서 된다 된다…라는 희망에 빠지게 됩니다.</p>
+<p><img src="/images/success.jpeg" alt="성공이다ㅠㅠㅠㅠㅜㅠㅜㅜㅠ"><br>성공입니다. ubuntu 설치 화면으로 정상적으로 이동하였습니다. 여기서부터 세팅은 안내에 따라서 착착 맞춰서 하면 되고, 쭉 진행 하면 성공적으로 username과 서버명이 등록된 ubuntu 화면을 볼 수 있게 됩니다.</p>
+<p>잠시 달콤한 성공을 맛봤으니 원격 부팅 세팅을 해보아야겠습니다. 블로그 설명에 따라</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/ssh/sshd_config</span><br></pre></td></tr></table></figure>
+<p>를 쳐봅니다. </p>
+<p>?????</p>
+<p>그런건 없습니다. ssd_config를 오타냈나 싶어서 쳐보고 확인해보지만 블로그 설명과는 다른 값이 나옵니다. 찾아보니 </p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh -server</span><br></pre></td></tr></table></figure>
+<p>을 해야 만들어진다고 합니다. 자 그럼 sudo apt-get install openssh -server를 입력해봅니다. <code>Unable to fetch ~~</code>가 나올 것입니다. 이것은 현재 ubuntu 라이브러리를 받는 서버가 맛이 갔거나, 현재 인터넷 연결이 안되어 있다는 말입니다. 또 다시 문제에 봉착했습니다.</p>
+<h3 id="인터넷-연결이-안되어있습니다-Ubuntu에서는-인터넷-연결을-어떻게-하는-것일까요"><a href="#인터넷-연결이-안되어있습니다-Ubuntu에서는-인터넷-연결을-어떻게-하는-것일까요" class="headerlink" title="인터넷 연결이 안되어있습니다. Ubuntu에서는 인터넷 연결을 어떻게 하는 것일까요?"></a>인터넷 연결이 안되어있습니다. Ubuntu에서는 인터넷 연결을 어떻게 하는 것일까요?</h3><p>또 다시 서칭을 시작했습니다. 인생은 깁니다. 주말은 짧습니다. 일단 떡볶이를 먹고 제정신을 차린 후 다시 시도해보았습니다. 여러 솔루션들이 나왔지만 고정 ip를 이용하는 글이 대부분이었고 제가 원하는 답은 없는 것 같았습니다. </p>
+<p>먼저 </p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/network/interfaces</span><br></pre></td></tr></table></figure>
+<p>명령어를 통해서 네트워크 설정이 어떻게 되어있는지 확인했습니다. 보통의 경우라면</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="hljs-comment"># and how to activate them. For more information, see interfaces(5).</span></span><br><span class="line"><span class="hljs-comment"># The loopback network interface</span></span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"><span class="hljs-comment"># The primary network interface</span></span><br><span class="line">auto eth0</span><br><span class="line">iface eth0 inet dhcp</span><br></pre></td></tr></table></figure>
+<p>이렇게 나와있는 게 정상이고 default 값이라는 얘기가 많아서 똑같이 설정을 해주었습니다. 하지만 리부트해도 여전히 인터넷 연결은 되지 않았습니다. </p>
+<p>하지만 스스로 답을 구하는 자에게는 복이 주어집니다. fresh ubuntu installation을 한 사람이 인터넷 연결이 안된다는 글을 올린 것을 보았고 솔루션 내용은 다음과 같았습니다. </p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ifconfig eth0 up   </span><br><span class="line">sudo dhclient eth0</span><br></pre></td></tr></table></figure>
+<p>물론 바로 되지는 않습니다. 세상에는 쉬운일이 없습니다. 항상 자신의 상황에 맞는지 확인하고 문제에 쏙 맞게 다듬을 필요가 있습니다. 문제는 eth0 부분이었습니다. eth0에 해당하는, 자신의 값을 알아야 했습니다.</p>
+<p><code>ifconfig -a</code>를 이용하면 logical name을 알 수 있습니다. 저의 경우에는 enp34s0였습니다. </p>
+<p>이 값을 다시 넣어서 엔터를 눌러주고<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping www.google.com</span><br></pre></td></tr></table></figure></p>
+<p>로 테스트를 해주면, 이제 구글에 ping을 날릴 수 있는 것을 확인할 수 있습니다.</p>
+<p>일요일을 다 날렸지만, 이제 나름대로 세팅할 수 있는 환경을 만들어 놔서 뿌듯합니다. 월요일에 퇴근하고 이제 원격 부팅 접속을 만져봐야겠습니다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/10/20/GDG-DEV-FEST/" class="image is-7by1">
             <img class="thumbnail" src="/images/dev_fest.png" alt="2019 GDG DEVFEST SEOUL 행사를 다녀오다">
         </a>
@@ -1000,66 +1086,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
-            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/Statistics/">Statistics</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    6 minutes read (About 945 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/05/15/cross-entropy-KL-divergence/">cross_entropy_KL_divergence</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Cross-Entropy와-KL-Divergence에-대해서-알아보자"><a href="#Cross-Entropy와-KL-Divergence에-대해서-알아보자" class="headerlink" title="Cross Entropy와 KL-Divergence에 대해서 알아보자"></a>Cross Entropy와 KL-Divergence에 대해서 알아보자</h1><h3 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h3><p>크로스 엔트로피에 대해서 알아보기 전에, 엔트로피 식을 다시한번 확인해 보자<br>엔트로피는 $H(x)=-\sum P(x)log_2P(x)$로 확률분포 $P(X)$에 대한 기댓값이다. 엔트로피는 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
-<p>이제 크로스 엔트로피 식을 확인해 보자<br>$H(P,Q)=-\sum_{X} P(x)logQ(x)$(자연로그 또는 이진로그)<br>식을 자세히 보면, $P(x)$가 들어갈 자리에 $Q(x)$가 들어가 있다. 어떤 의미가 숨어져 있는 것 같은데,</p>
-<p>이 수식이 의미하는 것이 무엇일까?</p>
-<p>크로스 엔트로피(Cross Entropy)는 실제 데이터는 $P$의 분포로부터 생성되지만, 분포 $Q$를 사용해서 정보량을 측정해서 나타낸 평균적 bit수를 의미한다. 이제 수식이 눈에 들어오기 시작할 것이다.</p>
-<p><code>실제 데이터는 분포 P로 부터 생성되는데, 우리가 실제 P에 대해서 몰라서 분포 Q의 정보(or 코딩 스킴)을 대신 활용하면 어떨까?</code>에 대한 답으로써 만들어졌다고 생각하면 편할 것이다.</p>
-<p>크로스 엔트로피는 $H(P,Q)$와 같이 나타내고 일반적으로 $H(P,Q) &gt;=H(P)$이다. 항상 크로스 엔트로피가 크거나 같을 수 밖에 없는 것은 데이터의분포를 Q로 가정한 코딩방식을 사용하게 되면, 실제의 분포 P를 가정한 코딩방식 보다 질의응답에 필요한 코드의 수(code length)가 많아지게 되기 때문이다.</p>
-<h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
-<p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
-<p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
-<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
-<p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1122,7 +1148,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        25
+                        26
                     </p>
                 </div>
             </div>
@@ -1132,7 +1158,7 @@
                         Categories
                     </p>
                     <p class="title has-text-weight-normal">
-                        24
+                        26
                     </p>
                 </div>
             </div>
@@ -1142,7 +1168,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        34
+                        37
                     </p>
                 </div>
             </div>
@@ -1375,6 +1401,22 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
         </a></li></ul></li>
             </ul>
         </div>
@@ -1387,7 +1429,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -1398,6 +1440,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/11/10/ubuntu/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time></div>
+                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1475,25 +1536,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/07/18/Bandit/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/bandit.png" alt="Multi Armed Bandit 알고리즘?">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-18T01:13:21.000Z">2019-07-18</time></div>
-                    <a href="/2019/07/18/Bandit/" class="has-link-black-ter is-size-6">Multi Armed Bandit 알고리즘?</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Algorithm/">Algorithm</a> / <a class="has-link-grey -link" href="/categories/Algorithm/Automation/">Automation</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1505,6 +1547,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/11/">
+                <span class="level-start">
+                    <span class="level-item">November 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/10/">
@@ -1916,6 +1969,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/linux/">
+                        <span class="level-start">
+                            <span class="level-item">linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/mysql/">
                         <span class="level-start">
                             <span class="level-item">mysql</span>
@@ -1960,12 +2024,34 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/server/">
+                        <span class="level-start">
+                            <span class="level-item">server</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/sql/">
                         <span class="level-start">
                             <span class="level-item">sql</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/ubuntu/">
+                        <span class="level-start">
+                            <span class="level-item">ubuntu</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
                         </span>
                     </a>
                 </li>
