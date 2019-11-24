@@ -216,6 +216,7 @@
 <h1 id="3-절차-지향으로-학급-성적-평가-프로그램-만들기"><a href="#3-절차-지향으로-학급-성적-평가-프로그램-만들기" class="headerlink" title="3. 절차 지향으로 학급 성적 평가 프로그램 만들기"></a>3. 절차 지향으로 학급 성적 평가 프로그램 만들기</h1><p>우리가 담임 선생님이 되었다고 가정하고 엑셀에 저장된 학생들의 점수를 이용해 평균과 표준편차를 구하고 전체의 평균과 비교하여 평가하는 프로그램을 만들어 보자.</p>
 <h3 id="3-1-openpyxl모듈-설치하기"><a href="#3-1-openpyxl모듈-설치하기" class="headerlink" title="3.1 openpyxl모듈 설치하기"></a>3.1 openpyxl모듈 설치하기</h3><p><code>pip install openpyxl</code> 을 입력한다.</p>
 <h3 id="3-2-openpyxl-모듈로-데이터-읽어-들이기"><a href="#3-2-openpyxl-모듈로-데이터-읽어-들이기" class="headerlink" title="3.2 openpyxl 모듈로 데이터 읽어 들이기"></a>3.2 openpyxl 모듈로 데이터 읽어 들이기</h3><p><code>exam.xlsx</code></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -266,6 +267,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><code>function.py</code><br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> openpyxl <span class="hljs-keyword">import</span> load_workbook</span><br><span class="line"><span class="hljs-keyword">from</span> functools <span class="hljs-keyword">import</span> reduce</span><br><span class="line"><span class="hljs-keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_data_from_excel</span><span class="hljs-params">(filepath)</span>:</span></span><br><span class="line"></span><br><span class="line">    wb = load_workbook(filename = filepath)</span><br><span class="line">    ws = wb.active</span><br><span class="line">    rows = ws.rows</span><br><span class="line">    raw_data = &#123;name_cell.value : score_cell.value <span class="hljs-keyword">for</span> name_cell, score_cell <span class="hljs-keyword">in</span> rows&#125;</span><br><span class="line">    scores = raw_data.values()</span><br><span class="line">    <span class="hljs-keyword">return</span> scores</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_average</span><span class="hljs-params">(scores)</span>:</span></span><br><span class="line">    </span><br><span class="line">    avrg = reduce(<span class="hljs-keyword">lambda</span> score1, score2 : score1 + score2, scores) / len(scores)    </span><br><span class="line">    <span class="hljs-keyword">return</span> avrg</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_variance</span><span class="hljs-params">(scores, avrg)</span>:</span></span><br><span class="line">    </span><br><span class="line">    tmp = <span class="hljs-number">0</span></span><br><span class="line">    <span class="hljs-keyword">for</span> score <span class="hljs-keyword">in</span> scores:</span><br><span class="line">        tmp += (score - avrg)**<span class="hljs-number">2</span>       </span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        var = tmp / len(scores)</span><br><span class="line">    <span class="hljs-keyword">return</span> var</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_std_dev</span><span class="hljs-params">(var)</span>:</span></span><br><span class="line">    </span><br><span class="line">    std_dev = round(math.sqrt(var),<span class="hljs-number">1</span>)    </span><br><span class="line">    <span class="hljs-keyword">return</span> std_dev</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">evaluate_class</span><span class="hljs-params">(avrg, var, std_dev, total_avrg, total_std_dev)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">    evaluate_class(avrg, var, std_dev, total_avrg, total_std_dev) -&gt; None</span></span><br><span class="line"><span class="hljs-string">    </span></span><br><span class="line"><span class="hljs-string">    Args:</span></span><br><span class="line"><span class="hljs-string">        avrg : 반평균</span></span><br><span class="line"><span class="hljs-string">        var : 반분산</span></span><br><span class="line"><span class="hljs-string">        std_dev : 반표준편차</span></span><br><span class="line"><span class="hljs-string">        total_avrg : 학년평균</span></span><br><span class="line"><span class="hljs-string">        total_std_dev : 학년분산</span></span><br><span class="line"><span class="hljs-string">    """</span></span><br><span class="line">    print(<span class="hljs-string">"평균:&#123;&#125;, 분산:&#123;&#125;, 표준편차:&#123;&#125;"</span>.format(avrg, var, std_dev))</span><br><span class="line">    <span class="hljs-keyword">if</span> avrg &lt; total_avrg <span class="hljs-keyword">and</span> std_dev &gt; total_std_dev:</span><br><span class="line">        print(<span class="hljs-string">'성적이 너무 저조하고 학생들의 실력 차이가 너무 크다.'</span>)</span><br><span class="line">    <span class="hljs-keyword">elif</span> avrg &gt; total_avrg <span class="hljs-keyword">and</span> std_dev &gt; total_std_dev:</span><br><span class="line">        print(<span class="hljs-string">'성적은 평균 이상이지만 학생들의 실력 차이가 크다. 주의 요망!'</span>)</span><br><span class="line">    <span class="hljs-keyword">elif</span> avrg &lt; total_avrg <span class="hljs-keyword">and</span> std_dev &lt; total_std_dev:</span><br><span class="line">        print(<span class="hljs-string">'학생들의 실력 차이는 크지 않지만 성적이 너무 저조하다. 주의 요망!'</span>)</span><br><span class="line">    <span class="hljs-keyword">elif</span> avrg &gt; total_avrg <span class="hljs-keyword">and</span> std_dev &lt; total_std_dev:</span><br><span class="line">        print(<span class="hljs-string">'성적도 평균 이상이고 학생들의 실력 차이도 크지 않다.'</span>)</span><br></pre></td></tr></table></figure></p>
 <p><code>main.py</code><br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> functions <span class="hljs-keyword">import</span> *</span><br><span class="line"><span class="hljs-keyword">import</span> argparse </span><br><span class="line">parser = argparse.ArgumentParser(prog = <span class="hljs-string">'평가프로그램'</span>,</span><br><span class="line">                                 description = <span class="hljs-string">'엑셀에 저장된 학생들의 점수를 가져와 평균과 표준편차를 구하고, 학년 전체 평균과 비교하는 프로그램'</span>)</span><br><span class="line">parser.add_argument(<span class="hljs-string">'filepath'</span>, type = str, help = <span class="hljs-string">'엑셀파일 저장경로'</span>)</span><br><span class="line">parser.add_argument(<span class="hljs-string">'total_avrg'</span>, type = float, help = <span class="hljs-string">'학년평균'</span>)</span><br><span class="line">parser.add_argument(<span class="hljs-string">'total_std_dev'</span>, type = float, help = <span class="hljs-string">'학년표준편차'</span>)</span><br><span class="line">args = parser.parse_args()</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    scores = get_data_from_excel(filepath = args.filepath)</span><br><span class="line">    avrg = get_average(scores = scores)</span><br><span class="line">    var =  get_variance(scores = scores, avrg = avrg)</span><br><span class="line">    std_dev = get_std_dev(var = var)</span><br><span class="line">    evaluate_class(avrg, var, std_dev, args.total_avrg, args.total_std_dev)</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
 <p>메인 함수에는 책과 다른점이 있다. argparse부분이다. argparse 라이브러리를 임포트해서<br>함수에 argument들을 넣었다. argument를 가지고 좀 더 세밀한 부분을 다뤄볼 수 있게 되었다.</p>
@@ -381,7 +383,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        27
                     </p>
                 </div>
             </div>
@@ -640,7 +642,7 @@
                 <span class="level-item">ubuntu</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
@@ -648,7 +650,7 @@
                 <span class="level-item">troubleshooting</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -662,7 +664,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 13.33px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -676,16 +678,35 @@
         
         <article class="media">
             
+            <a href="/2019/11/22/ununtu2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T08:18:37.000Z">2019-11-22</time></div>
+                    <a href="/2019/11/22/ununtu2/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/10/ubuntu/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 1">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
                     </p>
@@ -750,25 +771,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/25/Time-Series-Begins/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-25T03:30:03.000Z">2019-08-25</time></div>
-                    <a href="/2019/08/25/Time-Series-Begins/" class="has-link-black-ter is-size-6">Time Series Analysis Begins</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -787,7 +789,7 @@
                     <span class="level-item">November 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1207,7 +1209,7 @@
                             <span class="level-item">linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1262,7 +1264,7 @@
                             <span class="level-item">server</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1284,7 +1286,7 @@
                             <span class="level-item">ubuntu</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

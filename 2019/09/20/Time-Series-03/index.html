@@ -217,8 +217,8 @@
 <h3 id="검증지표와-잔차진단"><a href="#검증지표와-잔차진단" class="headerlink" title="검증지표와 잔차진단"></a>검증지표와 잔차진단</h3><p>분석하고 예측만 잘하면 될까요? 큰 착각일 수 있습니다. 중요한 것은 예측이 잘 되었는지 평가하는 것 그리고 데이터의 시간패턴이 잘 추출되었는지 확인하는 작업입니다.</p>
 <p>검증지표는 예측값과 실제값이 얼마나 유사한지 측정하는 것이고, 잔차진단은 데이터의 시간패턴을 잘 뽑아내었는지 알아보는 작업입니다. </p>
 <p><strong>검증지표</strong> 에는 흔히 사용되고 눈에도 익숙한 MSE가 대표적입니다. 그 외에 MAE, MAPE, MAPE, MPE(y가 %로 나올 때) 등 다양한 검증지표가 사용되며, 왠만하면 다 사용해보고 수치가 안정될 때까지 모델을 만드는 것이 좋습니다. 또한 기존의 검증지표가 맘에 들지 않는다면, 분석가나 데이터 사이언티스트가 직접 고안해서 검증지표를 사용해도 됩니다.</p>
-<p>훌륭한 데이터 사이언티스트라면 검증지표를 직접 만들어서 사용해야하는 경우가 많을 것입니다. 왜냐하면 검증지표만 가지고 사용하면 결과에 대한 해석을 다르게 할 수 있기 때문입니다. 예를들어 MSE의 경우는 오차에 대한 가중치를 확 올려버리는 검증지표입니다. 오차에 대해서 제곱을 하기 때문에 가중치가 급격하게 증가하게 됩니다. 분석가가 보기에 이 가중치가 너무 과하다고 생각되면 절대값을 사용할 수 있습니다. 이렇게 되면 MAE를 사용하는 것이 되겠습니다.<br>$$MSE = {1\over n}\sum(y-\hat{y})^2$$<br>$$MAE = {1\over n}\sum|y - \hat{y}|$$</p>
-<p><strong>잔차진단</strong> 는 말 그대로 잔차, $$y-f(x)$$ 에 대한 값을 보고 진단하는 것을 말합니다. 회귀분석을 해보신 분들을 아시겠지만, 잔차는 정의가 존재합니다.</p>
+<p>훌륭한 데이터 사이언티스트라면 검증지표를 직접 만들어서 사용해야하는 경우가 많을 것입니다. 왜냐하면 검증지표만 가지고 사용하면 결과에 대한 해석을 다르게 할 수 있기 때문입니다. 예를들어 MSE의 경우는 오차에 대한 가중치를 확 올려버리는 검증지표입니다. 오차에 대해서 제곱을 하기 때문에 가중치가 급격하게 증가하게 됩니다. 분석가가 보기에 이 가중치가 너무 과하다고 생각되면 절대값을 사용할 수 있습니다. 이렇게 되면 MAE를 사용하는 것이 되겠습니다.</p>
+<script type="math/tex; mode=display">MSE = {1\over n}\sum(y-\hat{y})^2</script><script type="math/tex; mode=display">MAE = {1\over n}\sum|y - \hat{y}|</script><p><strong>잔차진단</strong> 는 말 그대로 잔차, <script type="math/tex">y-f(x)</script> 에 대한 값을 보고 진단하는 것을 말합니다. 회귀분석을 해보신 분들을 아시겠지만, 잔차는 정의가 존재합니다.</p>
 <h3 id="잔차의-정의"><a href="#잔차의-정의" class="headerlink" title="잔차의 정의"></a>잔차의 정의</h3><ol>
 <li>잔차들은 정규분포이고, 평균 0과 일정한 분산을 가져야 한다.</li>
 <li>잔차들이 시간의 흐름에 따라 상관성이 없어야 한다.<ul>
@@ -346,7 +346,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        27
                     </p>
                 </div>
             </div>
@@ -605,7 +605,7 @@
                 <span class="level-item">ubuntu</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
@@ -613,7 +613,7 @@
                 <span class="level-item">troubleshooting</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -627,7 +627,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 13.33px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -641,16 +641,35 @@
         
         <article class="media">
             
+            <a href="/2019/11/22/ununtu2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T08:18:37.000Z">2019-11-22</time></div>
+                    <a href="/2019/11/22/ununtu2/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/10/ubuntu/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 1">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
                     </p>
@@ -715,25 +734,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/25/Time-Series-Begins/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-25T03:30:03.000Z">2019-08-25</time></div>
-                    <a href="/2019/08/25/Time-Series-Begins/" class="has-link-black-ter is-size-6">Time Series Analysis Begins</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -752,7 +752,7 @@
                     <span class="level-item">November 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1172,7 +1172,7 @@
                             <span class="level-item">linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1227,7 +1227,7 @@
                             <span class="level-item">server</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1249,7 +1249,7 @@
                             <span class="level-item">ubuntu</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

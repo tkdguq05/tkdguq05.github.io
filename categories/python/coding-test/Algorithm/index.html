@@ -210,11 +210,7 @@
             <h1 id="엘리스-코딩-단어-패턴을-풀어봤다"><a href="#엘리스-코딩-단어-패턴을-풀어봤다" class="headerlink" title="엘리스 코딩 단어 패턴을 풀어봤다"></a>엘리스 코딩 단어 패턴을 풀어봤다</h1><hr>
 <h4 id="단어-패턴"><a href="#단어-패턴" class="headerlink" title="단어 패턴"></a>단어 패턴</h4><blockquote>
 <p>문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.<br>패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.<br>해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.</p>
-</blockquote>
-<blockquote>
 <p>예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alice’, ‘alice’] 가 주어졌을 경우에는 함수가 True를 반환해야 합니다. 이 경우에는 a가 elice에, b가 alice에 대응되도록 하면 배열을 해당 패턴으로 표현 하는 것이 가능하기 때문이죠.</p>
-</blockquote>
-<blockquote>
 <p>반면, aabb 와 [‘elice’, ‘alice’, ‘elice’, ‘alice’] 가 주어졌을 경우에는 함수가 False를 반환해야 합니다.<br>모든 문자는 영어 소문자라고 가정합니다.</p>
 </blockquote>
 <p>문제를 보고 쉬울거라고 생각했다. 패턴을 쪼개서 각 단어에 매칭을 시켜주면 간단히 해결될 것 같았다.<br>하지만 패턴을 쪼개서 단어에 매칭 시키는 게 간단한 문제가 아니었다. </p>
@@ -286,8 +282,6 @@
 <p><img src="/images/leo.png" alt="leo"></p>
 <blockquote>
 <p>Leo는 집으로 돌아와서 아까 본 카펫의 빨간색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.</p>
-</blockquote>
-<blockquote>
 <p>Leo가 본 카펫에서 갈색 격자의 수 brown, 빨간색 격자의 수 red가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.</p>
 </blockquote>
 <p><strong>제한사항</strong></p>
@@ -356,18 +350,14 @@
 <p><strong>문제 설명</strong></p>
 <blockquote>
 <p>0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.</p>
-</blockquote>
-<blockquote>
 <p>예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.</p>
-</blockquote>
-<blockquote>
 <p>0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.</p>
 </blockquote>
 <p><strong>제한 사항</strong></p>
 <blockquote>
 <p>numbers의 길이는 1 이상 100,000 이하입니다.<br>numbers의 원소는 0 이상 1,000 이하입니다.<br>정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.</p>
-</blockquote>
 <hr>
+</blockquote>
 <p>처음 이 문제를 봤을 때, ‘어 permutation 쓰면 끝이네 개꿀ㅎㅎ’ 이런 생각이 들었다.<br>바로 itertool을 import 해서</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> permutations</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(numbers)</span>:</span></span><br><span class="line">    str_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> numbers:</span><br><span class="line">        str_list.append(str(i))</span><br><span class="line">    first=list(map(<span class="hljs-string">''</span>.join, permutations(str_list)))</span><br><span class="line">    int_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> li <span class="hljs-keyword">in</span> first:</span><br><span class="line">        int_list.append(int(li))</span><br><span class="line">    answer = sorted(int_list, reverse=<span class="hljs-keyword">True</span>)[<span class="hljs-number">0</span>]</span><br><span class="line">    <span class="hljs-keyword">return</span> str(answer)</span><br></pre></td></tr></table></figure>
 <p>이런 코드를 작성해서 제출했다.</p>
@@ -378,7 +368,7 @@
 <p>당연했다. 문제푸는 방향이 완전히 잘못되었었다. 효율적으로 순열조합 만드는 코드를 짠다면 내가 라이브러리를 새로 만드는 수준인 것이었다.</p>
 <hr>
 <p>방향을 다시 생각해봤다.<br>사실 이 문제를 풀다보면 list에 있는 원소를 편하게 처리하기 위해 str으로 바꿔야 하고 비교하기 위해<br>int로 다시 바꿔줘야 하는 번거로움이 있다.</p>
-<p>그런데 굳이 int–&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
+<p>그런데 굳이 int—&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
 <p>왜냐하면 정수모양의 str도 정수 값이 증가함에 따라 메모리 값도 증가하기 때문이다.</p>
 <p>이를 <code>id()</code>를 통해 확인해 볼 수 있다.</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(id(<span class="hljs-string">'1'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'2'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'3'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'4'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'5'</span>))</span><br></pre></td></tr></table></figure>
@@ -435,8 +425,9 @@
             
         </h1>
         <div class="content">
-            <h2 id="프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다</h2><h4 id="124-나라"><a href="#124-나라" class="headerlink" title="124 나라"></a>124 나라</h4><p>참고[<a href="https://thisisablog.tistory.com/14]" target="_blank" rel="noopener">https://thisisablog.tistory.com/14]</a><br>124 나라가 있습니다. 124 나라에서는 10진법이 아닌 다음과 같은 자신들만의 규칙으로 수를 표현합니다.</p>
+            <h2 id="프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다</h2><h4 id="124-나라"><a href="#124-나라" class="headerlink" title="124 나라"></a>124 나라</h4><p>참고[<a href="https://thisisablog.tistory.com/14" target="_blank" rel="noopener">https://thisisablog.tistory.com/14</a>]<br>124 나라가 있습니다. 124 나라에서는 10진법이 아닌 다음과 같은 자신들만의 규칙으로 수를 표현합니다.</p>
 <p>124 나라에는 자연수만 존재합니다.<br>124 나라에는 모든 수를 표현할 때 1, 2, 4만 사용합니다.<br>예를 들어서 124 나라에서 사용하는 숫자는 다음과 같이 변환됩니다.</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -487,6 +478,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>자연수 n이 매개변수로 주어질 때, n을 124 나라에서 사용하는 숫자로 바꾼 값을 return 하도록 solution 함수를 완성해 주세요.</p>
 <hr>
 <p>문제를 보고 패턴을 찾아야겠다는 생각부터 했다.<br>3의 배수로 끊어지고, 끝자리가 1, 2, 4로 반복된다는 것을 파악했다.</p>
@@ -550,7 +542,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        27
                     </p>
                 </div>
             </div>
@@ -809,7 +801,7 @@
                 <span class="level-item">ubuntu</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
@@ -817,7 +809,7 @@
                 <span class="level-item">troubleshooting</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -831,7 +823,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 13.33px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -845,16 +837,35 @@
         
         <article class="media">
             
+            <a href="/2019/11/22/ununtu2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T08:18:37.000Z">2019-11-22</time></div>
+                    <a href="/2019/11/22/ununtu2/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/10/ubuntu/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 1">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
                     </p>
@@ -919,25 +930,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/25/Time-Series-Begins/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-25T03:30:03.000Z">2019-08-25</time></div>
-                    <a href="/2019/08/25/Time-Series-Begins/" class="has-link-black-ter is-size-6">Time Series Analysis Begins</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -956,7 +948,7 @@
                     <span class="level-item">November 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1376,7 +1368,7 @@
                             <span class="level-item">linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1431,7 +1423,7 @@
                             <span class="level-item">server</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1453,7 +1445,7 @@
                             <span class="level-item">ubuntu</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>

@@ -161,6 +161,70 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/21/SQL-Recipe-01/" class="image is-7by1">
+            <img class="thumbnail" src="/images/mysql_workbench.png" alt="SQL_Recipe_01">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-21T08:52:21.000Z">2019-05-21</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/sql/">sql</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/sql/code/">code</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 minutes read (About 566 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/21/SQL-Recipe-01/">SQL_Recipe_01</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="데이터-분석을-위한-SQL-레시피-with-MySQL"><a href="#데이터-분석을-위한-SQL-레시피-with-MySQL" class="headerlink" title="데이터 분석을 위한 SQL 레시피 with MySQL"></a>데이터 분석을 위한 SQL 레시피 with MySQL</h1><p>데이터 분석을 위한 SQL 레시피의 3장에 있는 코드 내용들을 실습하고 MySQL코드로 변형시켜보았다.<br>데이터 분석을 위한 SQL 레시피 책에서는 PostgreSQL, Redshift, BigQuery, Hive, SparkSQL의 코드를 다룬다. 책에 있는 코드는 어떤 건 그대로 쳤을 때 돌아가고, 몇몇 개는 MySQL 쿼리대로 수정을 해주어야 한다.</p>
+<p>3장의 mst_users_with_dates 테이블을 가지고 실습을 진행한다.<br>실습 진행 전에 테이블을 만들어준다.</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> <span class="hljs-keyword">IF</span> <span class="hljs-keyword">EXISTS</span> mst_users_with_dates;</span><br><span class="line"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> mst_users_with_dates (</span><br><span class="line">    user_id        <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>)</span><br><span class="line">  , register_stamp <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>)</span><br><span class="line">  , birth_date     <span class="hljs-built_in">varchar</span>(<span class="hljs-number">255</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
+<p>위 코드로 테이블이 잘 만들어졌는지 확인해본다.</p>
+<p>잘 만들어졌으면, 데이터를 삽입한다.<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> mst_users_with_dates</span><br><span class="line"><span class="hljs-keyword">VALUES</span></span><br><span class="line">    (<span class="hljs-string">'U001'</span>, <span class="hljs-string">'2016-02-28 10:00:00'</span>, <span class="hljs-string">'2000-02-29'</span>)</span><br><span class="line">  , (<span class="hljs-string">'U002'</span>, <span class="hljs-string">'2016-02-29 10:00:00'</span>, <span class="hljs-string">'2000-02-29'</span>)</span><br><span class="line">  , (<span class="hljs-string">'U003'</span>, <span class="hljs-string">'2016-03-01 10:00:00'</span>, <span class="hljs-string">'2000-02-29'</span>)</span><br><span class="line">;</span><br></pre></td></tr></table></figure></p>
+<p>먼저 날짜 데이터들의 차이를 계산해보자. 현재 날짜와 등록한 날짜를 빼주는 방식이다.<br><figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">select</span> user_id, <span class="hljs-keyword">CURRENT_DATE</span> <span class="hljs-keyword">AS</span> today, </span><br><span class="line"><span class="hljs-built_in">date</span>(<span class="hljs-built_in">timestamp</span>(register_stamp)) <span class="hljs-keyword">AS</span> regitser_date,</span><br><span class="line"><span class="hljs-keyword">datediff</span>(<span class="hljs-keyword">CURRENT_DATE</span>(), <span class="hljs-built_in">date</span>(register_stamp)) <span class="hljs-keyword">AS</span> diff_days</span><br><span class="line"><span class="hljs-keyword">from</span> mst_users_with_dates ;</span><br></pre></td></tr></table></figure></p>
+<p>이렇게 만들어주면 원하는 결과가 나온다. 책에 있는 결과와 조금은 다를 수 있는데, 왜냐하면 CURRENT_DATE를 하면 현재의 날짜를 가져와 주기 때문에, 책에 있는 2017-02-05가 아니라, 지금 작성하고 있는 2019-05-21로 계산된다.</p>
+<p>여기까지는 datediff함수가 MySQL에도 있기 때문에 책에 있는 그대로 쳐도 잘 돌아간다.</p>
+<p>이번에는 사용자의 생년월일로 나이를 계산해보자.<br>나이를 계산하기 위한 전용함수가 구현되어 있는 것은 PostgreSQL뿐이다. PostgreSQL에는 age함수가 구현이 되어있어 편하게 나이를 구할 수 있다. MySQL의 경우에는 책에 있는 코드를 MySQL의 언어로 변형시켜 주어야 한다.</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> user_id, </span><br><span class="line"><span class="hljs-keyword">CURRENT_DATE</span> <span class="hljs-keyword">AS</span> today, <span class="hljs-built_in">date</span>(register_stamp) <span class="hljs-keyword">as</span> register_date,  birth_date,</span><br><span class="line">(<span class="hljs-keyword">YEAR</span>(<span class="hljs-keyword">CURRENT_DATE</span>)-<span class="hljs-keyword">YEAR</span>(birth_date))- (<span class="hljs-keyword">RIGHT</span>(<span class="hljs-keyword">CURRENT_DATE</span>,<span class="hljs-number">5</span>)&lt;<span class="hljs-keyword">RIGHT</span>(birth_date,<span class="hljs-number">5</span>)) <span class="hljs-keyword">AS</span> age,</span><br><span class="line">(<span class="hljs-keyword">YEAR</span>(register_stamp)-<span class="hljs-keyword">YEAR</span>(birth_date))- (<span class="hljs-keyword">RIGHT</span>(register_stamp,<span class="hljs-number">5</span>)&lt;<span class="hljs-keyword">RIGHT</span>(birth_date,<span class="hljs-number">5</span>)) <span class="hljs-keyword">AS</span> register_age</span><br><span class="line"><span class="hljs-keyword">FROM</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
+<p>책에 있는 코드와 다른점은 EXTRACT를 사용하지 않았다는 것이다. MySQL에는 EXTRACT가 없기 때문에 년도를 이용해 일일이 계산해 주어야 한다. YEAR함수를 이용해 년도만 가져와서 계산해준다. 주의해야 할 점은, YEAR함수에 today를 넣어주는 게 아니라 CURRENT_DATE를 넣어주어야 한다는 것이다. today를 넣어주면 syntax에러가 발생한다.</p>
+<p>하지만 YEAR로 계산한 경우 연 부분만의 차이가 계산되므로, 해당 연의 생일을 넘었는지 제대로 계산이 되지 않는 문제가 발생한다.</p>
+<figure class="highlight sql hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">SELECT</span> user_id,</span><br><span class="line"><span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>, <span class="hljs-number">10</span>) <span class="hljs-keyword">as</span> register_date, birth_date,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">substring</span>(register_stamp, <span class="hljs-number">1</span>,<span class="hljs-number">10</span>), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>))  / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> register_age,</span><br><span class="line">  <span class="hljs-keyword">floor</span>(( <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(<span class="hljs-keyword">CAST</span>(<span class="hljs-keyword">CURRENT_DATE</span> <span class="hljs-keyword">as</span> signed), <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">as</span> <span class="hljs-keyword">unsigned</span>) - <span class="hljs-keyword">cast</span>(<span class="hljs-keyword">replace</span>(birth_date, <span class="hljs-string">'-'</span>, <span class="hljs-string">''</span>) <span class="hljs-keyword">AS</span> <span class="hljs-keyword">unsigned</span>)) / <span class="hljs-number">10000</span>) <span class="hljs-keyword">as</span> current_age</span><br><span class="line"><span class="hljs-keyword">from</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
+<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED—&gt;INTEGER이고, SIGNED—&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
             <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
         </a>
@@ -201,7 +265,7 @@
 <h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
 <p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
 <p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
-<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/</a>]</p>
 <p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
 
         </div>
@@ -268,8 +332,6 @@
 <li>훈련 데이터에서 다수의 표본을 추출하고, 개별 트리의 결과를 병합하여 단일 예측 모델을 생성</li>
 <li>각 bootstrap 과정이 독립적이므로 병렬 처리가 가능</li>
 </ul>
-</blockquote>
-<blockquote>
 <p>Boosting</p>
 <ul>
 <li>Bagging과는 달리 순차적으로 시행되며 bootstrap 과정이 없음</li>
@@ -459,8 +521,6 @@
 <li>Feature Vector의 subspace를 이용해서 샘플 부분 집합을 생성하고 분류기를 훈련한다.</li>
 <li>앙상블의 분류기는 요소분류기와 기초분류기로 구분된다.</li>
 </ul>
-</blockquote>
-<blockquote>
 <h4 id="앙상블-결합"><a href="#앙상블-결합" class="headerlink" title="앙상블 결합"></a>앙상블 결합</h4><p>요소 분류기(기초 학습기)들의 출력을 결합하여 하나의 분류 결과를 만드는 과정이다.<br>요소 분류기의 출력은 세가지의 방식으로 나뉜다.</p>
 <ul>
 <li>Class Label<ul>
@@ -492,7 +552,7 @@
 </ul>
 <p>배깅은 분산을 감소시키기 위해, 훈련데이터에서 많은 샘플링을 하고(Bootstrap), 샘플들로 별도의 Decision Tree를 구성한 후, 회귀나 분류문제를 푸는데 사용된다. 회귀는 분류기 결과의 평균값을 사용하고, 분류는 최빈값을 취한다.</p>
 <p>배깅은 이미 저분산 모델인 경우 별로 효과가 없다. Bias-Variance Tradeoff 를조금만 생각해보자. 분산이 이미 줄어있는 상태에서는 더 줄일 분산이 없다. 배깅은 오직 분산을 줄이는 데 효과적이다.</p>
-<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]" target="_blank" rel="noopener">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]</a>)</p>
+<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e" target="_blank" rel="noopener">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e</a>])</p>
 <p>부트스트랩되지 않은 샘플들은 한번도 사용되지 않은 샘플들로 검증데이터에 활용할 수 있다. 이런 training observations은 out-of-bag observations이라고 불린다.</p>
 <h4 id="OOB-estimate-of-test-error"><a href="#OOB-estimate-of-test-error" class="headerlink" title="OOB estimate of test error"></a>OOB estimate of test error</h4><ul>
 <li>부트스트랩 샘플을 이용하여 개별 학습기를 학습한 후, OOB에 속하는 샘플들에 대한 예측값을 모두 구한다.</li>
@@ -506,8 +566,6 @@
 <p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
 <blockquote>
 <h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
-</blockquote>
-<blockquote>
 <h4 id="Random-Forest-모델의-장단점"><a href="#Random-Forest-모델의-장단점" class="headerlink" title="Random Forest 모델의 장단점?"></a>Random Forest 모델의 장단점?</h4><p>장점 : 굉장히 간편하다. 스케일링도 필요없고 파라미터 튜닝을 많이 안해도 성능이 뛰어나다. 의사결정의 트리의와 배깅의 단점은 극복하고 장점만을 가져온 것이라고 할 수 있다.</p>
 </blockquote>
 <p>단점 : 차원이 높고 매우 희소한 데이터에서는 잘 작동하지 않는다. 이런 희소한 데이터에는 선형 모델이 더 적합할 수 있다.</p>
@@ -566,14 +624,11 @@
 <p>하지만 또 다른 방법으로, Information Value를 이용한 Feature Selection을 소개해보고자 한다.</p>
 <h3 id="1-Information-Value-정보-가치"><a href="#1-Information-Value-정보-가치" class="headerlink" title="1. Information Value (정보 가치)"></a>1. Information Value (정보 가치)</h3><p>모델에서 변수의 사용유무를 판단하는 feature selection에서 유용한 방법이다. 주로 모델을 학습하기전 첫 단계에서 변수들을 제거하는 데 사용한다. 최종 모델에서는 대략 10개 내외의 변수를 사용하도록 한다(여러개 만들어 보고 비교해보는 것이 좋다). IV와 WOE 신용채무능력이 가능한(good) 고객과 불가능한(bad) 고객을 예측하는 로지스틱 회귀 모델링과 밀접한 관계가 있다. 신용 정보 관련분야에서는 good customer는 부채를 갚을 수 있는 고객, bad customer는 부채를 갚을 수 없는 고객을 뜻한다. 일반적으로 이야기할 때는 good customer는 non-events를 의미하고 bad customer는 events를 의미한다.</p>
 <p><code>신용 관련 분야</code></p>
-<p>$${WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}$$</p>
-<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}$$</p>
-<p><code>일반적</code></p>
-<p>$${WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}$$</p>
-<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}$$</p>
-<ul>
+<script type="math/tex; mode=display">{WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}</script><script type="math/tex; mode=display">{IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}</script><p><code>일반적</code></p>
+<script type="math/tex; mode=display">{WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}</script><script type="math/tex; mode=display">{IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}</script><ul>
 <li>Information Value 값의 의미</li>
 </ul>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -604,6 +659,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>Information Value를 통해서 ‘이 feature를 꼭 사용해야하나?’에 대해 어느정도 답을 내릴 수 있다.</p>
 <p>Information Value가 0.5~1.0인 구간을 보면, 강한 예측이지만 의심되는 수치라고 되어있다. 처음보면 이게 무슨 의미인지 잘 이해가 안될 것이다. ‘너무 예측을 잘하는데 수치를 의심하라고?’</p>
 <p>하지만 잘 생각해보자. IV는 WOE를 활용한다. WOE는 good과 bad의 분포를 이용하는데, 데이터가 good으로 쏠려있을 경우 WOE는 무조건 잘 나올 수 밖에 없고, 이에 따라 IV값도 잘 나오게 된다. </p>
@@ -612,6 +668,7 @@
 <p>Column이 제대로 되어있지 않기 때문에 노가다로 넣어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">COL = [</span><br><span class="line">    <span class="hljs-string">'Status_of_existing_checking_account'</span>, </span><br><span class="line">    <span class="hljs-string">'Duration_in_month'</span>,</span><br><span class="line">    <span class="hljs-string">'Credit_history'</span>,</span><br><span class="line">    <span class="hljs-string">'Purpose'</span>, </span><br><span class="line">    <span class="hljs-string">'Credit_amount'</span>, </span><br><span class="line">    <span class="hljs-string">'Savings_account_bonds'</span>, </span><br><span class="line">    <span class="hljs-string">'Present_employment_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Installment_rate_in_percentage_of_disposable_income'</span>,</span><br><span class="line">    <span class="hljs-string">'Personal_status_and_sex'</span>,</span><br><span class="line">    <span class="hljs-string">'Other_debtors_guarantors'</span>,</span><br><span class="line">    <span class="hljs-string">'Present_residence_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Property'</span>, </span><br><span class="line">    <span class="hljs-string">'Age_in_years'</span>, </span><br><span class="line">    <span class="hljs-string">'Other_installment_plans'</span>, </span><br><span class="line">    <span class="hljs-string">'Housing'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_existing_credits_at_this_bank'</span>,</span><br><span class="line">    <span class="hljs-string">'Job'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_people_being_liable_to_provide_maintenance_for'</span>,</span><br><span class="line">    <span class="hljs-string">'Telephone'</span>,</span><br><span class="line">    <span class="hljs-string">'foreign_worker'</span>,</span><br><span class="line">    <span class="hljs-string">'Target'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
 <p>Target값을 0, 1로 만들어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="hljs-string">'Target'</span>] = dataset[<span class="hljs-string">'Target'</span>] - <span class="hljs-number">1</span></span><br></pre></td></tr></table></figure></p>
 <p>Information Value를 구하는 코드<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">max_bin = <span class="hljs-number">10</span>  <span class="hljs-comment"># 전체 데이터의 예측력에 해를 가하지 않는 한에서 구간을 테스트하였습니다. 통상적으로 10개로 나눔, 15개 20개 다 나눠보고</span></span><br><span class="line"><span class="hljs-comment"># 값이 잘나오는 bin을 선택함</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calc_iv</span><span class="hljs-params">(df, col, label, max_bin = max_bin)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""IV helper function"""</span></span><br><span class="line">    bin_df = df[[col, label]].copy()</span><br><span class="line">    <span class="hljs-comment"># Categorical column</span></span><br><span class="line">    <span class="hljs-keyword">if</span> bin_df[col].dtype == <span class="hljs-string">'object'</span>:</span><br><span class="line">        bin_df = bin_df.groupby(col)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    <span class="hljs-comment"># Numerical column</span></span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        bin_df.loc[:, <span class="hljs-string">'bins'</span>] = pd.qcut(bin_df[col].rank(method=<span class="hljs-string">'first'</span>), max_bin)</span><br><span class="line"><span class="hljs-comment">#         bin_df.loc[:, 'bins'] = pd.cut(bin_df[col], max_bin)</span></span><br><span class="line">        bin_df = bin_df.groupby(<span class="hljs-string">'bins'</span>)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.columns = [<span class="hljs-string">'total'</span>, <span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal'</span>] = bin_df[<span class="hljs-string">'total'</span>] - bin_df[<span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal_dist'</span>] = bin_df[<span class="hljs-string">'normal'</span>] / sum(bin_df[<span class="hljs-string">'normal'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'abuse_dist'</span>] = bin_df[<span class="hljs-string">'abuse'</span>] / sum(bin_df[<span class="hljs-string">'abuse'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'woe'</span>] = np.log(bin_df[<span class="hljs-string">'normal_dist'</span>] / bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'iv'</span>] = bin_df[<span class="hljs-string">'woe'</span>] * (bin_df[<span class="hljs-string">'normal_dist'</span>] - bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.replace([np.inf, -np.inf], <span class="hljs-number">0</span>, inplace=<span class="hljs-keyword">True</span>)</span><br><span class="line">    bin_df = bin_df[bin_df[<span class="hljs-string">'total'</span>] &gt; <span class="hljs-number">0</span>]</span><br><span class="line">    iv_val = sum(filter(<span class="hljs-keyword">lambda</span> x: x != float(<span class="hljs-string">'inf'</span>), bin_df[<span class="hljs-string">'iv'</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> bin_df, col, iv_val</span><br><span class="line">``` </span><br><span class="line">```python</span><br><span class="line">ch_df, ch, ch_i_val = calc_iv(dataset,<span class="hljs-string">'Credit_history'</span>, <span class="hljs-string">'Target'</span>)</span><br><span class="line">ch_df</span><br></pre></td></tr></table></figure></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -688,6 +745,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 
         </div>
         
@@ -794,11 +852,7 @@
             <h1 id="엘리스-코딩-단어-패턴을-풀어봤다"><a href="#엘리스-코딩-단어-패턴을-풀어봤다" class="headerlink" title="엘리스 코딩 단어 패턴을 풀어봤다"></a>엘리스 코딩 단어 패턴을 풀어봤다</h1><hr>
 <h4 id="단어-패턴"><a href="#단어-패턴" class="headerlink" title="단어 패턴"></a>단어 패턴</h4><blockquote>
 <p>문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.<br>패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.<br>해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.</p>
-</blockquote>
-<blockquote>
 <p>예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alice’, ‘alice’] 가 주어졌을 경우에는 함수가 True를 반환해야 합니다. 이 경우에는 a가 elice에, b가 alice에 대응되도록 하면 배열을 해당 패턴으로 표현 하는 것이 가능하기 때문이죠.</p>
-</blockquote>
-<blockquote>
 <p>반면, aabb 와 [‘elice’, ‘alice’, ‘elice’, ‘alice’] 가 주어졌을 경우에는 함수가 False를 반환해야 합니다.<br>모든 문자는 영어 소문자라고 가정합니다.</p>
 </blockquote>
 <p>문제를 보고 쉬울거라고 생각했다. 패턴을 쪼개서 각 단어에 매칭을 시켜주면 간단히 해결될 것 같았다.<br>하지만 패턴을 쪼개서 단어에 매칭 시키는 게 간단한 문제가 아니었다. </p>
@@ -870,8 +924,6 @@
 <p><img src="/images/leo.png" alt="leo"></p>
 <blockquote>
 <p>Leo는 집으로 돌아와서 아까 본 카펫의 빨간색과 갈색으로 색칠된 격자의 개수는 기억했지만, 전체 카펫의 크기는 기억하지 못했습니다.</p>
-</blockquote>
-<blockquote>
 <p>Leo가 본 카펫에서 갈색 격자의 수 brown, 빨간색 격자의 수 red가 매개변수로 주어질 때 카펫의 가로, 세로 크기를 순서대로 배열에 담아 return 하도록 solution 함수를 작성해주세요.</p>
 </blockquote>
 <p><strong>제한사항</strong></p>
@@ -940,18 +992,14 @@
 <p><strong>문제 설명</strong></p>
 <blockquote>
 <p>0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.</p>
-</blockquote>
-<blockquote>
 <p>예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.</p>
-</blockquote>
-<blockquote>
 <p>0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.</p>
 </blockquote>
 <p><strong>제한 사항</strong></p>
 <blockquote>
 <p>numbers의 길이는 1 이상 100,000 이하입니다.<br>numbers의 원소는 0 이상 1,000 이하입니다.<br>정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.</p>
-</blockquote>
 <hr>
+</blockquote>
 <p>처음 이 문제를 봤을 때, ‘어 permutation 쓰면 끝이네 개꿀ㅎㅎ’ 이런 생각이 들었다.<br>바로 itertool을 import 해서</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> itertools <span class="hljs-keyword">import</span> permutations</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(numbers)</span>:</span></span><br><span class="line">    str_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> numbers:</span><br><span class="line">        str_list.append(str(i))</span><br><span class="line">    first=list(map(<span class="hljs-string">''</span>.join, permutations(str_list)))</span><br><span class="line">    int_list = []</span><br><span class="line">    <span class="hljs-keyword">for</span> li <span class="hljs-keyword">in</span> first:</span><br><span class="line">        int_list.append(int(li))</span><br><span class="line">    answer = sorted(int_list, reverse=<span class="hljs-keyword">True</span>)[<span class="hljs-number">0</span>]</span><br><span class="line">    <span class="hljs-keyword">return</span> str(answer)</span><br></pre></td></tr></table></figure>
 <p>이런 코드를 작성해서 제출했다.</p>
@@ -962,7 +1010,7 @@
 <p>당연했다. 문제푸는 방향이 완전히 잘못되었었다. 효율적으로 순열조합 만드는 코드를 짠다면 내가 라이브러리를 새로 만드는 수준인 것이었다.</p>
 <hr>
 <p>방향을 다시 생각해봤다.<br>사실 이 문제를 풀다보면 list에 있는 원소를 편하게 처리하기 위해 str으로 바꿔야 하고 비교하기 위해<br>int로 다시 바꿔줘야 하는 번거로움이 있다.</p>
-<p>그런데 굳이 int–&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
+<p>그런데 굳이 int—&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
 <p>왜냐하면 정수모양의 str도 정수 값이 증가함에 따라 메모리 값도 증가하기 때문이다.</p>
 <p>이를 <code>id()</code>를 통해 확인해 볼 수 있다.</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(id(<span class="hljs-string">'1'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'2'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'3'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'4'</span>))</span><br><span class="line">print(id(<span class="hljs-string">'5'</span>))</span><br></pre></td></tr></table></figure>
@@ -970,71 +1018,6 @@
 <p>이를 이용해서 문제를 푼다면 다음과 같은 코드를 작성할 수 있다.</p>
 <figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">solution</span><span class="hljs-params">(numbers)</span>:</span></span><br><span class="line">    numbers = list(map(str, numbers))</span><br><span class="line">    numbers.sort(key=<span class="hljs-keyword">lambda</span> x : x*<span class="hljs-number">3</span>, reverse = <span class="hljs-keyword">True</span>)</span><br><span class="line">    answer = str(int(<span class="hljs-string">''</span>.join(numbers)))</span><br><span class="line">    <span class="hljs-keyword">return</span> answer</span><br></pre></td></tr></table></figure>
 <p>결론 : 메모리 값에 대한 지식이 있다면, 훨씬 간단하게 문제를 해결할 수 있다!</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/04/01/My-SQL-Workbench-Bug-issue/" class="image is-7by1">
-            <img class="thumbnail" src="/images/mysql_workbench.png" alt="My SQL Workbench Bug issue">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-01T12:33:54.000Z">2019-04-01</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/sql/">sql</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/sql/debug/">debug</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/sql/debug/삽질/">삽질</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 minutes read (About 594 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/04/01/My-SQL-Workbench-Bug-issue/">My SQL Workbench Bug issue</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="MySQL-Workbench에서-쿼리를-날렸는데-결과창이-안나온다면-For-MAC-OSX"><a href="#MySQL-Workbench에서-쿼리를-날렸는데-결과창이-안나온다면-For-MAC-OSX" class="headerlink" title="MySQL Workbench에서 쿼리를 날렸는데 결과창이 안나온다면!, For MAC OSX"></a>MySQL Workbench에서 쿼리를 날렸는데 결과창이 안나온다면!, For MAC OSX</h2><p>source from : [<a href="https://stackoverflow.com/questions/45967413/results-grid-not-showing-on-mysql-workbench-6-3-9-for-macos-sierra]" target="_blank" rel="noopener">https://stackoverflow.com/questions/45967413/results-grid-not-showing-on-mysql-workbench-6-3-9-for-macos-sierra]</a><br>Thank you Yogev!</p>
-<p>빅데이터 시대에 SQL공부가 필수적이다. 머신러닝, 딥러닝 뭐 할게 너무 많지만 일단 데이터를 이해하기 위해서는 SQL공부를 먼저 해야한다고 생각한다.</p>
-<p>이런 마음에 SQL을 공부하기로 마음먹고 세달전에 샀던 <code>데이터 분석을 위한 SQL 레시피</code>를 다시 폈더랬다. 책은 매우 훌륭했다. 기본적인 SQL뿐 아니라, 내가 관심있었던 SparkSQL, Big Query에 대해서도 다뤄주고 있었다. 눈으로 SQL을 슬슬 할 때쯤, SQL을 직접 입력해보고 결과를 보고 싶어졌다.</p>
-<p>소스코드가 있나 뒤져봤더니, 한빛 미디어에서 제공해 주는 코드가 있었다. 신나게 받아놓고 1년전에 세팅해둔 Mysql 서버를 실행시켰다. </p>
-<p>뭐 잡 에러 덩어리가 많았지만 우여곡절 끝에 해결하고</p>
-<p>드디어 MySQL Workbench로 들어가서 쿼리를 날렸다. </p>
-<p><code>Success!</code>가 나왔다.</p>
-<p>음, 근데 결과창이 보이지 않는다.</p>
-<p>바로 StackOverFlow를 뒤져봤다.<br>쿼리 옆에 있는 돋보기를 눌러보고 Result Grid를 눌러보랜다. 안된다.</p>
-<p>Mac에 있는 버그라며 쿼리 박스에 마우스를 신중히 갖다대고 바를 늘려보랜다. 회색화면만 나온다.</p>
-<p>껐다 다시 키면 될 것이란다. 바뀐 게 없다.</p>
-<p>아, 모든 게 거짓말 같았다. <del>오늘은 만우절ㅎㅎ***</del></p>
-<p>이렇게 6시간 넘게 삽질을 지속하다가, 빛 갓 Yogev의 Stackoverflow 글을 보게 되었다.<br><img src="https://tkdguq05.github.io/images/yogev.png" alt="GODyogev"></p>
-<p>요약하자면 수정된 버전이 올라와 있다는 말이다.<br>‘아니 최신 버전을 받았는데 왜 또 안됐었던 거지???’ 이해가 안되긴 하지만<br>빛요게프 선생님께서는 친절히 공유경제의 장점에 대해 설파하고 계시었다.</p>
-<p>upvote를 찍어드리기 위해서 stackexchange에 가입했고 upvote를 꾸우우욱 눌러드렸다.</p>
-<p>해결방법 : [<a href="https://dev.mysql.com/downloads/workbench/]" target="_blank" rel="noopener">https://dev.mysql.com/downloads/workbench/]</a> 다운 후<br>그대로 덮어쓰기 (Workbench 삭제 안해도 된다!)</p>
 
         </div>
         
@@ -1112,7 +1095,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        27
                     </p>
                 </div>
             </div>
@@ -1371,7 +1354,7 @@
                 <span class="level-item">ubuntu</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
@@ -1379,7 +1362,7 @@
                 <span class="level-item">troubleshooting</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -1393,7 +1376,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 10px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 10px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 10px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 13.33px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 13.33px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 13.33px;">글또</a>
     </div>
 </div>
 
@@ -1407,16 +1390,35 @@
         
         <article class="media">
             
+            <a href="/2019/11/22/ununtu2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T08:18:37.000Z">2019-11-22</time></div>
+                    <a href="/2019/11/22/ununtu2/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/11/10/ubuntu/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기">
+                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 1">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-10T11:35:14.000Z">2019-11-10</time></div>
-                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기</a>
+                    <a href="/2019/11/10/ubuntu/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 1</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
                     </p>
@@ -1481,25 +1483,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/08/25/Time-Series-Begins/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-25T03:30:03.000Z">2019-08-25</time></div>
-                    <a href="/2019/08/25/Time-Series-Begins/" class="has-link-black-ter is-size-6">Time Series Analysis Begins</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1518,7 +1501,7 @@
                     <span class="level-item">November 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1938,7 +1921,7 @@
                             <span class="level-item">linux</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -1993,7 +1976,7 @@
                             <span class="level-item">server</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
@@ -2015,7 +1998,7 @@
                             <span class="level-item">ubuntu</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
