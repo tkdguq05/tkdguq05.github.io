@@ -161,6 +161,70 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2020/01/01/keras-trouble-shooting/" class="image is-7by1">
+            <img class="thumbnail" src="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232" alt="케라스 창시자에게 배우는 딥러닝에서의 Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 minutes read (About 594 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/01/01/keras-trouble-shooting/">케라스 창시자에게 배우는 딥러닝에서의 Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize"><a href="#Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize" class="headerlink" title="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize"></a>Failed to get convolution algorithm. This is probably because cuDNN failed to initialize</h1><p>케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다.</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="hljs-number">0</span>) Unknown: Failed to get convolution algorithm. </span><br><span class="line">This <span class="hljs-keyword">is</span> probably because cuDNN failed to initialize, so <span class="hljs-keyword">try</span> looking to see <span class="hljs-keyword">if</span> a warning log message was printed above. </span><br><span class="line">[[&#123;&#123;node conv2d_1/convolution&#125;&#125;]] [[metrics/acc/Mean/_99]]</span><br></pre></td></tr></table></figure>
+<p>황금같은 쉬는 날에 cudnn과 CUDA의 꼬임으로 인한 에러인 줄 알고 굉장히 낙담했다. 실제로 저 에러를 복사해다가 구글에 붙여넣어서 답을 찾아보니 다시 설치하라는 의견이 많았다. </p>
+<p>하지만 정말 귀찮아서 내 설치 환경을 다시 살펴보고 이상이 있으면 수정하기로 했다.</p>
+<p>일단 내가 설치한 CUDA와 CuDnn 환경은 저번 글들에 나와 있다.</p>
+<p><a href="https://tkdguq05.github.io/2019/11/10/ubuntu/">ubuntu 딥러닝 서버 구축기 01</a><br><a href="https://tkdguq05.github.io/2019/11/22/ununtu2/">ubuntu 딥러닝 서버 구축기 02</a><br><a href="https://tkdguq05.github.io/2019/12/08/ubuntu3/">ubuntu 딥러닝 서버 구축기 03</a></p>
+<p>CUDA와 CuDNN의 호환성은 문제가 없었다. 그렇다면 뭐가 문제였을까? 하던 중에 Python의 버젼을 살펴봤다.<br>콘다 가상환경에 올리고 쓰고 있었는데 python버전을 확인해보니 python 3.7버전이었다.</p>
+<p>여러 글들을 보다보니 python 3.6버전이 keras와 궁합이 잘 맞는다는 것을 알게되었다. </p>
+<p>그래서 바로</p>
+<figure class="highlight bash hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n [환경 이름] python=3.6</span><br></pre></td></tr></table></figure>
+<p>가상환경을 만들어주고 만든 가상환경을 jupyter kernelspec에 넣어주었다.<br><a href="https://medium.com/@5eo1ab/jupyter-notebook%EC%97%90-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-kernel-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-ed5261a7e0e6" target="_blank" rel="noopener">jupyter kernelspec 추가하기</a></p>
+<p>python 3.6으로 갈아끼워 준 뒤에<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model = models.Sequential()</span><br><span class="line">model.add(layers.Conv2D(<span class="hljs-number">32</span>, (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>), activation=<span class="hljs-string">'relu'</span>, input_shape=(<span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">1</span>)))</span><br><span class="line">model.add(layers.MaxPooling2D((<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)))</span><br><span class="line">model.add(layers.Conv2D(<span class="hljs-number">64</span>, (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>), activation=<span class="hljs-string">'relu'</span>))</span><br><span class="line">model.add(layers.MaxPooling2D((<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)))</span><br><span class="line">model.add(layers.Conv2D(<span class="hljs-number">64</span>, (<span class="hljs-number">3</span>, <span class="hljs-number">3</span>), activation=<span class="hljs-string">'relu'</span>))</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.add(layers.Flatten())</span><br><span class="line">model.add(layers.Dense(<span class="hljs-number">64</span>, activation=<span class="hljs-string">'relu'</span>))</span><br><span class="line">model.add(layers.Dense(<span class="hljs-number">10</span>, activation=<span class="hljs-string">'softmax'</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> keras.datasets <span class="hljs-keyword">import</span> mnist</span><br><span class="line"><span class="hljs-keyword">from</span> keras.utils <span class="hljs-keyword">import</span> to_categorical</span><br><span class="line"></span><br><span class="line">(train_images, train_labels), (test_images, test_labels) = mnist.load_data()</span><br><span class="line"><span class="hljs-comment"># train_images = train_images.reshape((60000, 28, 28, 1))</span></span><br><span class="line"></span><br><span class="line">train_images = train_images.reshape((<span class="hljs-number">60000</span>, <span class="hljs-number">28</span>,<span class="hljs-number">28</span>, <span class="hljs-number">1</span>))</span><br><span class="line">train_images = train_images.astype(<span class="hljs-string">'float32'</span>)/<span class="hljs-number">255</span></span><br><span class="line"></span><br><span class="line">test_images = test_images.reshape((<span class="hljs-number">10000</span>, <span class="hljs-number">28</span>, <span class="hljs-number">28</span>, <span class="hljs-number">1</span>))</span><br><span class="line">test_images = test_images.astype(<span class="hljs-string">'float32'</span>)/<span class="hljs-number">255</span></span><br><span class="line"></span><br><span class="line">train_labels = to_categorical(train_labels)</span><br><span class="line">test_labels = to_categorical(test_labels)</span><br><span class="line"></span><br><span class="line">model.compile(optimizer=<span class="hljs-string">'rmsprop'</span>,</span><br><span class="line">             loss=<span class="hljs-string">'categorical_crossentropy'</span>,</span><br><span class="line">             metrics=[<span class="hljs-string">'accuracy'</span>])</span><br><span class="line">model.fit(train_images, train_labels,</span><br><span class="line">         epochs=<span class="hljs-number">5</span>, batch_size=<span class="hljs-number">64</span>)</span><br></pre></td></tr></table></figure>
+<p>코드를 돌렸더니 잘 돌아간다!!!</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/12/22/adios-2019/" class="image is-7by1">
             <img class="thumbnail" src="/images/adieu.jpeg" alt="2019년도 회고, 2020년을 맞이하며">
         </a>
@@ -995,66 +1059,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/07/07/geultto/" class="image is-7by1">
-            <img class="thumbnail" src="/images/writing.png" alt="글또 3기에 들어서면서... 상반기 회고와 다짐">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-07T13:47:22.000Z">2019-07-07</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/blog/">blog</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    10 minutes read (About 1500 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/07/geultto/">글또 3기에 들어서면서... 상반기 회고와 다짐</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="상반기-회고와-나의-다짐"><a href="#상반기-회고와-나의-다짐" class="headerlink" title="상반기 회고와 나의 다짐"></a>상반기 회고와 나의 다짐</h2><h3 id="상반기-회고-2019-01-01-2019-06-24-도서관"><a href="#상반기-회고-2019-01-01-2019-06-24-도서관" class="headerlink" title="상반기 회고 (2019.01.01 ~ 2019.06.24, 도서관)"></a>상반기 회고 (2019.01.01 ~ 2019.06.24, 도서관)</h3><p><img src="/images/espana.jpeg" height="80%" width="70%"><br>새해 첫 날은 스페인에서 보냈었네요, 공부만 하다가 처음으로 짬이 나서! 계획했었던 영국~스페인 여행을 2주일 정도 갔었습니다. 항상 아침에 조깅을 하면서 ‘한국 돌아가서 뭘해볼까…’ 이런 고민들을 했었고 그 중 제일 처음으로 해야겠다고 생각했던 것이 블로그였습니다.</p>
-<p><code>일단 블로그부터 제대로 구축하자!</code> 라는 계획으로 hexo 블로그를 만들었고, 여러 테마들을 돌려보면서 괜찮은 것들을 살펴봤습니다. 한 한달정도 블로그랑 씨름하다보니 어느정도 구축이 되었고, 배운 내용들을 글로 정리하기 시작했습니다.</p>
-<p>사실 올해에는 취업 생각이 없었습니다. 데이터 이론이나 알고리즘 등 준비해야 할 것도 많다고 생각했고, 개인 프로젝트도 더 필요하다고 느꼈습니다. 하지만 3월에 상반기 대기업 취업 공고가 나니까 마음이 급해지기 시작했죠. ‘내가 공부는 정말 많이 했지만 내가 진짜 제대로 알고 있는걸까?’, ‘이 상태로 취업은 가능할까?’, ‘공부를 이렇게 하는게 맞나?’ 이런 고민들이었습니다. </p>
-<p>이런 고민들로 3월부터 6월 동안 취업준비를 급하게 시작했습니다. 결국 데이터 관련 일은 데이터를 직접 만져봐야 얻는 게 있다는 결론을 내렸기 때문입니다. 이력서도 많이 쓰고 면접도 많이 봤습니다. 첫 면접부터 마지막 면접까지 하나하나 기억이 다 나네요, 쓰라렸지만 좋은 경험을 많이 했다고 생각합니다. 사실 상반기 회고를 하면서 면접에 관해서 글이 길어졌는데, 너무 무거운 내용들이 많아서 일단 나중에 정리해서 업로드 할 생각입니다. 이번 글은 조금 가벼운 느낌으로!</p>
-<p><img src="/images/library.jpeg" alt="살다시피 했던 경영도서관"><br>그래서 상반기 회고를 다시 하자면 저는 도서관에서 거의 살았었습니다. 아침 일찍 나가서 저녁 늦게 까지 책을 쌓아놓고 노트북 두들기면서 한 자리에만 있었습니다. 그때 공부를 하면서 느낀 건 공부를 오래하고 싶더라도 체력이 부족하면 불가능 하다는 것이었습니다. 운동도 시작했고, 식단 조절도 해보면서 건강을 챙겼습니다. 우연히 운동 좋아하는 후배들을 알게 되면서 좋은 습관들을 쌓게 된 것 같네요.</p>
-<h3 id="글쓰는-습관"><a href="#글쓰는-습관" class="headerlink" title="글쓰는 습관"></a>글쓰는 습관</h3><p>취업 준비도 준비지만 또 다른 좋은 습관을 들이려고 노력한 것은 글쓰는 습관이었습니다. 배운 내용을 혼자 공부해서 갖고 있는 것보다, 글을 쓰고 공유하고, 얘기하는 것이 저에게 훨씬 더 큰 가치를 가져다 줄 수 있겠구나 하는 생각이 들었습니다. 부족하지만 이론을 정리한 걸 글로 작성하고, 알고리즘 문제 푼 것들도 어떤 생각의 흐름으로 풀었는지 기록했습니다. 이외로 면접 준비하면서 이걸 다시 보게 되니까 정리하는데 도움이 많이 되는 것 같았습니다. 특히 이론에 관해서 글을 쓸때는 완벽하게 알지 못하면 글을 쓰지 못하기 때문에, 어디가 부족한지 스스로 알 수 있게 되어서 더 좋은 것 같습니다.</p>
-<p>그 외에 상반기에 했던 것들은 다 취업 준비가 대부분이었던 것 같네요.</p>
-<p>회고를 해보니 너무 정신없이 살았던 것 같습니다. 정리 안되고 정신없는 거 별로 안 좋아하는데 상반기를 정리해보니 제 자신이 정리 안하고 살았었네요. 하반기에는 계획을 제대로 세워서 하나씩 클리어 하는 재미로 살아봐야겠습니다.</p>
-<p>상반기 회고를 두 번 해보니 얻어지는 것이 있었습니다. 사실 취업준비를 하면서 많이 지쳤었거든요, 데이터 얘기만 들어도 싫고, 개발이나 알고리즘, 코드만 봐도 어지럽고 도망치고 싶었습니다. 하지만 취업도 했고, 상반기를 냉철하게, 처절하게 다시 들여다보고 나니, 다시 시작할 힘이 나는 느낌입니다. 바닥에 다시 내려왔고, 어디부터 공부를 해야할지 이제 감이 잡히는 느낌입니다.</p>
-<h3 id="어떤-글을-쓸까-다짐"><a href="#어떤-글을-쓸까-다짐" class="headerlink" title="어떤 글을 쓸까? / 다짐"></a>어떤 글을 쓸까? / 다짐</h3><p>글또 3기를 하면서 가끔은 넋두리 같은, 오늘 같은 이야기를 하게 될 것 같고, 캐글 대회에 참여하고 잘 되거나, 안되었던 것들을 정리할 계획입니다. 또 일하면서 필요한 부분을 공부하면서, 예를들어 AWS(사실 GCP를 더 공부하고 싶었는데 ㅠㅠ 회사는 AWS를 쓰는군요…)나 Apache Spark, NoSQL(MongoDB) 등을 정리한 내용을 공유할 것 같습니다.</p>
-<p>하반기에 계획했었던 일 중 하나가 글또 3기 들어가는 것이였는데요, 벌써 체크 하나하게 되어서 너무 기쁩니다. 최소 12개의 글을 쓰게 될텐데 그 과정이 의외로 도전적일 것 같아 재밌을 것 같네요. 도전적인 자세로 하반기를 살아봐야겠습니다. 내일은 월요일, 도전이 생각보다 꽤 빨리 시작되는 느낌입니다.</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1117,7 +1121,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        29
+                        30
                     </p>
                 </div>
             </div>
@@ -1127,7 +1131,7 @@
                         Categories
                     </p>
                     <p class="title has-text-weight-normal">
-                        26
+                        28
                     </p>
                 </div>
             </div>
@@ -1137,7 +1141,7 @@
                         Tags
                     </p>
                     <p class="title has-text-weight-normal">
-                        37
+                        39
                     </p>
                 </div>
             </div>
@@ -1371,6 +1375,22 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/ubuntu/">
             <span class="level-start">
                 <span class="level-item">ubuntu</span>
@@ -1398,7 +1418,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 16.67px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 16.67px;">글또</a>
     </div>
 </div>
 
@@ -1409,6 +1429,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/01/01/keras-trouble-shooting/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232" alt="케라스 창시자에게 배우는 딥러닝에서의 Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time></div>
+                    <a href="/2020/01/01/keras-trouble-shooting/" class="has-link-black-ter is-size-6">케라스 창시자에게 배우는 딥러닝에서의 Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a> / <a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1486,25 +1525,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/10/20/GDG-DEV-FEST/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/dev_fest.png" alt="2019 GDG DEVFEST SEOUL 행사를 다녀오다">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-20T08:30:50.000Z">2019-10-20</time></div>
-                    <a href="/2019/10/20/GDG-DEV-FEST/" class="has-link-black-ter is-size-6">2019 GDG DEVFEST SEOUL 행사를 다녀오다</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/blog/">blog</a> / <a class="has-link-grey -link" href="/categories/blog/event/">event</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1516,6 +1536,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">January 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2019/12/">
@@ -1949,6 +1980,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/keras/">
+                        <span class="level-start">
+                            <span class="level-item">keras</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/linux/">
                         <span class="level-start">
                             <span class="level-item">linux</span>
@@ -2026,6 +2068,17 @@
                 </li>
                 
                 <li>
+                    <a class="level is-marginless" href="/tags/trouble-shooting/">
+                        <span class="level-start">
+                            <span class="level-item">trouble shooting</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
                     <a class="level is-marginless" href="/tags/ubuntu/">
                         <span class="level-start">
                             <span class="level-item">ubuntu</span>
@@ -2073,7 +2126,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2019 SangHyub Lee, Jose&nbsp;
+                &copy; 2020 SangHyub Lee, Jose&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
                 </p>
             </div>
