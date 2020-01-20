@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2020/01/01/keras-trouble-shooting/</loc>
+        <lastmod>2020-01-20T09:17:48.282Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2020/01/16/spark-in-action/</loc>
         <lastmod>2020-01-20T05:46:09.173Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -18,14 +26,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2020/01/06/spark-zeppelin/</loc>
         <lastmod>2020-01-06T13:28:11.337Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2020/01/01/keras-trouble-shooting/</loc>
-        <lastmod>2020-01-01T07:33:24.006Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
