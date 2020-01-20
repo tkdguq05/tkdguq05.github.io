@@ -161,6 +161,86 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2019/08/25/Time-Series-Begins/" class="image is-7by1">
+            <img class="thumbnail" src="/images/timeseries.png" alt="Time Series Analysis Begins">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-08-25T03:30:03.000Z">2019-08-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Statistics/">Statistics</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 minutes read (About 2001 words)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/08/25/Time-Series-Begins/">Time Series Analysis Begins</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="Dive-into-시계열-데이터-분석"><a href="#Dive-into-시계열-데이터-분석" class="headerlink" title="Dive into 시계열 데이터 분석"></a>Dive into 시계열 데이터 분석</h1><h2 id="시계열-데이터-분석에-대해서-공부해보자"><a href="#시계열-데이터-분석에-대해서-공부해보자" class="headerlink" title="시계열 데이터 분석에 대해서 공부해보자!"></a>시계열 데이터 분석에 대해서 공부해보자!</h2><p>저번 주부터 고대하던 시계열 분석에 대해서 본격적으로 공부해보게 되었습니다. 공부한 내용에 대해서 차근차근 정리를 해보는 시간을 갖겠습니다.</p>
+<h3 id="분석적-사고의-필요성"><a href="#분석적-사고의-필요성" class="headerlink" title="분석적 사고의 필요성"></a>분석적 사고의 필요성</h3><p>시계열 분석에 앞서 강조하는 부분이 있었습니다.  데이터 분석에는 6가지 사이클이 있습니다.</p>
+<ol start="0">
+<li>문제정의</li>
+<li>데이터 수집</li>
+<li>데이터 전처리</li>
+<li>데이터 정리</li>
+<li>데이터 분석</li>
+<li>결과 정리</li>
+</ol>
+<p>그 중 가장 중요한 것은, 데이터 분석이 아니라 분석적 사고의 필요성입니다. 특히 데이터 사이언티스트에게 중요한 덕목으로서 강사님께서 강조해 주셨는데요, 결국은 문제 정의를 잘하는 것이 중요하다는 것이었습니다. 문제가 잘 정의되면 데이터를 어디서 갖고 올지 어떤 알고리즘을 사용할지 등이 정리가 될 수 있습니다. 사실 <code>캐글 = 데이터사이언스</code>로 보는 사람들이 많은데, 엄밀히 따지면 캐글은 알고리즘을 공부할 수 있는 대회일 수 있습니다. 이미 사전에 문제정의가 끝나고 데이터를 잘 모으고 정리되어서 캐글쪽에 전달되기 때문에 정말 필요한 능력인 문제정의 능력을 키우기는 힘들 수 있습니다.(개인적으로 가장 신선한 충격을 받았던 설명이었습니다)</p>
+<p>문제 정의 후에는 이것을 고객들이나 관리자에게 잘 전달해주어야 합니다. 그래서 중요한 것은 설득 및 설명 능력입니다. 사실, 데이터분석 관련지식(이론), 프로그래밍 활용능력(실습) 등은 금방 늘어날 수 있는 능력이지만, 잘 설득하고 이해하기 쉽도록 설명하는 능력은 정말 키우기 어렵습니다. 어쩌면 데이터 사이언티스트에게 커뮤니케이션 능력은 잘 키울 수 없기에 더 중요하지 않을까 생각되기도 합니다.</p>
+<h3 id="정확한-문제-정의의-중요성"><a href="#정확한-문제-정의의-중요성" class="headerlink" title="정확한 문제 정의의 중요성"></a>정확한 문제 정의의 중요성</h3><p>앞서 말씀 드린 것처럼, 정확하게 문제를 정의하고 분석을 시작해야 합니다. 이를 위해서는 가설을 설정하고 검정하는 것이 필요하게 됩니다. 가설 설정의 세가지 조건은 다음과 같습니다.</p>
+<h4 id="가설-설정-세가지-조건"><a href="#가설-설정-세가지-조건" class="headerlink" title="가설 설정 세가지 조건"></a>가설 설정 세가지 조건</h4><ol>
+<li>상호배반적</li>
+<li>증명가능성</li>
+<li>구체성 </li>
+</ol>
+<p>상호배반성은 나의 주장과 대립 주장이 모호함이 없어야 한다는 것으로, 서로 겹치는 영역이 없어야 된다는 것을 말합니다. 증명가능성은 성급화 일반화에 빠지지 않기 위해서는 증명 가능한 것이나, 범위로 내세워야 한다는 것을 말합니다. 마지막으로 구체성은 충분히 구별되고 실현가능한 표현으로 정의되어야 한다는 것입니다. </p>
+<h3 id="검정"><a href="#검정" class="headerlink" title="검정"></a>검정</h3><p>가설을 세웠으면, 이제 그 가설이 맞는지 검정을 해야 합니다. 주의해야할 점은 모집단에 대한 것입니다. 모집단은 논란이 있을 수 있지만, 관찰이 불가능한 것입니다. 이상적인 샘플 집단이기 때문입니다. 그렇기 때문에 우리는 항상 샘플을 갖고 분석을 할 수 밖에 없습니다. 샘플에 Bias가 있다면, Bias를 제거하고 사용합니다. </p>
+<p>귀무가설과 대립가설은 통계에서 정말 자주 등장하는 개념입니다. 하지만 익숙하지 않은 단어들이기 때문에 항상 헷갈리는에요, 귀무가설은 기존의 주장(대립 주장), 대립가설은 내 주장 이라고 생각하면 사고하기 편리합니다. </p>
+<p>귀무가설과 대립가설을 세웠다면, 이제 통계량을 보고 어떤 가설이 맞는지 확인해야 합니다. 이때 우리가 확인하는 통계량을 검정 통계량이라고 합니다. 대립가설과 귀무가설을 비교하기 위한 검증지표값으로 흔히 ‘점추정’이라고 부릅니다. </p>
+<p>검정통계량이 발생가능한 구간에 대해서도 용어가 정리되어 있는데, 이것을 신뢰 구간이라고 부릅니다. 또 귀무가설이 참일 때 검정통계량으로 대립가설이 발생활 확률을 말하는 p-value가 있습니다. 일반적으로 p-value 기준으로 0.05보다 크면 대립가설을 기각하고, 0.05보다 작으면 대립가설을 채택합니다. </p>
+<h3 id="통계량"><a href="#통계량" class="headerlink" title="통계량"></a>통계량</h3><p>분석 단계별 의사결정을 위해서는 수학/통계적 언어를 이해하는 것이 필요합니다. 변동/산포 특성, 지표의 변동성을 나타내는 통계량에는 분산과 표준편차가 있습니다. 분산은 편차제곱의 합을 데이터의 수로 나눈 값이고, 표준편차는 분산에 루트를 씌운 값입니다. (참고로 편차는 관측값과 평균의 차이입니다)</p>
+<p>분포의 형태 특성을 나타내는 것으로는 대표적으로 Skewness와 Kurtosis가 있습니다. 왜도와 첨도라고 부를 수 있습니다. 왜도는 평균을 중심으로 데이터가 좌우로 편향되어 있는 정도를 말하고, 첨도는 뾰족한 정도로, 사실 더 중요한 것은 tail의 fat함을 보는 데 사용될 수 있습니다. fat-tail하다면 정규성 가정이 깨지게 되므로(정규성 가정 중 하나 : 분포의 tail은 슬림하다, kurtosis값은 0에 가까울 수록 좋다) 만든 모델이 제대로 작동하지 않을 가능성이 높습니다.</p>
+<p><img src="/images/skewkurt.png" alt="skewness kurtosis"></p>
+<h3 id="시계열-데이터와-횡단면-데이터"><a href="#시계열-데이터와-횡단면-데이터" class="headerlink" title="시계열 데이터와 횡단면 데이터"></a>시계열 데이터와 횡단면 데이터</h3><p>이제 데이터에 대한 얘기를 시작하겠습니다. 횡단면 자료(Cross-Sectional data)는 일정시점에서 하나 이상의 변수에 대해 수집된 자료를 말합니다. (예: 2016년 전국 16개 시도의 GRDP와 최종소비)</p>
+<p>시계열 데이터는 일별, 주별, 월별, 분기별, 연도별 등 시간에 걸쳐 수집한 자료로 거시경제변수를 측정한 자료에서 많이 발생하는 데이터 입니다. 시계열 데이터는 보통의 데이터에 비해서 레코드(또는 로우)에 타임스탬프 또는 각 시간구간에 따른 집계 레벨(분별, 시간대별, 일별, 주별, 월별, 분기별, 년도별)에 대한 순서가 있는 시간값을 함께 가지고 있습니다. 시계열 데이터는 횡단면 데이터에 비해 고려해야 할 <code>시간축</code>이 하나 더 있는 것이 문제이며 시간축이 선후관계를 가지는 것, 그리고 시간축에 대한 것을 드릴다운하거나 다시 롤업(roll-up)해서 집계 응집도를 높여야 할 수 있습니다.<br><a href="http://intothedata.com/02.scholar_category/timeseries_analysis/" target="_blank" rel="noopener">http://intothedata.com/02.scholar_category/timeseries_analysis/</a></p>
+<hr>
+<p>시계열 데이터 분석을 위한 준비는 이것으로 어느정도 마무리 된 것 같습니다. 이외에도 Anaconda 설정이나, Numpy, Pandas를 다루는 부분이 있지만 블로그 글에서는 생략하겠습니다. </p>
+<p>다음 포스팅 부터는 본격적인 시계열 데이터의 계절성이나 주기의 차이점, Residual을 주의깊게 관찰해야 하는 이유 등에 대해서 다뤄보겠습니다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2019/07/18/Bandit/" class="image is-7by1">
             <img class="thumbnail" src="/images/bandit.png" alt="Multi Armed Bandit 알고리즘?">
         </a>
@@ -1022,183 +1102,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="image is-7by1">
-            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture Selection with Information Value">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-04-25T02:40:50.000Z">2019-04-25</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 minutes read (About 1144 words)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/04/25/Fearuture-Selection-Information-Value/">Fearuture Selection with Information Value</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="Feature-Selection에-Information-Value를-이용해보자"><a href="#Feature-Selection에-Information-Value를-이용해보자" class="headerlink" title="Feature Selection에 Information Value를 이용해보자."></a>Feature Selection에 Information Value를 이용해보자.</h1><h2 id="Information-Value를-이용한-방법"><a href="#Information-Value를-이용한-방법" class="headerlink" title="Information Value를 이용한 방법"></a>Information Value를 이용한 방법</h2><hr>
-<p>Kaggle이나 데이터 분석을 하다보면 성능을 높이기 위해 여러가지 feature들을 만들어낸다. 그런데 feature를 무조건 많이 만든다고 성능이 올라갈까? 아니다. target에 대한 영향력이 큰 feature들이어야 성능에 영향을 줄 수 있을 것이다. 그렇다면 중요한 건, 만들어낸 feature들을 어떻게 평가할 것인가이다.</p>
-<p>Kaggle에서 Feature Selection 하는 방법들을 보면 gbm모델들의 Feature Importance를 이용하거나 DecisionTree나 RandomForest의 Classifier 객체의 feature_importances_ 메서드를 활용해 Feature Importance를 구해서 비교하는 모습들이 자주 보인다.</p>
-<p>하지만 또 다른 방법으로, Information Value를 이용한 Feature Selection을 소개해보고자 한다.</p>
-<h3 id="1-Information-Value-정보-가치"><a href="#1-Information-Value-정보-가치" class="headerlink" title="1. Information Value (정보 가치)"></a>1. Information Value (정보 가치)</h3><p>모델에서 변수의 사용유무를 판단하는 feature selection에서 유용한 방법이다. 주로 모델을 학습하기전 첫 단계에서 변수들을 제거하는 데 사용한다. 최종 모델에서는 대략 10개 내외의 변수를 사용하도록 한다(여러개 만들어 보고 비교해보는 것이 좋다). IV와 WOE 신용채무능력이 가능한(good) 고객과 불가능한(bad) 고객을 예측하는 로지스틱 회귀 모델링과 밀접한 관계가 있다. 신용 정보 관련분야에서는 good customer는 부채를 갚을 수 있는 고객, bad customer는 부채를 갚을 수 없는 고객을 뜻한다. 일반적으로 이야기할 때는 good customer는 non-events를 의미하고 bad customer는 events를 의미한다.</p>
-<p><code>신용 관련 분야</code></p>
-<p>$${WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}$$</p>
-<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}$$</p>
-<p><code>일반적</code></p>
-<p>$${WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}$$</p>
-<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}$$</p>
-<ul>
-<li>Information Value 값의 의미</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"><center>Information Value</center></th>
-<th style="text-align:center"><center>예측력</center></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center"><center>0 to 0.02</center></td>
-<td style="text-align:center"><center>무의미</center></td>
-</tr>
-<tr>
-<td style="text-align:center"><center>0.02 to 0.1</center></td>
-<td style="text-align:center"><center>낮은 예측</center></td>
-</tr>
-<tr>
-<td style="text-align:center"><center>0.1 to 0.3</center></td>
-<td style="text-align:center"><center>중간 예측</center></td>
-</tr>
-<tr>
-<td style="text-align:center"><center>0.3 to 0.5</center></td>
-<td style="text-align:center"><center>강한 예측</center></td>
-</tr>
-<tr>
-<td style="text-align:center"><center>0.5 to 1</center></td>
-<td style="text-align:center"><center>너무 강한 예측(의심되는 수치)</center></td>
-</tr>
-</tbody>
-</table>
-<p>Information Value를 통해서 ‘이 feature를 꼭 사용해야하나?’에 대해 어느정도 답을 내릴 수 있다.</p>
-<p>Information Value가 0.5~1.0인 구간을 보면, 강한 예측이지만 의심되는 수치라고 되어있다. 처음보면 이게 무슨 의미인지 잘 이해가 안될 것이다. ‘너무 예측을 잘하는데 수치를 의심하라고?’</p>
-<p>하지만 잘 생각해보자. IV는 WOE를 활용한다. WOE는 good과 bad의 분포를 이용하는데, 데이터가 good으로 쏠려있을 경우 WOE는 무조건 잘 나올 수 밖에 없고, 이에 따라 IV값도 잘 나오게 된다. </p>
-<p>따라서, IV의 값을 볼 때는 데이터가 어떻게 되어있는지 먼저 살펴보는 게 중요하다.</p>
-<h3 id="2-German-Credit-Data-이용해보기"><a href="#2-German-Credit-Data-이용해보기" class="headerlink" title="2. German Credit Data 이용해보기"></a>2. German Credit Data 이용해보기</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path = <span class="hljs-string">'https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data'</span></span><br><span class="line">dataset = pd.read_csv(path, delimiter=<span class="hljs-string">' '</span>, header=<span class="hljs-keyword">None</span>)</span><br></pre></td></tr></table></figure>
-<p>Column이 제대로 되어있지 않기 때문에 노가다로 넣어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">COL = [</span><br><span class="line">    <span class="hljs-string">'Status_of_existing_checking_account'</span>, </span><br><span class="line">    <span class="hljs-string">'Duration_in_month'</span>,</span><br><span class="line">    <span class="hljs-string">'Credit_history'</span>,</span><br><span class="line">    <span class="hljs-string">'Purpose'</span>, </span><br><span class="line">    <span class="hljs-string">'Credit_amount'</span>, </span><br><span class="line">    <span class="hljs-string">'Savings_account_bonds'</span>, </span><br><span class="line">    <span class="hljs-string">'Present_employment_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Installment_rate_in_percentage_of_disposable_income'</span>,</span><br><span class="line">    <span class="hljs-string">'Personal_status_and_sex'</span>,</span><br><span class="line">    <span class="hljs-string">'Other_debtors_guarantors'</span>,</span><br><span class="line">    <span class="hljs-string">'Present_residence_since'</span>, </span><br><span class="line">    <span class="hljs-string">'Property'</span>, </span><br><span class="line">    <span class="hljs-string">'Age_in_years'</span>, </span><br><span class="line">    <span class="hljs-string">'Other_installment_plans'</span>, </span><br><span class="line">    <span class="hljs-string">'Housing'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_existing_credits_at_this_bank'</span>,</span><br><span class="line">    <span class="hljs-string">'Job'</span>,</span><br><span class="line">    <span class="hljs-string">'Number_of_people_being_liable_to_provide_maintenance_for'</span>,</span><br><span class="line">    <span class="hljs-string">'Telephone'</span>,</span><br><span class="line">    <span class="hljs-string">'foreign_worker'</span>,</span><br><span class="line">    <span class="hljs-string">'Target'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
-<p>Target값을 0, 1로 만들어준다.<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="hljs-string">'Target'</span>] = dataset[<span class="hljs-string">'Target'</span>] - <span class="hljs-number">1</span></span><br></pre></td></tr></table></figure></p>
-<p>Information Value를 구하는 코드<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">max_bin = <span class="hljs-number">10</span>  <span class="hljs-comment"># 전체 데이터의 예측력에 해를 가하지 않는 한에서 구간을 테스트하였습니다. 통상적으로 10개로 나눔, 15개 20개 다 나눠보고</span></span><br><span class="line"><span class="hljs-comment"># 값이 잘나오는 bin을 선택함</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">calc_iv</span><span class="hljs-params">(df, col, label, max_bin = max_bin)</span>:</span></span><br><span class="line">    <span class="hljs-string">"""IV helper function"""</span></span><br><span class="line">    bin_df = df[[col, label]].copy()</span><br><span class="line">    <span class="hljs-comment"># Categorical column</span></span><br><span class="line">    <span class="hljs-keyword">if</span> bin_df[col].dtype == <span class="hljs-string">'object'</span>:</span><br><span class="line">        bin_df = bin_df.groupby(col)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    <span class="hljs-comment"># Numerical column</span></span><br><span class="line">    <span class="hljs-keyword">else</span>:</span><br><span class="line">        bin_df.loc[:, <span class="hljs-string">'bins'</span>] = pd.qcut(bin_df[col].rank(method=<span class="hljs-string">'first'</span>), max_bin)</span><br><span class="line"><span class="hljs-comment">#         bin_df.loc[:, 'bins'] = pd.cut(bin_df[col], max_bin)</span></span><br><span class="line">        bin_df = bin_df.groupby(<span class="hljs-string">'bins'</span>)[label].agg([<span class="hljs-string">'count'</span>, <span class="hljs-string">'sum'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.columns = [<span class="hljs-string">'total'</span>, <span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal'</span>] = bin_df[<span class="hljs-string">'total'</span>] - bin_df[<span class="hljs-string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="hljs-string">'normal_dist'</span>] = bin_df[<span class="hljs-string">'normal'</span>] / sum(bin_df[<span class="hljs-string">'normal'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'abuse_dist'</span>] = bin_df[<span class="hljs-string">'abuse'</span>] / sum(bin_df[<span class="hljs-string">'abuse'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'woe'</span>] = np.log(bin_df[<span class="hljs-string">'normal_dist'</span>] / bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    bin_df[<span class="hljs-string">'iv'</span>] = bin_df[<span class="hljs-string">'woe'</span>] * (bin_df[<span class="hljs-string">'normal_dist'</span>] - bin_df[<span class="hljs-string">'abuse_dist'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.replace([np.inf, -np.inf], <span class="hljs-number">0</span>, inplace=<span class="hljs-keyword">True</span>)</span><br><span class="line">    bin_df = bin_df[bin_df[<span class="hljs-string">'total'</span>] &gt; <span class="hljs-number">0</span>]</span><br><span class="line">    iv_val = sum(filter(<span class="hljs-keyword">lambda</span> x: x != float(<span class="hljs-string">'inf'</span>), bin_df[<span class="hljs-string">'iv'</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> bin_df, col, iv_val</span><br><span class="line">``` </span><br><span class="line">```python</span><br><span class="line">ch_df, ch, ch_i_val = calc_iv(dataset,<span class="hljs-string">'Credit_history'</span>, <span class="hljs-string">'Target'</span>)</span><br><span class="line">ch_df</span><br></pre></td></tr></table></figure></p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"></th>
-<th>total</th>
-<th style="text-align:center">abuse</th>
-<th>normal</th>
-<th style="text-align:center">normal_dist</th>
-<th>abuse_dist</th>
-<th style="text-align:center">woe</th>
-<th>iv</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Credit_history</td>
-<td></td>
-<td style="text-align:center"></td>
-<td></td>
-<td style="text-align:center"></td>
-<td></td>
-<td style="text-align:center"></td>
-<td></td>
-</tr>
-<tr>
-<td style="text-align:center">A30</td>
-<td>40</td>
-<td style="text-align:center">25</td>
-<td>15</td>
-<td style="text-align:center">0.021429</td>
-<td>0.083333</td>
-<td style="text-align:center">-1.358123</td>
-<td>0.084074</td>
-</tr>
-<tr>
-<td style="text-align:center">A31</td>
-<td>49</td>
-<td style="text-align:center">28</td>
-<td>21</td>
-<td style="text-align:center">0.030000</td>
-<td>0.093333</td>
-<td style="text-align:center">-1.134980</td>
-<td>0.071882</td>
-</tr>
-<tr>
-<td style="text-align:center">A32</td>
-<td>530</td>
-<td style="text-align:center">169</td>
-<td>361</td>
-<td style="text-align:center">0.515714</td>
-<td>0.563333</td>
-<td style="text-align:center">-0.088319</td>
-<td>0.004206</td>
-</tr>
-<tr>
-<td style="text-align:center">A33</td>
-<td>88</td>
-<td style="text-align:center">28</td>
-<td>60</td>
-<td style="text-align:center">0.085714</td>
-<td>0.093333</td>
-<td style="text-align:center">-0.085158</td>
-<td>0.000649</td>
-</tr>
-<tr>
-<td style="text-align:center">A34</td>
-<td>293</td>
-<td style="text-align:center">50</td>
-<td>243</td>
-<td style="text-align:center">0.347143</td>
-<td>0.166667</td>
-<td style="text-align:center">0.733741</td>
-<td>0.132423</td>
-</tr>
-</tbody>
-</table>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1263,7 +1166,7 @@
                         Posts
                     </p>
                     <p class="title has-text-weight-normal">
-                        31
+                        32
                     </p>
                 </div>
             </div>
@@ -1498,7 +1401,7 @@
                 <span class="level-item">spark</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/spark/engineering/">
@@ -1506,7 +1409,7 @@
                 <span class="level-item">engineering</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/sql/">
@@ -1576,7 +1479,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 10px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 16.67px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 16.67px;">글또</a>
     </div>
 </div>
 
@@ -1587,6 +1490,25 @@
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/01/16/spark-in-action/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/spark-logo-trademark.png" alt="Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T08:49:47.000Z">2020-01-16</time></div>
+                    <a href="/2020/01/16/spark-in-action/" class="has-link-black-ter is-size-6">Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/spark/">spark</a> / <a class="has-link-grey -link" href="/categories/spark/engineering/">engineering</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1664,25 +1586,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/11/22/ununtu2/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 2">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-11-22T08:18:37.000Z">2019-11-22</time></div>
-                    <a href="/2019/11/22/ununtu2/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 2</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1701,7 +1604,7 @@
                     <span class="level-item">January 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -2220,7 +2123,7 @@
                             <span class="level-item">spark</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">1</span>
+                            <span class="level-item tag">2</span>
                         </span>
                     </a>
                 </li>
