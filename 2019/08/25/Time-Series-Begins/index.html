@@ -10,19 +10,19 @@
 <title>Time Series Analysis Begins - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자!저번 주부터 고대하던 시계열 분석에 대해서 본격적으로 공부해보게 되었습니다. 공부한 내용에 대해서 차근차근 정리를 해보는 시간을 갖겠습니다. 분석적 사고의 필요성시계열 분석에 앞서 강조하는 부분이 있었습니다.  데이터 분석에는 6가지 사이클이 있습니다.  문제정의 데이터 수집 데이">
+    <meta name="description" content="시계열 데이터 분석의 시작">
 <meta name="keywords" content="Timeseries">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Time Series Analysis Begins">
 <meta property="og:url" content="http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자!저번 주부터 고대하던 시계열 분석에 대해서 본격적으로 공부해보게 되었습니다. 공부한 내용에 대해서 차근차근 정리를 해보는 시간을 갖겠습니다. 분석적 사고의 필요성시계열 분석에 앞서 강조하는 부분이 있었습니다.  데이터 분석에는 6가지 사이클이 있습니다.  문제정의 데이터 수집 데이">
+<meta property="og:description" content="시계열 데이터 분석의 시작">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/timeseries.png">
-<meta property="og:updated_time" content="2020-02-24T03:20:17.499Z">
+<meta property="og:updated_time" content="2020-02-24T10:23:22.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Time Series Analysis Begins">
-<meta name="twitter:description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자!저번 주부터 고대하던 시계열 분석에 대해서 본격적으로 공부해보게 되었습니다. 공부한 내용에 대해서 차근차근 정리를 해보는 시간을 갖겠습니다. 분석적 사고의 필요성시계열 분석에 앞서 강조하는 부분이 있었습니다.  데이터 분석에는 6가지 사이클이 있습니다.  문제정의 데이터 수집 데이">
+<meta name="twitter:description" content="시계열 데이터 분석의 시작">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/timeseries.png">
 
 
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    13 minutes read (About 2002 words)
+                    13 minutes read (About 2013 words)
                 </span>
                 
                 
@@ -174,10 +174,10 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>시계열 데이터 분석의 시작<br><a id="more"></a></p>
 <h1 id="Dive-into-시계열-데이터-분석"><a href="#Dive-into-시계열-데이터-분석" class="headerlink" title="Dive into 시계열 데이터 분석"></a>Dive into 시계열 데이터 분석</h1><h2 id="시계열-데이터-분석에-대해서-공부해보자"><a href="#시계열-데이터-분석에-대해서-공부해보자" class="headerlink" title="시계열 데이터 분석에 대해서 공부해보자!"></a>시계열 데이터 분석에 대해서 공부해보자!</h2><p>저번 주부터 고대하던 시계열 분석에 대해서 본격적으로 공부해보게 되었습니다. 공부한 내용에 대해서 차근차근 정리를 해보는 시간을 갖겠습니다.</p>
 <h3 id="분석적-사고의-필요성"><a href="#분석적-사고의-필요성" class="headerlink" title="분석적 사고의 필요성"></a>분석적 사고의 필요성</h3><p>시계열 분석에 앞서 강조하는 부분이 있었습니다.  데이터 분석에는 6가지 사이클이 있습니다.</p>
-<ol>
+<ol start="0">
 <li>문제정의</li>
 <li>데이터 수집</li>
 <li>데이터 전처리</li>
@@ -202,7 +202,7 @@
 <p>분포의 형태 특성을 나타내는 것으로는 대표적으로 Skewness와 Kurtosis가 있습니다. 왜도와 첨도라고 부를 수 있습니다. 왜도는 평균을 중심으로 데이터가 좌우로 편향되어 있는 정도를 말하고, 첨도는 뾰족한 정도로, 사실 더 중요한 것은 tail의 fat함을 보는 데 사용될 수 있습니다. fat-tail하다면 정규성 가정이 깨지게 되므로(정규성 가정 중 하나 : 분포의 tail은 슬림하다, kurtosis값은 0에 가까울 수록 좋다) 만든 모델이 제대로 작동하지 않을 가능성이 높습니다.</p>
 <p><img src="/images/skewkurt.png" alt="skewness kurtosis"></p>
 <h3 id="시계열-데이터와-횡단면-데이터"><a href="#시계열-데이터와-횡단면-데이터" class="headerlink" title="시계열 데이터와 횡단면 데이터"></a>시계열 데이터와 횡단면 데이터</h3><p>이제 데이터에 대한 얘기를 시작하겠습니다. 횡단면 자료(Cross-Sectional data)는 일정시점에서 하나 이상의 변수에 대해 수집된 자료를 말합니다. (예: 2016년 전국 16개 시도의 GRDP와 최종소비)</p>
-<p>시계열 데이터는 일별, 주별, 월별, 분기별, 연도별 등 시간에 걸쳐 수집한 자료로 거시경제변수를 측정한 자료에서 많이 발생하는 데이터 입니다. 시계열 데이터는 보통의 데이터에 비해서 레코드(또는 로우)에 타임스탬프 또는 각 시간구간에 따른 집계 레벨(분별, 시간대별, 일별, 주별, 월별, 분기별, 년도별)에 대한 순서가 있는 시간값을 함께 가지고 있습니다. 시계열 데이터는 횡단면 데이터에 비해 고려해야 할 <code>시간축</code>이 하나 더 있는 것이 문제이며 시간축이 선후관계를 가지는 것, 그리고 시간축에 대한 것을 드릴다운하거나 다시 롤업(roll-up)해서 집계 응집도를 높여야 할 수 있습니다.<br><a href="http://intothedata.com/02.scholar_category/timeseries_analysis/" target="_blank" rel="noopener">http://intothedata.com/02.scholar_category/timeseries_analysis/</a></p>
+<p>시계열 데이터는 일별, 주별, 월별, 분기별, 연도별 등 시간에 걸쳐 수집한 자료로 거시경제변수를 측정한 자료에서 많이 발생하는 데이터 입니다. 시계열 데이터는 보통의 데이터에 비해서 레코드(또는 로우)에 타임스탬프 또는 각 시간구간에 따른 집계 레벨(분별, 시간대별, 일별, 주별, 월별, 분기별, 년도별)에 대한 순서가 있는 시간값을 함께 가지고 있습니다. 시계열 데이터는 횡단면 데이터에 비해 고려해야 할 <code>시간축</code>이 하나 더 있는 것이 문제이며 시간축이 선후관계를 가지는 것, 그리고 시간축에 대한 것을 드릴다운하거나 다시 롤업(roll-up)해서 집계 응집도를 높여야 할 수 있습니다.<br><a href="http://intothedata.com/02.scholar_category/timeseries_analysis/">http://intothedata.com/02.scholar_category/timeseries_analysis/</a></p>
 <hr>
 <p>시계열 데이터 분석을 위한 준비는 이것으로 어느정도 마무리 된 것 같습니다. 이외에도 Anaconda 설정이나, Numpy, Pandas를 다루는 부분이 있지만 블로그 글에서는 생략하겠습니다. </p>
 <p>다음 포스팅 부터는 본격적인 시계열 데이터의 계절성이나 주기의 차이점, Residual을 주의깊게 관찰해야 하는 이유 등에 대해서 다뤄보겠습니다.</p>

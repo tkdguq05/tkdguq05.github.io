@@ -193,7 +193,7 @@
 <h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
 <p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
 <p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
-<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/" target="_blank" rel="noopener">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/</a>]</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
 <p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
 
         </div>
@@ -249,7 +249,7 @@
             <a id="more"></a>
 <h1 id="정보이론-기초-정보량-Information-과-엔트로피-Entropy-에-대해-알아보자"><a href="#정보이론-기초-정보량-Information-과-엔트로피-Entropy-에-대해-알아보자" class="headerlink" title="정보이론 기초, 정보량(Information)과 엔트로피(Entropy)에 대해 알아보자"></a>정보이론 기초, 정보량(Information)과 엔트로피(Entropy)에 대해 알아보자</h1><h2 id="정보량-Information"><a href="#정보량-Information" class="headerlink" title="정보량 (Information)"></a>정보량 (Information)</h2><p>정보량은 말 그대로 얼마나 정보를 갖고 있는 지를 뜻하는 말이고 정보이론이란 불확실성을 다루는 학문이다. 하지만 일상에서 정보량에 대해서 접하기는 상당히 힘들고, 정보량이라는 단어를 일상에서 사용하는 사람은 매우 드물다.</p>
 <p>알기 쉬운 예를 들어보자.</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">간만에 친구들과 약속을 잡아서 놀기로 했다. 12일 13일 14일 15일 중으로 날짜를 잡기로 했고</span><br><span class="line">카카오톡 투표를 통해서 가장 많이 나온 날짜를 약속날로 잡자고 했다.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">간만에 친구들과 약속을 잡아서 놀기로 했다. 12일 13일 14일 15일 중으로 날짜를 잡기로 했고</span><br><span class="line">카카오톡 투표를 통해서 가장 많이 나온 날짜를 약속날로 잡자고 했다.</span><br></pre></td></tr></table></figure>
 <p>흔히 있는 상황이다. 약속날 후보로 5월 12일 13일 14일 15일이 있다고 해보자. 총 4개의 옵션이 있는 것이다. 근데 투표를 만든 사람이 자비롭게 중복투표를 허용해놨고, ‘음 난 다좋은데~’라고 생각하는 주관없는 친구가 모든 날짜를 다 눌러놨다고 생각해보자.</p>
 <p>이 친구의 투표가 가진 정보량은 얼마일까?<br>직관적으로 생각했을 때 0이다. 하지만 <code>수학적으로</code> 왜 그런 것일까?</p>
 <p>정보량의 공식을 보자.<br>정보량  $h(x) = \sum_{x}log_2p(x)$ 이다.</p>

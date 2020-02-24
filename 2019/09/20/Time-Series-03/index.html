@@ -10,19 +10,19 @@
 <title>Time Seires, 시계열 분석 세번째 - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자 03시계열 데이터 분석과 기계학습의 차이점에 대해서 본격적으로 들어가보도록 하겠습니다. 시계열 알고리즘에는 기계학습과는 다른, 2가지 차별화 방향이 있습니다. 첫번째는 ‘과거데이터로 미래 데이터 뽑아낼 수 있는가’ 로 시간 축 기반의 예측이 가능하다는 것이고, 두번째는 시계열 알고">
+    <meta name="description" content="시계열 데이터 분석과 기계학습의 차이점, 회귀분석과의 차이점">
 <meta name="keywords" content="Timeseries">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Time Seires, 시계열 분석 세번째">
 <meta property="og:url" content="http://tkdguq05.github.io/2019/09/20/Time-Series-03/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자 03시계열 데이터 분석과 기계학습의 차이점에 대해서 본격적으로 들어가보도록 하겠습니다. 시계열 알고리즘에는 기계학습과는 다른, 2가지 차별화 방향이 있습니다. 첫번째는 ‘과거데이터로 미래 데이터 뽑아낼 수 있는가’ 로 시간 축 기반의 예측이 가능하다는 것이고, 두번째는 시계열 알고">
+<meta property="og:description" content="시계열 데이터 분석과 기계학습의 차이점, 회귀분석과의 차이점">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/timeseries.png">
-<meta property="og:updated_time" content="2020-02-24T03:20:08.656Z">
+<meta property="og:updated_time" content="2020-02-24T10:23:49.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Time Seires, 시계열 분석 세번째">
-<meta name="twitter:description" content="Dive into 시계열 데이터 분석시계열 데이터 분석에 대해서 공부해보자 03시계열 데이터 분석과 기계학습의 차이점에 대해서 본격적으로 들어가보도록 하겠습니다. 시계열 알고리즘에는 기계학습과는 다른, 2가지 차별화 방향이 있습니다. 첫번째는 ‘과거데이터로 미래 데이터 뽑아낼 수 있는가’ 로 시간 축 기반의 예측이 가능하다는 것이고, 두번째는 시계열 알고">
+<meta name="twitter:description" content="시계열 데이터 분석과 기계학습의 차이점, 회귀분석과의 차이점">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/timeseries.png">
 
 
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    18 minutes read (About 2664 words)
+                    18 minutes read (About 2690 words)
                 </span>
                 
                 
@@ -174,7 +174,7 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>시계열 데이터 분석과 기계학습의 차이점, 회귀분석과의 차이점<br><a id="more"></a></p>
 <h1 id="Dive-into-시계열-데이터-분석"><a href="#Dive-into-시계열-데이터-분석" class="headerlink" title="Dive into 시계열 데이터 분석"></a>Dive into 시계열 데이터 분석</h1><h2 id="시계열-데이터-분석에-대해서-공부해보자-03"><a href="#시계열-데이터-분석에-대해서-공부해보자-03" class="headerlink" title="시계열 데이터 분석에 대해서 공부해보자 03"></a>시계열 데이터 분석에 대해서 공부해보자 03</h2><p>시계열 데이터 분석과 기계학습의 차이점에 대해서 본격적으로 들어가보도록 하겠습니다. 시계열 알고리즘에는 기계학습과는 다른, 2가지 차별화 방향이 있습니다.</p>
 <p>첫번째는 ‘과거데이터로 미래 데이터 뽑아낼 수 있는가’ 로 시간 축 기반의 예측이 가능하다는 것이고, 두번째는 시계열 알고리즘은 점추정이 아닌 구간추정 알고리즘으로 설명력 효과에 뿌리를 두었다는 것입니다. 대부분의 기계학습 모델은 통계분포에 기반하지 않끼 때문에 점추정 알고리즘이고, 시계열 알고리즘은 구간추정을 하기 때문에 점추정 보다 더 다양한 해석이 가능합니다.</p>
 <h4 id="특별한-모델들"><a href="#특별한-모델들" class="headerlink" title="(특별한 모델들)"></a>(특별한 모델들)</h4><ul>
@@ -192,8 +192,8 @@
 <h3 id="검증지표와-잔차진단"><a href="#검증지표와-잔차진단" class="headerlink" title="검증지표와 잔차진단"></a>검증지표와 잔차진단</h3><p>분석하고 예측만 잘하면 될까요? 큰 착각일 수 있습니다. 중요한 것은 예측이 잘 되었는지 평가하는 것 그리고 데이터의 시간패턴이 잘 추출되었는지 확인하는 작업입니다.</p>
 <p>검증지표는 예측값과 실제값이 얼마나 유사한지 측정하는 것이고, 잔차진단은 데이터의 시간패턴을 잘 뽑아내었는지 알아보는 작업입니다. </p>
 <p><strong>검증지표</strong> 에는 흔히 사용되고 눈에도 익숙한 MSE가 대표적입니다. 그 외에 MAE, MAPE, MAPE, MPE(y가 %로 나올 때) 등 다양한 검증지표가 사용되며, 왠만하면 다 사용해보고 수치가 안정될 때까지 모델을 만드는 것이 좋습니다. 또한 기존의 검증지표가 맘에 들지 않는다면, 분석가나 데이터 사이언티스트가 직접 고안해서 검증지표를 사용해도 됩니다.</p>
-<p>훌륭한 데이터 사이언티스트라면 검증지표를 직접 만들어서 사용해야하는 경우가 많을 것입니다. 왜냐하면 검증지표만 가지고 사용하면 결과에 대한 해석을 다르게 할 수 있기 때문입니다. 예를들어 MSE의 경우는 오차에 대한 가중치를 확 올려버리는 검증지표입니다. 오차에 대해서 제곱을 하기 때문에 가중치가 급격하게 증가하게 됩니다. 분석가가 보기에 이 가중치가 너무 과하다고 생각되면 절대값을 사용할 수 있습니다. 이렇게 되면 MAE를 사용하는 것이 되겠습니다.</p>
-<script type="math/tex; mode=display">MSE = {1\over n}\sum(y-\hat{y})^2</script><script type="math/tex; mode=display">MAE = {1\over n}\sum|y - \hat{y}|</script><p><strong>잔차진단</strong> 는 말 그대로 잔차, <script type="math/tex">y-f(x)</script> 에 대한 값을 보고 진단하는 것을 말합니다. 회귀분석을 해보신 분들을 아시겠지만, 잔차는 정의가 존재합니다.</p>
+<p>훌륭한 데이터 사이언티스트라면 검증지표를 직접 만들어서 사용해야하는 경우가 많을 것입니다. 왜냐하면 검증지표만 가지고 사용하면 결과에 대한 해석을 다르게 할 수 있기 때문입니다. 예를들어 MSE의 경우는 오차에 대한 가중치를 확 올려버리는 검증지표입니다. 오차에 대해서 제곱을 하기 때문에 가중치가 급격하게 증가하게 됩니다. 분석가가 보기에 이 가중치가 너무 과하다고 생각되면 절대값을 사용할 수 있습니다. 이렇게 되면 MAE를 사용하는 것이 되겠습니다.<br>$$MSE = {1\over n}\sum(y-\hat{y})^2$$<br>$$MAE = {1\over n}\sum|y - \hat{y}|$$</p>
+<p><strong>잔차진단</strong> 는 말 그대로 잔차, $$y-f(x)$$ 에 대한 값을 보고 진단하는 것을 말합니다. 회귀분석을 해보신 분들을 아시겠지만, 잔차는 정의가 존재합니다.</p>
 <h3 id="잔차의-정의"><a href="#잔차의-정의" class="headerlink" title="잔차의 정의"></a>잔차의 정의</h3><ol>
 <li>잔차들은 정규분포이고, 평균 0과 일정한 분산을 가져야 한다.</li>
 <li>잔차들이 시간의 흐름에 따라 상관성이 없어야 한다.<ul>

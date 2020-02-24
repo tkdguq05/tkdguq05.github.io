@@ -10,19 +10,19 @@
 <title>Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유 - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="데이터 분석하기 전, 데이터부터 읽자Spark Session, conf 설정기존 python의 pandas를 이용해서 데이터를 읽으려면 pd.DataFrame(‘…….’)를 통해 파일을 읽으면 간단히 해결 되었다. 하지만 spark에서 데이터를 읽기 위해서는 조금 더 손을 거쳐야 한다. 물론 Zeppelin을 이용한다면 바로 파일을 읽어들일 수 있겠지만,">
+    <meta name="description" content="Spark를 사용해서 데이터를 읽고 분석하자">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유">
 <meta property="og:url" content="http://tkdguq05.github.io/2020/01/16/spark-in-action/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="데이터 분석하기 전, 데이터부터 읽자Spark Session, conf 설정기존 python의 pandas를 이용해서 데이터를 읽으려면 pd.DataFrame(‘…….’)를 통해 파일을 읽으면 간단히 해결 되었다. 하지만 spark에서 데이터를 읽기 위해서는 조금 더 손을 거쳐야 한다. 물론 Zeppelin을 이용한다면 바로 파일을 읽어들일 수 있겠지만,">
+<meta property="og:description" content="Spark를 사용해서 데이터를 읽고 분석하자">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/spark-logo-trademark.png">
-<meta property="og:updated_time" content="2020-02-24T03:19:47.030Z">
+<meta property="og:updated_time" content="2020-02-24T10:20:12.629Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유">
-<meta name="twitter:description" content="데이터 분석하기 전, 데이터부터 읽자Spark Session, conf 설정기존 python의 pandas를 이용해서 데이터를 읽으려면 pd.DataFrame(‘…….’)를 통해 파일을 읽으면 간단히 해결 되었다. 하지만 spark에서 데이터를 읽기 위해서는 조금 더 손을 거쳐야 한다. 물론 Zeppelin을 이용한다면 바로 파일을 읽어들일 수 있겠지만,">
+<meta name="twitter:description" content="Spark를 사용해서 데이터를 읽고 분석하자">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/spark-logo-trademark.png">
 
 
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 minutes read (About 1716 words)
+                    12 minutes read (About 1732 words)
                 </span>
                 
                 
@@ -174,7 +174,7 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>Spark를 사용해서 데이터를 읽고 분석하자<br><a id="more"></a></p>
 <h1 id="데이터-분석하기-전-데이터부터-읽자"><a href="#데이터-분석하기-전-데이터부터-읽자" class="headerlink" title="데이터 분석하기 전, 데이터부터 읽자"></a>데이터 분석하기 전, 데이터부터 읽자</h1><h3 id="Spark-Session-conf-설정"><a href="#Spark-Session-conf-설정" class="headerlink" title="Spark Session, conf 설정"></a>Spark Session, conf 설정</h3><p>기존 python의 pandas를 이용해서 데이터를 읽으려면 pd.DataFrame(‘…….’)를 통해 파일을 읽으면 간단히 해결 되었다. 하지만 spark에서 데이터를 읽기 위해서는 조금 더 손을 거쳐야 한다. 물론 Zeppelin을 이용한다면 바로 파일을 읽어들일 수 있겠지만, pycharm을 이용해서 pyspark application을 만드는 작업을 할 것이기 때문에 직접 spark세팅을 해주어야 한다. </p>
 <p>pycharm에서는 Spark Session을 설정해줘야 spark를 사용할 수 있다. 이 Spark Session에 대한 설정값으로 Spark Conf를 설정해주어야 한다.<br>먼저 필요한 라이브러리를 불러들이고 Spark conf와 session을 설정한다.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pyspark.conf <span class="keyword">import</span> SparkConf</span><br><span class="line"><span class="keyword">from</span> pyspark.sql <span class="keyword">import</span> SparkSession</span><br><span class="line"></span><br><span class="line">conf = SparkConf()</span><br><span class="line">conf.set(<span class="string">'spark.jars.packages'</span>, <span class="string">'org.mongodb.spark:mongo-spark-connector_2.11:2.3.1'</span>)</span><br><span class="line">spark = SparkSession.builder.appName(<span class="string">"spark test"</span>).config(conf=conf).getOrCreate()</span><br></pre></td></tr></table></figure></p>
 <p>conf.set에는 mongoDB와의 연결을 위한 spark connector를 넣어줬다. 이렇게 하면 mongoDB에 있는 데이터를 바로 읽을 수 있을까? 아직 할 작업이 조금 남았다. data를 불러오기 전에 스키마 지정을 해줘야 하기 때문이다.</p>

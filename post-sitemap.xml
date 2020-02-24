@@ -8,48 +8,8 @@
     </url>
 
     <url>
-        <loc>http://tkdguq05.github.io/2020/02/24/geultto4/</loc>
-        <lastmod>2020-02-24T10:13:32.931Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/11/22/ununtu2/</loc>
-        <lastmod>2020-02-24T03:20:38.226Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/12/08/ubuntu3/</loc>
-        <lastmod>2020-02-24T03:20:34.124Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/11/10/ubuntu/</loc>
-        <lastmod>2020-02-24T03:20:29.068Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/09/08/Time-Series02/</loc>
-        <lastmod>2020-02-24T03:20:23.880Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/</loc>
-        <lastmod>2020-02-24T03:20:17.499Z</lastmod>
+        <loc>http://tkdguq05.github.io/2019/02/28/supervised-learning/</loc>
+        <lastmod>2020-02-24T10:24:14.958Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -57,15 +17,63 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/09/20/Time-Series-03/</loc>
-        <lastmod>2020-02-24T03:20:08.656Z</lastmod>
+        <lastmod>2020-02-24T10:23:49.188Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
     </url>
 
     <url>
-        <loc>http://tkdguq05.github.io/2019/02/28/supervised-learning/</loc>
-        <lastmod>2020-02-24T03:20:04.168Z</lastmod>
+        <loc>http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/</loc>
+        <lastmod>2020-02-24T10:23:22.198Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/09/08/Time-Series02/</loc>
+        <lastmod>2020-02-24T10:23:09.095Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/11/10/ubuntu/</loc>
+        <lastmod>2020-02-24T10:22:34.503Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/12/08/ubuntu3/</loc>
+        <lastmod>2020-02-24T10:22:01.987Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/11/22/ununtu2/</loc>
+        <lastmod>2020-02-24T10:21:09.098Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2020/01/16/spark-in-action/</loc>
+        <lastmod>2020-02-24T10:20:12.629Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2020/02/24/geultto4/</loc>
+        <lastmod>2020-02-24T10:13:32.931Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -82,14 +90,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2020/01/06/spark-zeppelin/</loc>
         <lastmod>2020-02-24T03:19:52.286Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2020/01/16/spark-in-action/</loc>
-        <lastmod>2020-02-24T03:19:47.030Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

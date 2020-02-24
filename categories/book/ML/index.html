@@ -170,7 +170,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    17 minutes read (About 2491 words)
+                    17 minutes read (About 2510 words)
                 </span>
                 
                 
@@ -183,49 +183,17 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
-<p>출처 : [파이썬 라이브러리를 활용한 머신러닝]</p>
-<h1 id="지도-학습에-대해서-알아보자"><a href="#지도-학습에-대해서-알아보자" class="headerlink" title="지도 학습에 대해서 알아보자"></a><strong>지도 학습에 대해서 알아보자</strong></h1><p>도마뱀 책의 지도 학습에는 상당한 분량의 내용이 있지만, 그 중 쉬운 모델, 선형모델과 나이브 베이즈 모델에 대해서 살펴볼 것이고, 왜 굳이 쉬운 모델을 사용해야 하는지에 대해서 알아보려 한다.</p>
-<p>그 전에 잠깐 KNN(K-Nearest Neighbors)알고리즘에 대해서 살펴보자.</p>
-<h2 id="K-NN-k-Nearest-Neighbors"><a href="#K-NN-k-Nearest-Neighbors" class="headerlink" title="K-NN (k-Nearest Neighbors)"></a><strong>K-NN (k-Nearest Neighbors)</strong></h2><p>K-NN알고리즘은 가장 간단한 머신러닝 알고리즘 중 하나이다.<br>이 알고리즘은 말 그대로 훈련 데이터셋에서 가장 거리가 가까운 데이터 포인트, ‘최근접 이웃’을 찾는다.</p>
-<p>K-NN을 이용해서 분류와 회귀를 할 수 있다.<br>간단히 분류만 알아보자</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.model_selection <span class="hljs-keyword">import</span> train_test_split</span><br><span class="line">X, y = mglearn.datasets.make_forge()</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="hljs-number">0</span>)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.neighbors <span class="hljs-keyword">import</span> KNeighborsClassifier</span><br><span class="line">clf = KNeighborsClassifier(n_neighbors=<span class="hljs-number">3</span>)</span><br></pre></td></tr></table></figure>
-<p>데이터를 불러왔고, 알고리즘을 임포트 해서 인스턴스화 하였다.<br>여기서 n_neighbors=3이라고 설정했는데 이 뜻은 데이터 포인트 주위의 이웃을 세 개만 보겠다는 뜻이다.</p>
-<p>이웃의 수는 적을 수록 모델을 복잡하게 만드는 것이며, 많아질 수록 모델을 단순하게 만든다. 이웃의 수가 많아지게 되면 결정 경계는 부드러워진다. 이웃의 수가 하나라면, 이 모델은 훈련 데이터에서 완벽하게 예측을 할 수 있게 된다. 하지만 이웃의 수가 늘어나면, 모델은 단순해지고 훈련 데이터의 정확도는 떨어지게 된다. 일반화 되는 것이다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clf.fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="hljs-string">'prediction of test set : &#123;&#125;'</span>.format(clf.predict(X_test)))</span><br></pre></td></tr></table></figure>
-<p>이렇게 예측을 하고 결과값을 뽑아낼 수 있다. 예측을 하는 방법은, 테스트 세트의 각 데이터 포인트에 대해 훈련 세트에서 가장 가까운 이웃을 계산하고 가장 많은 클래스를 찾는 방식이다.</p>
-<p>정리를 해보자면, K-NN 분류기의 중요변수는 두 개이다.</p>
-<ul>
-<li>데이터 포인트 사이의 거리를 재는 방법</li>
-<li>이웃의 수<br>거리를 재는 방법은 주로 유클리디안 거리 방식을 사용한다. 일반적으로 노름(Norm)이라고 알려져 있는 방식이다. </li>
-</ul>
-<p>K-NN의 장점은 이해하기 매우매우매우 쉬운 모델이라는 것이다. 그리고 별로 조정할 것 없이 꽤 성능이 잘 나온다. 그래서, 이 알고리즘은 복잡한 알고리즘을 적용하기 전에 시도할 수 있는 좋은 시작점이 될 수 있다. K-NN을 한번 돌려보면서 데이터를 파악해 볼 수 있는 것이다. </p>
-<p>하지만 K-NN은 데이터 셋이 매우 커지면 예측이 느려진다. 또한 전처리하는 과정이 중요하다. 유클리디안 거리를 재는 방식이기 때문에, 특성마다의 값의 범위가 달라지면 범위가 작은 특성에 영향이 매우 커지게 된다. 그래서 K-NN을 사용하기 전에는 Scaling해주는 작업이 필요하다.</p>
-<p>또한 K-NN은 많은 특성을 가진 데이터 셋에는 잘 동작하지 않고, Sparse한 데이터 셋에서는 잘 동작하지 않는다. 결국 전처리가 중요한 모델이다.</p>
-<p>K-NN은 그래서 단점이 꽤 있는 모델 중에 하나이다. 이해하긴 쉬워도 예측이 느린편이고, 많은 특성을 처리해야 하는 작업에 어울리지 않아, 현업에서는 잘 사용되지 않는다. 그래서 단점이 별로 없는 모델을 사용하게 되는데, 그것이 바로 선형 모델이다.</p>
-<h2 id="선형-모델-Linear-Model"><a href="#선형-모델-Linear-Model" class="headerlink" title="선형 모델, Linear Model"></a><strong>선형 모델, Linear Model</strong></h2><p>회귀의 경우 선형 모델을 위한 일반화된 예측 함수는<br>$\hat{y}$ = $w$$\times$ $\vec{x}$ + b 이다.<br>여기서 w는 기울기이고 b 는 절편값이 된다. </p>
-<p>회귀를 위한 선형 모델은 특성이 하나일 땐 직선, 두 개일 땐 평민이며, 더 높은 차원일 경우에는 hyperplane이 되는 특징을 갖고 있다.</p>
-<p>특성이 많은 데이터 셋이라면 선형 모델은 매우 훌륭한 성능을 낼 수 있다. 특히 훈련 데이터보다 특성이 더 많은 경우에 선형 함수로 모델링이 잘 된다.</p>
-<h4 id="최소제곱법"><a href="#최소제곱법" class="headerlink" title="최소제곱법"></a><strong>최소제곱법</strong></h4><p>선형 회귀는 OLS(Ordinary Least Squares)라고도 불리며, 가장 간단하고 오래된 회귀용 알고리즘이다. 선형 회귀는 MSE(Mean Square Error)를 최소화 하는 파라미터 w와 b를 찾는다. 평균제곱오차는 예측값과 타깃값의 차이를 제곱하여 더한 후에 샘플의 개수로 나눈 것이다. 선형 회귀는 매개 변수가 없다, 이것은 장점이기도 하고 복잡도를 제어할 별 방법이 없다는 것을 뜻하기도 한다.</p>
-<p>선형 모델은 다음과 같이 만들 수 있다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> LinearRegression</span><br><span class="line">X, y = mglearn.datasets.make_wave(n_samples=<span class="hljs-number">60</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=<span class="hljs-number">43</span>)</span><br><span class="line"></span><br><span class="line">lr = LinearRegression().fit(X_train, y_train)</span><br></pre></td></tr></table></figure>
-<p>데이터 셋이 복잡해 지면서 모델은 과대적합이 될 가능성이 높아진다. 이럴 때 규제가 필요하게 되는데,<br>주로 사용되는 모델은 릿지 회귀이다.</p>
-<h4 id="Ridge-Regularization"><a href="#Ridge-Regularization" class="headerlink" title="Ridge Regularization"></a><strong>Ridge Regularization</strong></h4><p>릿지 회귀에서의 가중치 선택은 훈련 데이터를 잘 예측하기 위해서와 더불어 추가 제약 조건을 만족시키기 위한 목적도 있다. 가중치의 절댓값을 가능한 한 작게 만드는 것이다. 즉, w의 모든 원소가 <strong>0에 가깝게</strong>(0이 되지는 않는다.) 되길 원한다. 이렇게 되면, 모든 특성이 출력에 주는 영향을 최소한으로 만들게 된다.(기울기가 작아진다.)</p>
-<p>이것을 Regularization이라고 부른다. Ridge Regularization은 L2규제라고 부르기도 한다.<br>L1은 Lasso이다.</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> sklearn.linear_model <span class="hljs-keyword">import</span> Ridge</span><br><span class="line">ridge = Ridge().fit(X_train, y_train)</span><br><span class="line">print(<span class="hljs-string">'훈련 세트 점수 :&#123;:2f&#125;'</span>.format(ridge.score(X_train, y_train)))</span><br></pre></td></tr></table></figure>
-<p>릿지 회귀는 다음과 같이 사용할 수 있다.<br>릿지를 사용하게 되면 모델이 더 일반화 되어서 테스트 셋에서 성능이 좋게 된다.<br>사용자는 하이퍼 파라미터 alpha로 훈련세트의 성능 대비 모델을 얼마나 단순화할지를 정할 수 있다. alpha값을 높이면 규제를 높여서 일반화에 도움을 주는 것이고, alpha를 낮추면 규제를 낮춰서 모델을 복잡하게 만드는 것이다.</p>
-<h4 id="Lasso"><a href="#Lasso" class="headerlink" title="Lasso"></a><strong>Lasso</strong></h4><p>라쏘는 L1규제라고도 하며, 릿지와의 차이점은, 라쏘는 어떤 계수는 정말 0이 된다는 점이다. 모델에서 완전히 제외되는 특성이 발생한다. Feature Selection이 자동적으로 이루어지게 되는데, 중요특성을 뽑고 싶다면 Lasso를 활용해도 된다.</p>
-<p>실제로 라쏘와 릿지 중에서는 릿지를 더 선호한다. 하지만 특성이 많고 그중 일부분만 중요하다면 Lasso가 더 좋을 수도 있다. 또한 특성이 줄어들어 쉽게 해석할 수 있기 때문에, 라쏘가 사용되는 경우도 있다. 하지만 최상의 방법은 Elastic Net으로 L1과 L2를 섞은 것이다. 둘의 매개변수를 잘 조정하면 최상의 결과가 도출될 수 있다.</p>
-<h4 id="Naive-Bayes-분류기"><a href="#Naive-Bayes-분류기" class="headerlink" title="Naive Bayes 분류기"></a><strong>Naive Bayes 분류기</strong></h4><p>나이브 베이즈는 선형 모델과 매우 유사하다. 훈련 속도도 빠르고 단순하지만 성능이 좋은 편이다. 하지만 일반화 성능은 조금 뒤진다.</p>
-<p>scikit-learn의 나이브 베이즈에는 Gaussian, Multinomial, Bernoulli 총 세가지가 구현되어 있다. Gaussain은 연속적인 어떤 데이터에도 적용할 수 있고, Bernoulli는 이진 데이터를, Multinomial은 카운트 데이터에 적용된다. 가우시안은 연속, 베르누이와 다항은 이산 데이터에 적용된다고 생각하면 된다.</p>
-<p>MultinomialNB와 BernoulliNB는 모델의 복잡도를 조절하는 알파 하이퍼파라미터를 갖고 있다. 알파가 주어지면 알고리즘이 모든 특성에 양의 값을 가진 가상의 데이터 포인트를 알파 개수만큼 추가한다. 이렇게 되면 통계 데이터가 완만해진다. 알파가 크면 더 완만해지고 모델의 복잡도는 낮아진다. 하지만 알파는 성능에 크게 기여하지 않는다.</p>
-<p>GaussianNB는 대부분 고차원인 데이터셋에 사용하고, 다른 나이브 베이즈 모델들은 텍스트 같은 희소한 데이터를 카운트 하는데 사용된다. MultinomialNB는 0이 아닌 특성이 많은 데이터셋(큰 문서)에서 Bernoulli보다 성능이 좋다.</p>
-<p><strong>나이브 베이즈 모델과 선형 모델의 장단점은 비슷하다.</strong> 훈련과 예측 속도가 빠르고 훈련 과정을 이해하기가 쉽다. 일단 한번 빠르게 돌려보고 과정을 보면서 데이터에 대해 이해할 수 있게 된다는 것이다. 또한 희소한 고차원 데이터에서 잘 작동하고 비교적 하이퍼 파라미터에 민감하지 않다. 선형 모델로 일단 한번 훅 돌려보고 너무 오래 걸린다 싶으면 나이브 베이즈 모델을 시도해서 돌려볼만 하다. </p>
-
+            <p>지도학습과 쉬운 모델을 사용하는 이유는 뭘까?<br>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/02/28/supervised-learning/#more">Read More</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
