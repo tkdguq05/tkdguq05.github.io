@@ -1,32 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
-<head><meta name="generator" content="Hexo 3.8.0">
-    <meta charset="utf-8">
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.8.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
 <title>클래스에 대해서 알아보자 - Unreasonable Effectiveness</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<link rel="canonical" href="http://tkdguq05.github.io/2019/01/28/class/">
 
 
-
-    <meta name="description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+    <meta name="description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보">
 <meta name="keywords" content="class">
 <meta property="og:type" content="article">
 <meta property="og:title" content="클래스에 대해서 알아보자">
 <meta property="og:url" content="http://tkdguq05.github.io/2019/01/28/class/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+<meta property="og:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2019-02-13T08:29:13.696Z">
+<meta property="og:image" content="http://tkdguq05.github.io/images/bootcamp.jpg">
+<meta property="og:updated_time" content="2020-02-24T03:18:07.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="클래스에 대해서 알아보자">
-<meta name="twitter:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자">
+<meta name="twitter:description" content="Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는객체 관계를 어떻게 표현하는지 알아보자. 클래스 관계클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다. 1.1 IS-A : 상속IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보">
+<meta name="twitter:image" content="http://tkdguq05.github.io/images/bootcamp.jpg">
 
 
 
 
 
-<link rel="icon" href="/images/favicon.svg">
+
+
+<link rel="icon" href="/images/small_geul.png">
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
@@ -37,34 +42,25 @@
 
     
     
-    
-    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
 
     
     
-    
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
 
     
     
-
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
 
-
     
     
     
     
-
 <link rel="stylesheet" href="/css/back-to-top.css">
 
-
     
-    
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -73,44 +69,27 @@
     gtag('config', 'UA-140404038-1');
 </script>
 
-
     
     
     
     
-
     
-    
-<link rel="stylesheet" href="/css/progressbar.css">
+    <link rel="stylesheet" href="/css/progressbar.css">
 <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-
     
     
-    
-
     
 
 
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body class="is-2-column">
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-140404038-1');
-</script>
-
     <nav class="navbar navbar-main">
     <div class="container">
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="클래스에 대해서 알아보자" height="28">
+                <img src="/images/small_geul.png" alt="클래스에 대해서 알아보자" height="28">
             
             </a>
         </div>
@@ -118,23 +97,27 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item"
+                href="/">Home</a>
                 
-                <a class="navbar-item" href="/archives">Archives</a>
+                <a class="navbar-item"
+                href="/archives">Archives</a>
                 
-                <a class="navbar-item" href="/categories">Categories</a>
+                <a class="navbar-item"
+                href="/categories">Categories</a>
                 
-                <a class="navbar-item" href="/tags">Tags</a>
+                <a class="navbar-item"
+                href="/tags">Tags</a>
                 
-                <a class="navbar-item" href="/about">About</a>
+                <a class="navbar-item"
+                href="/about">About</a>
                 
             </div>
             
             <div class="navbar-end">
                 
                     
-                    
-                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="http://github.com/tkdguq05">
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
                         
                         <i class="fab fa-github"></i>
                         
@@ -155,17 +138,11 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
-                     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-9443112709859631" data-ad-slot="7692350701" data-ad-format="auto" data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>    
-                    <div class="card">
+                <div class="column is-8-tablet is-8-desktop is-8-widescreen has-order-2 column-main">
+<div class="card">
     
     <div class="card-image">
-        <span class="image is-7by1">
+        <span  class="image is-7by1">
             <img class="thumbnail" src="/images/bootcamp.jpg" alt="클래스에 대해서 알아보자">
         </span>
     </div>
@@ -184,8 +161,9 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    27 minutes read (About 4031 words)
+                    27 minutes read (About 4032 words)
                 </span>
+                
                 
             </div>
         </div>
@@ -196,7 +174,8 @@
             
         </h1>
         <div class="content">
-            <p>Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.<br>흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는<br>객체 관계를 어떻게 표현하는지 알아보자.</p>
+            <a id="more"></a>
+<p>Class는 객체지향 프로그래밍에서 가장 중요하고도 까다롭다.<br>흔히 말하는 상속이 무엇인지, 어떤 상황에서 상속을 하는지, 상속을 할 수 없을 때는<br>객체 관계를 어떻게 표현하는지 알아보자.</p>
 <h1 id="클래스-관계"><a href="#클래스-관계" class="headerlink" title="클래스 관계"></a>클래스 관계</h1><p>클래스 관계를 나타내는 방법으로 IS-A와 HAS-A가 있다.</p>
 <h3 id="1-1-IS-A-상속"><a href="#1-1-IS-A-상속" class="headerlink" title="1.1 IS-A : 상속"></a>1.1 IS-A : 상속</h3><p>IS-A는 ‘은 ~의 한 종류다’를 말한다. 노트북과 컴퓨터를 예를 들어보자. 노트북은 컴퓨터의 한 종류일까?<br>그렇다. 이런 관계일 경우 Computer와 laptop 클래스는 IS-A관계라고 말할 수 있다.<br>IS-A관계 인지 아닌지 분간이 안된다면, ‘한 종류다’라는 의미가 있는지 생각해 보자.</p>
 <p>이런 IS-A관계를 프로그램에서 표현할 때는 상속을 사용한다. 상속은 IS-A관계에서 설계가 쉽다.</p>
@@ -342,7 +321,7 @@
     };
     (function() {
         var d = document, s = d.createElement('script');  
-        s.src = 'https://https-tkdguq05-github-io.disqus.com/embed.js';
+        s.src = '//' + 'Disqus Website Name' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
@@ -366,9 +345,12 @@
 <div class="card widget">
     <div class="card-content">
         <nav class="level">
-            <div class="level-item has-text-centered">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
                 <div>
-                    <img class="image is-128x128 has-mb-6" src="/images/avatar.png" alt="Sang Hyub Lee">
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="" src="/images/avatar.png" alt="Sang Hyub Lee">
+                    </figure>
                     
                     <p class="is-size-4 is-block">
                         Sang Hyub Lee
@@ -394,9 +376,11 @@
                     <p class="heading">
                         Posts
                     </p>
-                    <p class="title has-text-weight-normal">
-                        32
-                    </p>
+                    <a href="/archives">
+                        <p class="title has-text-weight-normal">
+                            33
+                        </p>
+                    </a>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
@@ -404,9 +388,11 @@
                     <p class="heading">
                         Categories
                     </p>
-                    <p class="title has-text-weight-normal">
-                        30
-                    </p>
+                    <a href="/categories">
+                        <p class="title has-text-weight-normal">
+                            30
+                        </p>
+                    </a>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
@@ -414,21 +400,26 @@
                     <p class="heading">
                         Tags
                     </p>
-                    <p class="title has-text-weight-normal">
-                        40
-                    </p>
+                    <a href="/tags">
+                        <p class="title has-text-weight-normal">
+                            40
+                        </p>
+                    </a>
                 </div>
             </div>
         </nav>
+        
         <div class="level">
-            <a class="level-item button is-link is-rounded" href="http://github.com/tkdguq05">
+            <a class="level-item button is-link is-rounded" href="http://github.com/tkdguq05" target="_blank" rel="noopener">
                 Follow</a>
         </div>
         
         
+        
         <div class="level is-mobile">
             
-            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="http://github.com/tkdguq05">
+            <a class="level-item button is-white is-marginless" target="_blank" rel="noopener"
+                title="Github" href="http://github.com/tkdguq05">
                 
                 <i class="fab fa-github"></i>
                 
@@ -441,9 +432,7 @@
     
         
     
-        
-
-<div class="card widget">
+        <div class="card widget">
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
@@ -452,7 +441,7 @@
         <ul class="menu-list">
         
             <li>
-                <a class="level is-mobile" href="https://hexo.io" target="_blank">
+                <a class="level is-mobile" href="https://hexo.io" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">Hexo</span>
                     </span>
@@ -463,7 +452,7 @@
             </li>
         
             <li>
-                <a class="level is-mobile" href="https://github.com/tkdguq05" target="_blank">
+                <a class="level is-mobile" href="http://github.com/tkdguq05" target="_blank" rel="noopener">
                     <span class="level-left">
                         <span class="level-item">PPOffice</span>
                     </span>
@@ -477,7 +466,6 @@
         </div>
     </div>
 </div>
-
 
     
         
@@ -542,7 +530,7 @@
                 <span class="level-item">blog</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/blog/event/">
@@ -702,23 +690,39 @@
     </div>
 </div>
     
-        
-<div class="card widget">
+        <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 16.67px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/글또/" style="font-size: 20px;">글또</a>
     </div>
 </div>
-
     
-        
-<div class="card widget">
+        <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
             Recent
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/02/24/geultto4/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/writing.png" alt="글또 4기를 시작하며 다짐하기">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-02-24T02:01:25.000Z">2020-02-24</time></div>
+                    <a href="/2020/02/24/geultto4/" class="title has-link-black-ter is-size-6 has-text-weight-normal">글또 4기를 시작하며 다짐하기</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -731,7 +735,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-16T08:49:47.000Z">2020-01-16</time></div>
-                    <a href="/2020/01/16/spark-in-action/" class="has-link-black-ter is-size-6">Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유</a>
+                    <a href="/2020/01/16/spark-in-action/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Spark에서 데이터 분석 시, RDD로 연산하면 안되는 이유</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a> / <a class="has-link-grey -link" href="/categories/spark/engineering/">engineering</a>
                     </p>
@@ -750,7 +754,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-06T12:44:53.000Z">2020-01-06</time></div>
-                    <a href="/2020/01/06/spark-zeppelin/" class="has-link-black-ter is-size-6">Zeppelin으로 Spark를 다뤄보자 01</a>
+                    <a href="/2020/01/06/spark-zeppelin/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Zeppelin으로 Spark를 다뤄보자 01</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/spark/">spark</a> / <a class="has-link-grey -link" href="/categories/spark/engineering/">engineering</a>
                     </p>
@@ -769,7 +773,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time></div>
-                    <a href="/2020/01/01/keras-trouble-shooting/" class="has-link-black-ter is-size-6">Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝</a>
+                    <a href="/2020/01/01/keras-trouble-shooting/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a> / <a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
                     </p>
@@ -788,7 +792,7 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-22T11:10:22.000Z">2019-12-22</time></div>
-                    <a href="/2019/12/22/adios-2019/" class="has-link-black-ter is-size-6">2019년도 회고, 2020년을 맞이하며</a>
+                    <a href="/2019/12/22/adios-2019/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2019년도 회고, 2020년을 맞이하며</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/blog/">blog</a>
                     </p>
@@ -796,28 +800,8 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/12/08/ubuntu3/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/ubuntu_logo.png" alt="ubuntu를 이용한 딥러닝 Server 설치하기 3">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-08T06:57:40.000Z">2019-12-08</time></div>
-                    <a href="/2019/12/08/ubuntu3/" class="has-link-black-ter is-size-6">ubuntu를 이용한 딥러닝 Server 설치하기 3</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ubuntu/">ubuntu</a> / <a class="has-link-grey -link" href="/categories/ubuntu/troubleshooting/">troubleshooting</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
-
     
         <div class="card widget">
     <div class="card-content">
@@ -826,6 +810,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2020/01/">
@@ -953,459 +948,6 @@
     </div>
 </div>
     
-        <div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Tags
-            </h3>
-            <ul class="menu-list">
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/A-B-test/">
-                        <span class="level-start">
-                            <span class="level-item">A/B test</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Accuracy/">
-                        <span class="level-start">
-                            <span class="level-item">Accuracy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ada-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Ada Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Cross-Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Cross Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Dimensional-Reduction/">
-                        <span class="level-start">
-                            <span class="level-item">Dimensional Reduction</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Ensemble/">
-                        <span class="level-start">
-                            <span class="level-item">Ensemble</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Entropy/">
-                        <span class="level-start">
-                            <span class="level-item">Entropy</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/GDG/">
-                        <span class="level-start">
-                            <span class="level-item">GDG</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Gradient-Boosting/">
-                        <span class="level-start">
-                            <span class="level-item">Gradient Boosting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information/">
-                        <span class="level-start">
-                            <span class="level-item">Information</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Information-Value/">
-                        <span class="level-start">
-                            <span class="level-item">Information Value</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/KL-Divergence/">
-                        <span class="level-start">
-                            <span class="level-item">KL Divergence</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Linear-Regression/">
-                        <span class="level-start">
-                            <span class="level-item">Linear Regression</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/MAB/">
-                        <span class="level-start">
-                            <span class="level-item">MAB</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Metrics/">
-                        <span class="level-start">
-                            <span class="level-item">Metrics</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Naive-Bayes/">
-                        <span class="level-start">
-                            <span class="level-item">Naive Bayes</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/PCA/">
-                        <span class="level-start">
-                            <span class="level-item">PCA</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/RandomForest/">
-                        <span class="level-start">
-                            <span class="level-item">RandomForest</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Supervised-Learning/">
-                        <span class="level-start">
-                            <span class="level-item">Supervised Learning</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/Timeseries/">
-                        <span class="level-start">
-                            <span class="level-item">Timeseries</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/blog/">
-                        <span class="level-start">
-                            <span class="level-item">blog</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/class/">
-                        <span class="level-start">
-                            <span class="level-item">class</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/code/">
-                        <span class="level-start">
-                            <span class="level-item">code</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/debug/">
-                        <span class="level-start">
-                            <span class="level-item">debug</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/elice/">
-                        <span class="level-start">
-                            <span class="level-item">elice</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/feature-selection/">
-                        <span class="level-start">
-                            <span class="level-item">feature selection</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/float/">
-                        <span class="level-start">
-                            <span class="level-item">float</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/keras/">
-                        <span class="level-start">
-                            <span class="level-item">keras</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/linux/">
-                        <span class="level-start">
-                            <span class="level-item">linux</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/mysql/">
-                        <span class="level-start">
-                            <span class="level-item">mysql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/oop/">
-                        <span class="level-start">
-                            <span class="level-item">oop</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/programmers/">
-                        <span class="level-start">
-                            <span class="level-item">programmers</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/python/">
-                        <span class="level-start">
-                            <span class="level-item">python</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">4</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/server/">
-                        <span class="level-start">
-                            <span class="level-item">server</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/spark/">
-                        <span class="level-start">
-                            <span class="level-item">spark</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/sql/">
-                        <span class="level-start">
-                            <span class="level-item">sql</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">2</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/trouble-shooting/">
-                        <span class="level-start">
-                            <span class="level-item">trouble shooting</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">1</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/ubuntu/">
-                        <span class="level-start">
-                            <span class="level-item">ubuntu</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-                <li>
-                    <a class="level is-marginless" href="/tags/글또/">
-                        <span class="level-start">
-                            <span class="level-item">글또</span>
-                        </span>
-                        <span class="level-end">
-                            <span class="level-item tag">3</span>
-                        </span>
-                    </a>
-                </li>
-                
-            </ul>
-        </div>
-    </div>
-</div>
-    
     
         <div class="column-right-shadow is-hidden-widescreen ">
         
@@ -1413,7 +955,7 @@
     
 </div>
 
-
+                
             </div>
         </div>
     </section>
@@ -1423,21 +965,22 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="클래스에 대해서 알아보자" height="28">
+                    <img src="/images/small_geul.png" alt="클래스에 대해서 알아보자" height="28">
                 
                 </a>
                 <p class="is-size-7">
                 &copy; 2020 SangHyub Lee, Jose&nbsp;
-                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
                 </p>
             </div>
             <div class="level-end">
             
                 <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
                 
-                
                 <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
                         
                         <i class="fab fa-creative-commons"></i>
                         
@@ -1445,7 +988,7 @@
                 </p>
                 
                 <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
                         
                         <i class="fab fa-creative-commons-by"></i>
                         
@@ -1453,7 +996,7 @@
                 </p>
                 
                 <p class="control">
-                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
                         
                         <i class="fab fa-github"></i>
                         
@@ -1471,22 +1014,37 @@
 <script>moment.locale("en");</script>
 
 
-    
-    
-    
-    <script src="/js/animation.js"></script>
-    
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
 
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-    <script src="/js/gallery.js" defer></script>
-    
 
-    
-    
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
 
 <div id="outdated">
     <h6>Your browser is out-of-date!</h6>
@@ -1506,21 +1064,29 @@
 </script>
 
 
-    
-    
 <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     MathJax.Hub.Config({
-        'HTML-CSS': {matchFontHeight: false},
-        SVG: {matchFontHeight: false},
-        CommonHTML: {matchFontHeight: false}
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
     });
 });
 </script>
 
-    
-    
 
 <a id="back-to-top" title="Back to Top" href="javascript:;">
     <i class="fas fa-chevron-up"></i>
@@ -1528,24 +1094,16 @@ document.addEventListener('DOMContentLoaded', function () {
 <script src="/js/back-to-top.js" defer></script>
 
 
-    
-    
 
-    
-    
-    
-    
 
-    
-    
-    
-    
-    
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
-    <script src="/js/clipboard.js" defer></script>
-    
 
-    
+
+
+
+
+
+
+
 
 
 <script src="/js/main.js" defer></script>
@@ -1554,7 +1112,7 @@ document.addEventListener('DOMContentLoaded', function () {
     <div class="searchbox ins-search">
     <div class="searchbox-container ins-search-container">
         <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
             <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
         </div>
         <div class="searchbox-result-wrapper ins-section-wrapper">
@@ -1596,7 +1154,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 </script>
 <!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
 
 </body>
 </html>
