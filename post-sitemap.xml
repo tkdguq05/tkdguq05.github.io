@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2019/11/22/ununtu2/</loc>
+        <lastmod>2020-02-24T01:47:29.219Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2020/01/01/keras-trouble-shooting/</loc>
         <lastmod>2020-01-20T09:17:48.282Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -42,14 +50,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/12/08/ubuntu3/</loc>
         <lastmod>2019-12-08T08:20:56.035Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/11/22/ununtu2/</loc>
-        <lastmod>2019-11-24T13:40:55.398Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
