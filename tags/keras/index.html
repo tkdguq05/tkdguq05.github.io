@@ -167,7 +167,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 minutes read (About 595 words)
+                    4 minutes read (About 619 words)
                 </span>
                 
                 
@@ -180,25 +180,17 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
-<h1 id="Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize"><a href="#Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize" class="headerlink" title="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize"></a>Failed to get convolution algorithm. This is probably because cuDNN failed to initialize</h1><p>케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span>) Unknown: Failed to get convolution algorithm. </span><br><span class="line">This <span class="keyword">is</span> probably because cuDNN failed to initialize, so <span class="keyword">try</span> looking to see <span class="keyword">if</span> a warning log message was printed above. </span><br><span class="line">[[&#123;&#123;node conv2d_1/convolution&#125;&#125;]] [[metrics/acc/Mean/_99]]</span><br></pre></td></tr></table></figure>
-<p>황금같은 쉬는 날에 cudnn과 CUDA의 꼬임으로 인한 에러인 줄 알고 굉장히 낙담했다. 실제로 저 에러를 복사해다가 구글에 붙여넣어서 답을 찾아보니 다시 설치하라는 의견이 많았다. </p>
-<p>하지만 정말 귀찮아서 내 설치 환경을 다시 살펴보고 이상이 있으면 수정하기로 했다.</p>
-<p>일단 내가 설치한 CUDA와 CuDnn 환경은 저번 글들에 나와 있다.</p>
-<p><a href="https://tkdguq05.github.io/2019/11/10/ubuntu/">ubuntu 딥러닝 서버 구축기 01</a><br><a href="https://tkdguq05.github.io/2019/11/22/ununtu2/">ubuntu 딥러닝 서버 구축기 02</a><br><a href="https://tkdguq05.github.io/2019/12/08/ubuntu3/">ubuntu 딥러닝 서버 구축기 03</a></p>
-<p>CUDA와 CuDNN의 호환성은 문제가 없었다. 그렇다면 뭐가 문제였을까? 하던 중에 Python의 버젼을 살펴봤다.<br>콘다 가상환경에 올리고 쓰고 있었는데 python버전을 확인해보니 python 3.7버전이었다.</p>
-<p>여러 글들을 보다보니 python 3.6버전이 keras와 궁합이 잘 맞는다는 것을 알게되었다. </p>
-<p>그래서 바로</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda create -n [환경 이름] python=3.6</span><br></pre></td></tr></table></figure>
-<p>가상환경을 만들어주고 만든 가상환경을 jupyter kernelspec에 넣어주었다.<br><a href="https://medium.com/@5eo1ab/jupyter-notebook%EC%97%90-%EA%B0%80%EC%83%81%ED%99%98%EA%B2%BD-kernel-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0-ed5261a7e0e6">jupyter kernelspec 추가하기</a></p>
-<p>python 3.6으로 갈아끼워 준 뒤에<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">model = models.Sequential()</span><br><span class="line">model.add(layers.Conv2D(<span class="number">32</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>, input_shape=(<span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>)))</span><br><span class="line">model.add(layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)))</span><br><span class="line">model.add(layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>))</span><br><span class="line">model.add(layers.MaxPooling2D((<span class="number">2</span>, <span class="number">2</span>)))</span><br><span class="line">model.add(layers.Conv2D(<span class="number">64</span>, (<span class="number">3</span>, <span class="number">3</span>), activation=<span class="string">'relu'</span>))</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">model.add(layers.Flatten())</span><br><span class="line">model.add(layers.Dense(<span class="number">64</span>, activation=<span class="string">'relu'</span>))</span><br><span class="line">model.add(layers.Dense(<span class="number">10</span>, activation=<span class="string">'softmax'</span>))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> keras.datasets <span class="keyword">import</span> mnist</span><br><span class="line"><span class="keyword">from</span> keras.utils <span class="keyword">import</span> to_categorical</span><br><span class="line"></span><br><span class="line">(train_images, train_labels), (test_images, test_labels) = mnist.load_data()</span><br><span class="line"><span class="comment"># train_images = train_images.reshape((60000, 28, 28, 1))</span></span><br><span class="line"></span><br><span class="line">train_images = train_images.reshape((<span class="number">60000</span>, <span class="number">28</span>,<span class="number">28</span>, <span class="number">1</span>))</span><br><span class="line">train_images = train_images.astype(<span class="string">'float32'</span>)/<span class="number">255</span></span><br><span class="line"></span><br><span class="line">test_images = test_images.reshape((<span class="number">10000</span>, <span class="number">28</span>, <span class="number">28</span>, <span class="number">1</span>))</span><br><span class="line">test_images = test_images.astype(<span class="string">'float32'</span>)/<span class="number">255</span></span><br><span class="line"></span><br><span class="line">train_labels = to_categorical(train_labels)</span><br><span class="line">test_labels = to_categorical(test_labels)</span><br><span class="line"></span><br><span class="line">model.compile(optimizer=<span class="string">'rmsprop'</span>,</span><br><span class="line">             loss=<span class="string">'categorical_crossentropy'</span>,</span><br><span class="line">             metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line">model.fit(train_images, train_labels,</span><br><span class="line">         epochs=<span class="number">5</span>, batch_size=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
-<p>코드를 돌렸더니 잘 돌아간다!!!</p>
-
+            <p>케라스 책을 따라하다 보면 나오는 에러에 대한 트러블 슈팅<br>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/01/01/keras-trouble-shooting/#more">Read More</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>

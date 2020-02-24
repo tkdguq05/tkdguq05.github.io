@@ -10,19 +10,19 @@
 <title>Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝 - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다. 123(0) Unknown: Failed to get convoluti">
+    <meta name="description" content="케라스 책을 따라하다 보면 나오는 에러에 대한 트러블 슈팅">
 <meta name="keywords" content="keras,trouble shooting">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝">
 <meta property="og:url" content="http://tkdguq05.github.io/2020/01/01/keras-trouble-shooting/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다. 123(0) Unknown: Failed to get convoluti">
+<meta property="og:description" content="케라스 책을 따라하다 보면 나오는 에러에 대한 트러블 슈팅">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232">
-<meta property="og:updated_time" content="2020-02-24T03:19:04.306Z">
+<meta property="og:updated_time" content="2020-02-24T10:26:39.640Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝">
-<meta name="twitter:description" content="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다. 123(0) Unknown: Failed to get convoluti">
+<meta name="twitter:description" content="케라스 책을 따라하다 보면 나오는 에러에 대한 트러블 슈팅">
 <meta name="twitter:image" content="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232">
 
 
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 minutes read (About 595 words)
+                    4 minutes read (About 619 words)
                 </span>
                 
                 
@@ -174,7 +174,7 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>케라스 책을 따라하다 보면 나오는 에러에 대한 트러블 슈팅<br><a id="more"></a></p>
 <h1 id="Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize"><a href="#Failed-to-get-convolution-algorithm-This-is-probably-because-cuDNN-failed-to-initialize" class="headerlink" title="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize"></a>Failed to get convolution algorithm. This is probably because cuDNN failed to initialize</h1><p>케라스 창시자에게 배우는 딥러닝 책 진도를 쭉쭉 나가는 중이었다. 챕터5의 CNN코드를 돌리던 중 다음과 같은 에러가 등장했다.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span>) Unknown: Failed to get convolution algorithm. </span><br><span class="line">This <span class="keyword">is</span> probably because cuDNN failed to initialize, so <span class="keyword">try</span> looking to see <span class="keyword">if</span> a warning log message was printed above. </span><br><span class="line">[[&#123;&#123;node conv2d_1/convolution&#125;&#125;]] [[metrics/acc/Mean/_99]]</span><br></pre></td></tr></table></figure>
 <p>황금같은 쉬는 날에 cudnn과 CUDA의 꼬임으로 인한 에러인 줄 알고 굉장히 낙담했다. 실제로 저 에러를 복사해다가 구글에 붙여넣어서 답을 찾아보니 다시 설치하라는 의견이 많았다. </p>
