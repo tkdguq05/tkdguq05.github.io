@@ -10,19 +10,19 @@
 <title>Zeppelin으로 Spark를 다뤄보자 01 - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="Zeppelin 이용해서 pyspark로 데이터 읽기 01Spark는 고속 범용 분산 컴퓨팅 플랫폼으로 정의되곤 합니다. 대용량 데이터를 가져와 빠르게 분석해 낼 수 있다는 점에서 많은 기업들에서 도입을 검토하고 있고 실제로도 많이 사용되고 있습니다. 오늘은 이 유명한 Spark를 다운받고 Zeppelin으로 띄워서 pyspark를 이용해 데이터를 읽어보">
+    <meta name="description" content="pyspark로 데이터를 읽으려면 어떻게 해야할까?">
 <meta name="keywords" content="spark">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zeppelin으로 Spark를 다뤄보자 01">
 <meta property="og:url" content="http://tkdguq05.github.io/2020/01/06/spark-zeppelin/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Zeppelin 이용해서 pyspark로 데이터 읽기 01Spark는 고속 범용 분산 컴퓨팅 플랫폼으로 정의되곤 합니다. 대용량 데이터를 가져와 빠르게 분석해 낼 수 있다는 점에서 많은 기업들에서 도입을 검토하고 있고 실제로도 많이 사용되고 있습니다. 오늘은 이 유명한 Spark를 다운받고 Zeppelin으로 띄워서 pyspark를 이용해 데이터를 읽어보">
+<meta property="og:description" content="pyspark로 데이터를 읽으려면 어떻게 해야할까?">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/spark-logo-trademark.png">
-<meta property="og:updated_time" content="2020-02-24T03:19:52.286Z">
+<meta property="og:updated_time" content="2020-02-24T10:25:58.288Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Zeppelin으로 Spark를 다뤄보자 01">
-<meta name="twitter:description" content="Zeppelin 이용해서 pyspark로 데이터 읽기 01Spark는 고속 범용 분산 컴퓨팅 플랫폼으로 정의되곤 합니다. 대용량 데이터를 가져와 빠르게 분석해 낼 수 있다는 점에서 많은 기업들에서 도입을 검토하고 있고 실제로도 많이 사용되고 있습니다. 오늘은 이 유명한 Spark를 다운받고 Zeppelin으로 띄워서 pyspark를 이용해 데이터를 읽어보">
+<meta name="twitter:description" content="pyspark로 데이터를 읽으려면 어떻게 해야할까?">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/spark-logo-trademark.png">
 
 
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 minutes read (About 1301 words)
+                    9 minutes read (About 1318 words)
                 </span>
                 
                 
@@ -174,7 +174,7 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>pyspark로 데이터를 읽으려면 어떻게 해야할까?<br><a id="more"></a></p>
 <h1 id="Zeppelin-이용해서-pyspark로-데이터-읽기-01"><a href="#Zeppelin-이용해서-pyspark로-데이터-읽기-01" class="headerlink" title="Zeppelin 이용해서 pyspark로 데이터 읽기 01"></a>Zeppelin 이용해서 pyspark로 데이터 읽기 01</h1><p>Spark는 고속 범용 분산 컴퓨팅 플랫폼으로 정의되곤 합니다. 대용량 데이터를 가져와 빠르게 분석해 낼 수 있다는 점에서 많은 기업들에서 도입을 검토하고 있고 실제로도 많이 사용되고 있습니다. 오늘은 이 유명한 Spark를 다운받고 Zeppelin으로 띄워서 pyspark를 이용해 데이터를 읽어보는 작업까지 해 보겠습니다.</p>
 <p>먼저 Spark를 다운받아 줍니다. <a href="https://spark.apache.org/downloads.html">Spark 설치</a></p>
 <p><img src="/images/spark_down.png" alt="스파크 다운로드"><br>링크로 들어가면 다음과 같이 나오는데 다운받는 버전은 아무거나 받아도 상관 없지만 저는 AWS EMR로 Spark를 도입하기 전에 연습하는 용으로 사용하는 것이기 때문에 AWS EMR 버전과 같은 2.4.4버전을 다운받았습니다.</p>
