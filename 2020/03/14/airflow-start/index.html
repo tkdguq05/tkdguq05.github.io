@@ -10,18 +10,18 @@
 <title>Airflow Basic - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="Workflow 관리! Airflow 컨셉을 알아보자요즘 왠만한 회사에서 Airflow를 안 쓰는 곳이 없습니다. 파이프라인 관련 세션을 들으면 심심치 않게 들을 수 있는 것이 Airflow를 이용한 워크플로우 관리일 것 입니다. 최근 저희 회사에서도 Airflow를 도입했습니다. 여러 세션에서 관련 내용을 기억해두고 정리해 두었다가, 잡 스케쥴을 관리할">
+    <meta name="description" content="Airflow의 기본적인 컨셉에 대해서 이해해보자">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Airflow Basic">
 <meta property="og:url" content="http://tkdguq05.github.io/2020/03/14/airflow-start/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="Workflow 관리! Airflow 컨셉을 알아보자요즘 왠만한 회사에서 Airflow를 안 쓰는 곳이 없습니다. 파이프라인 관련 세션을 들으면 심심치 않게 들을 수 있는 것이 Airflow를 이용한 워크플로우 관리일 것 입니다. 최근 저희 회사에서도 Airflow를 도입했습니다. 여러 세션에서 관련 내용을 기억해두고 정리해 두었다가, 잡 스케쥴을 관리할">
+<meta property="og:description" content="Airflow의 기본적인 컨셉에 대해서 이해해보자">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/airflow_logo.png">
-<meta property="og:updated_time" content="2020-03-15T12:00:24.570Z">
+<meta property="og:updated_time" content="2020-03-15T12:12:11.442Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Airflow Basic">
-<meta name="twitter:description" content="Workflow 관리! Airflow 컨셉을 알아보자요즘 왠만한 회사에서 Airflow를 안 쓰는 곳이 없습니다. 파이프라인 관련 세션을 들으면 심심치 않게 들을 수 있는 것이 Airflow를 이용한 워크플로우 관리일 것 입니다. 최근 저희 회사에서도 Airflow를 도입했습니다. 여러 세션에서 관련 내용을 기억해두고 정리해 두었다가, 잡 스케쥴을 관리할">
+<meta name="twitter:description" content="Airflow의 기본적인 컨셉에 대해서 이해해보자">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/airflow_logo.png">
 
 
@@ -177,7 +177,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 minutes read (About 2330 words)
+                    16 minutes read (About 2347 words)
                 </span>
                 
                 
@@ -190,7 +190,8 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>Airflow의 기본적인 컨셉에 대해서 이해해보자</p>
+<a id="more"></a>
 <h1 id="Workflow-관리-Airflow-컨셉을-알아보자"><a href="#Workflow-관리-Airflow-컨셉을-알아보자" class="headerlink" title="Workflow 관리! Airflow 컨셉을 알아보자"></a>Workflow 관리! Airflow 컨셉을 알아보자</h1><p>요즘 왠만한 회사에서 Airflow를 안 쓰는 곳이 없습니다. 파이프라인 관련 세션을 들으면 심심치 않게 들을 수 있는 것이 Airflow를 이용한 워크플로우 관리일 것 입니다. 최근 저희 회사에서도 Airflow를 도입했습니다. 여러 세션에서 관련 내용을 기억해두고 정리해 두었다가, 잡 스케쥴을 관리할 필요성이 생겨서 Airflow 도입을 제안했습니다. 현재 Airflow를 이용해서 추천 쪽에 적용하고 있고, 대략 <code>전처리-모델링-Prediction</code>의 플로우를 돌리려고 합니다.  test를 계속해서 진행 중이고 시행착오법 끝에 DAG들이 잘 돌아가는 것을 확인하고 있습니다. </p>
 <p>오늘 글은 간단하게 Airflow의 컨셉에 대해서 알아보는 내용입니다. 위에서도 등장한, Airflow의 핵심인 DAG에 대해서 알아보고, DAG안에 들어가는 요소들을 살펴보겠습니다.</p>
 <h3 id="Workflow-Airflow"><a href="#Workflow-Airflow" class="headerlink" title="Workflow? Airflow?"></a>Workflow? Airflow?</h3><p>Airflow는 AirBnB에서 만든 Workflow 관리 툴입니다. workflow라고 하면, 대략적으로 ‘아 작업의 흐름’이라고 할 수 있겠습니다만, workflow를 조금 더 자세히 설명하자면 워크플로우는 작업 절차를 통한 정보 또는 업무의 이동을 의미하며, 더 자세히 말하면, 워크플로는 작업 절차의 운영적 측면이라고 할 수 있습니다.(출처 위키피디아) 여기서 업무라는 것이 등장합니다. Airflow에서 업무는 Task라고 합니다. 이 Task들이 연결 된 것이 Workflow고 이것을 관리하는 것이 Airflow입니다. 쉽게 말하자면, Airflow는 Task들을 잘 연결시키고 관리하는 툴이라고 볼 수 있겠습니다. Airflow를 활용하는 예는 다양합니다. 데이터 분야에서는 ETL 파이프라인에 사용해 데이터들을 관리할 수 있고, 모델의 학습주기를 관리할 수도 있습니다. 학습된 모델을 이용해 prediction해 배치성으로 결과들을 주기적으로 저장해 놓을 수도 있겠네요. 마케팅 도메인에서 활용한다면, 마케팅 자동화에 적용해서, 이메일을 자동으로 보내주는 일 등에도 활용할 수 있겠습니다. 어떤 작업이 성공했을때 다음 작업을 하게 한다거나(의존성, branching) 등의 작업도 가능하기 때문에 굉장히 다양하게 활용할 수 있습니다. </p>
