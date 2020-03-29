@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2020/03/29/craft/</loc>
+        <lastmod>2020-03-29T11:57:08.267Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2020/03/14/airflow-start/</loc>
-        <lastmod>2020-03-16T00:53:32.579Z</lastmod>
+        <lastmod>2020-03-16T00:53:32.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -17,7 +25,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2020/02/24/geultto4/</loc>
-        <lastmod>2020-02-26T00:56:04.824Z</lastmod>
+        <lastmod>2020-02-26T00:56:04.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -25,7 +33,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/10/20/GDG-DEV-FEST/</loc>
-        <lastmod>2020-02-24T10:27:48.389Z</lastmod>
+        <lastmod>2020-02-24T10:27:48.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -33,7 +41,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/12/22/adios-2019/</loc>
-        <lastmod>2020-02-24T10:27:08.746Z</lastmod>
+        <lastmod>2020-02-24T10:27:08.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -41,7 +49,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2020/01/01/keras-trouble-shooting/</loc>
-        <lastmod>2020-02-24T10:26:39.640Z</lastmod>
+        <lastmod>2020-02-24T10:26:39.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -49,7 +57,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2020/01/06/spark-zeppelin/</loc>
-        <lastmod>2020-02-24T10:25:58.288Z</lastmod>
+        <lastmod>2020-02-24T10:25:58.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -57,7 +65,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/02/28/supervised-learning/</loc>
-        <lastmod>2020-02-24T10:24:14.958Z</lastmod>
+        <lastmod>2020-02-24T10:24:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -65,7 +73,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/09/20/Time-Series-03/</loc>
-        <lastmod>2020-02-24T10:23:49.188Z</lastmod>
+        <lastmod>2020-02-24T10:23:49.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -73,7 +81,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/</loc>
-        <lastmod>2020-02-24T10:23:22.198Z</lastmod>
+        <lastmod>2020-02-24T10:23:22.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -81,7 +89,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/09/08/Time-Series02/</loc>
-        <lastmod>2020-02-24T10:23:09.095Z</lastmod>
+        <lastmod>2020-02-24T10:23:09.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -89,7 +97,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/11/10/ubuntu/</loc>
-        <lastmod>2020-02-24T10:22:34.503Z</lastmod>
+        <lastmod>2020-02-24T10:22:34.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -97,7 +105,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/12/08/ubuntu3/</loc>
-        <lastmod>2020-02-24T10:22:01.987Z</lastmod>
+        <lastmod>2020-02-24T10:22:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -105,7 +113,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/11/22/ununtu2/</loc>
-        <lastmod>2020-02-24T10:21:09.098Z</lastmod>
+        <lastmod>2020-02-24T10:21:09.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -113,7 +121,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2020/01/16/spark-in-action/</loc>
-        <lastmod>2020-02-24T10:20:12.629Z</lastmod>
+        <lastmod>2020-02-24T10:20:12.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -121,7 +129,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/21/SQL-Recipe-01/</loc>
-        <lastmod>2020-02-24T03:19:57.365Z</lastmod>
+        <lastmod>2020-02-24T03:19:57.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -129,7 +137,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/02/25/Programmers/</loc>
-        <lastmod>2020-02-24T03:19:41.851Z</lastmod>
+        <lastmod>2020-02-24T03:19:41.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -137,7 +145,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/12/programmers-the-Biggest-Number/</loc>
-        <lastmod>2020-02-24T03:19:35.801Z</lastmod>
+        <lastmod>2020-02-24T03:19:35.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -145,7 +153,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/12/programmers-carpet/</loc>
-        <lastmod>2020-02-24T03:19:28.593Z</lastmod>
+        <lastmod>2020-02-24T03:19:28.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -153,7 +161,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/23/PCA/</loc>
-        <lastmod>2020-02-24T03:19:24.058Z</lastmod>
+        <lastmod>2020-02-24T03:19:24.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -161,7 +169,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/01/28/oop/</loc>
-        <lastmod>2020-02-24T03:19:19.460Z</lastmod>
+        <lastmod>2020-02-24T03:19:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -169,7 +177,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/01/My-SQL-Workbench-Bug-issue/</loc>
-        <lastmod>2020-02-24T03:19:14.953Z</lastmod>
+        <lastmod>2020-02-24T03:19:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -177,7 +185,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/29/Metrics/</loc>
-        <lastmod>2020-02-24T03:19:09.142Z</lastmod>
+        <lastmod>2020-02-24T03:19:09.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -185,7 +193,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/14/Information-Theroy-Entropy/</loc>
-        <lastmod>2020-02-24T03:18:59.970Z</lastmod>
+        <lastmod>2020-02-24T03:18:59.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -193,7 +201,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/07/07/geultto/</loc>
-        <lastmod>2020-02-24T03:18:52.779Z</lastmod>
+        <lastmod>2020-02-24T03:18:52.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -201,7 +209,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/01/19/float/</loc>
-        <lastmod>2020-02-24T03:18:41.119Z</lastmod>
+        <lastmod>2020-02-24T03:18:41.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -209,7 +217,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/25/Fearuture-Selection-Information-Value/</loc>
-        <lastmod>2020-02-24T03:18:36.304Z</lastmod>
+        <lastmod>2020-02-24T03:18:36.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -217,7 +225,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/05/Ensemble-Model/</loc>
-        <lastmod>2020-02-24T03:18:31.851Z</lastmod>
+        <lastmod>2020-02-24T03:18:31.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -225,7 +233,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/17/Elice-Start/</loc>
-        <lastmod>2020-02-24T03:18:24.466Z</lastmod>
+        <lastmod>2020-02-24T03:18:24.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -233,7 +241,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/04/17/Elice-Coding-Word-Pattern/</loc>
-        <lastmod>2020-02-24T03:18:19.775Z</lastmod>
+        <lastmod>2020-02-24T03:18:19.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -241,7 +249,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/15/cross-entropy-KL-divergence/</loc>
-        <lastmod>2020-02-24T03:18:14.198Z</lastmod>
+        <lastmod>2020-02-24T03:18:14.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -249,7 +257,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/01/28/class/</loc>
-        <lastmod>2020-02-24T03:18:07.419Z</lastmod>
+        <lastmod>2020-02-24T03:18:07.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -257,7 +265,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/05/15/Boosting/</loc>
-        <lastmod>2020-02-24T03:18:01.300Z</lastmod>
+        <lastmod>2020-02-24T03:18:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -265,7 +273,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/07/18/Bandit/</loc>
-        <lastmod>2020-02-24T03:17:53.785Z</lastmod>
+        <lastmod>2020-02-24T03:17:53.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -273,7 +281,7 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2019/01/11/2019/</loc>
-        <lastmod>2020-02-24T03:17:36.548Z</lastmod>
+        <lastmod>2020-02-24T03:17:36.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

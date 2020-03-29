@@ -223,7 +223,7 @@
 <h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
 <p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
 <p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
-<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/</a>]</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
 <p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
 
         </div>
@@ -369,7 +369,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            34
+                            35
                         </p>
                     </a>
                 </div>
@@ -706,6 +706,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/29/craft/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg" alt="CRAFT 요약 Character Region Awarenness for Text Detection)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-29T11:20:22.000Z">2020-03-29</time></div>
+                    <a href="/2020/03/29/craft/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CRAFT 요약 Character Region Awarenness for Text Detection)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/14/airflow-start/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/airflow_logo.png" alt="Airflow Basic">
@@ -780,25 +799,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/01/01/keras-trouble-shooting/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232" alt="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time></div>
-                    <a href="/2020/01/01/keras-trouble-shooting/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a> / <a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -816,7 +816,7 @@
                     <span class="level-item">March 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>

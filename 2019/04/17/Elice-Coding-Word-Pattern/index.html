@@ -10,19 +10,19 @@
 <title>Elice_Coding_Word_Pattern - Unreasonable Effectiveness</title>
 
 
-    <meta name="description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요. 예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alic">
-<meta name="keywords" content="elice,python,code">
+    <meta name="description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.   예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘al">
+<meta name="keywords" content="python,code,elice">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Elice_Coding_Word_Pattern">
 <meta property="og:url" content="http://tkdguq05.github.io/2019/04/17/Elice-Coding-Word-Pattern/index.html">
 <meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요. 예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alic">
+<meta property="og:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.   예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘al">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/elice_banner.png">
-<meta property="og:updated_time" content="2020-02-24T03:18:19.775Z">
+<meta property="og:updated_time" content="2020-02-24T03:18:19.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Elice_Coding_Word_Pattern">
-<meta name="twitter:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요. 예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alic">
+<meta name="twitter:description" content="엘리스 코딩 단어 패턴을 풀어봤다 단어 패턴 문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.   예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘al">
 <meta name="twitter:image" content="http://tkdguq05.github.io/images/elice_banner.png">
 
 
@@ -208,7 +208,11 @@
 <h1 id="엘리스-코딩-단어-패턴을-풀어봤다"><a href="#엘리스-코딩-단어-패턴을-풀어봤다" class="headerlink" title="엘리스 코딩 단어 패턴을 풀어봤다"></a>엘리스 코딩 단어 패턴을 풀어봤다</h1><hr>
 <h4 id="단어-패턴"><a href="#단어-패턴" class="headerlink" title="단어 패턴"></a>단어 패턴</h4><blockquote>
 <p>문자열(패턴) 하나와 문자열의 배열 하나가 주어집니다.<br>패턴 문자열의 각각의 문자 하나는, 두번째 문자열 배열의 각각의 문자열 하나에 대응 될 수 있습니다.<br>해당 배열이 해당 패턴으로 표현 되는지 아닌지의 여부를 확인하는 함수를 만들어 보세요.</p>
+</blockquote>
+<blockquote>
 <p>예를 들어서, aabb 와 [‘elice’, ‘elice’, ‘alice’, ‘alice’] 가 주어졌을 경우에는 함수가 True를 반환해야 합니다. 이 경우에는 a가 elice에, b가 alice에 대응되도록 하면 배열을 해당 패턴으로 표현 하는 것이 가능하기 때문이죠.</p>
+</blockquote>
+<blockquote>
 <p>반면, aabb 와 [‘elice’, ‘alice’, ‘elice’, ‘alice’] 가 주어졌을 경우에는 함수가 False를 반환해야 합니다.<br>모든 문자는 영어 소문자라고 가정합니다.</p>
 </blockquote>
 <p>문제를 보고 쉬울거라고 생각했다. 패턴을 쪼개서 각 단어에 매칭을 시켜주면 간단히 해결될 것 같았다.<br>하지만 패턴을 쪼개서 단어에 매칭 시키는 게 간단한 문제가 아니었다. </p>
@@ -335,7 +339,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            34
+                            35
                         </p>
                     </a>
                 </div>
@@ -672,6 +676,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/29/craft/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg" alt="CRAFT 요약 Character Region Awarenness for Text Detection)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-29T11:20:22.000Z">2020-03-29</time></div>
+                    <a href="/2020/03/29/craft/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CRAFT 요약 Character Region Awarenness for Text Detection)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/14/airflow-start/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/airflow_logo.png" alt="Airflow Basic">
@@ -746,25 +769,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/01/01/keras-trouble-shooting/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232" alt="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time></div>
-                    <a href="/2020/01/01/keras-trouble-shooting/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a> / <a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -782,7 +786,7 @@
                     <span class="level-item">March 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>

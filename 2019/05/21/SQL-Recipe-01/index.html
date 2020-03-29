@@ -19,7 +19,7 @@
 <meta property="og:description" content="데이터 분석을 위한 SQL 레시피 with MySQL데이터 분석을 위한 SQL 레시피의 3장에 있는 코드 내용들을 실습하고 MySQL코드로 변형시켜보았다.데이터 분석을 위한 SQL 레시피 책에서는 PostgreSQL, Redshift, BigQuery, Hive, SparkSQL의 코드를 다룬다. 책에 있는 코드는 어떤 건 그대로 쳤을 때 돌아가고, 몇몇">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://tkdguq05.github.io/images/mysql_workbench.png">
-<meta property="og:updated_time" content="2020-02-24T03:19:57.365Z">
+<meta property="og:updated_time" content="2020-02-24T03:19:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SQL_Recipe_01">
 <meta name="twitter:description" content="데이터 분석을 위한 SQL 레시피 with MySQL데이터 분석을 위한 SQL 레시피의 3장에 있는 코드 내용들을 실습하고 MySQL코드로 변형시켜보았다.데이터 분석을 위한 SQL 레시피 책에서는 PostgreSQL, Redshift, BigQuery, Hive, SparkSQL의 코드를 다룬다. 책에 있는 코드는 어떤 건 그대로 쳤을 때 돌아가고, 몇몇">
@@ -219,7 +219,7 @@
 <p>책에 있는 코드와 다른점은 EXTRACT를 사용하지 않았다는 것이다. MySQL에는 EXTRACT가 없기 때문에 년도를 이용해 일일이 계산해 주어야 한다. YEAR함수를 이용해 년도만 가져와서 계산해준다. 주의해야 할 점은, YEAR함수에 today를 넣어주는 게 아니라 CURRENT_DATE를 넣어주어야 한다는 것이다. today를 넣어주면 syntax에러가 발생한다.</p>
 <p>하지만 YEAR로 계산한 경우 연 부분만의 차이가 계산되므로, 해당 연의 생일을 넘었는지 제대로 계산이 되지 않는 문제가 발생한다.</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> user_id,</span><br><span class="line"><span class="keyword">substring</span>(register_stamp, <span class="number">1</span>, <span class="number">10</span>) <span class="keyword">as</span> register_date, birth_date,</span><br><span class="line">  <span class="keyword">floor</span>(( <span class="keyword">cast</span>(<span class="keyword">replace</span>(<span class="keyword">substring</span>(register_stamp, <span class="number">1</span>,<span class="number">10</span>), <span class="string">'-'</span>, <span class="string">''</span>) <span class="keyword">AS</span> <span class="keyword">unsigned</span>) - <span class="keyword">cast</span>(<span class="keyword">replace</span>(birth_date, <span class="string">'-'</span>, <span class="string">''</span>) <span class="keyword">AS</span> <span class="keyword">unsigned</span>))  / <span class="number">10000</span>) <span class="keyword">as</span> register_age,</span><br><span class="line">  <span class="keyword">floor</span>(( <span class="keyword">cast</span>(<span class="keyword">replace</span>(<span class="keyword">CAST</span>(<span class="keyword">CURRENT_DATE</span> <span class="keyword">as</span> signed), <span class="string">'-'</span>, <span class="string">''</span>) <span class="keyword">as</span> <span class="keyword">unsigned</span>) - <span class="keyword">cast</span>(<span class="keyword">replace</span>(birth_date, <span class="string">'-'</span>, <span class="string">''</span>) <span class="keyword">AS</span> <span class="keyword">unsigned</span>)) / <span class="number">10000</span>) <span class="keyword">as</span> current_age</span><br><span class="line"><span class="keyword">from</span> mst_users_with_dates;</span><br></pre></td></tr></table></figure>
-<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED—&gt;INTEGER이고, SIGNED—&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
+<p>이 코드로 실행시켜주면 문제가 해결된다. MySQL에서는 CAST함수 실행시에 주의해야 할 점이 있는데, 보통 프로그래밍 언어에서는 Integer나 String등으로 타입을 정해주는데, MySQL에서는 UNSIGNED–&gt;INTEGER이고, SIGNED–&gt;STRING임을 명심해야 한다. 코드를 바꿔주고 실행하면 문제없이 돌아가는 것을 확인할 수 있다.</p>
 
         </div>
         
@@ -332,7 +332,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            34
+                            35
                         </p>
                     </a>
                 </div>
@@ -669,6 +669,25 @@
         
         <article class="media">
             
+            <a href="/2020/03/29/craft/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg" alt="CRAFT 요약 Character Region Awarenness for Text Detection)">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-03-29T11:20:22.000Z">2020-03-29</time></div>
+                    <a href="/2020/03/29/craft/" class="title has-link-black-ter is-size-6 has-text-weight-normal">CRAFT 요약 Character Region Awarenness for Text Detection)</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/03/14/airflow-start/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/airflow_logo.png" alt="Airflow Basic">
@@ -743,25 +762,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/01/01/keras-trouble-shooting/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://tensorflowkorea.files.wordpress.com/2018/10/keras_dl_b.jpg?w=232" alt="Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-01T07:13:44.000Z">2020-01-01</time></div>
-                    <a href="/2020/01/01/keras-trouble-shooting/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Failed to get convolution algorithm. This is probably because cuDNN failed to initialize 해결하기, feat. 케라스 창시자에게 배우는 딥러닝</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a> / <a class="has-link-grey -link" href="/categories/trouble-shooting/study/">study</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -779,7 +779,7 @@
                     <span class="level-item">March 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
