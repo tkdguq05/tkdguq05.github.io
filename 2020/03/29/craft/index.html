@@ -19,8 +19,10 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg">
 <meta property="article:published_time" content="2020-03-29T11:20:22.000Z">
-<meta property="article:modified_time" content="2020-03-29T11:57:08.267Z">
+<meta property="article:modified_time" content="2020-04-12T08:14:33.015Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="vision">
+<meta property="article:tag" content="paper">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg">
 
@@ -173,11 +175,28 @@
             <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2020-03-29T11:20:22.000Z">2020-03-29</time>
                 
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/papers/">papers</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    15 minutes read (About 2277 words)
+                    15 minutes read (About 2285 words)
                 </span>
                 
                 
@@ -192,8 +211,10 @@
         <div class="content">
             <p>이미지 효과가 있는 글자를 인식하는 CRAFT에 대해서 파헤쳐보자</p>
 <a id="more"></a>
+
 <h1 id="CRAFT-Character-Region-Awarenness-for-Text-Detection"><a href="#CRAFT-Character-Region-Awarenness-for-Text-Detection" class="headerlink" title="CRAFT (Character Region Awarenness for Text Detection)"></a>CRAFT (Character Region Awarenness for Text Detection)</h1><p><strong>Clova AI Research, NAVER Corp.</strong></p>
 <hr>
+<p><a href="https://arxiv.org/pdf/1904.01941.pdf">CRAFT 논문</a></p>
 <p>이미지에서 정보를 얻기 위한 방법을 찾기 위해 SOTA 논문을 뒤지던 중에 발견한 논문. Naver Clova AI Research 팀에서 작성했다. </p>
 <p>이 논문의 요약은 다음과 같다. 어떤 텍스트가 논문에 있는 글처럼 바르게 작성되어 있지 않고, 그래픽 효과로 휘어져 있거나, 크기가 각각 다른 경우에 CRAFT를 사용하면, text detection이 잘 된다는 것이다. 실제 OCR 프로젝트를 해 본 경험이 있다면, 글자가 조금만 틀어져도 인식이 제대로 되지 않는 다는 것을 느낄 수 있다. 그러한 점에서 이 논문이 눈에 띄었고 집중해서 볼 수 밖에 없었다.</p>
 <p>그럼 도대체 왜 잘되는 것 일까? 하나 하나 파헤쳐 보자.</p>
@@ -226,6 +247,15 @@
 <p><strong>Generalization ability</strong> 3개의 다른 데이터 셋들로,  fine-tuning을 하지않고 실험 해 보았을 때, SOTA의 퍼포먼스를 보여주는 것을 확인했다. 이 모델이 한 데이터 셋에 오버피팅 되는 것 보다, 여러 글자들에 일반적인 성능을 내는 것을 증명하는 결과이다.</p>
 <h3 id="5-결론"><a href="#5-결론" class="headerlink" title="5. 결론"></a>5. 결론</h3><p>글자 단위의 annotation이 주어지지 않았을 때 각 글자들을 detect하는 CRAFT 모델을 제시했다. $region$ $score$과 $affinity$ $score$로 다양한 모양의 텍스트 모양들을 커버할 수 있다. 여기에 weakly supervised learning을 사용해 pseudo-ground truth를 만들어 내었다. CRAFT는 SOTA에 해당하는 퍼포먼스를 보여줬으며 일반화 성능과 scale 변동에 덜 민감하지만, multi language를 다루지는 못한다는 점에서 한계를 보인다.</p>
 
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/paper/" rel="tag">paper</a>, <a class="has-link-grey -link" href="/tags/vision/" rel="tag">vision</a>
+                </div>
+            </div>
         </div>
         
         
@@ -471,6 +501,14 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/python/">
             <span class="level-start">
                 <span class="level-item">python</span>
@@ -577,7 +615,7 @@
         <h3 class="menu-label">
             Tag Cloud
         </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/airflow/" style="font-size: 10px;">airflow</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 20px;">글또</a>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/airflow/" style="font-size: 10px;">airflow</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 13.33px;">paper</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 20px;">글또</a>
     </div>
 </div>
     
