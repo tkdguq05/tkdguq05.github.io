@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png">
 <meta property="article:published_time" content="2020-05-19T00:13:46.000Z">
-<meta property="article:modified_time" content="2020-05-19T04:48:40.146Z">
+<meta property="article:modified_time" content="2020-05-19T04:49:50.919Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="Task">
 <meta property="article:tag" content="GCP">
@@ -196,7 +196,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    19 minutes read (About 2793 words)
+                    19 minutes read (About 2795 words)
                 </span>
                 
                 
@@ -222,7 +222,7 @@
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_list</span><br><span class="line">param: &#123;&#125;</span><br><span class="line"></span><br><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_by_name</span><br><span class="line">param: &#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"Braund, Mr. Owen Harris"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>다음과 같이 API가 있다. 첫 번째 API는 user의 list를 받아올 수 있는 API이고, 두 번째는 user의 name별로 정보를 가져올 수 있는 API이다. 먼저 Local에서 정보를 제대로 받아오는 지 테스트를 해보자</p>
-<h2 id="Toy1-get-user-list-get-user-by-name-확인"><a href="#Toy1-get-user-list-get-user-by-name-확인" class="headerlink" title="Toy1. get_user_list, get_user_by_name 확인"></a>Toy1. get_user_list, get_user_by_name 확인</h2><p>API에서 정보를 받기 위해서 자주 사용하는 라이브러리인 requests를 이용한다. <a href="https://www.geeksforgeeks.org/get-post-requests-using-python/">requests 쉽게 사용하기</a></p>
+<h1 id="Toy-Project"><a href="#Toy-Project" class="headerlink" title="Toy Project"></a>Toy Project</h1><h2 id="Toy1-get-user-list-get-user-by-name-확인"><a href="#Toy1-get-user-list-get-user-by-name-확인" class="headerlink" title="Toy1. get_user_list, get_user_by_name 확인"></a>Toy1. get_user_list, get_user_by_name 확인</h2><p>API에서 정보를 받기 위해서 자주 사용하는 라이브러리인 requests를 이용한다. <a href="https://www.geeksforgeeks.org/get-post-requests-using-python/">requests 쉽게 사용하기</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">'https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list'</span></span><br><span class="line">response = requests.post(url)</span><br><span class="line">user_list = response.json()</span><br><span class="line">user_list = user_list[<span class="string">'data'</span>]</span><br></pre></td></tr></table></figure>
 <p>user_list는 아주 잘 나온다. 이제 get_user_by_name을 확인해보자</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">url2 = <span class="string">'https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name'</span></span><br><span class="line">params = &#123;<span class="string">'name'</span> : user_list[<span class="number">0</span>]&#125;</span><br><span class="line">response = requests.post(url2, json=params)</span><br><span class="line">response.json()</span><br></pre></td></tr></table></figure>
@@ -350,45 +350,49 @@
         <a class="is-flex" href="#2-비동기-처리">
         <span class="has-mr-6">2</span>
         <span>2. 비동기 처리</span>
+        </a></li><li>
+        <a class="is-flex" href="#Toy-Project">
+        <span class="has-mr-6">3</span>
+        <span>Toy Project</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Toy1-get-user-list-get-user-by-name-확인">
-        <span class="has-mr-6">2.1</span>
+        <span class="has-mr-6">3.1</span>
         <span>Toy1. get_user_list, get_user_by_name 확인</span>
         </a></li><li>
         <a class="is-flex" href="#Toy2-mongoDB-설정">
-        <span class="has-mr-6">2.2</span>
+        <span class="has-mr-6">3.2</span>
         <span>Toy2. mongoDB 설정</span>
         </a></li><li>
         <a class="is-flex" href="#Toy3-gcloud-설정">
-        <span class="has-mr-6">2.3</span>
+        <span class="has-mr-6">3.3</span>
         <span>Toy3. gcloud 설정</span>
         </a></li><li>
         <a class="is-flex" href="#Toy4-Functions-설정">
-        <span class="has-mr-6">2.4</span>
+        <span class="has-mr-6">3.4</span>
         <span>Toy4. Functions 설정</span>
         </a></li><li>
         <a class="is-flex" href="#Toy5-Task">
-        <span class="has-mr-6">2.5</span>
+        <span class="has-mr-6">3.5</span>
         <span>Toy5. Task</span>
         </a></li></ul></li><li>
         <a class="is-flex" href="#Trouble-Shooting">
-        <span class="has-mr-6">3</span>
+        <span class="has-mr-6">4</span>
         <span>Trouble Shooting</span>
         </a><ul class="menu-list"><li>
         <a class="is-flex" href="#Trouble-Credential">
-        <span class="has-mr-6">3.1</span>
+        <span class="has-mr-6">4.1</span>
         <span>Trouble, Credential</span>
         </a></li><li>
         <a class="is-flex" href="#Solution-1">
-        <span class="has-mr-6">3.2</span>
+        <span class="has-mr-6">4.2</span>
         <span>Solution.1</span>
         </a></li><li>
         <a class="is-flex" href="#Solution-2">
-        <span class="has-mr-6">3.3</span>
+        <span class="has-mr-6">4.3</span>
         <span>Solution.2</span>
         </a></li><li>
         <a class="is-flex" href="#Solution-3">
-        <span class="has-mr-6">3.4</span>
+        <span class="has-mr-6">4.4</span>
         <span>Solution.3</span>
         </a></li></ul></li></ul>
             </div>
