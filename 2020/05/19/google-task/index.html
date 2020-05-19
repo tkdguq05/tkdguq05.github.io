@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Google Cloud Platform - Task - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="Google Task를 통해 비동기처리에 대한 Toy Project를 진행해보자.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Google Cloud Platform - Task">
+<meta property="og:url" content="http://tkdguq05.github.io/2020/05/19/google-task/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Google Task를 통해 비동기처리에 대한 Toy Project를 진행해보자.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png">
+<meta property="article:published_time" content="2020-05-19T00:13:46.000Z">
+<meta property="article:modified_time" content="2020-05-19T04:48:40.146Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="Task">
+<meta property="article:tag" content="GCP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="Google Cloud Platform - Task" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png" alt="Google Cloud Platform - Task">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-05-19T00:13:46.000Z">2020-05-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/engineering/">engineering</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/engineering/GCP/">GCP</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    19 minutes read (About 2793 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Google Cloud Platform - Task
+            
+        </h1>
+        <div class="content">
+            <p>Google Task를 통해 비동기처리에 대한 Toy Project를 진행해보자.</p>
+<a id="more"></a>
+
+<h1 id="1-Google-Cloud-Task"><a href="#1-Google-Cloud-Task" class="headerlink" title="1. Google Cloud Task"></a>1. Google Cloud Task</h1><p>먼저 Google Cloud Task가 무엇인지 살펴보자. Google Cloud Tasks는 대규모 분산형 태스크의 실행, 디스패치, 전송을 관리할 수 있는 완전 관리형 서비스이다. Cloud Tasks를 사용하게 되면 사용자 또는 서비스 간 요청 이외의 작업을 <strong>비동기적으로</strong> 수행할 수 있게 된다. 여기서 비동기적으로 작업을 수행한다는 말이 있다. 비동기적으로 작업을 수행한다는 것은 어떤 의미이고 어떤 상황에서 사용해야 할까?</p>
+<h1 id="2-비동기-처리"><a href="#2-비동기-처리" class="headerlink" title="2. 비동기 처리"></a>2. 비동기 처리</h1><p>먼저 동기식 처리가 뭔지 알아보자. 동기식 처리 모델(Synchronous processing model)은 직렬적으로 태스크(task)를 수행한다는 의미이다. 즉, 태스크는 순차적으로 실행되며 어떤 작업이 수행 중이면 다음 작업은 대기하게 된다. 반면, 비동기식 처리는 (Asynchronous processing model 또는 Non-Blocking processing model)은 병렬적으로 태스크를 수행한다. 즉, 태스크가 종료되지 않은 상태라 하더라도 대기하지 않고 다음 태스크를 실행한다. 예를 들어 서버에서 데이터를 가져와서 화면에 표시하는 태스크를 수행할 때, 서버에 데이터를 요청한 이후 서버로부터 데이터가 응답될 때까지 대기하지 않고(Non-Blocking) 즉시 다음 태스크를 수행한다. 이후 서버로부터 데이터가 응답되면 이벤트가 발생하고 이벤트 핸들러가 데이터를 가지고 수행할 태스크를 계속해 수행한다. (출처 : <a href="https://poiemaweb.com/js-async">https://poiemaweb.com/js-async</a>)  </p>
+<p>다른 상황을 가정해보자. 어떤 API가 두 개 있다. 여기서 정보를 가져올 건데, get_user_list라는 API에서는 이름만을 가져올 수 있는 API이고, get_user_record에는 특정 유저의 구체적인 정보가 담겨 있다. get_user_record는 제한 조건이 있어 한번에 많은 데이터를 가져올 수 없다. 예를 들어 get_user_list에서 모든 user list를 받는다고 하더라도 bulk로 get_user_record에 쿼리를 보내 데이터를 갖고 오는 것은 불가능하다는 것이다. 이런 조건에서 빠르게 데이터를 확보하려면 어떻게 해야할까? for loop을 돌려 user name 하나씩 정보를 얻어 온다면 많은 시간이 걸릴 것이다. </p>
+<p>비동기 처리를 활용해 보자. 워커를 여러 대 만들고 워커에 수행할 작업(get_user_record에서 name별 정보를 갖고 오는 일)을 넣어주면 훨씬 빠르게 데이터를 모을 수 있을 것이다. 그렇다면 파이프 라인은 다음과 같다.</p>
+<ol>
+<li>get_user_record에 쿼리를 날리고 실시간성 DB에 데이터를 담아두기</li>
+<li>실시간성 DB에 있는 데이터를 배치성 DB에 넣기<br>여기서 1번 작업은 Google Cloud Function에 작업 내용을 넣어주고 Google Cloud Task를 이용해서 비동기 작업을 통해 빠르게 수행하도록 할 것이다. </li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_list</span><br><span class="line">param: &#123;&#125;</span><br><span class="line"></span><br><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_by_name</span><br><span class="line">param: &#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"Braund, Mr. Owen Harris"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>다음과 같이 API가 있다. 첫 번째 API는 user의 list를 받아올 수 있는 API이고, 두 번째는 user의 name별로 정보를 가져올 수 있는 API이다. 먼저 Local에서 정보를 제대로 받아오는 지 테스트를 해보자</p>
+<h2 id="Toy1-get-user-list-get-user-by-name-확인"><a href="#Toy1-get-user-list-get-user-by-name-확인" class="headerlink" title="Toy1. get_user_list, get_user_by_name 확인"></a>Toy1. get_user_list, get_user_by_name 확인</h2><p>API에서 정보를 받기 위해서 자주 사용하는 라이브러리인 requests를 이용한다. <a href="https://www.geeksforgeeks.org/get-post-requests-using-python/">requests 쉽게 사용하기</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">'https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list'</span></span><br><span class="line">response = requests.post(url)</span><br><span class="line">user_list = response.json()</span><br><span class="line">user_list = user_list[<span class="string">'data'</span>]</span><br></pre></td></tr></table></figure>
+<p>user_list는 아주 잘 나온다. 이제 get_user_by_name을 확인해보자</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">url2 = <span class="string">'https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name'</span></span><br><span class="line">params = &#123;<span class="string">'name'</span> : user_list[<span class="number">0</span>]&#125;</span><br><span class="line">response = requests.post(url2, json=params)</span><br><span class="line">response.json()</span><br></pre></td></tr></table></figure>
+<p>post로 parameter를 보내면 역시 값이 잘 나온다. </p>
+<h2 id="Toy2-mongoDB-설정"><a href="#Toy2-mongoDB-설정" class="headerlink" title="Toy2. mongoDB 설정"></a>Toy2. mongoDB 설정</h2><p>작업을 수행하고 나온 데이터를 임시로 넣을 DB는 mongoDB로 해볼 것이다. 무료로 사용할 수 있는 mongoDB가 있는데 <a href="https://mlab.com/">https://mlab.com/</a> 여기를 이용하면 된다. 아니면 mongoDB Atlas를 사용해도 된다. mongoDB 구축하는 건 간단하니 Pass한다.</p>
+<h2 id="Toy3-gcloud-설정"><a href="#Toy3-gcloud-설정" class="headerlink" title="Toy3. gcloud 설정"></a>Toy3. gcloud 설정</h2><p>google cloud의 다양한 서비스를 이용하려면 gcloud를 설정해야 한다. google cloud Task를 사용하기 위한 퀵 가이드 문서는 잘 되어 있는 편이다. <a href="https://cloud.google.com/tasks/docs/quickstart-appengine">Cloud Task Quick Guide</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gcloud</span><br></pre></td></tr></table></figure>
+<p>gcloud를 먼저 설치하고 따라하면 된다. SDK를 만들고 난 후에 Cloud Tasks API, API 라이브러리 페이지에 갔을 때 사용가능 하다는 초록 표시가 나오면 퀵 가이드 문서의 샘플 설정 및 하단의 내용을 수행하면 된다.<br><img src="/images/available.png" alt="사용 가능!"></p>
+<p>퀵 가이드 문서 내용을 다 따라하고 task페이지로 오게 되면 my-queue가 생성된 것을 확인할 수 있다. 이렇게 되면 성공이다.<br><img src="/images/my_queue.png" alt="task 작업 준비 완료"></p>
+<h2 id="Toy4-Functions-설정"><a href="#Toy4-Functions-설정" class="headerlink" title="Toy4. Functions 설정"></a>Toy4. Functions 설정</h2><p>Cloud Functions로 이동해보자. Cloud Functions는 AWS Lambda와 비슷하다(서버리스 아키텍쳐) .<br>Functions를 세팅할 때 주의할 점이 있다. 위치나 메모리는 아무렇게나 설정해도 되지만 인증 부분을 꼭 체크하고 코드를 작성할 런타임을 python 3.7로 바꿔주도록 한다.<br><img src="/images/unauth.png" alt="인증되지 않은 호출 허용 체크"></p>
+<p>조금 기다리면 funtion이 만들어진다. funtion에 들어가서 수정 버튼을 누르면 작업을 수행할 소스코드가 등장한다. main.py에 작업할 코드를 넣어주고 requirements.txt에 필요한 라이브러리들을 작성해 import할 수 있도록 한다.  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#requirements.txt</span></span><br><span class="line">pymongo</span><br><span class="line">requests</span><br><span class="line">dnspython</span><br></pre></td></tr></table></figure>
+<p>requirements에는 mongoDB 연결과 저장을 위한 pymongo, API를 위한 requests 그리고 기타 dnspython을 넣어준다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#MAIN.py</span></span><br><span class="line"><span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</span><br><span class="line"><span class="keyword">import</span> ast</span><br><span class="line"><span class="keyword">import</span> pymongo</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">mongo_uri = <span class="string">"mongodb://****:****@ds263018.mlab.com:63018/****?retryWrites=false"</span></span><br><span class="line">client = pymongo.MongoClient(mongo_uri)</span><br><span class="line"></span><br><span class="line">db = client.****</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello_world</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="string">"""Responds to any HTTP request.</span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        request (flask.Request): HTTP request object.</span></span><br><span class="line"><span class="string">    Returns:</span></span><br><span class="line"><span class="string">        The response text or any set of values that can be turned into a</span></span><br><span class="line"><span class="string">        Response object using</span></span><br><span class="line"><span class="string">        `make_response &lt;http://flask.pocoo.org/docs/1.0/api/#flask.Flask.make_response&gt;`.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    payload = request.get_data(as_text=<span class="keyword">True</span>)</span><br><span class="line">    request_json = ast.literal_eval(payload)</span><br><span class="line"></span><br><span class="line">    r = requests.post(url = <span class="string">"https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_by_name"</span>, json=request_json) </span><br><span class="line"></span><br><span class="line">    db.temp.insert_one(r.json())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Success"</span></span><br></pre></td></tr></table></figure>
+<p>main 소스에는 local에서 테스트한 내용을 넣어준다. mongo_url에서 retryWrite=false는 mongoDB에서 <code>MongoError: This MongoDB deployment does not support retryable writes. Please add retryWrites=false to your connection string.</code>이런 에러가 나온다면 사용해보자. </p>
+<p>소스를 넣은 후에 잘 세팅 되었는지를 확인해보기 위해 테스트를 이용해 볼 수 있다. 테스트를 누르면 트리거 이벤트라고 나오고 <code>{}</code>이렇게 나와 있다. 여기에 테스트 할 파라미터 값을 넣어보면 된다. 우리의 파라미터는 name이므로 </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="string">"name"</span>: <span class="string">"Braund, Mr. Owen Harris"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>이렇게 파라미터를 적어주고 테스트한다. success가 나오면 성공이다. </p>
+<h2 id="Toy5-Task"><a href="#Toy5-Task" class="headerlink" title="Toy5. Task"></a>Toy5. Task</h2><p>이제 로컬로 돌아와서 task와 function을 붙여볼 차례다. 먼저 코드부터 소개한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> google.cloud <span class="keyword">import</span> storage</span><br><span class="line"><span class="keyword">from</span> google.cloud <span class="keyword">import</span> tasks_v2</span><br><span class="line">task_client = tasks_v2.CloudTasksClient() <span class="comment"># Credential</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dispatch_task</span><span class="params">(name)</span>:</span></span><br><span class="line"> <span class="comment">#json 같은 string</span></span><br><span class="line">    payload = str(&#123;</span><br><span class="line">        <span class="string">"name"</span>: name,</span><br><span class="line">    &#125;)</span><br><span class="line">    </span><br><span class="line">    resp = create_task(project=<span class="string">'affable-**********'</span>, queue=<span class="string">'my-queue'</span>, location=<span class="string">'asia-northeast3'</span>, payload=payload)</span><br></pre></td></tr></table></figure>
+<p>dispatch_task를 통해서 수행할 작업을 어떤 프로젝트에 연결하고 어떤 큐에 보낼 것인지 선택할 수 있다. 이렇게 프로젝트와 Task에 연결하고 난 뒤에 create_task를 수행하게 된다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_task</span><span class="params">(project, queue, location, payload=None, in_seconds=None)</span>:</span></span><br><span class="line">    parent = task_client.queue_path(project, location, queue)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Construct the request body.</span></span><br><span class="line">    task = &#123;</span><br><span class="line">            <span class="string">'http_request'</span>: &#123;  <span class="comment"># Specify the type of request.</span></span><br><span class="line">                <span class="string">'http_method'</span>: <span class="string">'POST'</span>,</span><br><span class="line">                <span class="string">'url'</span>: <span class="string">'https://us-central1-affable-audio-277311.cloudfunctions.net/function-2'</span> <span class="comment">#function url</span></span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> payload <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="comment"># The API expects a payload of type bytes.</span></span><br><span class="line">        converted_payload = payload.encode() <span class="comment">#여기서 인코딩</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># Add the payload to the request.</span></span><br><span class="line">        task[<span class="string">'http_request'</span>][<span class="string">'body'</span>] = converted_payload</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> in_seconds <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="comment"># Convert "seconds from now" into an rfc3339 datetime string.</span></span><br><span class="line">        d = datetime.datetime.utcnow() + datetime.timedelta(seconds=in_seconds)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Create Timestamp protobuf.</span></span><br><span class="line">        timestamp = timestamp_pb2.Timestamp()</span><br><span class="line">        timestamp.FromDatetime(d)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Add the timestamp to the tasks.</span></span><br><span class="line">        task[<span class="string">'schedule_time'</span>] = timestamp</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Use the client to build and send the task.</span></span><br><span class="line">    response = task_client.create_task(parent, task)</span><br><span class="line">    print(response)</span><br><span class="line">    <span class="keyword">return</span> response</span><br></pre></td></tr></table></figure>
+<p>create_task에서 본격적으로 funtions와 연결이 되어 작업들이 돌아가게 된다. task에 보면 url 파라미터가 보인다. 이 url이 작업을 수행할 funtions의 위치를 나타내는 것으로, functions의 트리거 부분에 있는 url을 넣어주면 된다.   </p>
+<p>이렇게 넣어주고 나면 payload를 받아서 인코딩을 해주고 task에서 request를 날려주게 된다. </p>
+<p>함수를 다 지정하고 나서 user_list있는 name들을  dispatch_task에 넣어주게 되면 task가 돌아간다!</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dispatch_task('Braund, Mr. Owen Harris') #하나짜리로 먼저 테스트</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> user_list:</span><br><span class="line">    dispatch_task(user)</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="Trouble-Shooting"><a href="#Trouble-Shooting" class="headerlink" title="Trouble Shooting"></a>Trouble Shooting</h1><h2 id="Trouble-Credential"><a href="#Trouble-Credential" class="headerlink" title="Trouble, Credential"></a>Trouble, Credential</h2><p>바로 성공이 되는 경우가 있는 반면, 에러가 터져나와 제대로 돌아가지 않는 경우가 발생하곤 한다. 보통은 credential 문제가 대부분이다. dispatch_task의 윗부분에 #credential이라고 작성한 부분에서 보통 에러가 나는데</p>
+<blockquote>
+<p>DefaultCredentialsError: Could not automatically determine credentials. Please set GOOGLE_APPLICATION_CREDENTIALS or explicitly create credentials and re-run the application. For more information, please see <a href="https://cloud.google.com/docs/authentication/getting-started">https://cloud.google.com/docs/authentication/getting-started</a></p>
+</blockquote>
+<p>이러한 에러가 발생한다면 Credential관련한 에러이며, 이런 에러가 나오지 않고 아래 for loop을 돌 때,</p>
+<blockquote>
+<p>AttributeError: ‘str’ object has no attribute ‘create_task’<br>이런 에러가 나와도 task_client에서 credential이 제대로 되지 않았다는 뜻이다. </p>
+</blockquote>
+<h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution.1"></a>Solution.1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">task_client = tasks_v2.CloudTasksClient(&lt;json&gt;)</span><br></pre></td></tr></table></figure>
+<p>다음과 같이 task_client에 cloud 프로젝트에 있는 json key를 받아서 절대경로를 <json>에 넣어준다.<br>json key는 다음과 같이 얻을 수 있다. 내 프로젝트로 들어가서 작업을 누르고 키를 받는다.<br><img src="/images/cloud_json_key.png" alt="json 키"></p>
+<h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution.2"></a>Solution.2</h2><p>이렇게 해결이 되는 경우도 있지만 사용하는 컴퓨터의 종류나 gcloud설정에 따라 제대로 되지 않을 수 있다. 두 번째 방법은 구글 문서에 있는 방법이다. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">explicit</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># Explicitly use service account credentials by specifying the private key</span></span><br><span class="line">    <span class="comment"># file.</span></span><br><span class="line">    storage_client = storage.Client.from_service_account_json(</span><br><span class="line">    &lt;json&gt;)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Make an authenticated API request</span></span><br><span class="line">    buckets = list(storage_client.list_buckets())</span><br><span class="line">    print(buckets)</span><br></pre></td></tr></table></figure>
+<p>이 역시 아까 받은 json 키를 사용하는 방법이다. 이렇게 함수를 만든 뒤 explicit함수를 실행시키다.  그리고 다시 for loop을 돌려보자.</p>
+<h2 id="Solution-3"><a href="#Solution-3" class="headerlink" title="Solution.3"></a>Solution.3</h2><p>마지막 방법이다. os 라이브러리를 이용해 google credential에 사용하는 json 키 값을 직접 지정해 주는 방식이다. 본인 생각으로는 가장 확실한 방법이라고 생각한다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line">os.environ[<span class="string">'GOOGLE_APPLICATION_CREDENTIALS'</span>] = <span class="string">'&lt;json&gt;'</span></span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/GCP/" rel="tag">GCP</a>, <a class="has-link-grey -link" href="/tags/Task/" rel="tag">Task</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/10/trouble-shooting_pyspark/">
+                <span class="level-item">pyspark trouble shooting, schema</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2020/05/19/google-task/';
+        this.page.identifier = '2020/05/19/google-task/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#1-Google-Cloud-Task">
+        <span class="has-mr-6">1</span>
+        <span>1. Google Cloud Task</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-비동기-처리">
+        <span class="has-mr-6">2</span>
+        <span>2. 비동기 처리</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Toy1-get-user-list-get-user-by-name-확인">
+        <span class="has-mr-6">2.1</span>
+        <span>Toy1. get_user_list, get_user_by_name 확인</span>
+        </a></li><li>
+        <a class="is-flex" href="#Toy2-mongoDB-설정">
+        <span class="has-mr-6">2.2</span>
+        <span>Toy2. mongoDB 설정</span>
+        </a></li><li>
+        <a class="is-flex" href="#Toy3-gcloud-설정">
+        <span class="has-mr-6">2.3</span>
+        <span>Toy3. gcloud 설정</span>
+        </a></li><li>
+        <a class="is-flex" href="#Toy4-Functions-설정">
+        <span class="has-mr-6">2.4</span>
+        <span>Toy4. Functions 설정</span>
+        </a></li><li>
+        <a class="is-flex" href="#Toy5-Task">
+        <span class="has-mr-6">2.5</span>
+        <span>Toy5. Task</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Trouble-Shooting">
+        <span class="has-mr-6">3</span>
+        <span>Trouble Shooting</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Trouble-Credential">
+        <span class="has-mr-6">3.1</span>
+        <span>Trouble, Credential</span>
+        </a></li><li>
+        <a class="is-flex" href="#Solution-1">
+        <span class="has-mr-6">3.2</span>
+        <span>Solution.1</span>
+        </a></li><li>
+        <a class="is-flex" href="#Solution-2">
+        <span class="has-mr-6">3.3</span>
+        <span>Solution.2</span>
+        </a></li><li>
+        <a class="is-flex" href="#Solution-3">
+        <span class="has-mr-6">3.4</span>
+        <span>Solution.3</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/airflow/" style="font-size: 10px;">airflow</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 13.33px;">paper</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 20px;">글또</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="Google Cloud Platform - Task" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+</html>
