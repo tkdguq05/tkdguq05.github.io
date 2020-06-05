@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png">
 <meta property="article:published_time" content="2020-05-19T00:13:46.000Z">
-<meta property="article:modified_time" content="2020-05-19T04:49:50.919Z">
+<meta property="article:modified_time" content="2020-06-05T00:01:55.554Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="Task">
 <meta property="article:tag" content="GCP">
@@ -256,8 +256,9 @@
 </blockquote>
 <p>이러한 에러가 발생한다면 Credential관련한 에러이며, 이런 에러가 나오지 않고 아래 for loop을 돌 때,</p>
 <blockquote>
-<p>AttributeError: ‘str’ object has no attribute ‘create_task’<br>이런 에러가 나와도 task_client에서 credential이 제대로 되지 않았다는 뜻이다. </p>
+<p>AttributeError: ‘str’ object has no attribute ‘create_task’</p>
 </blockquote>
+<p>이런 에러가 나와도 task_client에서 credential이 제대로 되지 않았다는 뜻이다. </p>
 <h2 id="Solution-1"><a href="#Solution-1" class="headerlink" title="Solution.1"></a>Solution.1</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">task_client = tasks_v2.CloudTasksClient(&lt;json&gt;)</span><br></pre></td></tr></table></figure>
 <p>다음과 같이 task_client에 cloud 프로젝트에 있는 json key를 받아서 절대경로를 <json>에 넣어준다.<br>json key는 다음과 같이 얻을 수 있다. 내 프로젝트로 들어가서 작업을 누르고 키를 받는다.<br><img src="/images/cloud_json_key.png" alt="json 키"></p>
 <h2 id="Solution-2"><a href="#Solution-2" class="headerlink" title="Solution.2"></a>Solution.2</h2><p>이렇게 해결이 되는 경우도 있지만 사용하는 컴퓨터의 종류나 gcloud설정에 따라 제대로 되지 않을 수 있다. 두 번째 방법은 구글 문서에 있는 방법이다. </p>
