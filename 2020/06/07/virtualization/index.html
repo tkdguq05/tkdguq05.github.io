@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>클라우드 서비스의 기초. Virtualization, 가상화에 대해서 - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="IT infrastructure, 클라우드 서비스의 기초인 가상화에 대해서 알아보자!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="클라우드 서비스의 기초. Virtualization, 가상화에 대해서">
+<meta property="og:url" content="http://tkdguq05.github.io/2020/06/07/virtualization/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="IT infrastructure, 클라우드 서비스의 기초인 가상화에 대해서 알아보자!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://www.business.com/images/content/5ca/3cc135a215e8a458b5050/1500-0-">
+<meta property="article:published_time" content="2020-06-07T08:18:14.000Z">
+<meta property="article:modified_time" content="2020-06-07T11:06:33.786Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="infra">
+<meta property="article:tag" content="Virtualization">
+<meta property="article:tag" content="backend">
+<meta property="article:tag" content="engineering">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.business.com/images/content/5ca/3cc135a215e8a458b5050/1500-0-">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="클라우드 서비스의 기초. Virtualization, 가상화에 대해서" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://www.business.com/images/content/5ca/3cc135a215e8a458b5050/1500-0-" alt="클라우드 서비스의 기초. Virtualization, 가상화에 대해서">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-06-07T08:18:14.000Z">2020-06-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/infra/">infra</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/infra/backend/">backend</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/infra/backend/engineering/">engineering</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2720 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                클라우드 서비스의 기초. Virtualization, 가상화에 대해서
+            
+        </h1>
+        <div class="content">
+            <p>IT infrastructure, 클라우드 서비스의 기초인 가상화에 대해서 알아보자!</p>
+<a id="more"></a>
+
+<h1 id="1-가상화에-대해-알기-전에-IT-Infrastructure"><a href="#1-가상화에-대해-알기-전에-IT-Infrastructure" class="headerlink" title="1.가상화에 대해 알기 전에 IT Infrastructure."></a>1.가상화에 대해 알기 전에 IT Infrastructure.</h1><p>가상화에 대해서 알기전에 IT infra는 어떤 종류가 있는지 알아볼 필요가 흔히 세미나를 돌다보면 흔하게 들리는 ‘온프레미스’라던가 ‘클라우드 서비스’라는 개념이 도대체 정확히 뭘 말하는 건지 알아야 실제로 사용하는 AWS가 어떻게 돌아가는지 이해해볼 수 있을 것이다.</p>
+<h2 id="1-1-IT-Infrastructure"><a href="#1-1-IT-Infrastructure" class="headerlink" title="1.1. IT Infrastructure"></a>1.1. IT Infrastructure</h2><p>IT 인프라는 크게 4가지로 나눠볼 수 있을 것이다. 온프레미스, 퍼블릭 클라우드, 프라이빗 클라우드, 하이브리드 클라우드 가 그 종류이다.</p>
+<ol>
+<li>온프레미스(On-premise) : 쉽게 말해서 물리서버를 구축한다는 이야기이다. 회사에서 서버실을 따로 두고 있다면, 온프레미스 방식의 구조를 사용하고 있다는 걸 말한다. 온프레미스 방식은 직접 서버를 놓고 사용하기 때문에 관리가 용이하고 기밀성이 굉장히 높다는 장점을 갖고 있지만 고가의 장비를 사용해야 하고 사용량 예측이 불가하며, 재해 등에 취약하다는 단점이 있다.</li>
+<li>퍼블릭 클라우드(Public Cloud) : 클라우드 제공자가 물리서버(데이터 센터, 인프라 등)를 구축하고 가상화 기술을 이용해 불특정 다수에게 제공하는 시스템을 말한다. AWS, GCP, Azure등이 퍼블릭 클라우드 프로바이더이며, 서비스 이용자들이 퍼블릭 클라우드를 이용하는 것이라고 볼 수 있다. </li>
+<li>프라이빗 클라우드(Private Cloud) : 회사에서 자체적으로 물리서버를 구축하고 가상화하여 클라우드 기술을 사용하는 것을 말한다. 높은 기밀성이 필요한 회사에서 주로 사용한다. 고객 정보에 대한 데이터 등의 기밀성이 높은 데이터를 AWS나 기타 퍼블릭 클라우드에 올릴 수 없을 때 자체적으로 프라이빗 클라우드를 구축하곤 한다.(금융회사 또는 삼성)</li>
+<li>하이브리드 클라우드(Hybrid Cloud) : 온프레미스와 클라우드를 동시에 사용하는 방식이다.</li>
+</ol>
+<p>위에서 소개한 것처럼 클라우드에 대해서 다룰 때 가상화란 개념이 등장한다. 클라우드 서비스 유형에 따라 Iaas, Paas, Saas 등이 나뉘지만 이 글에서는 설명을 생략한다.</p>
+<h1 id="2-가상화"><a href="#2-가상화" class="headerlink" title="2. 가상화"></a>2. 가상화</h1><p>가상화는 간단하게 설명하자면 하나의 물리적인 하드웨어 위에 여러 대의 OS를 올려 운영하는 것이다. 물리적인 CPU/서버를 이용할 때 하나의 운영체제를 이용하여 구동하는 경우에는 CPU 자원을 최대한으로 활용하기가 어려울 것이다. 하지만 하나의 물리적 CPU에서 여러 대의 가상 OS를 운영한다면 CPU 자원을 최대한 활용하는 효과를 가져올 수 있다. 그리고 자원이 많이 남는다면 AWS나 GCP처럼 퍼블릭 클라우드 서비스를 제공하는 것도 가능할 것이다. </p>
+<h2 id="2-1-가상화의-구조-Hypervisor"><a href="#2-1-가상화의-구조-Hypervisor" class="headerlink" title="2.1 가상화의 구조 - Hypervisor"></a>2.1 가상화의 구조 - Hypervisor</h2><p>한 컴퓨터를 가상화해서 여러 개의 가상 머신을 만들었다고 가정해보자.<br><img src="/images/hypervisor.png" alt="세대의 가상머신을 만들어보자"><br>그림에서 보면 가상 머신은 Hypervisor위에서 돌아가고 Hypervisor는 OS 위에 위치하고 있는 것을 알 수 있다. 각 가상 머신은 각각의 OS(Linux, MacOS, WindowsOS…)를 갖고 돌아갈 것이며 Hypervisor 밑에 있는 OS는 물리서버의 OS이다. 이런 구조라면 Hypervisor의 기능은 여러 OS를 관리하는 것이 아닐까? 라고 눈치 빠르게 유추해 볼 수 있을 텐데, 정답이다. OS는 Kernel을 통해서 자원관리나 명령을 해석하고 컨트롤하는데 문제는 OS마다 Kernel의 규칙이 다르다는 점에 있다. 그러니까 가상머신에는 다양한 OS가 돌아가게 되고 이것들을 중재해 주는 것이 Hypervisor이다. Hypervisor 자체도 가상화 커널이기 때문에 Hypervisor는 운영체제를 스케줄 하는 가상화 커널이라고 볼 수 있겠다.</p>
+<h2 id="2-2-가상화-유형"><a href="#2-2-가상화-유형" class="headerlink" title="2.2 가상화 유형"></a>2.2 가상화 유형</h2><p>가상화 유형은 크게 두 가지로 볼 수 있다. Type-1과 Type-2형이다. OS를 사용하는가 안하는가에 따라 나뉜다.<br>출처: <a href="https://en.wikipedia.org/wiki/Hypervisor">Wikipedia - Virtualization</a> </p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Hyperviseur.png" alt="Virtualization"></p>
+<ol>
+<li>Type-1(Bare-Metal) : 호스트 OS가 존재 하지 않는다. 베어메탈은 “운영체제가 없는 컴퓨터 하드웨어”를 의미한다. “깡통 컴퓨터”라고 표현하면 적당할 것 같다. 하이퍼바이저가 하드웨어를  제어하고 그 위에 게스트 운영체제(Guest OS)를 올리는 방식이다. 완전히 제어하는 방식을 베어 메탈 하이퍼바이저라고 부른다. </li>
+<li>Type-2 :호스트 OS가 존재한다. 전통적인 OS에 하이퍼바이저를 실행하고, 이 하이퍼바이저 위에서 게스트 운영체제를 실행하는 방식이다. 하이퍼바이저를 실행하는 운영체제를 HOST 운영체제라고 부른다. 기존에 사용하던 운영체제 위에, 애플리케이션을 실행 하듯이 새로운 운영체제를 올릴 수 있다. 기존 운영체제에 익숙한 일반 사용자들이 주로 접하는 하이퍼바이저다. </li>
+</ol>
+<p>가상화는 다시 전가상화 반가상화로 나누어 볼 수 있다. 하드웨어를 완전히 가상화 하고 DOM0를 통해 모든 접근을 처리하는 것이 전가상화이고 완전 가상화 하지 않고 HyperCall이라는 Interface를 통해 접근을 처리하는 것이 반 가상화이다. 전가상화는 DOM0를 통해 모든 처리를 하므로 GuestOS를 수정할 필요가 없지만 Hypervisor가 모든 명령을 중재하므로 성능이 느린 편이다. 반면에 반가상화는 OS커널을 수정해 다른 OS에서 내리는 명령을 Hypercall에서 번역해서 처리하기 때문에 성능이 빠른 편이다. OS커널을 수정해야 하기 때문에 오픈소스 OS만 사용가능하다.</p>
+<h2 id="2-3-Hypervisor-기능"><a href="#2-3-Hypervisor-기능" class="headerlink" title="2,3 Hypervisor 기능"></a>2,3 Hypervisor 기능</h2><p>본격적으로 Hypervisor에서 사용가능한 기능들에 대해서 알아보자. AWS콘솔을 다루다 보면 자주나오는 용어들이 보일 것이다. 대표적으로 Migration, Snapshot, Templet이다.</p>
+<h3 id="그-전에-용어-정리"><a href="#그-전에-용어-정리" class="headerlink" title="그 전에 용어 정리"></a>그 전에 용어 정리</h3><p>기능을 다루기 전에 용어 정리를 하고 넘어가야 이해가 쉬울 것 같다. 가상화의 구조에는 Host, Cluster, Datacenter가 있다. </p>
+<h4 id="Host"><a href="#Host" class="headerlink" title="Host"></a>Host</h4><p>Host는 Storage 에 붙어있는 한 물리서버를 말한다. Host의 기준이 헷갈릴 수 있는데, Storage 기준이 아니라 물리서버라는 점을 명심하자.<br><img src="/images/host.png" alt="Host 머신"> </p>
+<h4 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h4><p>Cluster는 여러대의 Host머신을 한 Storage로 묶어 놓은 것을 말한다. 클러스터는 한 Storage로 묶일 수 있다.<br><img src="/images/cluster.png" alt="Cluster"></p>
+<h4 id="Datacenter"><a href="#Datacenter" class="headerlink" title="Datacenter"></a>Datacenter</h4><p>Datacenter는 여러대의 Cluster를 하나로 묶어 놓은 것을 말한다.<br><img src="/images/datacenter.png" alt="Datacenter"><br>정리하자면 데이터 센터 아래에 여러대의 클러스터가 있고 각 클러스터에는 여러대의 호스트 머신이 띄워져 있으며, 호스트 머신에는 가상머신들이 떠 있다. </p>
+<h4 id="Provisioning"><a href="#Provisioning" class="headerlink" title="Provisioning"></a>Provisioning</h4><p>쉽게 말해서 제공하는 것. 클라우드 서비스 업체에서 어떤 걸 제공받느냐에 따라서 Server Resource Provisioning : CPU, Memory, IO 등과 같은 실제 서버의 자원을 할당해주고 운영할 수 있게 제공해주는 것을 말한다.</p>
+<p>출처 : <a href="https://jins-dev.tistory.com/entry/%ED%94%84%EB%A1%9C%EB%B9%84%EC%A0%80%EB%8B%9DProvisioning-%EC%9D%B4%EB%9E%80">프로비저닝이란</a></p>
+<ul>
+<li>OS Provisioning : OS를 서버에 설치하고 구성작업을 해서 사용할 수 있도록 제공하는 것을 말한다.</li>
+<li>Software Provisioning : WAS, DBMS 등의 소프트웨어를 설치하고 세팅하여 실행할 수 있도록 제공하는 것을 말한다.</li>
+<li>Account Provisioning : 접근 권한을 가진 계정을 제공해주는 것을 말한다. 클라우드 인프라 쪽에서는 해당 업무를 담당하던 관리자가 변경된 경우 권한의 인계를 Account Provisioning 을 통해 하는 경우가 많다.</li>
+<li>Storage Provisioning : 데이터를 저장하고 관리할 수 있는 Storage 를 제공할 수 있다. 특히 클라우드에서는 제공하는 Storage 의 종류와 용도에 따라 다양한 방식의 제공이 이루어진다.</li>
+</ul>
+<h3 id="2-3-1-Migration"><a href="#2-3-1-Migration" class="headerlink" title="2.3.1 Migration"></a>2.3.1 Migration</h3><p>Migration은 한 클러스터 내에서 어떤 호스트에 붙어있는 가상머신을 다른 호스트로 옮기는 것을 말한다. Storage가 같기 때문에 가상머신을 다른 호스트로 옮기는 것이 가능하고 데이터도 그대로 사용가능하다.<br><img src="/images/migration1.png" alt="migration"></p>
+<h3 id="2-3-2-Storage-Migration"><a href="#2-3-2-Storage-Migration" class="headerlink" title="2.3.2 Storage Migration"></a>2.3.2 Storage Migration</h3><p>Storage Migration이란 Storage를 갈아타는 Migration이라고 생각하면 된다. 한 클러스터에 있는 가상머신을 다른 클러스터로 옮기는 것이다.<br><img src="/images/migration2.png" alt="Storage migration"></p>
+<blockquote>
+<p><code>중요한 점</code>: 구조를 살펴보면 Storage가 가장 핵심인 것을 알 수 있다. Storage위의 가상머신 등은 얼마든지 죽어도 다시 살릴 수도 있고 다른 호스트로 옮길 수도 있지만 Storage는 죽으면 참…답이 없다. 이에 대해서 여러가지 처리를 해놓았지만 이 글에서는 다루지 않겠다.</p>
+</blockquote>
+<h3 id="2-3-2-Snapshot"><a href="#2-3-2-Snapshot" class="headerlink" title="2.3.2 Snapshot"></a>2.3.2 Snapshot</h3><p>스냅샷은 특정 시간대의 가상머신 데이터와 설정 정보를 백업하는 기술이다. Snapshot으로 저장된 백업 데이터를 이용하면 VM에 장애가 발생하더라도 빠르게 복구 가능하다.</p>
+<h3 id="2-3-3-Templet"><a href="#2-3-3-Templet" class="headerlink" title="2.3.3 Templet"></a>2.3.3 Templet</h3><p>서버 템플릿이란 서버 다수를 사용하는데 사용할 수 있도록 공통 요소들을 프로비저닝해 둔 서버 이미지를 말한다.</p>
+<hr>
+<p>기능들에서 살펴보니 AWS에서 사용되는 여러가지 용어들이 익숙하게 보이는 것을 확인할 수 있다. 이런 지식들을 가지고 AWS나 기타 클라우드에서 활용할 수 있고 후에 Docker나 Kubernetes 등에도 활용할 수 있을 것이다.  </p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Virtualization/" rel="tag">Virtualization</a>, <a class="has-link-grey -link" href="/tags/backend/" rel="tag">backend</a>, <a class="has-link-grey -link" href="/tags/engineering/" rel="tag">engineering</a>, <a class="has-link-grey -link" href="/tags/infra/" rel="tag">infra</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/19/google-task/">
+                <span class="level-item">Google Cloud Platform - Task</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2020/06/07/virtualization/';
+        this.page.identifier = '2020/06/07/virtualization/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#1-가상화에-대해-알기-전에-IT-Infrastructure">
+        <span class="has-mr-6">1</span>
+        <span>1.가상화에 대해 알기 전에 IT Infrastructure.</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#1-1-IT-Infrastructure">
+        <span class="has-mr-6">1.1</span>
+        <span>1.1. IT Infrastructure</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#2-가상화">
+        <span class="has-mr-6">2</span>
+        <span>2. 가상화</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#2-1-가상화의-구조-Hypervisor">
+        <span class="has-mr-6">2.1</span>
+        <span>2.1 가상화의 구조 - Hypervisor</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-2-가상화-유형">
+        <span class="has-mr-6">2.2</span>
+        <span>2.2 가상화 유형</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-3-Hypervisor-기능">
+        <span class="has-mr-6">2.3</span>
+        <span>2,3 Hypervisor 기능</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#그-전에-용어-정리">
+        <span class="has-mr-6">2.3.1</span>
+        <span>그 전에 용어 정리</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-3-1-Migration">
+        <span class="has-mr-6">2.3.2</span>
+        <span>2.3.1 Migration</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-3-2-Storage-Migration">
+        <span class="has-mr-6">2.3.3</span>
+        <span>2.3.2 Storage Migration</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-3-2-Snapshot">
+        <span class="has-mr-6">2.3.4</span>
+        <span>2.3.2 Snapshot</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-3-3-Templet">
+        <span class="has-mr-6">2.3.5</span>
+        <span>2.3.3 Templet</span>
+        </a></li></ul></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 13.33px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/Information/" style="font-size: 13.33px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 16.67px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 10px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 13.33px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 20px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 13.33px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16.67px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 13.33px;">mysql</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 13.33px;">paper</a> <a href="/tags/programmers/" style="font-size: 16.67px;">programmers</a> <a href="/tags/python/" style="font-size: 20px;">python</a> <a href="/tags/server/" style="font-size: 16.67px;">server</a> <a href="/tags/spark/" style="font-size: 13.33px;">spark</a> <a href="/tags/sql/" style="font-size: 13.33px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 16.67px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 20px;">글또</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="클라우드 서비스의 기초. Virtualization, 가상화에 대해서" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+</html>
