@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png">
 <meta property="article:published_time" content="2020-05-19T00:13:46.000Z">
-<meta property="article:modified_time" content="2020-06-05T00:01:55.554Z">
+<meta property="article:modified_time" content="2020-07-04T01:16:55.890Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="Task">
 <meta property="article:tag" content="GCP">
@@ -221,7 +221,7 @@
 <li>실시간성 DB에 있는 데이터를 배치성 DB에 넣기<br>여기서 1번 작업은 Google Cloud Function에 작업 내용을 넣어주고 Google Cloud Task를 이용해서 비동기 작업을 통해 빠르게 수행하도록 할 것이다. </li>
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_list</span><br><span class="line">param: &#123;&#125;</span><br><span class="line"></span><br><span class="line">https://us-central1-contxtsio<span class="number">-267105.</span>cloudfunctions.net/get_user_by_name</span><br><span class="line">param: &#123;</span><br><span class="line">	<span class="string">"name"</span>: <span class="string">"Braund, Mr. Owen Harris"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>다음과 같이 API가 있다. 첫 번째 API는 user의 list를 받아올 수 있는 API이고, 두 번째는 user의 name별로 정보를 가져올 수 있는 API이다. 먼저 Local에서 정보를 제대로 받아오는 지 테스트를 해보자</p>
+<p>다음과 같이 API가 있다. 첫 번째 API는 user의 list를 받아올 수 있는 API이고, 두 번째는 user의 name별로 정보를 가져올 수 있는 API이다. 먼저 Local에서 정보를 제대로 받아오는지 테스트를 해보자.</p>
 <h1 id="Toy-Project"><a href="#Toy-Project" class="headerlink" title="Toy Project"></a>Toy Project</h1><h2 id="Toy1-get-user-list-get-user-by-name-확인"><a href="#Toy1-get-user-list-get-user-by-name-확인" class="headerlink" title="Toy1. get_user_list, get_user_by_name 확인"></a>Toy1. get_user_list, get_user_by_name 확인</h2><p>API에서 정보를 받기 위해서 자주 사용하는 라이브러리인 requests를 이용한다. <a href="https://www.geeksforgeeks.org/get-post-requests-using-python/">requests 쉽게 사용하기</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line">url = <span class="string">'https://us-central1-contxtsio-267105.cloudfunctions.net/get_user_list'</span></span><br><span class="line">response = requests.post(url)</span><br><span class="line">user_list = response.json()</span><br><span class="line">user_list = user_list[<span class="string">'data'</span>]</span><br></pre></td></tr></table></figure>
 <p>user_list는 아주 잘 나온다. 이제 get_user_by_name을 확인해보자</p>

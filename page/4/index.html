@@ -155,6 +155,346 @@
 <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/05/Ensemble-Model/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Ensemble_Model">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-05T07:19:05.000Z">2019-05-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    18 minutes read (About 2651 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/05/Ensemble-Model/">Ensemble_Model</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h1 id="Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest"><a href="#Ensemble에-대해-자세히-알아보자-Bagging-Bootstrap-그리고-RandomForest" class="headerlink" title="Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)"></a>Ensemble에 대해 자세히 알아보자 (Bagging, Bootstrap, 그리고 RandomForest)</h1><p>앙상블 모델에 대해서 공부하기 전에, 그 배경부터 알아볼 필요가 있다.</p>
+<h3 id="NFL-No-Free-Lunch"><a href="#NFL-No-Free-Lunch" class="headerlink" title="NFL (No Free Lunch)"></a>NFL (No Free Lunch)</h3><p>No Free Lunch 이론은 David H. Wolpert가 정리한 이론으로 모든 문제에 대해 다른 모든 알고리즘을 능가하는 모델은 없다는 이론이다. ‘어떤 특정 정책에 의해 얼핏 보면 이득을 얻는 것 같지만, 그것은 한 측면의 이득일 뿐이고 반드시 이면에 다른 측면이 있고 그 측면에서 손해가 발생한다.’는 것이 핵심이다.</p>
+<p>이 이론에 따라서 혼성모델의 필요성이 대두되었다. 혼성모델이란 여러 알고리즘을 결합하는 모델이다. 이 모델은 특정 문제가 주어진 상황에서 그 문제를 가장 높은 성능으로 풀 수 있는 알고리즘에 대한 필요성에 의해서 제시되었다.</p>
+<h3 id="Resampling"><a href="#Resampling" class="headerlink" title="Resampling"></a>Resampling</h3><p>리샘플링은 데이터가 부족할 때 같은 샘플을 여러번 사용하는 것을 말한다. 성능 통계치의 신뢰도를 높이기 위해 사용된다. Resample을 하는 이유는 다음과 같다.</p>
+<ul>
+<li>실제 상황에서는 만족할 만한 큰 샘플을 얻기가 힘들다.</li>
+<li>Bias-Variance Trade off를 통해 큰 샘플이 중요하다는 것을 알 수 있다.<ul>
+<li>sample의 집합이 커지면 variance가 감소한다!, MSE도 감소한다!</li>
+</ul>
+</li>
+<li>모델의 선택은 별도의 검증이 필요하다.(검증용 데이터, 큰 샘플의 필요성)</li>
+</ul>
+<h3 id="Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”"><a href="#Bootstrap-Statistical-term-for-“roll-n-face-dice-n-times”" class="headerlink" title="Bootstrap, Statistical term for “roll n-face dice n times”"></a>Bootstrap, Statistical term for “roll n-face dice n times”</h3><p>부트스트랩은 Resampling을 이용하여, 분류기의 성능을 측정하는 방법 중 하나이다. 통계에서는 추정치에 대한 검증용(가설 검증)으로 많이 사용된다. 부트스트랩의 장점은 한번도 뽑히지 않은 데이터가 발생한다는 것이다. 이를 통해 데이터를 아낄 수 있게 된다.</p>
+<h3 id="Ensemble"><a href="#Ensemble" class="headerlink" title="Ensemble"></a>Ensemble</h3><p>앙상블 모델은 혼성모델 중 하나이다. 앙상블은 두가지 방식이 존재한다.</p>
+<ul>
+<li>같은 문제에 대해 서로 다른 여러 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
+<li>문제와 유사한 여러 하위 문제들에 대해 하나의 알고리즘이 해를 구하고, 결합 알고리즘이 그들을 결합하여 최종 해를 만드는 방식</li>
+</ul>
+<p>앙상블의 동기는 단순히 통계적, 수학적일 뿐만 아니라, 사람들의 심리 등 여러부분을 관통하는 내용이기도 하다.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">어느 도시에서는 소를 광장에 매어 놓고 참가자들에게 체중을 추정하여 적어 내게 하고 실제 체중에 가장 가까운 사람에게</span><br><span class="line">상품을 주는 대회가 있다고 한다. 수백 명이 참가하는데 그들이 적어낸 숫자들을 평균해 보면 답과 아주 근사하다고 한다.</span><br></pre></td></tr></table></figure></p>
+<p>사람들은 중요한 결정을 할때 여러 사람의 의견을 들어보고 결정하려는 경향이 있고, 이런 경향은, 통계학이 아닌 다른 분야에서도 사용되는 개념이다.</p>
+<blockquote>
+<h4 id="다양성"><a href="#다양성" class="headerlink" title="다양성"></a>다양성</h4><p>앙상블 모델의 핵심은 다양성이다. 앙상블에 참여한 모델이 모두 같은 결과를 낸다면, 그것은 앙상블 모델로써 어떠한 장점도 갖고 있지 않다. 한 분류기가 틀리는 어떤 문제를, 다른 분류기에서는 맞출 수 있어야 앙상블 모델로써 가치가 있을 것이다. </p>
+</blockquote>
+<p>앙상블 분류기 시스템은 앙상블 생성, 앙상블 선택, 앙상블 결합의 단계를 거친다.</p>
+<blockquote>
+<h4 id="앙상블-생성"><a href="#앙상블-생성" class="headerlink" title="앙상블 생성"></a>앙상블 생성</h4><ul>
+<li>Resample을 이용해서 (Bagging, Bootstrap) 샘플 집합들을 생성하고, 분류기를 훈련한다.</li>
+<li>Feature Vector의 subspace를 이용해서 샘플 부분 집합을 생성하고 분류기를 훈련한다.</li>
+<li>앙상블의 분류기는 요소분류기와 기초분류기로 구분된다.</li>
+</ul>
+</blockquote>
+<blockquote>
+<h4 id="앙상블-결합"><a href="#앙상블-결합" class="headerlink" title="앙상블 결합"></a>앙상블 결합</h4><p>요소 분류기(기초 학습기)들의 출력을 결합하여 하나의 분류 결과를 만드는 과정이다.<br>요소 분류기의 출력은 세가지의 방식으로 나뉜다.</p>
+<ul>
+<li>Class Label<ul>
+<li>Majority Vote : class 라벨이 많이 나온 쪽으로 분류한다.</li>
+<li>Weighted Majority Vote : 성능 좋은 분류기에 가중치를 부여한다.(Adaboost)</li>
+<li>Behavior knowledge space(BKS/행위지식공간) : 경험한 케이스를 테이블로 갖고 분류기 결과를 보고 경험적으로 결정한다(테이블에서 찾아서). 다수결 방법의 성능을 고도화 할때 사용됨</li>
+</ul>
+</li>
+<li>Class Ranking <ul>
+<li>Borda 계수</li>
+</ul>
+</li>
+<li>Class Probability<ul>
+<li>Softmax</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h3 id="Bagging-Bootstrap-Aggregating"><a href="#Bagging-Bootstrap-Aggregating" class="headerlink" title="Bagging (Bootstrap + Aggregating)"></a>Bagging (Bootstrap + Aggregating)</h3><p>부트스트랩을 다중 분류기 생성 기법으로 확장한 것이다. 부트스트랩 된 샘플 집합에서 훈련을 하고, 입력 값에 대해 분류기들의 평균값이나, 다수결 투표를 취한다. 샘플링은 복원추출하는 방식으로 하고, 훈련된 분류기의 결과를 모두 종합하기 때문에 Bagging이라고 부른다.</p>
+<ul>
+<li>반복적인 복원 추출 (Bootstrap)</li>
+<li>결과를 모두 종합 (Aggregation)</li>
+</ul>
+<h4 id="Bagging-배깅은-언제-사용할까"><a href="#Bagging-배깅은-언제-사용할까" class="headerlink" title="Bagging, 배깅은 언제 사용할까?"></a>Bagging, 배깅은 언제 사용할까?</h4><p>배깅은 편향이 작고 분산이 높은 모델에 사용하면 효과적이다. </p>
+<ul>
+<li>트리 분류기와 같이 불안정성을 보이는 분류기에 큰 효과를 발휘</li>
+<li>훈련 집합이 달라지면 차이가 큰 트리가 생성 ⇒ 다양성 확보</li>
+<li>Bias를 변화시키지 않고 variance를 감소시킨다.(Bias를 쪼오오오오끔 희생한다.)</li>
+</ul>
+<p>배깅은 분산을 감소시키기 위해, 훈련데이터에서 많은 샘플링을 하고(Bootstrap), 샘플들로 별도의 Decision Tree를 구성한 후, 회귀나 분류문제를 푸는데 사용된다. 회귀는 분류기 결과의 평균값을 사용하고, 분류는 최빈값을 취한다.</p>
+<p>배깅은 이미 저분산 모델인 경우 별로 효과가 없다. Bias-Variance Tradeoff 를조금만 생각해보자. 분산이 이미 줄어있는 상태에서는 더 줄일 분산이 없다. 배깅은 오직 분산을 줄이는 데 효과적이다.</p>
+<h3 id="Out-of-Bag-OOB-Error-Estimation"><a href="#Out-of-Bag-OOB-Error-Estimation" class="headerlink" title="Out-of-Bag (OOB) Error Estimation"></a>Out-of-Bag (OOB) Error Estimation</h3><p>샘플에 대해 Bootstrap을 하게 되면 부트스트랩 샘플은 전체 훈련데이터의 약 63.2%를 차지하게 된다.(왜 그러한가에 답은 $\lim_{n\to\infty} (1-{1\over n})^n$을 풀면 답이 나온다. $1\over e$로 0.378이 나온다. 자세한 내용은 링크를 참조하면 된다. [<a href="https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]">https://www.quora.com/Why-is-the-limit-1-frac-1-n-n-equal-to-frac-1-e]</a>)</p>
+<p>부트스트랩되지 않은 샘플들은 한번도 사용되지 않은 샘플들로 검증데이터에 활용할 수 있다. 이런 training observations은 out-of-bag observations이라고 불린다.</p>
+<h4 id="OOB-estimate-of-test-error"><a href="#OOB-estimate-of-test-error" class="headerlink" title="OOB estimate of test error"></a>OOB estimate of test error</h4><ul>
+<li>부트스트랩 샘플을 이용하여 개별 학습기를 학습한 후, OOB에 속하는 샘플들에 대한 예측값을 모두 구한다.</li>
+<li>OOB의 실제 라벨값과 OOB의 예측값을 이용하여 OOB error를  구한다.</li>
+<li>모든 부트스트랩 샘플 sets에 대하여 위의 과정을 반복하면, 샘플 sets 수 만큼의, errors를 모을 수 있다.</li>
+<li>OOB errors의 평균값을 이용하여 bagging 모델의 최종 테스트 error를 계산한다.</li>
+</ul>
+<h3 id="Weakness-of-Bagging"><a href="#Weakness-of-Bagging" class="headerlink" title="Weakness of Bagging"></a>Weakness of Bagging</h3><p>배깅은 엄청나게 효과적인 것처럼 보이지만 약점이 존재한다. 배깅은 feature를 모두 사용하고, row를 랜덤하게 선택하는 것이다. Decision Tree를 만든다고 해보자, 만약 영향력이 높은, Information Gain이 높은 모델을 사용한다고 했을때, 특정 Feature만 계속 선택되서 트리가 만들어질 가능성이 있다. 즉, 중요한 칼럼들이 트리의 초기 분기때 모든 표본에 그대로 존재하게 된다. 이렇게 되면 만들어진 대다수의 트리들의 결과가 비슷해진다. 이것이 반복되면 트리간의 상관관계가 발생해서 분산 감소의 효과가 줄어들게 된다.<br>(배깅의 약점은 IID condition이다. IID 조건을 만족하는 경우 분산은 $Var={\sigma^2\over n}$이 되지만, IID를 만족하지 못하는 경우, 상관관계가 발생하여 $Corr = p$이라고 할때, $Var = p\sigma^2$가 된다.)</p>
+<p>그래서 혁신적인 아이디어와 함께 등장하게 된 것이 Random Forest이다.</p>
+<h3 id="Random-Forest"><a href="#Random-Forest" class="headerlink" title="Random Forest"></a>Random Forest</h3><p>랜덤 포레스트는 일반적으로 bagging 방법(또는 pasting)을 적용한 결정 트리의 앙상블이다.<br>랜덤 포레스트 알고리즘은 트리의 노드를 분할할 때 전체 특성 중에서 최선의 특성을 찾는 대신 무작위로 선택한 특성 후보 중에서 최적의 특성을 찾는 식으로 무작위성을 더 주입한다. 트리를 더욱 다양하게 생성하고 (트리의 의존성을 낮추고, 다양성을 증가) 편향을 손해 보는 대신 분산을 낮추어 전체적으로 더 훌륭한 모델을 생성한다.</p>
+<p>Random Forest는 쉽게 말해 Tree 모델에 Bagging과 Subsampling기법을 사용한 모델이다.<br>훈련 데이터에서 bootstrap 샘플을 뽑아내고, 노드 분기 시, 모든 Feature가 아니라, 일정 Feature만 사용하는 것이 특징이다. 이를 통해 Tree간의 Correlation을 줄이고, 분산을 감소시킬 수 있다.</p>
+<blockquote>
+<h4 id="Subspace-Sampling"><a href="#Subspace-Sampling" class="headerlink" title="Subspace Sampling"></a>Subspace Sampling</h4><p>샘플링 시에는 일반적으로 전체 변수가 p라고 할 때, $m = \sqrt{p}$를 사용한다.<br>(m = p이면 Bagging이다. 또한 회귀에서는 경험적으로 $m ={p\over3}$를 사용한다.)</p>
+</blockquote>
+<blockquote>
+<h4 id="Random-Forest-모델의-장단점"><a href="#Random-Forest-모델의-장단점" class="headerlink" title="Random Forest 모델의 장단점?"></a>Random Forest 모델의 장단점?</h4><p>장점 : 굉장히 간편하다. 스케일링도 필요없고 파라미터 튜닝을 많이 안해도 성능이 뛰어나다. 의사결정의 트리의와 배깅의 단점은 극복하고 장점만을 가져온 것이라고 할 수 있다.</p>
+</blockquote>
+<p>단점 : 차원이 높고 매우 희소한 데이터에서는 잘 작동하지 않는다. 이런 희소한 데이터에는 선형 모델이 더 적합할 수 있다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-image">
+        <a href="/2019/04/25/Fearuture-Selection-Information-Value/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Fearuture Selection with Information Value">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-25T02:40:50.000Z">2019-04-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Statistics/">Statistics</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 minutes read (About 1145 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/25/Fearuture-Selection-Information-Value/">Fearuture Selection with Information Value</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h1 id="Feature-Selection에-Information-Value를-이용해보자"><a href="#Feature-Selection에-Information-Value를-이용해보자" class="headerlink" title="Feature Selection에 Information Value를 이용해보자."></a>Feature Selection에 Information Value를 이용해보자.</h1><h2 id="Information-Value를-이용한-방법"><a href="#Information-Value를-이용한-방법" class="headerlink" title="Information Value를 이용한 방법"></a>Information Value를 이용한 방법</h2><hr>
+<p>Kaggle이나 데이터 분석을 하다보면 성능을 높이기 위해 여러가지 feature들을 만들어낸다. 그런데 feature를 무조건 많이 만든다고 성능이 올라갈까? 아니다. target에 대한 영향력이 큰 feature들이어야 성능에 영향을 줄 수 있을 것이다. 그렇다면 중요한 건, 만들어낸 feature들을 어떻게 평가할 것인가이다.</p>
+<p>Kaggle에서 Feature Selection 하는 방법들을 보면 gbm모델들의 Feature Importance를 이용하거나 DecisionTree나 RandomForest의 Classifier 객체의 feature_importances_ 메서드를 활용해 Feature Importance를 구해서 비교하는 모습들이 자주 보인다.</p>
+<p>하지만 또 다른 방법으로, Information Value를 이용한 Feature Selection을 소개해보고자 한다.</p>
+<h3 id="1-Information-Value-정보-가치"><a href="#1-Information-Value-정보-가치" class="headerlink" title="1. Information Value (정보 가치)"></a>1. Information Value (정보 가치)</h3><p>모델에서 변수의 사용유무를 판단하는 feature selection에서 유용한 방법이다. 주로 모델을 학습하기전 첫 단계에서 변수들을 제거하는 데 사용한다. 최종 모델에서는 대략 10개 내외의 변수를 사용하도록 한다(여러개 만들어 보고 비교해보는 것이 좋다). IV와 WOE 신용채무능력이 가능한(good) 고객과 불가능한(bad) 고객을 예측하는 로지스틱 회귀 모델링과 밀접한 관계가 있다. 신용 정보 관련분야에서는 good customer는 부채를 갚을 수 있는 고객, bad customer는 부채를 갚을 수 없는 고객을 뜻한다. 일반적으로 이야기할 때는 good customer는 non-events를 의미하고 bad customer는 events를 의미한다.</p>
+<p><code>신용 관련 분야</code></p>
+<p>$${WOE} = ln{\frac{\text{distribution of good}}{\text{distribution of bad}}}$$</p>
+<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of good} - \text{distribution of bad}))}$$</p>
+<p><code>일반적</code></p>
+<p>$${WOE} = ln{\frac{\text{distribution of non-events}}{\text{distribution of events}}}$$</p>
+<p>$${IV} = \sum{(\text{WOE} \times (\text{distribution of non-events} - \text{distribution of events}))}$$</p>
+<ul>
+<li>Information Value 값의 의미</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><center>Information Value</center></th>
+<th style="text-align:center"><center>예측력</center></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><center>0 to 0.02</center></td>
+<td style="text-align:center"><center>무의미</center></td>
+</tr>
+<tr>
+<td style="text-align:center"><center>0.02 to 0.1</center></td>
+<td style="text-align:center"><center>낮은 예측</center></td>
+</tr>
+<tr>
+<td style="text-align:center"><center>0.1 to 0.3</center></td>
+<td style="text-align:center"><center>중간 예측</center></td>
+</tr>
+<tr>
+<td style="text-align:center"><center>0.3 to 0.5</center></td>
+<td style="text-align:center"><center>강한 예측</center></td>
+</tr>
+<tr>
+<td style="text-align:center"><center>0.5 to 1</center></td>
+<td style="text-align:center"><center>너무 강한 예측(의심되는 수치)</center></td>
+</tr>
+</tbody>
+</table>
+<p>Information Value를 통해서 ‘이 feature를 꼭 사용해야하나?’에 대해 어느정도 답을 내릴 수 있다.</p>
+<p>Information Value가 0.5~1.0인 구간을 보면, 강한 예측이지만 의심되는 수치라고 되어있다. 처음보면 이게 무슨 의미인지 잘 이해가 안될 것이다. ‘너무 예측을 잘하는데 수치를 의심하라고?’</p>
+<p>하지만 잘 생각해보자. IV는 WOE를 활용한다. WOE는 good과 bad의 분포를 이용하는데, 데이터가 good으로 쏠려있을 경우 WOE는 무조건 잘 나올 수 밖에 없고, 이에 따라 IV값도 잘 나오게 된다. </p>
+<p>따라서, IV의 값을 볼 때는 데이터가 어떻게 되어있는지 먼저 살펴보는 게 중요하다.</p>
+<h3 id="2-German-Credit-Data-이용해보기"><a href="#2-German-Credit-Data-이용해보기" class="headerlink" title="2. German Credit Data 이용해보기"></a>2. German Credit Data 이용해보기</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">path = <span class="string">'https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data'</span></span><br><span class="line">dataset = pd.read_csv(path, delimiter=<span class="string">' '</span>, header=<span class="keyword">None</span>)</span><br></pre></td></tr></table></figure>
+<p>Column이 제대로 되어있지 않기 때문에 노가다로 넣어준다.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">COL = [</span><br><span class="line">    <span class="string">'Status_of_existing_checking_account'</span>, </span><br><span class="line">    <span class="string">'Duration_in_month'</span>,</span><br><span class="line">    <span class="string">'Credit_history'</span>,</span><br><span class="line">    <span class="string">'Purpose'</span>, </span><br><span class="line">    <span class="string">'Credit_amount'</span>, </span><br><span class="line">    <span class="string">'Savings_account_bonds'</span>, </span><br><span class="line">    <span class="string">'Present_employment_since'</span>, </span><br><span class="line">    <span class="string">'Installment_rate_in_percentage_of_disposable_income'</span>,</span><br><span class="line">    <span class="string">'Personal_status_and_sex'</span>,</span><br><span class="line">    <span class="string">'Other_debtors_guarantors'</span>,</span><br><span class="line">    <span class="string">'Present_residence_since'</span>, </span><br><span class="line">    <span class="string">'Property'</span>, </span><br><span class="line">    <span class="string">'Age_in_years'</span>, </span><br><span class="line">    <span class="string">'Other_installment_plans'</span>, </span><br><span class="line">    <span class="string">'Housing'</span>,</span><br><span class="line">    <span class="string">'Number_of_existing_credits_at_this_bank'</span>,</span><br><span class="line">    <span class="string">'Job'</span>,</span><br><span class="line">    <span class="string">'Number_of_people_being_liable_to_provide_maintenance_for'</span>,</span><br><span class="line">    <span class="string">'Telephone'</span>,</span><br><span class="line">    <span class="string">'foreign_worker'</span>,</span><br><span class="line">    <span class="string">'Target'</span></span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>Target값을 0, 1로 만들어준다.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dataset[<span class="string">'Target'</span>] = dataset[<span class="string">'Target'</span>] - <span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>Information Value를 구하는 코드<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">max_bin = <span class="number">10</span>  <span class="comment"># 전체 데이터의 예측력에 해를 가하지 않는 한에서 구간을 테스트하였습니다. 통상적으로 10개로 나눔, 15개 20개 다 나눠보고</span></span><br><span class="line"><span class="comment"># 값이 잘나오는 bin을 선택함</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">calc_iv</span><span class="params">(df, col, label, max_bin = max_bin)</span>:</span></span><br><span class="line">    <span class="string">"""IV helper function"""</span></span><br><span class="line">    bin_df = df[[col, label]].copy()</span><br><span class="line">    <span class="comment"># Categorical column</span></span><br><span class="line">    <span class="keyword">if</span> bin_df[col].dtype == <span class="string">'object'</span>:</span><br><span class="line">        bin_df = bin_df.groupby(col)[label].agg([<span class="string">'count'</span>, <span class="string">'sum'</span>])</span><br><span class="line">    <span class="comment"># Numerical column</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        bin_df.loc[:, <span class="string">'bins'</span>] = pd.qcut(bin_df[col].rank(method=<span class="string">'first'</span>), max_bin)</span><br><span class="line"><span class="comment">#         bin_df.loc[:, 'bins'] = pd.cut(bin_df[col], max_bin)</span></span><br><span class="line">        bin_df = bin_df.groupby(<span class="string">'bins'</span>)[label].agg([<span class="string">'count'</span>, <span class="string">'sum'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.columns = [<span class="string">'total'</span>, <span class="string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="string">'normal'</span>] = bin_df[<span class="string">'total'</span>] - bin_df[<span class="string">'abuse'</span>]</span><br><span class="line">    bin_df[<span class="string">'normal_dist'</span>] = bin_df[<span class="string">'normal'</span>] / sum(bin_df[<span class="string">'normal'</span>])</span><br><span class="line">    bin_df[<span class="string">'abuse_dist'</span>] = bin_df[<span class="string">'abuse'</span>] / sum(bin_df[<span class="string">'abuse'</span>])</span><br><span class="line">    bin_df[<span class="string">'woe'</span>] = np.log(bin_df[<span class="string">'normal_dist'</span>] / bin_df[<span class="string">'abuse_dist'</span>])</span><br><span class="line">    bin_df[<span class="string">'iv'</span>] = bin_df[<span class="string">'woe'</span>] * (bin_df[<span class="string">'normal_dist'</span>] - bin_df[<span class="string">'abuse_dist'</span>])</span><br><span class="line">    </span><br><span class="line">    bin_df.replace([np.inf, -np.inf], <span class="number">0</span>, inplace=<span class="keyword">True</span>)</span><br><span class="line">    bin_df = bin_df[bin_df[<span class="string">'total'</span>] &gt; <span class="number">0</span>]</span><br><span class="line">    iv_val = sum(filter(<span class="keyword">lambda</span> x: x != float(<span class="string">'inf'</span>), bin_df[<span class="string">'iv'</span>]))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> bin_df, col, iv_val</span><br><span class="line">``` </span><br><span class="line">```python</span><br><span class="line">ch_df, ch, ch_i_val = calc_iv(dataset,<span class="string">'Credit_history'</span>, <span class="string">'Target'</span>)</span><br><span class="line">ch_df</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th>total</th>
+<th style="text-align:center">abuse</th>
+<th>normal</th>
+<th style="text-align:center">normal_dist</th>
+<th>abuse_dist</th>
+<th style="text-align:center">woe</th>
+<th>iv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Credit_history</td>
+<td></td>
+<td style="text-align:center"></td>
+<td></td>
+<td style="text-align:center"></td>
+<td></td>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align:center">A30</td>
+<td>40</td>
+<td style="text-align:center">25</td>
+<td>15</td>
+<td style="text-align:center">0.021429</td>
+<td>0.083333</td>
+<td style="text-align:center">-1.358123</td>
+<td>0.084074</td>
+</tr>
+<tr>
+<td style="text-align:center">A31</td>
+<td>49</td>
+<td style="text-align:center">28</td>
+<td>21</td>
+<td style="text-align:center">0.030000</td>
+<td>0.093333</td>
+<td style="text-align:center">-1.134980</td>
+<td>0.071882</td>
+</tr>
+<tr>
+<td style="text-align:center">A32</td>
+<td>530</td>
+<td style="text-align:center">169</td>
+<td>361</td>
+<td style="text-align:center">0.515714</td>
+<td>0.563333</td>
+<td style="text-align:center">-0.088319</td>
+<td>0.004206</td>
+</tr>
+<tr>
+<td style="text-align:center">A33</td>
+<td>88</td>
+<td style="text-align:center">28</td>
+<td>60</td>
+<td style="text-align:center">0.085714</td>
+<td>0.093333</td>
+<td style="text-align:center">-0.085158</td>
+<td>0.000649</td>
+</tr>
+<tr>
+<td style="text-align:center">A34</td>
+<td>293</td>
+<td style="text-align:center">50</td>
+<td>243</td>
+<td style="text-align:center">0.347143</td>
+<td>0.166667</td>
+<td style="text-align:center">0.733741</td>
+<td>0.132423</td>
+</tr>
+</tbody>
+</table>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-image">
         <a href="/2019/04/17/Elice-Start/" class="image is-7by1">
             <img class="thumbnail" src="/images/elice_banner.png" alt="Elice_Start">
         </a>
@@ -930,206 +1270,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/01/28/oop/" class="image is-7by1">
-            <img class="thumbnail" src="/images/bootcamp.jpg" alt="객체 지향 프로그램에 대해서 알아보자">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-28T12:55:59.000Z">2019-01-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/cs/">cs</a>
-                </div>
-                <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    28 minutes read (About 4150 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/28/oop/">객체 지향 프로그램에 대해서 알아보자</a>
-            
-        </h1>
-        <div class="content">
-            <p>Reference : <a href="https://aisolab.github.io/computer%20science/2018/08/09/CS_Object-oriented-programming/">https://aisolab.github.io/computer%20science/2018/08/09/CS_Object-oriented-programming/</a> [김보섭님 블로그]<br>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/01/28/oop/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/01/19/float/" class="image is-7by1">
-            <img class="thumbnail" src="/images/bootcamp.jpg" alt="Python의 실수형에 대해서 알아보자">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-01-19T04:45:26.000Z">2019-01-19</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/cs/">cs</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/cs/python/">python</a>
-                </div>
-                <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    12 minutes read (About 1740 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/01/19/float/">Python의 실수형에 대해서 알아보자</a>
-            
-        </h1>
-        <div class="content">
-            <a id="more"></a>
-<h1 id="컴퓨터-사이언스-부트캠프-with-Python"><a href="#컴퓨터-사이언스-부트캠프-with-Python" class="headerlink" title="컴퓨터 사이언스 부트캠프 with Python"></a>컴퓨터 사이언스 부트캠프 with Python</h1><h2 id="1-실수-연산의-함정"><a href="#1-실수-연산의-함정" class="headerlink" title="1. 실수 연산의 함정"></a>1. 실수 연산의 함정</h2><p>데이터 사이언스 공부를 하다보면 가끔 머리로 이해되지 않는 것이 생기곤 한다. 그 중 하나가 실수 연산에 대한 것이다.<br>다음 예를 살펴보자</p>
-<p>python(3.6.4)으로 다음과 같이 입력하자.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">0.01</span></span><br><span class="line">result = <span class="number">0.0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">	result += a </span><br><span class="line">result</span><br></pre></td></tr></table></figure>
-<p>result는 값이 어떻게 나오게 될까?<br>위의 코드는 쉽게 말하자면 0.01을 100번 더한 것과 다를 게 없다.<br>그렇다면 답은 1일 것이다. 하지만<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>result </span><br><span class="line"><span class="number">1.0000000000000007</span></span><br></pre></td></tr></table></figure></p>
-<p>답은 1이 아니다. 만약 내가 조건문을 이용해서<br><code>1==result</code> 판단을 내렸다면 결과는 False로 나올 것이다. </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">0.015625</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">100</span>):</span><br><span class="line">	result += a</span><br><span class="line">result</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;<span class="number">1.5625</span></span><br></pre></td></tr></table></figure>
-<p>그런데 이번 경우에는 생각과 같이 1.5625라는 결과가 나온다. 왜 갑자기 오차 하나 없이 깔끔하게 값이 나오는 것일까?<br>왜 이런 일이 발생하는 것일까?</p>
-<h2 id="2-부동소수점"><a href="#2-부동소수점" class="headerlink" title="2. 부동소수점"></a>2. 부동소수점</h2><p>이 현상에 대해 이해하기 위해 부동소수점에 대해서 이해를 해야한다.</p>
-<p>부동소수점에서 ‘부’는 부유한다는 말, 즉 떠다닌다는 말이다. 123.456을 다르게 표현해 보는 경우를 생각해보자<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">123.456</span> = <span class="number">1.23456</span> * <span class="number">10</span>^<span class="number">2</span></span><br><span class="line"><span class="number">123.456</span> = <span class="number">12.3456</span> * <span class="number">10</span> </span><br><span class="line">........</span><br></pre></td></tr></table></figure></p>
-<p>위의 예시 말고도 다양한 방식이 있다. 소숫점이 둥둥 떠다니는 것 같이 움직인다. 그래서 이러한 실수 표현 방식을 부동소수점이라고 부른다.</p>
-<h2 id="3-단정도와-배정도"><a href="#3-단정도와-배정도" class="headerlink" title="3. 단정도와 배정도"></a>3. 단정도와 배정도</h2><p>단정도(single-precision)는 실수를 32비트로 표현하며 부호 1비트, 지수부 8비트, 가수부 23비트로 구성되어 있다.<br>배정도(double-precision)는 실수를 64비트로 표현하며 부호 1비트, 지수부 11비트, 가수부 52비트로 구성되어 있다.<br>배정도가 단정도보다 두 배 정도의 비트 수가 많은데, 비트 수가 많은 만큼 정밀도가 높다고 할 수 있겠다. <strong>파이썬은 배정도를 사용한다.</strong></p>
-<h2 id="4-1바이트-실수-자료형-설계하기"><a href="#4-1바이트-실수-자료형-설계하기" class="headerlink" title="4. 1바이트 실수 자료형 설계하기"></a>4. 1바이트 실수 자료형 설계하기</h2><p>$$\pm 1.man \times 2^{(exp-bias)}$$</p>
-<p>위의 수식은 실수 자료형을 표현한 수식이다. </p>
-<p>1.man은 가수, 2는 밑수, exp-bias는 지수를 의미한다.</p>
-<p>이 식을 이용해 7.75라는 10진수 실수를 1바이트 부동소수점으로 표현해보자.</p>
-<h4 id="4-1-10진수-실수를-2진수-실수로-바꾸기"><a href="#4-1-10진수-실수를-2진수-실수로-바꾸기" class="headerlink" title="4.1 10진수 실수를 2진수 실수로 바꾸기"></a>4.1 10진수 실수를 2진수 실수로 바꾸기</h4><p>$$7.75 = 4 + 2 +1 +0.5 + 0.25 $$<br>$$= 2^2 + 2^1 + 2^0 + 2^{-1} + 2^{-2}$$<br>$$=111.11$$<br>2진수로 바꾸면 111.11이란 값이 나온다.</p>
-<h4 id="4-2-정규화"><a href="#4-2-정규화" class="headerlink" title="4.2 정규화"></a>4.2 정규화</h4><p>아 숫자를 정규화 해보자. 정규화란, 소수점 왼쪽에 위치한 가수 부분을 밑수보다 작은 자연수가 되도록 만드는 것이다.<br>111.11을 정규화 하면 다음과 같다.</p>
-<p>$$ 111.11 = 1.1111 \times 2^2$$</p>
-<h4 id="4-3-메모리-구조"><a href="#4-3-메모리-구조" class="headerlink" title="4.3 메모리 구조"></a>4.3 메모리 구조</h4><p>정규화된 부동소수점 $1.111 \times 2^2$를 앞의 수식과 비교해 보면<br>man은 1111이고 exp-bias는 2이다.<br>이제 메모리 구조를 정하고 man과 exp값만 저장하면 설계가 끝난다.<br>이때 지수부와 가수부에 할당하는 비트 수에 따라 표현 범위와 정밀도가 결정된다.</p>
-<p>1바이트 부동소수점 구조는 다음과 같다.<br>$$ 0 \ 0000 \ 000 \ [부호(sign) \ 지수부(exp) \ 가수부에서 \ man에 \ 해당되는 \ 부분] $$</p>
-<ul>
-<li>첫번째 비트 : 부호 0은 양수, 1은 음수</li>
-<li>가운데 4비트 : 지수부에 해당하며 exp 값이다. <ul>
-<li>0~15의 양수를 표현할 수 있다</li>
-<li>$bias = 2^{지수의 비트수} -1$</li>
-</ul>
-</li>
-<li>맨 뒤 3비트 :  가수부로 man 값을 저장함 </li>
-</ul>
-<p>$1.1111 \times 2^2$를 1바이트의 메모리 구조로 변경해 보자. </p>
-<ul>
-<li>부호비트는 0이다.</li>
-<li>$exp-bias$는 2이다. $bias$값이 7이므로 $exp$는 9가 된다.이것을 이진수로 나타내면 $1001_{(2)}$가 된다.</li>
-<li>가수부에 할당된 비트는 3비트이다. 1111을 3비트에 넣을때는 뒷자리 1을 생략한다. 가수부는 111이다.<br>$$ 0 \ 1001 \ 111 = 0100 \ 1111 $$<br>이것을 16진수로 나타내면 0x4f가 된다.<br><strong>정리하자면 10진수 7.75를 $ 0100 \ 1111 $로 나타낼 수 있고 이것을 다시 16진수로 나타내면 0x4f이다.</strong></li>
-</ul>
-<h4 id="4-4-1바이트-부동소수점의-표현-범위"><a href="#4-4-1바이트-부동소수점의-표현-범위" class="headerlink" title="4.4 1바이트 부동소수점의 표현 범위"></a>4.4 1바이트 부동소수점의 표현 범위</h4><ul>
-<li>표현할 수 있는 가장 작은 수(지수부0001)<ul>
-<li>$1.0000 \times = 0.0156256$</li>
-</ul>
-</li>
-<li>표현할 수 있는 가장 큰 수(지수부 1110)<ul>
-<li>$1.111 \times = 240$</li>
-</ul>
-</li>
-</ul>
-<p>단, 지수부 비트가 모두 0일때와 모두 1일때는 0.0, 정규화 불가능, 무한대, NaN 같은 특별한 상황이므로 제외한다.</p>
-<h4 id="4-5-1바이트-부동소수점의-정밀도"><a href="#4-5-1바이트-부동소수점의-정밀도" class="headerlink" title="4.5 1바이트 부동소수점의 정밀도"></a>4.5 1바이트 부동소수점의 정밀도</h4><p>7.75를 변환하는 과정에서 3비트의 가수부데이터에 1을 누락해 가면서 가수부 공간에 담았던 것을 기억할 것이다.<br>1을 누락하게 되면 0x4f는 7.75를 완벽하게 표현하지 못하게 된다.<br>$$1.111 \times 2^2 = 1 \times 2^2 + 1 \times 2^1 + 1 \times 2^{-1} = 7.5$$<br>여기서 0.25만큼 차이가 나게되고, 그만큼 정밀도도 떨어지게 된다.</p>
-<h2 id="5-정밀도에-대한-고찰"><a href="#5-정밀도에-대한-고찰" class="headerlink" title="5. 정밀도에 대한 고찰"></a>5. 정밀도에 대한 고찰</h2><h4 id="5-1-엡실론"><a href="#5-1-엡실론" class="headerlink" title="5.1 엡실론"></a>5.1 엡실론</h4><p>실수 자료형에서 엡실론이란 1.0과 그 다음으로 표현 가능한 수 사이의 차이를 말한다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">sys.float_info.epsilion</span><br></pre></td></tr></table></figure>
-<p>위 코드로 엡실론 값을 확인해 보자.<br>배정도의 가수부는 52비트인 것을 기억할 것이다. 1.0을 배정도에 맞춰 표현하면<br>$1.0000 ….. 0000(0:52개) \times 2^0$<br>배정도에서 1.0다음으로 표현할 수 있는 수는<br>$1.0000 ….. 0000(0:51개) \times 2^0$<br>두 수의 차이는<br>$1.0000 ….. 0000(0:51개) \times 2^0$<br>이 숫자를 10진수로 바꾸면 엡실론 값이 등장한다.<br>$2.220446049250313 \times 10^{-16}$</p>
-<h4 id="5-2-엡실론과-정밀도"><a href="#5-2-엡실론과-정밀도" class="headerlink" title="5.2 엡실론과 정밀도"></a>5.2 엡실론과 정밀도</h4><p>엡실론을 이용하면 해당 실수 다음에 표현할 수 있는 수를 알아낼 수 있다.<br>9.25라는 수를 부동소수점 방식으로 표현하면 $1.00101 \times 2^3$이다.<br>여기서 지수부분만 떼서 엡실론을 구하면 이 실수와 다음 표현 가능한 수 사이의 차이를 구할 수 있다.<br>코드로 살펴보면,</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line">ep = sys.float_info.epsilion</span><br><span class="line">a= <span class="number">9.25</span></span><br><span class="line">diff = (<span class="number">2</span>**<span class="number">3</span>)*ep</span><br><span class="line">diff</span><br><span class="line">&gt;&gt;<span class="number">1.7763568394002504e-15</span></span><br><span class="line">b = a + diff</span><br><span class="line">b</span><br><span class="line">&gt;&gt;&gt;<span class="number">9.250000000000002</span></span><br></pre></td></tr></table></figure>
-<p>0.000000000000002만큼 차이가 난다.</p>
-<p>그렇다면 9.25에 diff보다 작은 값을 더하면 어떻게 될까?<br>추측으로는 9.25가 나올 것 같다.<br>확인해보자</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">9.25</span></span><br><span class="line">half_diff = diff/<span class="number">2</span></span><br><span class="line">c = a + half_diff</span><br><span class="line">a == c</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-<p>추측과 같이 half_diff를 더하더라도 값의 변화가 없다.<br><strong>diff보다 작은 값을 더한 수를 부동소수점 방식에서는 표현할 수 없다는 말이다.</strong><br>다르게 말하자면 정밀도가 떨어진다는 말이다.</p>
-<p>다음의 내용은 <code>혼자서하는 괴발개발 블로그</code> <a href="https://aisolab.github.io/computer%20science/2018/08/07/CS_Real-number">https://aisolab.github.io/computer%20science/2018/08/07/CS_Real-number</a> 에서 가져온 글이다.<br>다음의 방법을 이용하면 상대오차(relative error) 가 엡실론보다 작으면 서로 같은 수라고 판단하는 function을 만듦으로써 위와 같은 문제를 해결할 수 있다.</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">0.1</span> * <span class="number">3</span></span><br><span class="line">b = <span class="number">0.3</span></span><br><span class="line"></span><br><span class="line">print(a == b)</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">False</span></span><br></pre></td></tr></table></figure>
-<p>$$relative \ error = {\left\vert x - y\right\vert \over \max(\left\vert x \right\vert , \left\vert y \right\vert)}$$</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">is_equal</span><span class="params">(a, b)</span>:</span></span><br><span class="line">	ep = sys.float_info.epsilon</span><br><span class="line">	<span class="keyword">return</span> abs(a - b) &lt;= max(abs(a), abs(b)) * ep</span><br><span class="line"></span><br><span class="line">a = <span class="number">.1</span> * <span class="number">3</span></span><br><span class="line">b = <span class="number">.3</span></span><br><span class="line"></span><br><span class="line">print(is_equal(a,b))</span><br></pre></td></tr></table></figure>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">True</span></span><br></pre></td></tr></table></figure>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1200,7 +1340,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            41
+                            43
                         </p>
                     </a>
                 </div>
@@ -1569,6 +1709,44 @@
         
         <article class="media">
             
+            <a href="/2020/07/18/retrospect2020/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/retrospect.jpeg" alt="2020년 상반기를 보내면서, 회고하기">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-18T01:28:40.000Z">2020-07-18</time></div>
+                    <a href="/2020/07/18/retrospect2020/" class="title has-link-black-ter is-size-6 has-text-weight-normal">2020년 상반기를 보내면서, 회고하기</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/03/docker/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://www.arcticseatours.is/media/1804/humpback-whale-brach-sea-iceland.jpg?anchor=center&amp;mode=crop&amp;width=1920&amp;height=720&amp;rnd=132260572960000000" alt="인프라의 기초, Docker에 대해서 알아보자">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-03T00:18:28.000Z">2020-07-03</time></div>
+                    <a href="/2020/07/03/docker/" class="title has-link-black-ter is-size-6 has-text-weight-normal">인프라의 기초, Docker에 대해서 알아보자</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/06/07/virtualization/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://www.business.com/images/content/5ca/3cc135a215e8a458b5050/1500-0-" alt="클라우드 서비스의 기초. Virtualization, 가상화에 대해서">
@@ -1624,44 +1802,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/05/10/trouble-shooting_studio3t/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://webassets.mongodb.com/_com_assets/cms/studio3tthe_ide_for_mongodbleft_2-cymbw49vsx.png" alt="Studio3T trouble shooting">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-10T08:05:18.000Z">2020-05-10</time></div>
-                    <a href="/2020/05/10/trouble-shooting_studio3t/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Studio3T trouble shooting</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/trouble-shooting/">trouble shooting</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/17/first/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="first">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-17T06:33:54.000Z">2020-04-17</time></div>
-                    <a href="/2020/04/17/first/" class="title has-link-black-ter is-size-6 has-text-weight-normal">first</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1672,6 +1812,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">July 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2020/06/">
