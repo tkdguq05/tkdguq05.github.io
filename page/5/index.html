@@ -155,6 +155,130 @@
 <div class="card">
     
     <div class="card-image">
+        <a href="/2019/02/25/Programmers/" class="image is-7by1">
+            <img class="thumbnail" src="/images/programmers.jpeg" alt="Programmers 124 나라의 숫자를 풀어보자">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-02-25T07:09:55.000Z">2019-02-25</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 minutes read (About 458 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/02/25/Programmers/">Programmers 124 나라의 숫자를 풀어보자</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h2 id="프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-124-나라를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 124 나라를 풀어봤다</h2><h4 id="124-나라"><a href="#124-나라" class="headerlink" title="124 나라"></a>124 나라</h4><p>참고[<a href="https://thisisablog.tistory.com/14]">https://thisisablog.tistory.com/14]</a><br>124 나라가 있습니다. 124 나라에서는 10진법이 아닌 다음과 같은 자신들만의 규칙으로 수를 표현합니다.</p>
+<p>124 나라에는 자연수만 존재합니다.<br>124 나라에는 모든 수를 표현할 때 1, 2, 4만 사용합니다.<br>예를 들어서 124 나라에서 사용하는 숫자는 다음과 같이 변환됩니다.</p>
+<table>
+<thead>
+<tr>
+<th>10진법</th>
+<th>124 나라</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4    </td>
+</tr>
+<tr>
+<td>4</td>
+<td>11</td>
+</tr>
+<tr>
+<td>5</td>
+<td>12</td>
+</tr>
+<tr>
+<td>6</td>
+<td>14</td>
+</tr>
+<tr>
+<td>7</td>
+<td>21</td>
+</tr>
+<tr>
+<td>8</td>
+<td>22</td>
+</tr>
+<tr>
+<td>9</td>
+<td>24</td>
+</tr>
+<tr>
+<td>10</td>
+<td>41</td>
+</tr>
+</tbody>
+</table>
+<p>자연수 n이 매개변수로 주어질 때, n을 124 나라에서 사용하는 숫자로 바꾼 값을 return 하도록 solution 함수를 완성해 주세요.</p>
+<hr>
+<p>문제를 보고 패턴을 찾아야겠다는 생각부터 했다.<br>3의 배수로 끊어지고, 끝자리가 1, 2, 4로 반복된다는 것을 파악했다.</p>
+<p>끝자리는 그럼 1,2,4를 돌려주는 것으로 끝낼 수 있는데, 이제 앞자리가 문제가 된다.<br>앞자리 패턴을 찾기 위해서 문제 표에는 10까지만 나와있지만, 21까지 구해봤다.<br>21까지 쭉 따라 쓰다보니, 앞자리 역시 1,2,4가 반복되고 있다는 것을 파악했다.<br>맨 뒷자리 1,2,4가 끝나면 그 다음 자리 index가 하나 올라가고 그 앞의자리도 마찬가지였다.</p>
+<p>그렇다면, 뒤에서부터 자리 수를 채워주는 게 낫다고 생각했고<br>다 채워준 다음에 뒤집어 버리는 방식을 택했다.<br>그래서<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure></p>
+<p>을 이용해 줬고 코드는 다음과 같이 작성했다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> n&lt;<span class="number">3</span>:</span><br><span class="line">    	<span class="keyword">return</span> n</span><br><span class="line">    <span class="keyword">elif</span> n==<span class="number">3</span>:</span><br><span class="line">    	<span class="keyword">return</span> <span class="number">4</span></span><br><span class="line">    result=<span class="string">''</span></span><br><span class="line">    index=[<span class="string">'4'</span>,<span class="string">'1'</span>,<span class="string">'2'</span>]</span><br><span class="line">    rem=<span class="number">0</span></span><br><span class="line">    quo=<span class="number">0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> n&gt;<span class="number">3</span>:</span><br><span class="line">        rem=n%<span class="number">3</span></span><br><span class="line">        quo=n//<span class="number">3</span></span><br><span class="line">        print(rem,quo)</span><br><span class="line">        result+=index[rem]</span><br><span class="line">        print(<span class="string">'res = '</span>,result)</span><br><span class="line">        <span class="keyword">if</span> rem==<span class="number">0</span>: quo-=<span class="number">1</span></span><br><span class="line">        n=quo</span><br><span class="line">        print(<span class="string">'n=&#123;&#125;, rem=&#123;&#125;, result=&#123;&#125;'</span>.format(n, rem, result))</span><br><span class="line">    </span><br><span class="line">    result+=str(n)</span><br><span class="line">    result=result.replace(<span class="string">'3'</span>,<span class="string">'4'</span>)</span><br><span class="line">    <span class="keyword">return</span> result[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-image">
         <a href="/2019/01/28/class/" class="image is-7by1">
             <img class="thumbnail" src="/images/bootcamp.jpg" alt="클래스에 대해서 알아보자">
         </a>
@@ -645,7 +769,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            44
+                            45
                         </p>
                     </a>
                 </div>
@@ -1033,6 +1157,25 @@
         
         <article class="media">
             
+            <a href="/2020/07/30/k8s-genesis/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://ih1.redbubble.net/image.695760900.7339/st,small,845x845-pad,1000x1000,f8f8f8.jpg" alt="Kubernetes Beginning">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-30T00:35:47.000Z">2020-07-30</time></div>
+                    <a href="/2020/07/30/k8s-genesis/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Kubernetes Beginning</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/18/retrospect2020/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/retrospect.jpeg" alt="2020년 상반기를 보내면서, 회고하기">
@@ -1088,25 +1231,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/05/19/google-task/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://miro.medium.com/max/3648/1*BFZ7ctPf7fABMDcG6FbZMg.png" alt="Google Cloud Platform - Task">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-05-19T00:13:46.000Z">2020-05-19</time></div>
-                    <a href="/2020/05/19/google-task/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Google Cloud Platform - Task</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/engineering/">engineering</a> / <a class="has-link-grey -link" href="/categories/engineering/GCP/">GCP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1135,7 +1259,7 @@
                     <span class="level-item">July 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">2</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
