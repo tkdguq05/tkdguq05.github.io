@@ -8,8 +8,8 @@
     </url>
 
     <url>
-        <loc>http://tkdguq05.github.io/2021/03/07/apriori-FP/</loc>
-        <lastmod>2021-03-08T00:03:19.370Z</lastmod>
+        <loc>http://tkdguq05.github.io/2021/04/04/airflow-clusterization/</loc>
+        <lastmod>2021-04-04T07:13:15.979Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -17,7 +17,15 @@
 
     <url>
         <loc>http://tkdguq05.github.io/2021/02/21/airflow-basic2/</loc>
-        <lastmod>2021-03-07T09:30:31.482Z</lastmod>
+        <lastmod>2021-04-04T07:10:40.925Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2021/03/07/apriori-FP/</loc>
+        <lastmod>2021-03-08T00:03:19.370Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
