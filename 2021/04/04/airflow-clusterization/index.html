@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://cwiki.apache.org/confluence/download/attachments/145723561/wordmark_1.png?api=v2">
 <meta property="article:published_time" content="2021-04-04T06:23:20.000Z">
-<meta property="article:modified_time" content="2021-04-04T07:13:15.979Z">
+<meta property="article:modified_time" content="2021-04-08T02:21:01.644Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="airflow">
 <meta name="twitter:card" content="summary">
@@ -195,7 +195,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    39 minutes read (About 5782 words)
+                    39 minutes read (About 5804 words)
                 </span>
                 
                 
@@ -236,7 +236,7 @@
 <h3 id="Redis-설정"><a href="#Redis-설정" class="headerlink" title="Redis 설정"></a>Redis 설정</h3><p>레디스 설정은 다행히 저번 글에 나와 있는 것과 똑같습니다. 그대로 따라하시면 됩니다.<br><br></br></p>
 <h3 id="Airflow-설치"><a href="#Airflow-설치" class="headerlink" title="Airflow 설치"></a>Airflow 설치</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update -y</span><br><span class="line"></span><br><span class="line">sudo yum install group <span class="string">"Development tools"</span> -y</span><br><span class="line"></span><br><span class="line">sudo yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel python3-devel.x86_64 cyrus-sasl-devel.x86_64 -y</span><br><span class="line"></span><br><span class="line">sudo yum install libevent-devel -y</span><br><span class="line"></span><br><span class="line">sudo pip3 install apache-airflow==1.10.14</span><br><span class="line"></span><br><span class="line">airflow version <span class="comment">#버전이 뜬다면 성공!</span></span><br></pre></td></tr></table></figure>
 
-<p>설치가 되었으면 <code>airflow initdb</code>  <code>airflow webserver</code>를 사용해서 airflow가 뜨는지 확인해 봅니다.</p>
+<p>설치가 되었으면 <code>airflow initdb</code> ,  <code>airflow webserver</code>를 사용해서 airflow가 뜨는지 확인해 봅니다.</p>
 <p>에러가 발생한다구요? 그렇다면 아래 Trouble Shooting 부분을 참고해보세요. (sqlalchemy version 조정) <sup><a href="#footnote_2">2</a></sup>  </p>
 <hr>
 <p><br></br></p>
@@ -357,9 +357,9 @@
 <p><code>docker build -t 이미지명 .</code></p>
 </li>
 <li><p>빌드가 완료되면 이미지에 태그를 지정하여 이 리포지토리에 푸시할 수 있습니다.</p>
-<p><code>docker tag 이미지명 *****/이미지명:tag</code></p>
+<p><code>docker tag 이미지명:tag 리포지토리주소/이미지명:tag</code></p>
 </li>
-<li><p>다음 명령을 실행하여 이 이미지를 새로 생성한 AWS 리포지토리로 푸시합니다.</p>
+<li><p>다음 명령을 실행하여 이 이미지를 새로 생성한 AWS 리포지토리로 푸시합니다.<br><code>docker push 리포지토리주소/이미지명:tag</code></p>
 </li>
 </ol>
 <p>위에 있는 것들은 ECR의 푸시 명령에 있는 것들이기 때문에 해당 페이지에 있는 코드를 복사해서 넣으시면 됩니다.</p>
