@@ -8,11 +8,11 @@
     <atom:link href="/rss2.xml" rel="self" type="application/rss+xml"/>
     
     <description></description>
-    <pubDate>Thu, 08 Apr 2021 02:21:01 GMT</pubDate>
+    <pubDate>Thu, 08 Apr 2021 07:32:41 GMT</pubDate>
     <generator>http://hexo.io/</generator>
     
     <item>
-      <title>Airflow Worker 분리하기</title>
+      <title>Airflow Clusterization</title>
       <link>http://tkdguq05.github.io/2021/04/04/airflow-clusterization/</link>
       <guid>http://tkdguq05.github.io/2021/04/04/airflow-clusterization/</guid>
       <pubDate>Sun, 04 Apr 2021 06:23:20 GMT</pubDate>
