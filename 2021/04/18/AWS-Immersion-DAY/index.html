@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://miro.medium.com/max/3840/1*62WJpBzEdlsjlc2TtjFf3g.jpeg">
 <meta property="article:published_time" content="2021-04-18T06:21:36.000Z">
-<meta property="article:modified_time" content="2021-04-18T08:32:38.160Z">
+<meta property="article:modified_time" content="2021-04-18T08:34:38.250Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="AWS">
 <meta name="twitter:card" content="summary">
@@ -254,6 +254,7 @@
 </li>
 <li>Personalize를 사용해 추천 데이터 생성하기</li>
 </ol>
+<p><br></br></p>
 <p>Cloud Formation을 활용해서 위 그림과 같은 환경을 만들어 주게 됩니다. 일일이 세팅해서 환경 구성을 하려면 시간이 너무 들게 되니까 빠르게 환경을 구축해줍니다. </p>
 <p>Cloud Formation을 활용해 구성한 항목은 위 그림에서 S3기준 왼쪽 부분이라고 할 수 있겠습니다. 망 설정과 webserver, 그리고 RDS입니다. </p>
 <p>S3를 만들어 줄 것인데 S3는 여기서 Data Lake로 활용됩니다. Data Lake는 대규모 데이터를 기본 형식으로 저장하고 있는 Storage로 그럴싸해보이지만 제가 보기에는 데이터를 다 때려넣는 곳이라는 생각이 듭니다. 다른 의견이 있으신 분은 댓글 남겨주세요. 아무튼 S3를 만들어 주고 Glue를 사용해보겠습니다. </p>
@@ -327,6 +328,7 @@
 <h4 id="ETL-파이프라인이-제대로-구성되지-않은-것-같습니다"><a href="#ETL-파이프라인이-제대로-구성되지-않은-것-같습니다" class="headerlink" title="ETL 파이프라인이 제대로 구성되지 않은 것 같습니다."></a>ETL 파이프라인이 제대로 구성되지 않은 것 같습니다.</h4><p>이 실습에서는 E, T, L이 명확하게 나뉘어져 있다는 것이 느껴지는데, 이 실습을 하고 회사 서비스를 돌아보니 어디부터 어디까지가 ETL인지 구분이 잘 되지 않았습니다. Transform을 하긴 하는데 Load를 안하는 것 같고… Transform이 제대로 되고 있는 건지… 뭐 이런 생각을 하게 되었습니다. 하지만 Glue를 사용한다고 생각하고 구성을 생각해봤을 때, 크게 어려울 것 같지 않았습니다. Glue를 간단히 살펴보긴 했지만, ETL프로세스이고 Transform은 거의 Pyspark로 돌아가고 있었습니다. Pyspark로 이미 추천 데이터를 생성하고 있기에 파이프라인을 정리해주면 금방 적용할 수 있지 않을까 생각해봤습니다. 어디서 끌어오고, 적재할지를 잘 정하는 게 중요할 것입니다. 그렇다면 DB를 잘 알아야 하는데, 이렇게 공부 포인트가 늘어났습니다! 하하</p>
 <h4 id="Transform한-데이터는-어디"><a href="#Transform한-데이터는-어디" class="headerlink" title="Transform한 데이터는 어디?"></a>Transform한 데이터는 어디?</h4><p>큰 문제점 중에 하나라고 생각하는데, 현재 비용 효율적인 아키텍쳐를 지향하고 있기 때문에 EMR을 상시 구동하고 있지 않습니다.      생성한 추천 데이터는 DB에 넣고 있지만, 전처리한 데이터는 여지없이 삭제되고 맙니다. 실습을 진행하고 생각해보니 이 데이터가 너무 아깝다는 생각을 하게 되었습니다. 만약 전처리한 데이터가 남아있다면 다른 서비스에 적용을 해볼 수 있지 않을까 생각이 들었습니다. 추천에 사용되는 데이터가 어떻게 보면 구매나, 클릭, View에 대한 패턴 분석된 데이터인데, 이것을 고객사 레포팅이나 기타 분석 시스템에 활용할 여지가 많을 것 같았습니다. </p>
 <p><br></br></p>
+<hr>
 <h2 id="Kaizen"><a href="#Kaizen" class="headerlink" title="Kaizen!"></a>Kaizen!</h2><p>그러면 어떻게 개선할 수 있을까요? TA님이나 팀장님과 의논을 같이 하면서 구체화해야겠지만 우선 생각나는 개선점은 다음과 같습니다. </p>
 <ol>
 <li>Extract하는 데이터 포인트를 변경</li>
