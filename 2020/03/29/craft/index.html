@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://pythonawesome.com/content/images/2019/06/CRAFT.jpg">
 <meta property="article:published_time" content="2020-03-29T11:20:22.000Z">
-<meta property="article:modified_time" content="2020-04-12T08:14:33.015Z">
+<meta property="article:modified_time" content="2021-05-07T07:06:18.446Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="vision">
 <meta property="article:tag" content="paper">
@@ -196,7 +196,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    15 minutes read (About 2285 words)
+                    15 minutes read (About 2272 words)
                 </span>
                 
                 
@@ -223,12 +223,13 @@
 <h2 id="2-Related-Work"><a href="#2-Related-Work" class="headerlink" title="2. Related Work"></a>2. Related Work</h2><p>생략</p>
 <h2 id="3-Methodology"><a href="#3-Methodology" class="headerlink" title="3. Methodology"></a>3. Methodology</h2><p>CRAFT의 주 목표는 일반 이미지에 있는 각 글자들을 정확하게 포착하는 것이다. 이를 위해 딥러닝을 학습시켜서 글자의 위치와 글자들 간의 affinity(글자 옆에 글자가 있는 것 정도로 해석)를 예측한다. 데이터를 학습시킬 때, 이와 관련된 데이터 셋, 즉 글자 하나하나 학습시키는 데이터가 없으므로, 이 모델은 약한 지도학습 방법으로 학습된다. </p>
 <h3 id="3-1-Architecture"><a href="#3-1-Architecture" class="headerlink" title="3.1 Architecture"></a>3.1 Architecture</h3><p>VGG-16에 Batch Normalization이 적용된 네트워크를 backbone 모델로 사용했다. 이 모델에는 디코딩 파트에 <code>skip-connection</code>이 있는데 이것은 U-Net과 비슷한 구조로 Low-level의 feature들을 취합한다. 최종 아웃풋에는 score map에 해당하는 두 개의 채널이 있고, 여기에서 위에서 말한 $region$ $score$과 $affinity$ $score$이 나오게 된다.</p>
-<p><img src="https://media.arxiv-vanity.com/render-output/2142906/x2.png" alt="Schematic illustration of Network"></p>
+<img src="https://media.arxiv-vanity.com/render-output/4560540/x2.png" alt="Schematic illustration of Network" style="zoom:80%;" />
+
 <h3 id="3-2-Training"><a href="#3-2-Training" class="headerlink" title="3.2 Training"></a>3.2 Training</h3><h4 id="3-2-1-Ground-Truth-Label-Generation"><a href="#3-2-1-Ground-Truth-Label-Generation" class="headerlink" title="3.2.1 Ground Truth Label Generation"></a>3.2.1 Ground Truth Label Generation</h4><p>Training Image를 위해서 $region$ $score$과 $affinity$ $score$에 대한 ground thruth 라벨을 생성해야 한다. 이 라벨은 글자 단위의 박스를 이용해 만든다. $region$ $score$은 주어진 픽셀이 글자의 중앙에 있을 확률이고, $affinity$ $score$는 인접한 글자들의 공간의 가운데에 있을 확률이다. 이 가운데에 있을 확률을 가우시안 히트맵으로 인코딩한다. 왜냐하면 ground truth 지역이 엄격하게 경계쳐져 있지 않기 때문이다. 이 히트맵은 $region$ $score$과 $affinity$ $score$ 모두에 사용된다.</p>
-<p><img src="https://media.arxiv-vanity.com/render-output/2142906/x3.png" alt="Ground Truth 생성 과정"></p>
+<p><img src="https://media.arxiv-vanity.com/render-output/4560540/x4.png" alt="Ground Truth 생성 과정"></p>
 <p>제안된 ground truth는 receptive field의 크기가 작은걸 사용함에도 불구하고, 모델이 크거나 또는 긴 텍스트를 찾아내는 것을 가능케 한다.</p>
 <h4 id="3-2-2-Weakly-Supervised-Learning"><a href="#3-2-2-Weakly-Supervised-Learning" class="headerlink" title="3.2.2 Weakly-Supervised Learning"></a>3.2.2 Weakly-Supervised Learning</h4><p>학습에 사용되는 데이터는 단어 단위의 annotation을 가지고 있다. weakly-supervised learning을 사용해서 실제 이미지에 단어 단위의 annotation이 들어오면, 이미지에 글자 부분을 crop하고, 학습된 모델이 이미지에 있는 글자 지역을 예측해 글자 단위의 bounding-box를 만든다. </p>
-<p><img src="https://media.arxiv-vanity.com/render-output/2142906/x4.png" alt="Weakly-Supervised Learning"></p>
+<p><img src="https://media.arxiv-vanity.com/render-output/4560540/x6.png" alt="Weakly-Supervised Learning"></p>
 <p>위의 사진에서 그 구조를 파악할 수 있다.  </p>
 <ol>
 <li>먼저 단어 단위의 이미지들이 crop된다.   </li>
