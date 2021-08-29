@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://airflow.readthedocs.io/en/1.10.6/_images/graphviz-a401e86cce11bfcda64a051edda547edccaaa423.png">
 <meta property="article:published_time" content="2021-08-28T02:27:55.000Z">
-<meta property="article:modified_time" content="2021-08-29T09:29:23.543Z">
+<meta property="article:modified_time" content="2021-08-29T09:30:37.883Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="airflow">
 <meta property="article:tag" content="ECS">
@@ -211,8 +211,16 @@
         <div class="content">
             <p>Airflow 워커를 ECS에 띄워서 연결해보자, MWAA흉내내기</p>
 <a id="more"></a>
+
+
+
 <h2 id="기존-구조"><a href="#기존-구조" class="headerlink" title="기존 구조"></a>기존 구조</h2><p>기존에 사용하던 구조는 굉장히 구식이었다고 볼 수 있었습니다. 전임자가 만들어 놓고 나간 구조인데, Airflow의 main서버와 metadb를 AWS에 각각 인스턴스로 올리고, Auto Scaling 그룹으로 워커들을 띄워놓고 연결한 구조였습니다. 버전도 1.10.9 버전이라 잔 버그 같은 이슈도 있어보였고, 워커들을 좀 더 심플하게 관리하고 싶었습니다. 아무래도 인스턴스 비용이 나가다보니 부담스러운 점도 있었구요.</p>
-<p><img src="https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2019/04/17/sagemaker-airflow-2.gif" alt="기존의 구조" style="zoom:80%;" /></p>
+<img src="https://d2908q01vomqb2.cloudfront.net/f1f836cb4ea6efb2a0b1b99f41ad8b103eff4b59/2019/04/17/sagemaker-airflow-2.gif" alt="기존의 구조" style="zoom:80%;" />
+
+
+
+
+
 <p>마침 ECS관련해서 작업을 하고 마무리 짓던 중이었고, 워커들을 ECS Fargate로 변경해볼까란 생각이 들었습니다. 워커들은 이미 도커 이미지로 띄워져서 실행되고 있는 상태였기 때문에, 이미지만 Task Definition으로 넣어서 서비스를 만들어주면 간단하게 끝나지 않을까?? 생각했습니다. <del>잔 이슈 때문에 한 1-2주정도 걸리게 되었습니다.</del></p>
 <h2 id="ECS란"><a href="#ECS란" class="headerlink" title="ECS란"></a>ECS란</h2><p>AWS에서 제공하는 ECS는 쿠버네티스와 유사한 부분이 많습니다. 쿠버네티스를 조금이라고 공부해 보신 분이라면, 간단한 버전의 ECS라고도 느끼실 것 같습니다. </p>
 <p>먼저 ECS는 Elastic Container Service의 약자로 AWS에서 제공 하고 있는 컨테이너 오케스트레이션 서비스입니다. 컨테이너 오케스트레이션 서비스에는 대표적으로 쿠버네티스, Docker Swarm 등이 있습니다. 물론 AWS에도 쿠버네티스 제품, EKS가 나와 있지만 ECS는 좀 더 간소화되어 있고, 심플한 버전의 컨테이너 오케스트레이션 서비스라고 생각되네요. </p>
@@ -231,7 +239,8 @@
 <p>만약 태스크가 어떤 문제로 중지되거나 다운되면 이것을 감지해서 새로운 Task를 클러스터에 배포하게 하는 역할도 수행합니다. 실제로 서비스에 동작하고 있는 Task를 강제로 중지시킬 경우에 Task는 잠시동안 중단(종료)되었다가 다시 프로비저닝 받아서 생성되는 것을 확인할 수 있습니다. 따라서 테스트를 위해서 ECS를 켜두고 만들어 놓은게 아까워서 중지시켜버리면 다음날에 큰 혼란이 생길 수 있습니다. 저는 어차피 작업정의를 사용해서 서비스를 만들 수 있으니, 깔끔하게 종료하고 다시 만들었습니다. 한 번 크게 데일뻔한 경험이 있었습니다.</p>
 <h2 id="Airflow-Workers-On-ECS"><a href="#Airflow-Workers-On-ECS" class="headerlink" title="Airflow Workers On ECS"></a>Airflow Workers On ECS</h2><p>이제 본격적으로 에어플로우의 워커들을 ECS에 올려보도록 하겠습니다. 먼저 클러스터를 만들어주겠습니다. </p>
 <h3 id="클러스터-생성"><a href="#클러스터-생성" class="headerlink" title="클러스터 생성"></a>클러스터 생성</h3><p>저는 빈 깡통의 클러스터가 필요했습니다. ASG로 되어 있는 인스턴스를 Fargate로 변경하고 인스턴스 비용을 감소하려는 목적이 있기 때문에 빈 클러스터인 네트워킹 전용 클러스터를 만들어줍니다. </p>
-<p><img src="/images/airflow-ecs/ecs-cluster01.png" alt="ecs-cluster01" style="zoom:80%;" /></p>
+<img src="/images/airflow-ecs/ecs-cluster01.png" alt="ecs-cluster01" style="zoom:80%;" />
+
 <p>그 다음은 빈 깡통답게 이름만 적어주고 VPC를 만들어줄 것인지, 태그를 넣을 것인지만 설정하면 됩니다. 전 이름만 설정하고 다른 건 건드리지 않고 그냥 생성했습니다.</p>
 <h3 id="Task-Definition-생성"><a href="#Task-Definition-생성" class="headerlink" title="Task Definition 생성"></a>Task Definition 생성</h3><p>이제 작업정의를 만들어볼 시간입니다. 작업정의 생성을 누르면 <code>시작 유형 호환성 선택</code>이 나옵니다. 저는 Fargate로 만들어보겠습니다. </p>
 <p><img src="/images/airflow-ecs/task_definition_01.png" alt="task_definition_01"></p>
@@ -249,7 +258,7 @@
 <h3 id="Service-생성"><a href="#Service-생성" class="headerlink" title="Service 생성"></a>Service 생성</h3><p><img src="/images/airflow-ecs/service_01.png" alt="service_01"></p>
 <p>시작 유형에서 우리가 원하는 Fargate를 선택하고 작업정의에 아까 만든 것을 선택해줍니다. 개정은 revision으로 수정된 버전을 말합니다. 기본값은 latest로 최근에 만든 것을 반영합니다. 클러스터도 만든 것을 넣어주고 서비스 이름을 넣어줍니다. </p>
 <p>Task 개수는 원하는 만큼 넣어주면 됩니다. 최소 정상 상태 백분율은, 기본적으로 띄워져 있는 Task의 상태를 말하는데, 문서에는  <code>배포 과정에서 실행 중인 작업의 개수에 하한선을 제공하여 추가 클러스터 용량을 사용하지 않고도 배포할 수 있게 해줍니다.</code>라고 나와있습니다. 그러니까 기본 값인 100이라고 설정하게 되면 위에서 설명한대로, 태스크를 중지해도 계속 올라오게 되는 것입니다. </p>
-<p><img src="/images/airflow-ecs/segvice_02.png" alt="segvice_02"></p>
+<p><img src="/images/airflow-ecs/segvice_02.png" alt="service_02"></p>
 <p>다음으로 넘어가면 보안그룹과 VPC를 설정할 수 있습니다. 사용하는 VPC를 넣어주고 보안그룹에는 Airflow worker를 위한 보안 그룹을 넣어주면 됩니다. Airflow worker의 보안그룹은 메인서버와 메타디비를 연결해주는 부분만 열어주면 되겠습니다. Airflow는 기본적으로 flask를 통해 8793포트로 열리고 열린 8793포트를 통해서 작업을 할당받으며, 작업로그를 메타디비(mysql)에 3306포트를 통해 남기므로 메인서버와 8793을 매핑해주고 메타디비와 3306(mysql)로 매핑해주겠습니다. </p>
 <p>로드 밸런싱은 필요하다면 미리 LB를 만들어놓고 넣어주면 되지만, Airflow에는 LB가 따로 필요하지 않습니다. 메시지 브로커인 Redis를 통해서 작업을 워커에서 받아가기 때문입니다. 그냥 airlfow.cfg에 메인서버 아이피와 metaDB 아이피를 적어주면 알아서 가져가는 것을 보실 수 있습니다. </p>
 <p>오토스케일링을 패스하고 만들어주면? 서비스가 만들어졌습니다.</p>
@@ -260,10 +269,15 @@
 <h3 id="Airflow-initdb시-SqlAlchemy-ModelSchema-Not-found-error"><a href="#Airflow-initdb시-SqlAlchemy-ModelSchema-Not-found-error" class="headerlink" title="Airflow initdb시 SqlAlchemy ModelSchema Not found error"></a>Airflow initdb시 SqlAlchemy ModelSchema Not found error</h3><p>작업 로그를 보던 중에 airflow initdb를 할 때마다 ModelSchema 관련 에러가 발생하는 것을 확인했습니다. SqlAlchemy부분에서 에러가 나길래 열심히 구글링을 해보니, 제가 사용하고 있는  <code>airflow 1.10.9</code>버전에서 사용하는 sql_alchemy, marshmallow 등의 버전이 맞지 않아 발생하는 문제였습니다. 버전이 바뀐 이후부터 ModelSchema를 불러오는 메서드의 디렉토리 구조가 변경되었는데, 이 때문에 메서드를 제대로 불러오지 못해 발생한 것이었습니다. </p>
 <p>requirements.txt에 다음과 같이 설정하면 해결이 가능합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#requirements.txt</span></span><br><span class="line">marshmallow==2.21.0</span><br><span class="line">marshmallow-enum==1.5.1</span><br><span class="line">marshmallow-sqlalchemy==0.22.3</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="hostname-resolver-py-문제"><a href="#hostname-resolver-py-문제" class="headerlink" title="hostname_resolver.py 문제"></a>hostname_resolver.py 문제</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">requests.exceptions.ConnectionError: HTTPConnectionPool(host&#x3D;&#39;169.254.169.254&#39;, port&#x3D;80): Max retries exceeded with url: &#x2F;latest&#x2F;meta-data&#x2F;local-ipv4 (Caused by NewConnectionError(&#39;&lt;urllib3.connection.HTTPConnection object at 0x7f3e4d9966d8&gt;: Failed to establish a new connection: [Errno 22] Invalid argument&#39;,))</span><br></pre></td></tr></table></figure>
+
 <p>작업 로그에서 또 다시 에러가 발생해서 확인해보니 위의 에러가 발생하고 있었습니다. 169.254.169.254는 AWS의 meta데이터가 담겨있는 곳인데 이 곳에 접근하지 못해서 발생하는 에러였습니다. 기존 ASG워커에서는 metadata를 통해 EC2의 privateIP를 갖고와야 해당 IP에 작업내용을 전달할 수 있었습니다. 그렇지 않으면 docker 컨테이너의 호스트명만 갖고오게 되어 작업이 제대로 실행되지 않습니다. 하지만 ECS에서 Fargate는 docker의 컨테이너 호스트명을 부여하는 대신 privateIP를 부여합니다. <a href="https://docs.aws.amazon.com/ko_kr/AmazonECS/latest/userguide/fargate-task-networking.html">AWS 문서</a> <code>기본적으로 모든Amazon ECS작업Fargate에는 기본 프라이빗 IP 주소가 포함된 elastic network interface (ENI) 가 제공됩니다.</code> </p>
 <p>물론 ECS에서 metadata를 활성화 하는 것도 한 방법이겠으나, Private IP가 제공되니, 이 IP를 갖고오면 작업을 바로 할당받을 수 있으므로, 굳이 metadata를 이용할 필요가 없었습니다. 따라서 hostname_resolver.py의 파일안의 resolve함수의 내용을 </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resolve</span><span class="params">()</span>:</span></span><br><span class="line">  <span class="keyword">return</span> socket.gethostbyname(socket.gethostname())</span><br></pre></td></tr></table></figure>
+
 <p>이런식으로 사용해서 privateIP를 전달했습니다. </p>
 <h3 id="airflow에서-emr에-작업-실행시-권한-문제"><a href="#airflow에서-emr에-작업-실행시-권한-문제" class="headerlink" title="airflow에서 emr에 작업 실행시 권한 문제"></a>airflow에서 emr에 작업 실행시 권한 문제</h3><p>이제 정말 다 되었다고 생각하고 airflow에 EMR에 실행하는 작업을 내렸습니다. 하지만 또 다시</p>
 <p><code>ERROR - An error occurred (AccessDeniedException) when calling the RunJobFlow operation: User: arn:aws:sts::xxxxx:assumed-role/ecsTaskExecutionRole/xxxxxxxx is not authorized to perform: elasticmapreduce:RunJobFlow on resource: arn:aws:elasticmapreduce:ap-northeast-2:xxxxxx:cluster</code></p>
