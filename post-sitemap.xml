@@ -8,6 +8,14 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2021/03/07/apriori-FP/</loc>
+        <lastmod>2021-09-28T14:23:32.770Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2021/09/12/work-overtime-with-airflow/</loc>
         <lastmod>2021-09-12T08:29:54.029Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -90,14 +98,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2021/02/21/airflow-basic2/</loc>
         <lastmod>2021-04-04T07:10:40.925Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2021/03/07/apriori-FP/</loc>
-        <lastmod>2021-03-08T00:03:19.370Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
