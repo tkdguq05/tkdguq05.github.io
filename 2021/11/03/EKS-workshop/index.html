@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png">
 <meta property="article:published_time" content="2021-11-03T05:40:24.000Z">
-<meta property="article:modified_time" content="2021-11-03T05:57:48.399Z">
+<meta property="article:modified_time" content="2021-11-03T06:03:28.240Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -210,9 +210,12 @@
         <div class="content">
             <p>EKS를 다뤄보고 GitOps까지 실습해봤습니다.</p>
 <a id="more"></a>
+
+
+
 <ul>
 <li><p>실습 링크 : <a href="https://aws-eks-web-application.workshop.aws/ko/10-intro.html">https://aws-eks-web-application.workshop.aws/ko/10-intro.html</a></p>
-<p>실습 영상 : <a href="https://www.youtube.com/watch?v=kb6s0Tmp2CA&amp;ab_channel=AWS%ED%95%9C%EA%B5%AD%EC%82%AC%EC%9A%A9%EC%9E%90%EB%AA%A8%EC%9E%84-AWSKRUG">https://www.youtube.com/watch?v=kb6s0Tmp2CA&amp;ab_channel=AWS한국사용자모임-AWSKRUG</a></p>
+<p>실습 영상 : <a href="https://www.youtube.com/watch?v=kb6s0Tmp2CA&ab_channel=AWS%ED%95%9C%EA%B5%AD%EC%82%AC%EC%9A%A9%EC%9E%90%EB%AA%A8%EC%9E%84-AWSKRUG">https://www.youtube.com/watch?v=kb6s0Tmp2CA&amp;ab_channel=AWS한국사용자모임-AWSKRUG</a></p>
 <blockquote>
 <p>AWS 워크샵에서는 다음 내용을 다룹니다.</p>
 </blockquote>
@@ -232,7 +235,7 @@
 <blockquote>
 <p>🌐 쿠버네티스에 대해 더 자세히 알고 싶다면 <a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">여기</a> 를 클릭하세요.</p>
 </blockquote>
-<p><img src="/images/eks-workshop/스크린샷_2021-10-29_오전_10.59.24.png" alt="쿠버네티스 아키텍쳐"></p>
+<p><img src="/images/eks-workshop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-10-29_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_10.59.24.png" alt="쿠버네티스_아키텍쳐"></p>
 <ul>
 <li>쿠버네티스를 배포하면 <strong>클러스터</strong>를 얻습니다. 그리고 이 클러스터는 <strong>노드들의 집합</strong>입니다. 노드들은 크게 두 가지 유형으로 나눠지는데, 각각이 <strong>컨트롤 플레인</strong>과 <strong>데이터 플레인</strong>입니다.<ul>
 <li>컨트롤 플레인(Control Plane)은 워커 노드와 클러스터 내 파드를 관리하고 제어합니다.</li>
@@ -249,16 +252,20 @@
 </ul>
 <p>  <br></br></p>
 <h2 id="EKS"><a href="#EKS" class="headerlink" title="EKS"></a>EKS</h2><ul>
-<li><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">Amazon EKS</a>는 Kubernetes를 쉽게 실행할 수 있는 관리형 서비스입니다. Amazon EKS를 사용하시면 AWS 환경에서 Kubernetes 컨트롤 플레인 또는 노드를 직접 설치, 운영 및 유지할 필요가 없습니다.</li>
-<li>Amazon EKS는 여러 가용 영역에서 Kubernetes 컨트롤 플레인 인스턴스를 실행하여 고가용성을 보장합니다. 또한, 비정상 컨트롤 플레인 인스턴스를 자동으로 감지하고 교체하며 자동화된 버전 업그레이드 및 패치를 제공합니다.</li>
-<li>Amazon EKS는 다양한 AWS 서비스들과 연동하여 애플리케이션에 대한 확장성 및 보안을 제공하는 서비스를 제공합니다.<ul>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">Amazon EKS</a>는 Kubernetes를 쉽게 실행할 수 있는 관리형 서비스입니다. Amazon EKS를 사용하시면 AWS 환경에서 Kubernetes 컨트롤 플레인 또는 노드를 직접 설치, 운영 및 유지할 필요가 없습니다.</p>
+</li>
+<li><p>Amazon EKS는 여러 가용 영역에서 Kubernetes 컨트롤 플레인 인스턴스를 실행하여 고가용성을 보장합니다. 또한, 비정상 컨트롤 플레인 인스턴스를 자동으로 감지하고 교체하며 자동화된 버전 업그레이드 및 패치를 제공합니다.</p>
+</li>
+<li><p>Amazon EKS는 다양한 AWS 서비스들과 연동하여 애플리케이션에 대한 확장성 및 보안을 제공하는 서비스를 제공합니다.</p>
+<ul>
 <li>컨테이너 이미지 저장소인 <strong>Amazon ECR(Elastic Container Registry)</strong></li>
 <li>로드 분산을 위한 <strong>AWS ELB(Elastic Load Balancing)</strong></li>
 <li>인증을 위한 <strong>AWS IAM</strong></li>
 <li>격리된 <strong>Amazon VPC</strong></li>
 </ul>
 </li>
-<li>Amazon EKS는 오픈 소스 Kubernetes 소프트웨어의 최신 버전을 실행하므로 <strong>Kubernetes 커뮤니티에서 사용되는 플러그인과 툴을 모두 사용</strong>할 수 있습니다. 온프레미스 데이터 센터에서 실행 중인지 퍼블릭 클라우드에서 실행 중인지에 상관없이, Amazon EKS에서 실행 중인 애플리케이션은 표준 Kubernetes 환경에서 실행 중인 애플리케이션과 완벽하게 호환됩니다. 즉, 코드를 수정하지 않고 표준 Kubernetes 애플리케이션을 Amazon EKS로 손쉽게 마이그레이션할 수 있습니다.</li>
+<li><p>Amazon EKS는 오픈 소스 Kubernetes 소프트웨어의 최신 버전을 실행하므로 <strong>Kubernetes 커뮤니티에서 사용되는 플러그인과 툴을 모두 사용</strong>할 수 있습니다. 온프레미스 데이터 센터에서 실행 중인지 퍼블릭 클라우드에서 실행 중인지에 상관없이, Amazon EKS에서 실행 중인 애플리케이션은 표준 Kubernetes 환경에서 실행 중인 애플리케이션과 완벽하게 호환됩니다. 즉, 코드를 수정하지 않고 표준 Kubernetes 애플리케이션을 Amazon EKS로 손쉽게 마이그레이션할 수 있습니다.</p>
+</li>
 <li><p>이 워크샵을 위해서는 administrator IAM  권한이 필요합니다.</p>
 <p><br></br></p>
 <h2 id="Cloud9"><a href="#Cloud9" class="headerlink" title="Cloud9"></a>Cloud9</h2></li>
@@ -282,7 +289,7 @@
 <li><p>노드 확인</p>
 <ul>
 <li><p><code>kubectl get nodes</code></p>
-<p><img src="/images/eks-workshop/스크린샷_2021-10-29_오후_1.17.55.png" alt="EKS클러스터 구성"></p>
+<p><img src="/images/eks-workshop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-10-29_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_1.17.55.png" alt="EKS클러스터 구성"></p>
 <ul>
 <li>기본적인 EKS 클러스터 구성은 끝났고, 본격적으로 서비스를 배포하고, 유저가 들어오는 통로인 인그레스를 설정해 봅시다.</li>
 </ul>
@@ -304,7 +311,8 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <h2 id="Ingress-Controller"><a href="#Ingress-Controller" class="headerlink" title="Ingress Controller"></a>Ingress Controller</h2></li>
 <li><p><strong>AWS Load Balancer Controller</strong>는 <strong>구 AWS ALB Ingress Controller</strong>에서 리브랜드된 개념입니다.</p>
 </li>
-<li><strong>인그레스(Ingress)</strong> 는 주로 <strong>클러스터 외부에서 쿠버네티스 내부</strong>로 접근할 때, 요청들을 어떻게 처리할지 정의해놓은 규칙이자 리소스 오브젝트입니다. 한마디로 외부의 요청이 내부로 접근하기 위한 관문의 역할을 하는 것이죠. 외부 요청에 대한 로드 밸런싱, TLS/SSL 인증서 처리, HTTP 경로에 대한 라우팅 등을 설정할 수 있습니다. 인그레스는 L7 영역의 요청을 처리합니다.</li>
+<li><p><strong>인그레스(Ingress)</strong> 는 주로 <strong>클러스터 외부에서 쿠버네티스 내부</strong>로 접근할 때, 요청들을 어떻게 처리할지 정의해놓은 규칙이자 리소스 오브젝트입니다. 한마디로 외부의 요청이 내부로 접근하기 위한 관문의 역할을 하는 것이죠. 외부 요청에 대한 로드 밸런싱, TLS/SSL 인증서 처리, HTTP 경로에 대한 라우팅 등을 설정할 수 있습니다. 인그레스는 L7 영역의 요청을 처리합니다.</p>
+</li>
 <li><p>쿠버네티스에서 서비스 타입 중, NodePort 혹은 LoadBalancer로도 외부로 노출할 수 있지만 인그레스 없이 서비스를 사용할 경우, 모든 서비스에게 라우팅 규칙 및 TLS/SSL 등의 상세한 옵션들을 적용해야 되죠. 그래서 인그레스가 필요합니다.</p>
 <p><img src="/images/eks-workshop/Untitled.png" alt="Ingress"></p>
 </li>
@@ -321,7 +329,7 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <li>Instance(default): 클러스터 내 노드를 ALB의 대상으로 등록합니다. ALB에 도달하는 트래픽은 NodePort로 라우팅된 다음 파드로 프록시됩니다.</li>
 <li>IP: 파드를 ALB 대상으로 등록합니다. ALB에 도달하는 트래픽은 파드로 <strong>직접</strong> 라우팅됩니다. 해당 트래픽 모드를 사용하기 위해선 <strong>ingress.yaml 파일에 주석을 사용하여 명시적으로 지정해야</strong> 합니다.</li>
 </ul>
-<p><img src="/images/eks-workshop/Untitled 1.png" alt="Instance Mode, IP Mode"></p>
+<p>![Instance Mode, IP Mode](/images/eks-workshop/Untitled 1.png)</p>
 <ul>
 <li>각종 배포들에 사용할 manifests 디렉토리를 만들어놓고 관리하는 것을 추천합니다.</li>
 </ul>
@@ -330,11 +338,11 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>먼저, 클러스터에 대한 <strong>IAM OIDC(OpenID Connect) identity Provider</strong>를 생성합니다. Pod와 같은 클러스터 내 쿠버네티스가 생성한 항목이 API Server 또는 외부 서비스에 인증하는데 사용되는 <strong><a href="https://kubernetes.io/ko/docs/reference/access-authn-authz/service-accounts-admin/">service account</a></strong>에 IAM role을 사용하기 위해, 생성한 클러스터(현재 실습에서의 <em>eks-demo</em>)에 <strong>IAM OIDC provider</strong>가 존재해야 합니다.</p>
 <ul>
-<li><p>eksctl utils associate-iam-oidc-provider \<br>—region ${AWS_REGION} \<br>—cluster eks-demo \<br>—approve</p>
+<li><p>eksctl utils associate-iam-oidc-provider <br>–region ${AWS_REGION} <br>–cluster eks-demo <br>–approve</p>
 </li>
 <li><p>OIDC provider URL</p>
 <ul>
-<li>aws eks describe-cluster —name eks-demo —query “cluster.identity.oidc.issuer” —output text</li>
+<li>aws eks describe-cluster –name eks-demo –query “cluster.identity.oidc.issuer” –output text</li>
 <li>output: <a href="https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF">https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF</a><ul>
 <li>뒤에 id 부분을 복사해서 다음과 같이 입력합니다.</li>
 <li>aws iam list-open-id-connect-providers | grep 8A6E78112D7F1C4DC352B1B511DD13CF</li>
@@ -345,17 +353,17 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>AWS Load Balancer Controller에 부여할 IAM Policy를 생성하는 작업을 수행합니다.</p>
 <ul>
-<li>aws iam create-policy \<br>—policy-name AWSLoadBalancerControllerIAMPolicy \<br>—policy-document <a href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json</a></li>
+<li>aws iam create-policy <br>–policy-name AWSLoadBalancerControllerIAMPolicy <br>–policy-document <a href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json</a></li>
 </ul>
 </li>
 <li><p>AWS Load Balancer Controller를 위한 ServiceAccount를 생성합니다.</p>
 <ul>
-<li>eksctl create iamserviceaccount \<br>—cluster eks-demo \<br>—namespace kube-system \<br>—name aws-load-balancer-controller \<br>—attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \<br>—override-existing-serviceaccounts \<br>—approve</li>
+<li>eksctl create iamserviceaccount <br>–cluster eks-demo <br>–namespace kube-system <br>–name aws-load-balancer-controller <br>–attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy <br>–override-existing-serviceaccounts <br>–approve</li>
 </ul>
 </li>
 <li><p>AWS Load Balancer controller를 클러스터에 추가하는 작업을 수행합니다. 먼저, 인증서 구성을 웹훅에 삽입할 수 있도록 <strong><a href="https://github.com/jetstack/cert-manager">cert-manager</a></strong>를 설치합니다. <strong>Cert-manager</strong>는 쿠버네티스 클러스터 내에서 TLS인증서를 자동으로 프로비저닝 및 관리하는 오픈 소스입니다.</p>
 <ul>
-<li>kubectl apply —validate=false -f <a href="https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml">https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml</a></li>
+<li>kubectl apply –validate=false -f <a href="https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml">https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml</a></li>
 </ul>
 </li>
 <li><p>load balancer controller yaml</p>
@@ -367,8 +375,8 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <ul>
 <li>spec:<br>containers:</li>
 <li>args:</li>
-<li>—cluster-name=eks-demo # 생성한 클러스터 이름을 입력</li>
-<li>—ingress-class=alb<br>image: amazon/aws-alb-ingress-controller:v2.2.0</li>
+<li>–cluster-name=eks-demo # 생성한 클러스터 이름을 입력</li>
+<li>–ingress-class=alb<br>image: amazon/aws-alb-ingress-controller:v2.2.0</li>
 </ul>
 </li>
 <li><p>ServiceAccount yaml spec 삭제</p>
@@ -395,15 +403,18 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <p><br></br></p>
 <h2 id="서비스-배포"><a href="#서비스-배포" class="headerlink" title="서비스 배포"></a>서비스 배포</h2></li>
 <li><p>서비스 배포하는 순서는 다음과 같습니다.</p>
-<p><img src="/images/eks-workshop/Untitled 2.png" alt="서비스 배포 순서"></p>
+<p>![서비스 배포 순서](/images/eks-workshop/Untitled 2.png)</p>
 </li>
 <li><p>소스 코드 다운로드</p>
 </li>
-<li>Amazon ECR에 각 서비스에 대한 리포지토리 생성</li>
-<li>Dockerfile을 포함한 소스 코드 위치에서 컨테이너 이미지 빌드 후, 리포지토리에 푸시</li>
-<li>각 서비스에 대한 Deployment, Service, Ingress 매니페스트 파일 생성 및 배포</li>
+<li><p>Amazon ECR에 각 서비스에 대한 리포지토리 생성</p>
+</li>
+<li><p>Dockerfile을 포함한 소스 코드 위치에서 컨테이너 이미지 빌드 후, 리포지토리에 푸시</p>
+</li>
+<li><p>각 서비스에 대한 Deployment, Service, Ingress 매니페스트 파일 생성 및 배포</p>
+</li>
 <li><p>사용자가 실제 서비스를 접근하는 순서</p>
-<p><img src="/images/eks-workshop/Untitled 3.png" alt="사용자가 접근하는 순서"></p>
+<p>![사용자가 접근하는 순서](/images/eks-workshop/Untitled 3.png)</p>
 </li>
 <li><p>우리의 서비스는 두 개의 백엔드가 존재합니다.</p>
 <ul>
@@ -411,7 +422,8 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <li>Node.js</li>
 </ul>
 </li>
-<li>각 백엔드의 API가 잘 동작하는지 확인하고 프론트엔드 배포로 넘어가봅시다.</li>
+<li><p>각 백엔드의 API가 잘 동작하는지 확인하고 프론트엔드 배포로 넘어가봅시다.</p>
+</li>
 </ul>
 <p>  <br></br></p>
 <h3 id="Flask-배포"><a href="#Flask-배포" class="headerlink" title="Flask 배포"></a>Flask 배포</h3><ul>
@@ -436,7 +448,7 @@ kubectl apply -f ingress.yaml</code></p>
 <ul>
 <li>ingress object가 배포되는 동안 기다리고 주소로 접속</li>
 </ul>
-<p><img src="/images/eks-workshop/Untitled 4.png" alt="flask 백엔드 배포"></p>
+<p>![flask 백엔드 배포](/images/eks-workshop/Untitled 4.png)</p>
 <p><br></br></p>
 <h3 id="node-js-배포"><a href="#node-js-배포" class="headerlink" title="node.js 배포"></a>node.js 배포</h3></li>
 <li><p><strong>deploy manifest</strong></p>
@@ -455,7 +467,7 @@ kubectl apply -f nodejs-service.yaml
 kubectl apply -f ingress.yaml</code></p>
 </li>
 <li><p>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/services/all</p>
-<p><img src="/images/eks-workshop/Untitled 5.png" alt="node.js 백엔드 배포"></p>
+<p>![node.js 백엔드 배포](/images/eks-workshop/Untitled 5.png)</p>
 </li>
 </ul>
 <p><br></br></p>
@@ -464,7 +476,7 @@ kubectl apply -f ingress.yaml</code></p>
 <p>cd /home/ec2-user/environment<br>git clone <a href="https://github.com/joozero/amazon-eks-frontend.git">https://github.com/joozero/amazon-eks-frontend.git</a></p>
 </li>
 <li><p>ecr repository 생성</p>
-<p>aws ecr create-repository \<br>—repository-name demo-frontend \<br>—image-scanning-configuration scanOnPush=true \<br>—region ${AWS_REGION}</p>
+<p>aws ecr create-repository <br>–repository-name demo-frontend <br>–image-scanning-configuration scanOnPush=true <br>–region ${AWS_REGION}</p>
 </li>
 <li><p>프론트엔드 소스에서 url을 백엔드의 ingress 주소로 변경\</p>
 <ul>
@@ -507,13 +519,17 @@ kubectl apply -f ingress.yaml</code></p>
 kubectl apply -f frontend-service.yaml
 kubectl apply -f ingress.yaml</code></li>
 </ul>
-<p><img src="/images/eks-workshop/Untitled 6.png" alt="프론트까지 배포 완료"></p>
-<p><img src="/images/eks-workshop/Untitled 7.png" alt="모든 배포가 완료된 모습" style="zoom:80%;" /></p>
+<p>![프론트까지 배포 완료](/images/eks-workshop/Untitled 6.png)</p>
+<img src="/images/eks-workshop/Untitled 7.png" alt="모든 배포가 완료된 모습" style="zoom:80%;" />
+
 <p><br></br></p>
-<h2 id="Fargate"><a href="#Fargate" class="headerlink" title="Fargate"></a>Fargate</h2><p><strong>AWS Fargate</strong>는 컨테이너에 적합한 서버리스 컴퓨팅 엔진으로 Amazon Elastic Container Service(ECS) 및 Amazon Elastic Kubernetes Service(EKS)에서 모두 작동합니다. Fargate는 애플리케이션을 빌드하는 데 보다 쉽게 초점을 맞출 수 있도록 해줍니다. Fargate에서는 서버를 프로비저닝하고 관리할 필요가 없어 애플리케이션별로 리소스를 지정하고 관련 비용을 지불할 수 있으며, 계획적으로 애플리케이션을 격리함으로써 보안 성능을 향상시킬 수 있습니다.</p>
-</li>
+<h2 id="Fargate"><a href="#Fargate" class="headerlink" title="Fargate"></a>Fargate</h2></li>
+</ul>
+<p>  <strong>AWS Fargate</strong>는 컨테이너에 적합한 서버리스 컴퓨팅 엔진으로 Amazon Elastic Container Service(ECS) 및 Amazon Elastic Kubernetes Service(EKS)에서 모두 작동합니다. Fargate는 애플리케이션을 빌드하는 데 보다 쉽게 초점을 맞출 수 있도록 해줍니다. Fargate에서는 서버를 프로비저닝하고 관리할 필요가 없어 애플리케이션별로 리소스를 지정하고 관련 비용을 지불할 수 있으며, 계획적으로 애플리케이션을 격리함으로써 보안 성능을 향상시킬 수 있습니다.</p>
+<ul>
 <li><p>클러스터에 Fargate로 pod를 배포하기 위해서는 pod가 실행될 때 사용하는 하나 이상의 fargate profile을 정의해야 합니다. 즉, fargate profile이란 fargate로 pod를 생성하기 위한 조건을 명시해놓은 프로파일이라고 보시면 됩니다.</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cd</span> <span class="string">/home/ec2-user/environment/manifestscat</span> <span class="string">&lt;&lt;EOF&gt;</span> <span class="string">eks-demo-fargate-profile.yaml---apiVersion:</span> <span class="string">eksctl.io/v1alpha5kind:</span> <span class="attr">ClusterConfigmetadata:</span>  <span class="attr">name:</span> <span class="string">eks-demo</span>  <span class="attr">region:</span> <span class="string">$&#123;AWS_REGION&#125;fargateProfiles:</span>  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">frontend-fargate-profile</span>    <span class="attr">selectors:</span>      <span class="bullet">-</span> <span class="attr">namespace:</span> <span class="string">default</span>        <span class="attr">labels:</span>          <span class="attr">app:</span> <span class="string">frontend-fargateEOF</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>yaml 파일에서 <strong>selectors</strong>에 기재된 조건에 부합하는 pod의 경우, fargate로 배포됩니다.</li>
 </ul>
@@ -522,7 +538,7 @@ kubectl apply -f ingress.yaml</code></li>
 <ul>
 <li>eksctl create fargateprofile -f eks-demo-fargate-profile.yaml</li>
 <li>정상 동작 확인<ul>
-<li>eksctl get fargateprofile —cluster eks-demo -o json</li>
+<li>eksctl get fargateprofile –cluster eks-demo -o json</li>
 </ul>
 </li>
 </ul>
@@ -555,8 +571,10 @@ kubectl apply -f frontend-service.yaml</code></p>
 <h2 id="GitOps"><a href="#GitOps" class="headerlink" title="GitOps?"></a>GitOps?</h2></li>
 <li><p>쿠버네티스 환경에서 CI/CD를 위해서는 Git과 워크플로우 툴의 연결이 필요하고, 이를 통해서 자동화 하는 방안이 필요합니다.</p>
 </li>
-<li>일일이 수정하는 것은 너무나 번거롭습니다.</li>
-<li>그래서 등장한 것이 GitOps입니다.</li>
+<li><p>일일이 수정하는 것은 너무나 번거롭습니다.</p>
+</li>
+<li><p>그래서 등장한 것이 GitOps입니다.</p>
+</li>
 <li><p>Github Action, Kustomize, Helm Chart, Argo CD를 활용해 GitOps를 체험해보겠습니다.</p>
 <p><br></br></p>
 <h2 id="GitOps-전에-알아야-할-개념들"><a href="#GitOps-전에-알아야-할-개념들" class="headerlink" title="GitOps 전에 알아야 할 개념들"></a>GitOps 전에 알아야 할 개념들</h2></li>
@@ -621,10 +639,12 @@ kubectl apply -f frontend-service.yaml</code></p>
 <li>지속적 통합을 통해 테스트 되고 빌드된 코드를 지속적으로 전달하여 제품의 질적 향상을 향하는 것</li>
 </ul>
 </li>
-<li>쿠버네티스 운영과 관련된 manifest 파일 관리하고 있는 원격 레포지토리를 조회</li>
-<li>변경 내역이 감지되면 이를 반영하여 배포함(Auto Sync 옵션)</li>
+<li><p>쿠버네티스 운영과 관련된 manifest 파일 관리하고 있는 원격 레포지토리를 조회</p>
+</li>
+<li><p>변경 내역이 감지되면 이를 반영하여 배포함(Auto Sync 옵션)</p>
+</li>
 <li><p>히스토리를 저장하고, 롤백이 가능함</p>
-<p><img src="/images/eks-workshop/스크린샷_2021-11-03_오전_11.46.28.png" alt="Dev, Ops Pipeline"></p>
+<p><img src="/images/eks-workshop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-03_%E1%84%8B%E1%85%A9%E1%84%8C%E1%85%A5%E1%86%AB_11.46.28.png" alt="Dev, Ops Pipeline"></p>
 </li>
 <li><p>argo의 장점</p>
 <ul>
@@ -638,7 +658,8 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 </ul>
 </li>
-<li>argo의 단점<ul>
+<li><p>argo의 단점</p>
+<ul>
 <li>Pod를 생성하고 삭제하는 비용이 크다.<ul>
 <li>간단한 작업이라면 프로세스 또는 스레드 레벨에서 처리하는 게 효율적일 때가 있다</li>
 </ul>
@@ -668,7 +689,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <p><br></br></p>
 <h2 id="GitOps-실습"><a href="#GitOps-실습" class="headerlink" title="GitOps 실습"></a>GitOps 실습</h2></li>
 <li><p>목표하는 CI/CD 파이프라인은 다음과 같습니다.</p>
-<p><img src="/images/eks-workshop/Untitled 8.png" alt="CI/CD" style="zoom:50%;" /></p>
+<img src="/images/eks-workshop/Untitled 8.png" alt="CI/CD" style="zoom:50%;" />
 </li>
 <li><p>개발에서 작업한 내용은 Github Action을 통해 ECR에 업로드 되고, 이것을 클러스터 Ops쪽에서 Pull을 받아 k8s에 argo CD를 사용해 배포하는 방식입니다.</p>
 </li>
@@ -695,7 +716,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <ul>
 <li><p>IAM  user 생성</p>
 <ul>
-<li>aws iam create-user —user-name github-action</li>
+<li>aws iam create-user –user-name github-action</li>
 </ul>
 </li>
 <li><p>ECR policy 생성</p>
@@ -705,12 +726,12 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>이 파일을 사용해 IAM 정책을 생성합니다. 이름은 <code>ecr-policy</code> 입니다.</p>
 <ul>
-<li>aws iam create-policy —policy-name ecr-policy —policy-document file://ecr-policy.json</li>
+<li>aws iam create-policy –policy-name ecr-policy –policy-document file://ecr-policy.json</li>
 </ul>
 </li>
 <li><p>만든 정책을 IAM 유저에게 넣어줍니다.</p>
 <ul>
-<li>aws iam attach-user-policy —user-name github-action —policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/ecr-policy</li>
+<li>aws iam attach-user-policy –user-name github-action –policy-arn arn:aws:iam::${ACCOUNT_ID}:policy/ecr-policy</li>
 </ul>
 </li>
 </ul>
@@ -720,7 +741,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <li>이제 github action에서 사용할 AWS credential, github token을 설정해줍니다.</li>
 <li>AWS credential 생성<ul>
 <li>이 또한 최소한의 권한을 갖는 유저를 만들어 줍니다. 이름은 <code>github-action</code>입니다.</li>
-<li>aws iam create-access-key —user-name github-action</li>
+<li>aws iam create-access-key –user-name github-action</li>
 <li>생성된 accesskey와 secretkey를 저장해놓습니다.</li>
 </ul>
 </li>
@@ -743,6 +764,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>실제 build 코드를 작성합니다. <code>build.yml</code></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cd</span> <span class="string">~/environment/amazon-eks-frontend/.github/workflowscat</span> <span class="string">&gt; build.yaml &lt;&lt;EOFname: Build Fronton:  push:    branches: [ main ]jobs:  build:    runs-on: ubuntu-latest    steps:      - name: Checkout source code        uses: actions/checkout@v2      - name: Check Node v        run: node -v      - name: Build front        run: |          npm install          npm run build      - name: Configure AWS credentials        uses: aws-actions/configure-aws-credentials@v1        with:          aws-access-key-id: \$<span class="template-variable">&#123;&#123; secrets.AWS_ACCESS_KEY_ID &#125;&#125;</span>          aws-secret-access-key: \$<span class="template-variable">&#123;&#123; secrets.AWS_SECRET_ACCESS_KEY &#125;&#125;</span>          aws-region: $AWS_REGION      - name: Login to Amazon ECR        id: login-ecr        uses: aws-actions/amazon-ecr-login@v1      - name: Get image tag(verion)        id: image        run: |          VERSION=\$(echo \$<span class="template-variable">&#123;&#123; github.sha &#125;&#125;</span> | cut -c1-8)          echo VERSION=\$VERSION          echo "::set-output name=version::\$VERSION"      - name: Build, tag, and push image to Amazon ECR        id: image-info        env:          ECR_REGISTRY: \$<span class="template-variable">&#123;&#123; steps.login-ecr.outputs.registry &#125;&#125;</span>          ECR_REPOSITORY: demo-frontend          IMAGE_TAG: \$<span class="template-variable">&#123;&#123; steps.image.outputs.version &#125;&#125;</span>        run: |          echo "::set-output name=ecr_repository::\$ECR_REPOSITORY"          echo "::set-output name=image_tag::\$IMAGE_TAG"          docker build -t \$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAG .          docker push \$ECR_REGISTRY/\$ECR_REPOSITORY:\$IMAGE_TAGEOF</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>IMAGE_TAG값은 랜덤으로 생성되어 ECR로 Push됩니다.<ul>
 <li>$</li>
@@ -789,6 +811,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>overlays/dev 부분에 바꿀 부분을 정의합니다.</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cd</span> <span class="string">~/environment/k8s-manifest-repo/overlays/dev</span></span><br><span class="line"><span class="string">cat</span> <span class="string">&lt;&lt;EOF&gt;</span> <span class="string">front-deployment-patch.yaml</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">demo-frontend</span></span><br><span class="line"><span class="attr">  namespace:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">  labels:</span></span><br><span class="line"><span class="attr">    env:</span> <span class="string">dev</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    matchLabels:</span></span><br><span class="line"><span class="attr">      app:</span> <span class="string">frontend-fargate</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">frontend-fargate</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cd</span> <span class="string">~/environment/k8s-manifest-repo/overlays/devcat</span> <span class="string">&lt;&lt;EOF&gt;</span> <span class="string">front-service-patch.yamlapiVersion:</span> <span class="attr">v1kind:</span> <span class="attr">Servicemetadata:</span>  <span class="attr">name:</span> <span class="string">demo-frontend</span>  <span class="attr">annotations:</span>    <span class="string">alb.ingress.kubernetes.io/healthcheck-path:</span> <span class="string">"/"</span>  <span class="attr">labels:</span>    <span class="attr">env:</span> <span class="attr">devspec:</span>  <span class="attr">selector:</span>    <span class="attr">app:</span> <span class="string">frontend-fargateEOF</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -797,6 +820,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>이를 활용해 <code>newTag</code> 값을 변경해 새로운 배포가 이루어질 때 마다 이를 kubernetes 클러스터까지 변경 할 수 있습니다.</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">cd</span> <span class="string">~/environment/k8s-manifest-repo/overlays/devcat</span> <span class="string">&lt;&lt;EOF&gt;</span> <span class="string">kustomization.yamlapiVersion:</span> <span class="string">kustomize.config.k8s.io/v1beta1kind:</span> <span class="attr">Kustomizationimages:-</span> <span class="attr">name:</span> <span class="string">$&#123;ACCOUNT_ID&#125;.dkr.ecr.ap-northeast-2.amazonaws.com/demo-frontend</span>  <span class="attr">newName:</span> <span class="string">$&#123;ACCOUNT_ID&#125;.dkr.ecr.ap-northeast-2.amazonaws.com/demo-frontend</span>  <span class="attr">newTag:</span> <span class="attr">abcdefgresources:-</span> <span class="string">../../basepatchesStrategicMerge:-</span> <span class="string">front-deployment-patch.yaml-</span> <span class="string">front-service-patch.yamlEOF</span></span><br></pre></td></tr></table></figure>
+
 <ul>
 <li>이상 -patch.yaml 파일에 정의한 내용들은 배포 과정에서 kustomize 에 의해 자동으로 kubernetes manifest 에 반영 됩니다.</li>
 <li>이미지의 태그명이 abcdefg로 나오면 성공입니다.</li>
@@ -815,8 +839,8 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>Argo CD cli 설치</p>
 <ul>
-<li>cd ~/environment<br>VERSION=$(curl —silent “<a href="https://api.github.com/repos/argoproj/argo-cd/releases/latest">https://api.github.com/repos/argoproj/argo-cd/releases/latest</a>“ | grep ‘“tag_name”‘ | sed -E ‘s/.<em>“(<sup><a href="#fn_"" id="reffn_"">"</a></sup>+)”.</em>/\1/‘)</li>
-<li>sudo curl —silent —location -o /usr/local/bin/argocd <a href="https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64">https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64</a></li>
+<li>cd ~/environment<br>VERSION=$(curl –silent “<a href="https://api.github.com/repos/argoproj/argo-cd/releases/latest">https://api.github.com/repos/argoproj/argo-cd/releases/latest</a>“ | grep ‘“tag_name”‘ | sed -E ‘s/.*”([^”]+)”.*/\1/‘)</li>
+<li>sudo curl –silent –location -o /usr/local/bin/argocd <a href="https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64">https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64</a></li>
 <li>sudo chmod +x /usr/local/bin/argocd</li>
 </ul>
 </li>
@@ -836,7 +860,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </ul>
 </li>
 <li><p>argo login</p>
-<p><img src="/images/eks-workshop/Untitled 9.png" alt="login화면" style="zoom:60%;" /></p>
+<img src="/images/eks-workshop/Untitled 9.png" alt="login화면" style="zoom:60%;" />
 </li>
 <li><p>로그인 후 좌 상단 애플리케이션 설정 메뉴를 클릭하고 새 application을 만들어줍니다.</p>
 </li>
@@ -887,7 +911,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <li>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)</li>
 <li>짠!</li>
 </ul>
-<p><img src="/images/eks-workshop/스크린샷_2021-11-03_오후_2.30.12.png" alt="정상동작 확인!"></p>
+<p><img src="/images/eks-workshop/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-03_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_2.30.12.png" alt="정상동작확인!"></p>
 </li>
 </ul>
 <p><br></br></p>
@@ -899,7 +923,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <li><a href="https://junghyeonsu.tistory.com/65">https://junghyeonsu.tistory.com/65</a></li>
 <li><a href="https://wookiist.dev/159">https://wookiist.dev/159</a></li>
 <li><a href="https://cwal.tistory.com/23">https://cwal.tistory.com/23</a></li>
-<li>[<a href="https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/](">https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/](</a></li>
+<li>[<a href="https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]">https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]</a>(</li>
 </ul>
 
         </div>
