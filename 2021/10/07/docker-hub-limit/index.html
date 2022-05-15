@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Docker hub pull limit이 발생했다면? - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="Docker Hub 에서 신나게 pull 받다가 limit 때문에 문제가 발생한 경우와, 이를 회피하는 방법에 대해서 작성해봤습니다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker hub pull limit이 발생했다면?">
+<meta property="og:url" content="http://tkdguq05.github.io/2021/10/07/docker-hub-limit/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Docker Hub 에서 신나게 pull 받다가 limit 때문에 문제가 발생한 경우와, 이를 회피하는 방법에 대해서 작성해봤습니다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://buddy.works/blog/thumbnails/docker-hub-pull-limit/docker-hub-pull-limit-share.png">
+<meta property="article:published_time" content="2021-10-07T13:10:16.000Z">
+<meta property="article:modified_time" content="2021-10-07T13:44:50.472Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://buddy.works/blog/thumbnails/docker-hub-pull-limit/docker-hub-pull-limit-share.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="Docker hub pull limit이 발생했다면?" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://buddy.works/blog/thumbnails/docker-hub-pull-limit/docker-hub-pull-limit-share.png" alt="Docker hub pull limit이 발생했다면?">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-10-07T13:10:16.000Z">2021-10-07</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Engineering/">Engineering</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 minutes read (About 1807 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Docker hub pull limit이 발생했다면?
+            
+        </h1>
+        <div class="content">
+            <p>Docker Hub 에서 신나게 pull 받다가 limit 때문에 문제가 발생한 경우와, 이를 회피하는 방법에 대해서 작성해봤습니다.</p>
+<a id="more"></a>
+
+
+
+<h2 id="Docker-Hub-Pull-Limit"><a href="#Docker-Hub-Pull-Limit" class="headerlink" title="Docker Hub Pull Limit"></a>Docker Hub Pull Limit</h2><p>Docker를 사용하는 여러 이유가 있겠지만, 무엇보다도 Docker Hub에 있는 이미지들을 자유롭게 받아서 사용할 수 있다는 점이 큰 매력 중에 하나라고 생각합니다. 그래서 저도 public 이미지들을 자유롭게 받아서 사용하고 이를 운영하는 서버에도 적용해서 배포를 하고 있었습니다. 그러던 와중에 청천벽력같은 소식이 전해집니다. </p>
+<blockquote>
+<p>Hello:</p>
+<p>You are receiving this email because of a policy change to Docker products and services you use. On Monday, November 2, 2020 at 9am Pacific Standard Time, Docker will begin enforcing rate limits on container pulls for Anonymous and Free users. Anonymous (unauthenticated) users will be limited to 100 container image pulls every six hours, and Free (authenticated) users will be limited to 200 container image pulls every six hours, when enforcement is fully implemented. Docker Pro and Team subscribers can pull container images from Docker Hub without restriction, as long as the quantities are not excessive or abusive.</p>
+<p>In addition, we are pausing enforcement of the changes to our image-retention policies until mid-2021, when we anticipate incorporating them into usage-based pricing. Two months ago, we announced an update to Docker image-retention policies. As originally stated, this change, which was set to take effect on November 1, 2020, would result in the deletion of images for free Docker account users after six months of inactivity. Today’s announcement means Docker will not enforce image expiration on November 1, 2020.</p>
+</blockquote>
+<p>이메일을 통해서 받았었는데, 당시에는 사실 바빠서 그냥 읽지도 않고 넘겼었습니다. 그때는 도커도 자주 사용하지 않았기 때문에 별로 신경을 쓰지 않았던 것입니다. Docker Hub Pull Limit에 대해서는 <a href="https://www.docker.com/increase-rate-limits">여기서 자세히 알아볼 수 있습니다.</a></p>
+<p>요약하자면, <code>정책이 변경되었고, 맘껏 쓰고 싶으면 돈내고 써라</code> 입니다.</p>
+<p>그리고 시간이 지나, 이 이메일을 메일함에 방치하고 있던 와중에, ECS와 Code Build를 통해서 배포를 하던 와중에 일이 발생하고야 말았습니다.</p>
+<h2 id="배포의-실패"><a href="#배포의-실패" class="headerlink" title="배포의 실패"></a>배포의 실패</h2><p>저희 팀에서는 Airflow를 통해 특정 추천 서비스의 전처리와 학습을 진행하고, 이 내용을 바탕으로 개발서버에 먼저 배포를 한 뒤에 결과를 일부 확인하고 운영서버에 배포하는 작업을 수행하고 있습니다. 어느때와 같이 새로운 고객사에 대해 추천 서비스 DAG를 생성하고 DAG를 켜줬습니다. 별 다른 이상이 없어서 시계를 확인하고 마침 퇴근 시간이 되었길래 칼퇴!를 했습니다. 지하철을 타는 순간에 핸드폰에서 불안한 알람이 온 것을 느꼈고, 그 내용은 DAG가 실패했다는 것이었습니다.</p>
+<p>그런데 이 DAG의 태스크는 왠만해서는 실패가 되지 않는 부분이었습니다. 학습된 내용을 도커 이미지에 작성하고 작성된 이미지를 그냥 빌드하는 것이었기 때문입니다. 찜찜해서 가는 내내 고민하다가, 다른 동료가 보내준 코드 빌드에서 에러 로그를 보자마자 스치듯 지나갔던 그 메일이 생각났습니다.</p>
+<p>에러의 내용은 다음과 같았습니다. <code>toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit</code> </p>
+<p>돈을 내라는 것이었습니다. </p>
+<p>하지만 저는 돈을 내기는 싫었고, 6시간을 기다려서 초기화 될때까지 기다려서 배포를 해볼까 했습니다. 하지만 고객사 추가가 잦아지거나 다른 이미지들을 pull해올 때 또 다시 문제가 발생할 수 있기에, 이를 한번 회피해야 겠다는 생각을 했습니다. 회피하는 방법은 생각보다 간단했습니다.</p>
+<h2 id="🤫-pull-limit-제한-없이-쓰기"><a href="#🤫-pull-limit-제한-없이-쓰기" class="headerlink" title="🤫 pull limit 제한 없이 쓰기"></a>🤫 pull limit 제한 없이 쓰기</h2><p>많은 회사들에서는 클라우드 기반에서 서비스를 운영하실 것이라고 생각합니다. 온프레미스에서 운영하실 수도 있으나, 저희는 클라우드 기반에서 운영하기에, 또 AWS를 사용하기에 이 환경에 국한한 문제 해결 방법을 소개해 드리겠습니다.</p>
+<p>AWS에는 이미지를 관리할 수 있는 저장소가 따로 있습니다. <code>ECR</code> 이라고 불립니다. 이 ECR에 다양한 이미지들을 빌드해서 올려놓고, ECS에 있는 TASK들의 컨테이너가 띄워질 때, 이 이미지를 사용해서 올라오게 됩니다. ECS말고도 인스턴스에서 이미지들을 갖고와서 사용할 수도 있고, 또 다르게 다양하게 사용할 수 있을 것입니다. </p>
+<p>그래서 다양하게 한 번 사용을 해봤습니다. 필요한 이미지를 받아서 빌드하고 이 이미지를 ECR에 올려놓고, 이 이미지를 받아서 한번 사용해보는 겁니다. 그렇게 되면 이 이미지 자체는 ECR에 존재하게 되어서, ECS에서 태스크를 띄우든, 다른 곳에서 사용하든 무제한으로 이 이미지를 사용할 수 있게 될 것입니다.</p>
+<p>저희 쪽에서 특히 자주 사용하는 이미지는 바로, python 이미지였습니다. <code>python:3.7-slim-buster</code> 를 특히 자주 썼었던 것 같은데, 이 이미지를 구글에서 검색해서 원본 이미지를 pull 해왔습니다. 이미지는 <a href="https://github.com/docker-library/repo-info/blob/master/repos/python/remote/3.7-slim-buster.md">이 곳</a>에서 찾았습니다.</p>
+<p>나와있는 대로</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull python@sha256:88e9ed044abd15c15069477046e8c65fb7e97cebd7cf140e901ae35440bfc073</span><br></pre></td></tr></table></figure>
+
+<p>docker 명령어를 통해 필요한 이미지를 받아줍니다. 그리고 <code>docker image ls</code>를 하면?</p>
+<blockquote>
+<p>amd64/python                                                             3.7                 7cb3330faa6c        8 days ago          903MB</p>
+</blockquote>
+<p>이렇게 잘 있는 것을 확인했습니다.</p>
+<p>그 다음 이미지 이름에 태그를 달아주고 어디로 보내줄 것인지를 정의해줬습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag amd64&#x2F;python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com&#x2F;python37_slim_buster</span><br></pre></td></tr></table></figure>
+
+<p>그런데 이때 중요한 것은, ECR의 레포지토리를 미리 만들어줘야 한다는 것입니다. 미리 만들어두지 않으면, 알아서 레포지토리를 만들지 못하기 때문에 에러가 나서 실망하게 됩니다. 한 번에 딲! 끝내고 싶다면 미리 만들어 두십시오.</p>
+<p>태그를 해 준 다음에는 push를 해줍니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push amd64&#x2F;python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com&#x2F;python37_slim_buster</span><br></pre></td></tr></table></figure>
+
+
+
+<p>이렇게 Push까지 하게되면? 원하는 이미지를 ECR 레포지토리에서 확인할 수 있습니다.</p>
+<p>이제 이렇게 만들어진 이미지의 URI를 복사해서 Dockerfile의 FROM에 집어넣어 주면? 이제 제한없이 배포를 마음껏 할 수 있게 됩니다!</p>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
+<li><a href="https://www.docker.com/increase-rate-limits">https://www.docker.com/increase-rate-limits</a></li>
+<li><a href="https://github.com/docker-library/repo-info/blob/master/repos/python/remote/3.7-slim-buster.md">https://github.com/docker-library/repo-info/blob/master/repos/python/remote/3.7-slim-buster.md</a></li>
+<li><a href="https://subicura.com/k8s/2021/01/02/docker-hub-pull-limit/">https://subicura.com/k8s/2021/01/02/docker-hub-pull-limit/</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Docker/" rel="tag">Docker</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/11/03/EKS-workshop/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">EKS-workshop</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2021/09/12/work-overtime-with-airflow/">
+                <span class="level-item">Airflow와 야근하기</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2021/10/07/docker-hub-limit/';
+        this.page.identifier = '2021/10/07/docker-hub-limit/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Docker-Hub-Pull-Limit">
+        <span class="has-mr-6">1</span>
+        <span>Docker Hub Pull Limit</span>
+        </a></li><li>
+        <a class="is-flex" href="#배포의-실패">
+        <span class="has-mr-6">2</span>
+        <span>배포의 실패</span>
+        </a></li><li>
+        <a class="is-flex" href="#🤫-pull-limit-제한-없이-쓰기">
+        <span class="has-mr-6">3</span>
+        <span>🤫 pull limit 제한 없이 쓰기</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Reference">
+        <span class="has-mr-6">3.1</span>
+        <span>Reference</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="Docker hub pull limit이 발생했다면?" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+</body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Airflow EC2에 구축하기 - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="Airflow를 AWS EC2에서 실행시켜 보자!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Airflow EC2에 구축하기">
+<meta property="og:url" content="http://tkdguq05.github.io/2020/12/13/airflow-on-ec2/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Airflow를 AWS EC2에서 실행시켜 보자!">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://cwiki.apache.org/confluence/download/attachments/145723561/wordmark_1.png?api=v2">
+<meta property="article:published_time" content="2020-12-13T08:05:59.000Z">
+<meta property="article:modified_time" content="2021-02-21T06:55:54.558Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="airflow">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cwiki.apache.org/confluence/download/attachments/145723561/wordmark_1.png?api=v2">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="Airflow EC2에 구축하기" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://cwiki.apache.org/confluence/download/attachments/145723561/wordmark_1.png?api=v2" alt="Airflow EC2에 구축하기">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-12-13T08:05:59.000Z">2020-12-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/engineering/">engineering</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 minutes read (About 3756 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Airflow EC2에 구축하기
+            
+        </h1>
+        <div class="content">
+            <p>Airflow를 AWS EC2에서 실행시켜 보자!</p>
+<a id="more"></a>
+
+<h2 id="AWS-EC2-위에-Airflow-구축하기"><a href="#AWS-EC2-위에-Airflow-구축하기" class="headerlink" title="AWS  EC2 위에 Airflow 구축하기"></a>AWS  EC2 위에 Airflow 구축하기</h2><p>Airflow를 로컬에 구축할 수도 있지만 안정성을 위해서라면 꺼지지 않는 컴퓨터에 Airflow를 구축하는 것이 좋을 것입니다. 이번 글에서는 실제 서비스를 위해서 Airflow를 EC2 위에 구축하는 내용을 담아보겠습니다.</p>
+<p>Airflow에 대한 기본 개념이 궁금하신 분들은 <a href="https://tkdguq05.github.io/2020/03/14/airflow-start/#more">Airflow Basic</a> 을 확인하시면 좋습니다.</p>
+<h2 id="준비물"><a href="#준비물" class="headerlink" title="준비물"></a>준비물</h2><p>Airflow를 구축하기 위해서는 준비물이 필요합니다. 첫번째로는 EC2 서버입니다. 인스턴스 사이즈가 작아도 크게 상관은 없겠지만 여유롭게 t3.large를 선택하도록 하겠습니다. 인스턴스 설정이 끝나면 인스턴스를 생성하고 바로 인스턴스 안으로 들어가 보도록 합니다.</p>
+<p>ssh 명령어를 이용해서 인스턴스 주소를 입력해 접속합니다. 접속이 안된다면 보안그룹에서 22번 포트를 열어줍시다.</p>
+<p>이제 본격적으로 Airflow를 구축해 볼 것입니다. 구축 시에 확인해야 할 체크리스트를 만들어 둡니다.</p>
+<ul>
+<li><input disabled="" type="checkbox"> Airflow 기본 세팅</li>
+<li><input disabled="" type="checkbox"> Redis</li>
+<li><input disabled="" type="checkbox"> MySQL</li>
+<li><input disabled="" type="checkbox"> 기타 라이브러리 설치</li>
+<li><input disabled="" type="checkbox"> AMI 이미지 생성하기</li>
+</ul>
+<p>마지막에 이미지를 생성하는 이유는 이 작업을 반복하려면 너무 귀찮고 힘들기 때문입니다. 완벽히 구축이 되고 잘 돌아가는 Airflow 이미지를 생성해 두면 나중에 활용할 일이 많습니다. Airflow를 클러스터화 한다던가 그런 곳에 이미지를 사용하면 쉽게 구축할 수 있습니다.</p>
+<p>레크리스트에는 Redis와 MySQL이 포함되어있습니다. 기본 세팅으로 실행해도 상관없지만 기본 세팅의 Executor는 Sequential Executor로 병렬로 Task를 수행할 수밖에 없습니다. 실제 서비스에는 많은 Task가 동시에 실행해야 할 경우가 자주 발생하므로 병렬 처리가 가능한 Celery Executor를 사용할 것이고 이 Executor는 메시지 브로커를 사용합니다. 메시지 브로커에는 RabbitMQ나 Redis 등이 사용되는데 이번 글에서는 Redis를 사용해 보겠습니다. </p>
+<hr>
+<h2 id="기본-세팅에-대한-의문점"><a href="#기본-세팅에-대한-의문점" class="headerlink" title="기본 세팅에 대한 의문점"></a>기본 세팅에 대한 의문점</h2><h3 id="Redis-vs-RabbitMQ"><a href="#Redis-vs-RabbitMQ" class="headerlink" title="Redis vs RabbitMQ?"></a>Redis vs RabbitMQ?</h3><p>Redis는 NoSQL DB로 잘 알려져 있습니다. In Memeory 방식이며 key-value데이터 구조 스토어 이기 때문에 빠른 Read, Write 성능을 보장합니다.</p>
+<p>RabbitMQ는 DB보다는 메세징 브로커로 잘 알려져 있습니다. 메시지의 우선순위를 지원하며 크고 복잡한 메시지를 다룰때 적합합니다.</p>
+<p>Airflow의 브로커로 어떤걸 사용할지는 현재 서비스할 비즈니스 프로세스에 따라 판단하면 됩니다. 제가 구축할 서비스의 비즈니스 프로세스에는 복잡한 메시지를 다루지는 않습니다. 제가 판단하기에 이 서비스에는 속도가 더 중요하다고 생각했습니다. 그래서 In Memory 방식의 Redis은 성능이 보장되기 때문에 Redis로 선택을 했습니다. Airflow를 구축하시는 분들도 무작정 따라하기보다는 비즈니스 프로세스를 생각해보시고 알맞는 로직에 따라 어떤걸 사용할지 선택하시면 좋을 것 같습니다.</p>
+<blockquote>
+<p><strong>참고! Celery란?</strong><br>Celery 는 Python 으로 작성된 분산 메시지 전달을 기반으로 한 비동기 작업 큐로, Worker 의 한 종류입니다.<br>별도로 실행 중인 Worker Process가 Broker로부터 Message를 전달 받아 작업을 대신 수행해 주는 라이브러리입니다.<br>출처 : <a href="https://velog.io/@jisoo1170/Redis-RabbitMQ-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%9D%84-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90">https://velog.io/@jisoo1170/Redis-RabbitMQ-%EC%B0%A8%EC%9D%B4%EC%A0%90%EC%9D%84-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90</a></p>
+</blockquote>
+<h3 id="Sqlite-vs-MySQL"><a href="#Sqlite-vs-MySQL" class="headerlink" title="Sqlite vs MySQL?"></a>Sqlite vs MySQL?</h3><p>또한 Airflow의 meta store는 sqlite인데 sqlite로는 Hello World 정도만 테스트할 정도의 수준이기 때문에 MySQL을 DB로 사용해 볼 것입니다. 보통 sqlite는 로컬에서 혼자 사용하는 용도이며 많은 요청을 처리하기에는 버겁습니다. 반면 MySQL은 여러 개의 작업과 사용자의 SQL을 처리할 수 있도록 구현되어 있기 때문에 실제 서비스에 sqlite보다 적합할 것입니다.</p>
+<p>의문점이 해결되었다면 본격적으로 Airflow를 구축해보도록 하겠습니다.</p>
+<hr>
+<h2 id="1-Airflow-기본-세팅"><a href="#1-Airflow-기본-세팅" class="headerlink" title="1. Airflow 기본 세팅"></a>1. Airflow 기본 세팅</h2><p>Airflow 구축 전에 반드시 해야할 것 중에 하나는 Airflow Home 경로를 설정하는 것입니다. 저의 경우에는 항상 경로 세팅을 나중에 하다가 잊어버려서 에러가 나는 경우가 많아서 꼭 먼저 설정해두곤 합니다.</p>
+<p><img src="/images/airflow_on_ec2/airflow_quick.png" alt="Airflow Quick Start"></p>
+<p>출처 : <a href="https://airflow.apache.org/docs/apache-airflow/stable/start.html">https://airflow.apache.org/docs/apache-airflow/stable/start.html</a></p>
+<p>Airflow 공식 문서에 따르면 기본 경로는 위 사진에 나와있는 것과 같습니다. 그냥 놔둬도 되지만 나중에 경로를 옮길 때를 대비해서 한번 세팅해봅시다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># EC2</span></span><br><span class="line"><span class="built_in">export</span> AIRFLOW_HOME=/home/ec2-user/airflow</span><br></pre></td></tr></table></figure>
+
+<p>EC2 인스턴스라면 기본 경로를 다음과 같이 설정해 줍니다.</p>
+<p>(여기서 airflow를 바로 설치해도 되긴 하지만 pip3 install apache-airflow로 설치를 하게되면 자잘한 에러들을 만날 수 있습니다. 아래 과정을 마친 뒤 명령을 실행하면 깔끔하게 설치되니 잘 따라가보도록 합니다. )<br><br></br></p>
+<h2 id="2-Redis-세팅"><a href="#2-Redis-세팅" class="headerlink" title="2. Redis 세팅"></a>2. Redis 세팅</h2><p>이제 브로커로 사용할 Redis를 설치해 줍시다. 먼저 AWS Linux의 패키지 설치 도구인 <code>yum</code>을 업데이트하고 필요한 라이브러리를 설치합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum -y update</span><br><span class="line">$ sudo yum -y install gcc make</span><br></pre></td></tr></table></figure>
+
+<p>이제 Redis를 다운 받습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /tmp</span><br><span class="line">$ wget http://download.redis.io/releases/redis-4.0.0.tar.gz</span><br><span class="line">$ tar xzf redis-4.0.0.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> redis-4.0.0</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure>
+
+<p>Redis 디렉토리를 만들고 파일을 복사합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir /etc/redis </span><br><span class="line">$ sudo mkdir /var/lib/redis</span><br><span class="line">$ sudo cp src/redis-server src/redis-cli /usr/<span class="built_in">local</span>/bin/</span><br><span class="line">$ sudo cp redis.conf /etc/redis/</span><br></pre></td></tr></table></figure>
+
+<p>Redis의 configure 파일을 수정합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/etc/redis/redis.conf</span></span><br><span class="line">[..]</span><br><span class="line">daemonize yes</span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">[..]</span><br><span class="line"><span class="built_in">bind</span> 0.0.0.0</span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">[..]</span><br><span class="line">dir /var/lib/redis</span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">logfile /var/<span class="built_in">log</span>/redis_6379.log</span><br></pre></td></tr></table></figure>
+
+<p>Redis-Server initializize 스크립트를 세팅합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /tmp</span><br><span class="line">$ wget https://raw.github.com/saxenap/install-redis-amazon-linux-centos/master/redis-server</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mv redis-server /etc/init.d</span><br><span class="line">$ sudo chmod 755 /etc/init.d/redis-server</span><br><span class="line">$ sudo vim /etc/init.d/redis-server</span><br><span class="line">	</span><br><span class="line">-&gt;  redis=<span class="string">"/usr/local/bin/redis-server"</span> 확인</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chkconfig --add redis-server</span><br><span class="line">$ sudo chkconfig --level 345 redis-server on</span><br></pre></td></tr></table></figure>
+
+<p>서버 실행!</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service redis-server start</span><br><span class="line">$ redis-cli ping -&gt; PONG</span><br><span class="line"></span><br><span class="line"><span class="comment"># 강제 종료시</span></span><br><span class="line"><span class="variable">$sudo</span> service redis-server stop</span><br></pre></td></tr></table></figure>
+
+<p><code>sudo service redis-server start</code>를 해도 별 반응이 없다면 ctrl+c로 종료하고 실제로 돌아가는 프로세스가 있는지 확인합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep redis</span><br></pre></td></tr></table></figure>
+
+<p>제대로 세팅이 되었다면 다음과 같이 나올 것입니다.</p>
+<p><img src="/images/airflow_on_ec2/redis_on.png" alt="Redis가 돌아가고 있다"></p>
+<p>브로커는 구축이 되었습니다.<br><br></br></p>
+<h2 id="3-MySQL-세팅"><a href="#3-MySQL-세팅" class="headerlink" title="3. MySQL 세팅"></a>3. MySQL 세팅</h2><p>Airflow 구축을 하면서 가장 삽질도 많이 하고 시간을 많이 낭비한 부분입니다. 익숙하지 않아서인지 이상하게 MySQL을 다룰 때마다 에러핸들링을 오래 하게 되는 것 같습니다.</p>
+<p>MySQL 설치</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mysql56-server</span><br></pre></td></tr></table></figure>
+
+<p>웹에 검색하면 위와 같은 명령어가 많이 등장합니다. 예전 버전의 AWS CLI였으면 명령어가 적용되었을 것 같은데 mysql이 설치가 되지 않습니다.</p>
+<p>아래의 명령어를 사용해서 설치를 해야합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</span><br><span class="line">$ sudo yum localinstall mysql57-community-release-el7-11.noarch.rpm </span><br><span class="line">$ sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+
+<p>설치가 완료되면 mysql 데몬을 실행합니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld.service</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/airflow_on_ec2/mysql_error.png" alt="왜 안되지"></p>
+<p><img src="/images/airflow_on_ec2/heavy_ki.png" alt="답답하면 직접 하면 된다"></p>
+<p>이렇게 실행하라는 소리가 많은데 역시나 실행이 되지 않습니다. 왜 꼭 한번에 되게 정리해 놓은 문서는 없을까요? 답답하면 제가 정리해서 글을 올리면 됩니다. 묵-직하게!</p>
+<p>에러가 난다면 코드를 다음과 바꿔서 쳐봅니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld start</span><br></pre></td></tr></table></figure>
+
+<p>mysqld가 실행되었고 이제 mysql 명령어를 이용하는 게 가능해졌습니다.</p>
+<p>Airflow에서 MySQL을 DB로 사용하기 때문에 해주어야 할 작업이 남았습니다. Airflow 유저를 만들어 줘야하고 airflow database를 만들어줘야 합니다. 유저가 없다면 database에 접근이 불가능하며, airflow database가 없다면 Airflow 실행에 필요한 테이블들을 만들지 못합니다.</p>
+<p>따라서 <code>root</code>유저로 접속해서 유저를 만들고 데이터베이스를 만들어줘야 합니다.</p>
+<h3 id="MySQL-세부-세팅"><a href="#MySQL-세부-세팅" class="headerlink" title="MySQL 세부 세팅"></a>MySQL 세부 세팅</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line"><span class="comment"># 패스워드를 입력</span></span><br><span class="line">Enter Password :</span><br></pre></td></tr></table></figure>
+
+<p>루트 유저로 접속하려면 비밀번호를 요구합니다. 하지만 방금 MySQL을 설치했기 때문에 비밀번호를 설정한 적이 없습니다. 그래서 그냥 엔터를 쳐봅니다.</p>
+<p><img src="/images/airflow_on_ec2/mysql_error.png" alt="왜 않되2"></p>
+<p>될리가 없습니다.</p>
+<p>MySQL은 설치가 될때 root 유저에 대한 임시 비밀번호를 만들어 놓기 때문에 접속이 안되는 것입니다. 임시 비밀번호를 찾아 와야 합니다. 임시 비밀번호는 휴대폰 인증을 통해서 이메일로 받는게 정석이지만 MySQL은 조금 다릅니다. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /var/<span class="built_in">log</span>/mysqld.log</span><br></pre></td></tr></table></figure>
+
+<p><code>/var/log/mysqld.log</code> 여기에 임시비밀번호가 있습니다. 비밀번호를 복사해 놓은 후 다시 입력해 봅니다.</p>
+<p>mysql 프롬포트가 나왔다면 성공입니다.</p>
+<p>이제 root 유저의 비밀번호를 다시 설정해주고 airflow 유저를 생성하고 database를 만들어 주면 세팅은 끝납니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE mysql.user SET Password=PASSWORD(<span class="string">'패스워드'</span>)</span><br><span class="line">           WHERE User=<span class="string">'root'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>검색해서 나온 위 명령어로 비밀번호를 세팅해줍니다.</p>
+<p>여기서 에러가 발생하는데 두 가지 에러가 발생합니다.</p>
+<ol>
+<li>syntax 에러</li>
+<li>Your password does not satisfy the current policy requirements</li>
+</ol>
+<p>1번 에러의 경우에는 <code>&#39;</code> 를 잘 살펴보고 모양이 맞는지 한번 잘 확인해 봅니다. 혹은 mysql 버전에 맞지 않는 명령어일 가능성이 있습니다. mysql 5.7이상의 명령어인지 확인을 다시 해봅니다.</p>
+<p>2번 에러의 경우에는 비밀번호가 너무 쉽다는 것입니다. mysql에는 비밀번호 정책이 상 중 하로 나누어져 있는데 기본 설정은 MEDIUM입니다. 복잡한 비밀번호를 사용하기는 싫었기 때문에 저는 이것을 LOW로 변경할 것입니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> global validate_password_policy=<span class="string">'LOW'</span>;</span><br><span class="line"><span class="comment"># 쿼리 성공!</span></span><br></pre></td></tr></table></figure>
+
+<p>LOW로 설정되었다면 비밀번호는 8자 이상으로만 세팅하면 됩니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter user <span class="string">'root'</span>@<span class="string">'localhost'</span> identified by <span class="string">'8자 이상 패스워드'</span>;</span><br><span class="line">use mysql;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<p>이제 airflow 사용자를 만들어주고 database도 만들어줍니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 사용자 생성</span></span><br><span class="line">create user <span class="string">'airflow'</span>@<span class="string">'localhost'</span> identified by <span class="string">'비밀번호'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># DB 권한 부여</span></span><br><span class="line">$ grant all privileges on *.* to <span class="string">'airflow'</span>@<span class="string">'localhost'</span>;</span><br><span class="line">$ grant all privileges on DB이름.* to <span class="string">'airflow'</span>@<span class="string">'localhost'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># database 생성</span></span><br><span class="line">create database airflow;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install <span class="string">'apache-airflow[mysql]'</span></span><br></pre></td></tr></table></figure>
+
+<p>험난 했던 MySQL 세팅은 완료되었습니다.<br><br></br></p>
+<h2 id="4-Airflow-설치-및-세팅"><a href="#4-Airflow-설치-및-세팅" class="headerlink" title="4. Airflow 설치 및 세팅"></a>4. Airflow 설치 및 세팅</h2><p>이제 Airflow를 설치해봅시다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum update -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install group <span class="string">"Development tools"</span> -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel python3-devel.x86_64 cyrus-sasl-devel.x86_64 -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install libevent-devel -y</span><br><span class="line"></span><br><span class="line">$ sudo pip3 install apache-airflow</span><br></pre></td></tr></table></figure>
+
+<p>설치가 완료되었다면 airflow 폴더애 있는 airflow.cfg를 수정해서 앞서 설치한 redis와 mysql을 airflow와 이어줘야 합니다.</p>
+<p><strong>하지만 아무리 찾아봐도 airflow 폴터가 보이지 않습니다. 분명히 설치를 했는데!</strong></p>
+<p>airflow를 입력해서 airflow 명령어가 동작하는지 먼저 확인합니다. 만약 명령어가 작동한다면 아까 설정해둔 <code>AIRFLOW_HOME</code>경로에 airflow 폴더가 생성될 것입니다. 그 안에 configuration 파일이 있습니다.</p>
+<p>만약 <code>airflow: command not found</code>에러가 발생한다면 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:~/.<span class="built_in">local</span>/bin</span><br></pre></td></tr></table></figure>
+
+<p>환경변수를 조정해서 airflow가 bin에서 실행되도록 합니다.</p>
+<h3 id="airflow-cfg-설정"><a href="#airflow-cfg-설정" class="headerlink" title="airflow.cfg 설정"></a>airflow.cfg 설정</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 사용할 dag 폴더 지정</span></span><br><span class="line"><span class="comment"># subfolder in a code repository. This path must be absolute. 꼭 절대경로!</span></span><br><span class="line">dags_folder = /home/ec2-user/airflow/dags</span><br><span class="line"></span><br><span class="line"><span class="comment"># executor = SequentialExecutor</span></span><br><span class="line">executor = CeleryExecutor</span><br><span class="line"></span><br><span class="line"><span class="comment"># sql_alchemy_conn = sqlite:////home/airflow/airflow/airflow.db</span></span><br><span class="line">sql_alchemy_conn =  mysql+pymysql://airflow:비밀번호@127.0.0.1:3306/airflow</span><br><span class="line"></span><br><span class="line"><span class="comment"># catchup_by_default = True</span></span><br><span class="line">catchup_by_default = False</span><br><span class="line"></span><br><span class="line"><span class="comment"># broker_url = sqla+mysql://airflow:airflow@127.0.0.1:3306/airflow</span></span><br><span class="line">broker_url = redis://airflow@127.0.0.1:6379/0</span><br><span class="line"></span><br><span class="line"><span class="comment"># result_backend = db+mysql://airflow:airflow@localhost:3306/airflow</span></span><br><span class="line">result_backend = db+mysql://airflow:비밀번호@127.0.0.1:3306/airflow</span><br><span class="line"></span><br><span class="line"><span class="comment"># load_examples = True</span></span><br><span class="line">load_examples = False</span><br></pre></td></tr></table></figure>
+
+<p>이 정도만 세팅 해줍니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install boto3</span><br><span class="line">sudo pip3 install celery</span><br><span class="line">sudo pip3 install redis</span><br></pre></td></tr></table></figure>
+
+<p>실행에 필요한 라이브러를 설치해주고 airflow db를 초기화 해봅시다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow initdb</span><br></pre></td></tr></table></figure>
+
+<p>Done!이 나왔다면 성공입니다.</p>
+<hr>
+<p><br></br></p>
+<h2 id="Airflow-실행"><a href="#Airflow-실행" class="headerlink" title="Airflow 실행"></a>Airflow 실행</h2><p>Airflow는 스케쥴러, 웹서버, 워커로 구성되어있습니다. 하나하나 백그라운드로 실행시켜줍니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nohup airflow webserver &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line">nohup airflow scheduler &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># queue를 설정했다면 -q를 통해 추가한다</span></span><br><span class="line">nohup airflow worker &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/airflow_on_ec2/airflow_ui.png" alt="됐다!!!!!"></p>
+<p>웹 UI가 예쁘게 뜬다면 성공입니다!</p>
+<p>example dag를 실행해보고 안된다면 백그라운드로 실행된 프로세스를 종료한 뒤 nohup명령어를 빼고 실행합니다. 로그가 나오므로 해당 에러를 모두 해결한 뒤에 백그라운드로 실행시켜 주면 완료가 됩니다.</p>
+<hr>
+<p><br></br></p>
+<h2 id="자잘한-에러-핸들링"><a href="#자잘한-에러-핸들링" class="headerlink" title="자잘한 에러 핸들링"></a>자잘한 에러 핸들링</h2><ol>
+<li><p><code>Exception: Global variable explicit_defaults_for_timestamp needs to be on (1) for mysql</code></p>
+<p> 위 에러가 등장한다면 mysql에서 timestamp 설정을 변경해 주어야 한다.</p>
+<p> root 계정으로 들어가서 아래 명령어를 실행해준다.</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET GLOBAL explicit_defaults_for_timestamp = 1;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>ModuleNotFoundError: No module named &#39;MySQLdb&#39;</code></p>
+<p>  또는 OSError: mysql_config not found 이런 에러 메세지로 등장할 수 있다.</p>
+<p> 아래 명령어로 해결한다.</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install mysql-devel</span><br><span class="line"></span><br><span class="line">pip3 install <span class="string">'apache-airflow[mysql]'</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<hr>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://airflow.apache.org/docs/">https://airflow.apache.org/docs/</a></p>
+<p><a href="https://boomkim.github.io/2020/01/08/airflow-install-amazon-linux-2/">https://boomkim.github.io/2020/01/08/airflow-install-amazon-linux-2/</a></p>
+<p><a href="https://openmind8735.com/aws/redis/2017/07/21/aws-ec2-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4%EC%97%90-redis-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0/">https://openmind8735.com/aws/redis/2017/07/21/aws-ec2-인스턴스에-redis-설치하기/</a></p>
+<p><a href="https://serverfault.com/questions/894457/amazon-linux-2-ami-aws-how-to-install-mysql-in-amazon-linux-2">https://serverfault.com/questions/894457/amazon-linux-2-ami-aws-how-to-install-mysql-in-amazon-linux-2</a></p>
+<p><a href="https://lemontia.tistory.com/943">https://lemontia.tistory.com/943</a></p>
+<p><a href="https://m.blog.naver.com/aim4u/221766568746">https://m.blog.naver.com/aim4u/221766568746</a></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/airflow/" rel="tag">airflow</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/12/27/20201227/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">20201227. 2020년 회고하기</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/11/29/network-part2/">
+                <span class="level-item">데이터 사이언스를 위한 네트워크 Part 2</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2020/12/13/airflow-on-ec2/';
+        this.page.identifier = '2020/12/13/airflow-on-ec2/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#AWS-EC2-위에-Airflow-구축하기">
+        <span class="has-mr-6">1</span>
+        <span>AWS  EC2 위에 Airflow 구축하기</span>
+        </a></li><li>
+        <a class="is-flex" href="#준비물">
+        <span class="has-mr-6">2</span>
+        <span>준비물</span>
+        </a></li><li>
+        <a class="is-flex" href="#기본-세팅에-대한-의문점">
+        <span class="has-mr-6">3</span>
+        <span>기본 세팅에 대한 의문점</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Redis-vs-RabbitMQ">
+        <span class="has-mr-6">3.1</span>
+        <span>Redis vs RabbitMQ?</span>
+        </a></li><li>
+        <a class="is-flex" href="#Sqlite-vs-MySQL">
+        <span class="has-mr-6">3.2</span>
+        <span>Sqlite vs MySQL?</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#1-Airflow-기본-세팅">
+        <span class="has-mr-6">4</span>
+        <span>1. Airflow 기본 세팅</span>
+        </a></li><li>
+        <a class="is-flex" href="#2-Redis-세팅">
+        <span class="has-mr-6">5</span>
+        <span>2. Redis 세팅</span>
+        </a></li><li>
+        <a class="is-flex" href="#3-MySQL-세팅">
+        <span class="has-mr-6">6</span>
+        <span>3. MySQL 세팅</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#MySQL-세부-세팅">
+        <span class="has-mr-6">6.1</span>
+        <span>MySQL 세부 세팅</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#4-Airflow-설치-및-세팅">
+        <span class="has-mr-6">7</span>
+        <span>4. Airflow 설치 및 세팅</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#airflow-cfg-설정">
+        <span class="has-mr-6">7.1</span>
+        <span>airflow.cfg 설정</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Airflow-실행">
+        <span class="has-mr-6">8</span>
+        <span>Airflow 실행</span>
+        </a></li><li>
+        <a class="is-flex" href="#자잘한-에러-핸들링">
+        <span class="has-mr-6">9</span>
+        <span>자잘한 에러 핸들링</span>
+        </a></li><li>
+        <a class="is-flex" href="#Reference">
+        <span class="has-mr-6">10</span>
+        <span>Reference</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="Airflow EC2에 구축하기" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+</body>
+</html>

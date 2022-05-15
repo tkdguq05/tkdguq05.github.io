@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>AWS 비용관리의 서막, EMR - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="FinOps? EMR 비용관리">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS 비용관리의 서막, EMR">
+<meta property="og:url" content="http://tkdguq05.github.io/2021/01/24/cost-mgt-emr/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="FinOps? EMR 비용관리">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://d2908q01vomqb2.cloudfront.net/cb7a1d775e800fd1ee4049f7dca9e041eb9ba083/2018/12/15/Fin-Ops.png">
+<meta property="article:published_time" content="2021-01-24T06:36:52.000Z">
+<meta property="article:modified_time" content="2021-01-24T08:05:38.348Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="EMR">
+<meta property="article:tag" content="AWS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://d2908q01vomqb2.cloudfront.net/cb7a1d775e800fd1ee4049f7dca9e041eb9ba083/2018/12/15/Fin-Ops.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="AWS 비용관리의 서막, EMR" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://d2908q01vomqb2.cloudfront.net/cb7a1d775e800fd1ee4049f7dca9e041eb9ba083/2018/12/15/Fin-Ops.png" alt="AWS 비용관리의 서막, EMR">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-24T06:36:52.000Z">2021-01-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Engieering/">Engieering</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    19 minutes read (About 2859 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                AWS 비용관리의 서막, EMR
+            
+        </h1>
+        <div class="content">
+            <p>FinOps? EMR 비용관리</p>
+<a id="more"></a>
+
+
+<h1 id="비용관리의-서막-FinOps"><a href="#비용관리의-서막-FinOps" class="headerlink" title="비용관리의 서막, FinOps?"></a>비용관리의 서막, FinOps?</h1><p>비용관리를 본격적으로 시작하게되는 때는 언제일까요? 비용관리에 대한 책에 감명을 받아서? 물론 FinOps에 관한 책을 추천 받았고 이런 책이 있다는 것에 대해서 놀라기도 했습니다. 본격적으로 비용관리를 체계를 갖추어 해야겠다는 생각도 같이 들었습니다. 하지만 일반적으로는 AWS 요금이 과하게 부과된 날이지 않을까 합니다. 12월의 평화로운 어느 날에 개발 팀장님께서 조용히 저를 부르셨고, 충격적인 12월의 요금을 보면서 비용관리의 필요성을 깨닫게 되었습니다. </p>
+<p>앞서 FinOps에 관한 책을 추천 받았다고 했는데, 이 책을 기반으로 비용 관리를 해야겠다고 마음을 먹었습니다. 이 책은 마이클 풀러의 <a href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQ12PNmpt2mrX5XbiP5lOyLJ1hA5trRV5ficm1fL_vGDRuCpvRb">Cloud FinOps: Collaborative, Real-Time Cloud Financial Management</a> 입니다.<br><img src="https://image.yes24.com/Goods/74391396/L" alt="cloud finops">책에 대한 소개글을 작성하려고 한게 아니기 때문에 간단하게 책에 대해서 읽어본 소감을 말하자면, 엄청나게 세밀하게 관리포인트를 집어주지는 않습니다. 제가 아는 내용이 많지 않아서 그럴 수도 있겠습니다. 비용관리라는 말을 듣고 어떻게 관리할 수 있을까? 에 대해서 생각해보면 나오는 개념들이 정확한 용어로 설명이 되어있기는 합니다. 나쁜 책은 아니라고 생각합니다. 실무자보다는 윗 분들이 먼저 읽었으면 합니다.</p>
+<h2 id="FinOps"><a href="#FinOps" class="headerlink" title="FinOps"></a>FinOps</h2><p>FinOps는 Finance + DevOps가 결합된 말입니다. 클라우드 환경에서 재무와 개발/운영을 긴밀히 결합함으로써 비용을 최적화하여 관리하고 통제할 수 있도록 하는 것입니다. 클라우드 비용 최적화를 위한 베스트 프렉티스와 공통된 표준 정책으로 기술과 비즈니스, 재무 전문가를 결합함으로써 비즈니스 가치 극대화하려는 것입니다.(출처 : Bespin Global)<br>회사에서 비용관리를 제대로 시작하게 되면서 FinOps라는 말을 붙이지는 않았습니다. 재무에 관련된 인원을 포함하기 어려웠기 때문입니다. 대신에 비용관리에 관련된 사람들이 모였습니다. AWS의 비용 급상승에 관련된 부서의 실무자와 개발 팀장님, TA, 기획 팀장님입니다. 사실상 운영에 관련된 모든 사람이 모이게 되었습니다. 이렇게 모인 사람들과 비용에 대해서 논의했고 현재는 1차적인 최적화 작업을 완료하였습니다. </p>
+<h2 id="비용의-원인-EMR"><a href="#비용의-원인-EMR" class="headerlink" title="비용의 원인, EMR"></a>비용의 원인, EMR</h2><p>다시 문제의 12월의 끝자락으로 돌아와서, 원인 파악을 해보기 시작했습니다. 원인 중 하나는 EMR 비용의 갑작스러운 증가였습니다. EMR이 무엇일까요? 구글에 검색하면 기다렸다는 듯이 AWS는 <a href="https://docs.aws.amazon.com/ko_kr/emr/latest/ManagementGuide/emr-what-is-emr.html">문서</a>를 만들어 놓았습니다. 쉽게 말하자면, EMR은 AWS 위에서 Hadoop이나 그 기반 프레임워크들을 위한 빅 데이터 프레임워크 실행을 간소화하는 관리형 클러스터 플랫폼입니다. 저희의 경우 Spark를 사용하기 위해 EMR을 쓰고 있습니다. </p>
+<h3 id="예상되는-비용-포인트"><a href="#예상되는-비용-포인트" class="headerlink" title="예상되는 비용 포인트"></a>예상되는 비용 포인트</h3><ol>
+<li>많은 고객사에 대한 대응</li>
+<li>오버 사이징된 클러스터</li>
+<li>Airflow TerminateJobFlow</li>
+<li>EMR Cluster 관리</li>
+</ol>
+<p>첫 번째는 많은 고객사에 대한 대응이였습니다. 새롭게 오픈한 서비스로 인해 고객사가 갑자기 많이 들어오게 되었습니다. FinOps 책에 나온대로, 비용은 $사용량\times요율$ 이므로 사용량이 늘어났기 때문에 비용이 갑자기 증가될 수 밖에 없었습니다. 갑자기 늘어난 고객사를 줄일 수도 없는 노릇이므로, 다른 관리 포인트를 찾아 봤습니다. </p>
+<p>두 번째는 오버 사이징된 클러스터였습니다. 현재 제공하고 있는 서비스들은 대부분 Airflow를 사용해서 Spark로 작업을 처리한 뒤 종료되는 구조를 가지고 있습니다. 작업을 할 때 만들어지는 클러스터들의 스펙은 대부분 동일한데, 소규모 고객사에 대해서 서비스를 할 때도 같은 스펙을 사용하고 있었습니다. 고객사의 일 평균 방문 수와 상품의 sku 수를 따져서 고객사 규모를 측정하는데, 이 기준에서 작은 고객사로 분류되는 고객사들의 클러스터 스펙을 조정해 주었습니다. </p>
+<p>세 번째는 Airflow의 TerminateJobFlow입니다. 앞서 설명한대로, EMR 클러스터는 작업을 마치면 Airflow의 TerminateJobFlow 오퍼레이터를 이용해 작업을 종료해 클러스터를 삭제하게 됩니다. EMR은 오래 돌 수록 요금이 어마어마하게 부과되기 때문에 이런 파이프라인을 만들어 두었습니다. 그런데 가끔 이 오퍼레이터가 말을 안듣는 경우가 발생하곤 합니다. 현재의 Airflow에 있는 DAG들은 새벽에도 많이 실행되고 있습니다. 그래서 출근했을 때 새벽 내내 돌고 있는 EMR 클러스터들을 마주하게 되는 경우가 종종 있었습니다. </p>
+<p>이런 와중에 EMR 콘솔 페이지에 나오지는 않지만 EC2 페이지에 등장하는 EMR 클러스터들이 발견되었습니다. 12월 초 부터 쌩쌩 도는 인스턴스들이었는데, 네임 태그도 달려있지 않은, 알 수 없는 것들이었습니다. 12월 초 부터 계속 돌고 있었기 때문에, 여기서 큰 비용이 발생하고 있었습니다.<br><img src="/images/cost_mgt/screen2_edit.png" alt="쌩쌩 도는 인스턴스들"></p>
+<p>그래서 이 인스턴스들이 왜 남아있는지 알기 위해서 AWS측에 문의를 넣었습니다. 몇 번의 핑퐁이 오갔고<br>“As you can observe above, that either the cluster didn’t finish the step it was running or the step itself didn’t get submitted to it or the TerminateJobFlows API call was not made by the Airflow workflow.”<br>이러한 답변과 기타 등등을 얻을 수 있었습니다. 결국 미팅을 잡고 이야기 하기로 했습니다.(참고로 보통 이런 미팅을 하게 되면 인도 출신 엔지니어와 이야기를 하게 됩니다. 저는 인도 악센트에 친숙하지 않아서 애를 많이 먹었습니다. <del>전화 미팅이었지만 이역만리 타국과의 통화에 감사함보다는 실시간 채팅에 더 감사하게 되었다는 후기</del>)</p>
+<p>AWS 측과 얘기를 한 후 추가로 알게 된 사실이 있었습니다. 그것은 <code>VisibleToAllUsers</code>라는 옵션이었습니다. AWS EMR에는 독특하게 모든 유저에게 클러스터를 보이는, VisibleToAllUsers이 존재합니다. 이 옵션이 체크되어 있지 않으면, 클러스터 페이지에서 해당 클러스터를 볼 수 없게 됩니다. 12월에 종료되지 않은 이 클러스터들은 이 옵션에 체크되어 있지 않은 상태로 생성이 되었고, 그래서 클러스터 콘솔 페이지에서 관리를 할 수 없었던 것이었습니다. </p>
+<p>Airflow에서 EMR 클러스터를 생성할 때도 마찬가지입니다. <code>VisibleToAllUsers</code>옵션을 지정해서 클러스터를 생성할 수 있습니다. 이 옵션이 제대로 지정되지 않았고, 그래서 삭제되지 않고 관리되지 못한 인스턴스들이 발생한 것이었습니다. 12월 초에 새로운 서비스를 위한 Airflow 인스턴스를 새로 만들었는데, 이 파라미터값을 관리하는 Connection 부분이 초기화 되었던 것입니다. 당시에 인수인계다 뭐다 정신이 없었고 그런 상황에서 체크를 제대로 하지 않고 넘어갔던 것이 화근이었습니다. </p>
+<p>아무튼 이렇게 해서 Connection에서 emr_default 부분에 <code>VisibleToAllUsers</code>을 true로 변경해 주었고, 클러스터 페이지에 나타나지 않는 인스턴스들은 사라지게 되었습니다. 하지만 추가 대응 방안이 필요했습니다. (AWS 측에서는 Airflow 매니지드 서비스를 이용하라고 했지만, 진심 너무 비쌉니다. 이렇게 된거 GCP로 옮기면 어떨까? Composer 참 싼데, 보고 있나 AWS?? You See Me??)</p>
+<p>네 번째는 EMR Cluster 관리에 대한 것입니다. EMR Cluster 페이지에 직접 들어가서 삭제되지 않은 클러스터들을 일일이 보는 프로세스가 맘에 들지 않았습니다. 자동화에 집착하는 집착맨이기 때문에, 좀 더 세련된 방법을 찾고 싶었습니다. TA 분과 이야기 해 본 결과 boto3를 이용하면 클러스터에 페이지에 쉽게 접근할 수 있다는 것을 알 게 되었습니다. </p>
+<h2 id="boto3로-클러스터-관리하기"><a href="#boto3로-클러스터-관리하기" class="headerlink" title="boto3로 클러스터 관리하기"></a>boto3로 클러스터 관리하기</h2><p>Boto3는 AWS에서 제공하는 파이썬 용 SDK(software development kit)입니다. boto3를 사용하면, S3나 EMR등 AWS의 다양한 서비스에 접근이 가능합니다.</p>
+<p>boto3가 없다면 <code>pip3 install boto3</code>로 설치해 주시고, AWS에 로그인 해줍니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import boto3</span><br><span class="line">from pprint import pprint</span><br><span class="line"></span><br><span class="line">client &#x3D; boto3.client(&#39;emr&#39;)</span><br><span class="line"></span><br><span class="line">response &#x3D; client.describe_cluster(ClusterId&#x3D;&#39;j-xxxxxxxxxx&#39;)</span><br><span class="line"></span><br><span class="line">pprint(response)</span><br></pre></td></tr></table></figure>
+<p>이렇게 입력을 해주면 해당 클러스터 아이디에 대한 값들이 쫙 나오게 됩니다. <del>너무 쉽죠? AWS를 쓰세요. boto3는 참 좋습니다. 대신 더럽게 비쌉니다.</del> 이 정보들은 dictionary로 되어 있으니, 키 값을 잘 조회 해서 값에 접근하면 됩니다.</p>
+<p>대표적인 키 값은 Cluster, Ec2InstanceAttributes, Id, Name, NormalizedInstanceHours, Status, Timeline 등입니다. 저는 TimeLine을 이용해서 생성시간과 현재시간의 차를 구한 다음, 항상 띄어놓는 분석용 EMR 시간보다 작고 5시간 이상 RUNNING하거나 WAITING하고 있는 클러스터들을 종료시킬 생각입니다. 활용방안은 다양하니 각자의 관리포인트대로 작업하시면 될 것 같습니다.</p>
+<hr>
+<h2 id="이렇게-해서"><a href="#이렇게-해서" class="headerlink" title="이렇게 해서"></a>이렇게 해서</h2><p>비용관리가 발생한 상황과, FinOps, EMR, 관리 방법에 대해서 간단하게 작성하게 되었습니다. 문제 상황부터 지금까지 우여곡절이 참 많았는데, 정리하니까 내용은 그렇게 많지 않네요. 삽질을 많이 했다는 뜻입니다. 여러분들은 부디 삽질을 최소화하시고 많은 이득을 취하시길 바랍니다. 짧막한 삽질 글을 읽어주셔서 감사합니다. </p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/AWS/" rel="tag">AWS</a>, <a class="has-link-grey -link" href="/tags/EMR/" rel="tag">EMR</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/02/21/airflow-basic2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">Airflow Basic. 두 번째</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/12/27/20201227/">
+                <span class="level-item">20201227. 2020년 회고하기</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2021/01/24/cost-mgt-emr/';
+        this.page.identifier = '2021/01/24/cost-mgt-emr/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#비용관리의-서막-FinOps">
+        <span class="has-mr-6">1</span>
+        <span>비용관리의 서막, FinOps?</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#FinOps">
+        <span class="has-mr-6">1.1</span>
+        <span>FinOps</span>
+        </a></li><li>
+        <a class="is-flex" href="#비용의-원인-EMR">
+        <span class="has-mr-6">1.2</span>
+        <span>비용의 원인, EMR</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#예상되는-비용-포인트">
+        <span class="has-mr-6">1.2.1</span>
+        <span>예상되는 비용 포인트</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#boto3로-클러스터-관리하기">
+        <span class="has-mr-6">1.3</span>
+        <span>boto3로 클러스터 관리하기</span>
+        </a></li><li>
+        <a class="is-flex" href="#이렇게-해서">
+        <span class="has-mr-6">1.4</span>
+        <span>이렇게 해서</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="AWS 비용관리의 서막, EMR" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+</body>
+</html>
