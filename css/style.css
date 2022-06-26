@@ -12,7 +12,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Ubuntu", "Roboto", "Open Sans", "Microsoft YaHei", sans-serif;
+  font-family: Lato;
 }
 @media screen and (min-width: 1280px) {
   .is-1-column .container,
@@ -50,9 +50,6 @@ textarea {
     top: 1.5rem;
   }
 }
-.tag.is-grey {
-  background: #e7e7e7;
-}
 .card {
   border-radius: 4px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.05), 0 0 1px rgba(0,0,0,0.1);
@@ -88,7 +85,6 @@ img.thumbnail {
   align-items: stretch;
   display: flex;
   padding: 0;
-  flex-shrink: 0;
 }
 .navbar-main .navbar-menu {
   flex-grow: 1;
@@ -141,9 +137,6 @@ img.thumbnail {
 }
 .widget .menu-list a.level {
   display: flex;
-}
-.widget .has-text-centered figure.image {
-  margin: auto;
 }
 .pagination .pagination-link:not(.is-current),
 .pagination .pagination-previous,
@@ -208,9 +201,6 @@ img.thumbnail {
   max-width: 50%;
   font-size: 1.15rem;
   position: relative;
-}
-.article .content a {
-  word-wrap: break-word;
 }
 .rtl {
   direction: rtl;
@@ -391,19 +381,13 @@ img.thumbnail {
 }
 .content code,
 .content pre {
-  font-family: "Source Code Pro", monospace, "Microsoft YaHei";
-}
-.content pre {
   font-size: 0.85em;
+  font-family: Lato;
 }
 .content code {
-  padding: 0;
-  background: transparent;
-}
-.content > code,
-.content :not(pre) > code {
-  font-size: 0.85em;
   color: #ff3860;
+  background: transparent;
+  padding: 0;
 }
 .content blockquote footer strong + cite {
   margin-left: 0.5em;
@@ -417,9 +401,6 @@ figure.highlight {
   position: relative;
   margin: 1em 0 1em !important;
 }
-figure.highlight.folded .highlight-body {
-  height: 0;
-}
 figure.highlight pre,
 figure.highlight table tr:hover {
   color: inherit;
@@ -428,21 +409,11 @@ figure.highlight table tr:hover {
 figure.highlight table {
   width: auto;
 }
-figure.highlight table tr td {
-  border: none;
-}
-figure.highlight table tr:not(:first-child) td {
-  padding-top: 0;
-}
-figure.highlight table tr:not(:last-child) td {
-  padding-bottom: 0;
-}
 figure.highlight pre {
   padding: 0;
   overflow: visible;
 }
-figure.highlight pre .line,
-figure.highlight pre code .hljs {
+figure.highlight pre .line {
   line-height: 1.5rem;
 }
 figure.highlight figcaption,
@@ -450,7 +421,6 @@ figure.highlight .gutter {
   background: rgba(200,200,200,0.15);
 }
 figure.highlight figcaption {
-  margin: 0 !important;
   padding: 0.3em 0.75em;
   text-align: left;
   font-style: normal;
@@ -458,21 +428,11 @@ figure.highlight figcaption {
 }
 figure.highlight figcaption span {
   font-weight: 500;
-  font-family: "Source Code Pro", monospace, "Microsoft YaHei";
+  font-family: Lato;
 }
-figure.highlight figcaption .fold,
 figure.highlight figcaption a {
+  float: right;
   color: #9a9a9a;
-}
-figure.highlight figcaption a {
-  margin-left: 0.5em;
-}
-figure.highlight figcaption .fold {
-  margin-right: 0.5em;
-  cursor: pointer;
-}
-figure.highlight .highlight-body {
-  overflow: auto;
 }
 figure.highlight .gutter {
   text-align: right;
@@ -492,33 +452,16 @@ figure.highlight .section {
   min-width: inherit;
   border-radius: inherit;
 }
-/* ---------------------------------
- *          Overflow Table
- * --------------------------------- */
-.table-overflow {
-  overflow-x: auto;
-}
-.table-overflow table {
-  width: auto !important;
-}
-.table-overflow table th {
-  word-break: keep-all;
-}
-/* ---------------------------------
- *            Fix Video
- * --------------------------------- */
-.video-container {
-  position: relative;
-  padding-bottom: 56.25%;
-  padding-top: 25px;
-  height: 0;
-}
-.video-container iframe {
+figure.highlight .copy {
+  display: none;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  bottom: 0;
+  right: 0;
+  color: #fff;
+  background: rgba(0,0,0,0.5);
+}
+figure.highlight:hover .copy {
+  display: block;
 }
 /* ---------------------------------
  *        Fix Gist Snippet

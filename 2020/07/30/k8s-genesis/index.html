@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Kubernetes Beginning - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="자 이제 쿠버네티스에 대해 공부해보자. Docker in kubernetes, k8s architecture, cluster, and pods.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kubernetes Beginning">
+<meta property="og:url" content="http://tkdguq05.github.io/2020/07/30/k8s-genesis/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="자 이제 쿠버네티스에 대해 공부해보자. Docker in kubernetes, k8s architecture, cluster, and pods.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ih1.redbubble.net/image.695760900.7339/st,small,845x845-pad,1000x1000,f8f8f8.jpg">
+<meta property="article:published_time" content="2020-07-30T00:35:47.000Z">
+<meta property="article:modified_time" content="2020-07-30T07:17:34.000Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ih1.redbubble.net/image.695760900.7339/st,small,845x845-pad,1000x1000,f8f8f8.jpg">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="Kubernetes Beginning" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://ih1.redbubble.net/image.695760900.7339/st,small,845x845-pad,1000x1000,f8f8f8.jpg" alt="Kubernetes Beginning">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-30T00:35:47.000Z">2020-07-30</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    36 minutes read (About 5368 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Kubernetes Beginning
+            
+        </h1>
+        <div class="content">
+            <p>자 이제 쿠버네티스에 대해 공부해보자. Docker in kubernetes, k8s architecture, cluster, and pods.</p>
+<a id="more"></a>
+
+<p>지난 글들로부터 가상화에 대해서 공부했고, 도커에 대해서 살펴봤습니다. 쿠버네티스는 가상화와 도커가 기본이 되는 시스템입니다. 가상화와 도커에 대해서 기억이 잘 나지 않는다면 잠시 보고 와도 좋습니다.   </p>
+<p><a href="https://tkdguq05.github.io/2020/07/03/docker/#more">인프라의 기초, Docker에 대해서 알아보자</a>.<br><a href="https://tkdguq05.github.io/2020/06/07/virtualization/#more">클라우드 서비스의 기초. Virtualization, 가상화에 대해서</a>  </p>
+<hr>
+<h1 id="Kubernetes"><a href="#Kubernetes" class="headerlink" title="Kubernetes?"></a>Kubernetes?</h1><p>쿠버네티스를 최초로 만들고 사용한 곳은 구글입니다. 시스템에 배포 가능한 어플리케이션 구성 요소의 수가 많아지면서 모든 구성 요소의 관리가 어려워질 수 밖에 없기 때문입니다. 구글은 전 세계에서 소프트웨어 구성 요소와 인프라를 잘 배치하고 관리하는 방법이 필요하다는 것을 최초로 깨달은 회사일 것입니다. 수십만 대의 서버를 운영하고 엄청난 규모의 배포관리를 처리하는 기업입니다. 이로 인해 구글은 수천 개의 소프트웨어 구성 요소를 관리하고 비용 효율적으로 개발, 배포할 수 있는 솔루션을 개발해야만 했습니다. 그래서 등장한 것이 쿠버네티스의 전신인 보그-오메가 이며, 2014년에 구글은 쿠버네티스를 출시하게 됩니다. 구글이 만든 시스템답게 정말 잘 됩니다!</p>
+<p>만약 구글이 모놀리스 어플리케이션으로 개발을 했다면 어땠을까요? 아마 이 정도의 확장은 불가능 했을 것 입니다. 모놀리스 어플리케이션이란 한 덩어리처럼 개발을 하는 것입니다. 큰 돌로 이루어진 건축물에 비유를 할 수 있습니다. 이와 반대되는 개념은 마이크로스서비스 기반 어플리케이션입니다. 이는 단일 역할을 책임지는 여러 조각으로 구성된 소프웨어로 구성되어 있습니다. 구글은 각 부분이 알아서 잘 돌아가는 MSA구조로 이루어져 있기 때문에 이렇게 확장할 수 있었습니다. 그리고 그것을 가능하게 해준 것이 바로 쿠버네티스입니다.   </p>
+<p>쿠버네티스는 컨테이너화된 어플리케이션을 쉽게 배포하고 관리할 수 있게 해주는 소프트웨어 시스템입니다. 어플리케이션은 컨테이너에서 실행되어 동일한 서버에서 실행되는 다른 어플리케이션에 영향을 주지 않아 동일한 하드웨어의 다른 조직의 어플리케이션이 실행될 때 영향을 주지 않습니다.  이를 통해 쿠버네티스를 사용하게 되면, 제공된 하드웨어를 최대한으로 사용할 수 있게 됩니다. 쿠버네티스를 활용하면 모든 노드가 하나의 거대한 컴퓨터 처럼 수천대의 노드에서 어플리케이션을 실행할 수 있습니다. </p>
+<h2 id="Kubernetes을-사용하면-좋은-점"><a href="#Kubernetes을-사용하면-좋은-점" class="headerlink" title="Kubernetes을 사용하면 좋은 점"></a>Kubernetes을 사용하면 좋은 점</h2><h4 id="먼저-개발자가-어플리케이션-핵심-기능에-집중할-수-있게-됩니다"><a href="#먼저-개발자가-어플리케이션-핵심-기능에-집중할-수-있게-됩니다" class="headerlink" title="먼저 개발자가 어플리케이션 핵심 기능에 집중할 수 있게 됩니다."></a>먼저 개발자가 어플리케이션 핵심 기능에 집중할 수 있게 됩니다.</h4><p>쿠버네티스를 클러스터의 운영체제로도 생각할 수 있습니다. 이렇게 되면 어플리케이션 개발자가 특정 인프라 관련 서비스를 어플리케이션에 구현하지 않아도 됩니다. 쿠버네티스를 활용하면 되니까요. 쿠버네티스에는 서비스 디스커버리, 스케일링, 로드밸런싱, 자가치유, 리더선출 같은 것들이 들어갑니다. 따라서 어플리케이션 개발자는 기능을 구현하는 데 집중을 하면 되고, 인프라에 관련된 고민을 하지 않아도 됩니다.</p>
+<h4 id="운영-팀이-효과적으로-리소스를-활용할-수-있습니다"><a href="#운영-팀이-효과적으로-리소스를-활용할-수-있습니다" class="headerlink" title="운영 팀이 효과적으로 리소스를 활용할 수 있습니다."></a>운영 팀이 효과적으로 리소스를 활용할 수 있습니다.</h4><p>쿠버네티스는 클러스터에 컨테이너화된 어플리케이션을 실행하고 구성 요소들 간에 연결되는 방법에 대한 정보를 제공하며, 이를 이용해 모든 어플리케이션이 계속 실행되도록 합니다. 어플리케이션은 어떤 노드에서 실행되든 상관이 없기 때문에 쿠버네티스는 언제든지 어플리케이션을 재배치하고 조합함으로써 주어진 리소스를 잘 활용할 수 있게 됩니다.</p>
+<h2 id="Kubernetes-Architecture"><a href="#Kubernetes-Architecture" class="headerlink" title="Kubernetes Architecture"></a>Kubernetes Architecture</h2><p>쿠버네티스 클러스터가 어떻게 구성되어 있는지 알아봅시다. 쿠버네티스는 두 가지 유형으로 나눌 수 있습니다. 마스터 노드와 워커 노드입니다.  </p>
+<ul>
+<li>마스터 노드는 쿠버네티스 컨트롤 플레인을 실행합니다. 컨트롤 플레인은 전체 쿠버네티스 시스템을 제어하고 관리합니다.</li>
+<li>워커 노드는 실제 배포되는 컨테이너 어플리케이션을 실행합니다.<br><img src="/images/kube_arc.png" alt="Kubernetes Cluster Architecture"></li>
+</ul>
+<h3 id="Control-Plain"><a href="#Control-Plain" class="headerlink" title="Control Plain"></a>Control Plain</h3><p>컨트롤 플레인은 클러스터를 제어하고 작동시키는 역할입니다. 하나의 마스터 노드에서 실행하거나 여러 노드로 분할되고 복제되어 고가용성을 보장할 수 있는 여러 구성 요소로 구성 되어 있습니다. 그 구성요소는 다음과 같습니다.</p>
+<ul>
+<li><p>Kubernetes API 서버 : 사용자 , 컨트롤 플레인 구성 요소와 통신한다.</p>
+</li>
+<li><p>Scheduler : 어플리케이션의 배포를 담당한다.(스케쥴링이라는 용어는 파드가 특정 노드에 할당됨을 의미합니다.) </p>
+<ul>
+<li><p>노드가 배정되지 않은, 새로 생성된 파드를 감지하고 실행할 노드를 선택하는 컨트롤 플레인 컴포넌트입니다. 스케쥴링 결정을 위해서 고려되는 요소들은 다음과 같습니다.  </p>
+<ul>
+<li>리소스에 대한 개별 및 총체적 요구 사항</li>
+<li>하드웨어/소프트웨어/정책적 제약</li>
+<li>어피니티(affinity) 및 안티-어피니티(anti-affinity) 명세</li>
+<li>데이터 지역성</li>
+<li>워크로드-간 간섭</li>
+<li>데드라인</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Controller Manager : 컨트롤러 매니저는 구성요소 복제본, 워커 노드 추적, 노드 장애 처리 등과 같은 클러스터 단의 기능을 수행한다.  </p>
+</li>
+<li><p><a href="https://github.com/etcd-io/etcd">etcd</a> : 클러스터 구성을 지속적으로 저장하는 신뢰할 수 있는 분산 데이터 저장소이다. </p>
+</li>
+</ul>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>워커 노드는 컨테이너화된 어플리케이션을 실행하는 시스템입니다. 어플리케이션을 실행하고 관리하며 서비스를 제공하는 작업은 다음 구성 요소에 의해 수행됩니다.</p>
+<ul>
+<li>Contianer Runtime : 컨테이너를 실행하는 도커나 rkt 등등</li>
+<li>kubelet : API 서버와 통신하고 노드의 컨테이너를 관리한다.<ul>
+<li>kubelet은 파드를 관리한다고 생각하면 됩니다. 클러스터의 각 노드에서 실행되는 에이전트로 kubelet은 파드에서 컨테이너가 확실하게 동작하도록 관리합니다. kubelet은 다양한 메커니즘을 통해 제공된 파드 스펙의 집합을 받아서 컨테이너가 해당 파드 스펙에 따라 원할하게(Health) 동작하게 합니다. kubelet은 쿠버네티스를 통해 생성되지 않은 컨테이너는 관리하지 않습니다. </li>
+</ul>
+</li>
+<li>kube-proxy : 어플리케이션 구성 요소 간에 네트워크 트래픽을 로드밸런싱한다.<ul>
+<li>kube-proxy는 클러스터의 통신을 담당합니다. 클러스터의 각 노드에서 실행되는 네트워크 프록시로, 쿠버네티스의 서비스 개념의 구현부입니다. kube-proxy는 노드의 네트워크 규칙을 유지 관리합니다. 이 네트워크 규칙이 내부 네트워크 세션이나 클러스터 밖에서 파드로 네트워크 통신을 할 수 있도록 해줍니다.<br>kube-proxy는 운영 체제에 가용한 패킷 필터링 계층이 있는 경우, 이를 사용합니다. 그렇지 않으면 kube-proxy는 트래픽 자체를 forward합니다.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Kubernetes-cluster가-상호작용하는-방법"><a href="#Kubernetes-cluster가-상호작용하는-방법" class="headerlink" title="Kubernetes cluster가 상호작용하는 방법"></a>Kubernetes cluster가 상호작용하는 방법</h3><p>클러스터는 마스터와 노드들로 구성이 되어있고 각 노드들은 도커, kubelet, kube-proxy 데몬을 실행합니다. 우리가 설치한 kubectl 명령어를 실행하면 마스터 노드에 쿠버네티스 API 서버로 REST요청을 보내서 클러스터와 상호작용하게 됩니다.<br><img src="/images/kube_cluster.png" alt="노드 세 개인 쿠버네티스 클러스터와 상호작용하는 모습"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get nodes</span><br></pre></td></tr></table></figure>
+<p>이제 명령어로 node들을 확인할 수 있습니다.   </p>
+<p>이렇게 간단하게 쿠버네티스 클러스터 구조에 대해 살펴봤습니다. </p>
+<hr>
+<h1 id="Docker-in-Kubernetes"><a href="#Docker-in-Kubernetes" class="headerlink" title="Docker in Kubernetes"></a>Docker in Kubernetes</h1><p>지난 번 도커 글을 연장해서 쿠버네티스로 이어지는 흐름을 만들어보겠습니다. 지난 도커 글에서는 간략한 소개만 했기 때문에 이미지와 이미지 레이어에 대한 이야기를 깊게 못해서 조금 더 설명을 해보겠습니다. </p>
+<h2 id="Docker-Image"><a href="#Docker-Image" class="headerlink" title="Docker Image"></a>Docker Image</h2><p>우리가 어떤 어플리케이션을 만들었다고 가정합시다. 이 어플리케이션을 이미지로 구성해서 내 환경과 같이 만들어, 어떤 환경에서 누구나 작업하게 만들고 싶습니다. 이렇게 이미지로 패키징하기 위해서는 Dockerfile을 만들어야 합니다. 이 파일에는 도커가 이미지를 생성하기 위해 수행해야 할 지시 사항들이 담겨져 있습니다. 이 Dockerfile은 .py와 같은 파일과 같은 위치에 있어야 합니다. Dockerfile을 살펴보겠습니다.  </p>
+<p>책 Kubernetes in Action의 예제를 사용하겠습니다.  </p>
+<figure class="highlight docker"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> node:<span class="number">7</span></span><br><span class="line"><span class="keyword">ADD</span><span class="bash"> app.js /app.js</span></span><br><span class="line"><span class="bash">ENTRYPOINT [<span class="string">"node"</span>, <span class="string">"app.js"</span>]</span></span><br></pre></td></tr></table></figure>
+<p>FROM은 기본 이미지로 사용할 컨테이너 이미지를 정의합니다. ADD는 로컬 디렉토리의 app.js 파일을 이미지의 루트 디렉토리에 동일한 이름으로 추가한다는 뜻입니다.  ENTRYPOINT는 이미지를 실행했을 때 수행돼야 할 명령어를 나타냅니다.  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t &lt;name&gt; .</span><br><span class="line"></span><br><span class="line"><span class="comment">#실제 사용</span></span><br><span class="line">$ docker build -t kubia .</span><br></pre></td></tr></table></figure>
+<p>이 명령어를 이용하면 이름대로 이미지가 빌드됩니다. 도커에게 현재 디렉토리의 컨텐츠를 기반으로 이름으로 적힌 이미지를 빌드하라고 요청합니다. 도커는 Dockerfile을 보고 명령에 기반해 이미지를 빌드합니다. 이미지가 컴퓨터에 저장돼 있지 않으면, 도커는 Docker Hub에서 이미지를 다운 받습니다. 도커의 이미지는 하나의 큰 덩어리 파일이 아니라 여러개의 레이어로 구성됩니다. 그래서 빌드를 할 때 필요한 이미지가 있다면 필요한 이미지 레이어만 다운로드 하는 것 입니다. </p>
+<p>도커 이미지를 배포하는 것은 저번 글에서 설명을 했습니다. 이제 컨테이너 이미지에 어플리케이션을 패키징하고 도커 허브를 통해 사용할 수 있게 됐습니다. </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker tag kubia luksa/kubia</span><br><span class="line"></span><br><span class="line">$ docker push luksa/kubia <span class="comment"># 버전 명을 적지 않으면 최신 버전으로 알아서 작성해 주지만 시간이 더 걸립니다.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 다른 머신에서 이미지 실행하기</span></span><br><span class="line">$ docker run -p 8080:8080 -d luksa/kubia</span><br></pre></td></tr></table></figure>
+
+<p>이제 쿠버네티스 클러스터에 어플리케이션을 배포할 수 있게 됐습니다. 배포를 위해서는 쿠버네티스 클러스터가 필요합니다.  </p>
+<p>쿠버네티스 클러스터를 구성하는 법은 다양합니다. mini kube를 설치하는 방법도 있고, AWS에 EKS나 GCP를 이용해서 node를 만들고 쿠버네티스 환경을 만들 수 있습니다. 각자의 환경이 구성되었다고 가정하고 진행하겠습니다.  </p>
+<h2 id="Kubernetes-client-설치"><a href="#Kubernetes-client-설치" class="headerlink" title="Kubernetes client 설치"></a>Kubernetes client 설치</h2><p>kubectl CLI 클라이언트가 있어야 쿠버네티스를 다룰 수 있습니다.   </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">* 리눅스 기준</span><br><span class="line"><span class="comment">#파일 다운로드</span></span><br><span class="line">curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s \</span><br><span class="line">   https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl</span><br><span class="line"><span class="comment">#파일 권한 변경</span></span><br><span class="line">chmod +x ./kubectl</span><br><span class="line"><span class="comment">#파일을 PATH가 설정된 폴더로 옮긴다(alias 명령어로 실행하기 위해)</span></span><br><span class="line">sudo mv ./kubectl /usr/<span class="built_in">local</span>/bin/kubectl</span><br><span class="line"><span class="comment">#설치 확인</span></span><br><span class="line">kubectl version --client</span><br></pre></td></tr></table></figure>
+<p>kubectl 정보가 나오면 성공입니다.<br>이제 아까 전에 만든 node.js 어플리케이션을 구동해 보겠습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl run kubia --image=luksa/kubia --port=8080 --generator=run/v1</span><br><span class="line">&gt; replicationcontroller <span class="string">'"kubia" created</span></span><br></pre></td></tr></table></figure>
+<p>–image=luksa/kubia 부분은 실행하는 컨테이너 이미지를 명시하는 것이며, -port=8080은 쿠버네티스에 어플리케이션이 8080포트를 수신 대기해야 한다는 것을 알려줍니다.  –generator부분은 디플로이먼트 대신 레플리케이션컨트롤러를 생성하기 때문에 사용했습니다. 레플리케이션 컨트롤러는 조금 이따 설명하겠습니다.  </p>
+<h3 id="백그라운드에서-무슨-일이-일어나고-있는-것일까"><a href="#백그라운드에서-무슨-일이-일어나고-있는-것일까" class="headerlink" title="백그라운드에서 무슨 일이 일어나고 있는 것일까?"></a>백그라운드에서 무슨 일이 일어나고 있는 것일까?</h3><p>일단 지금 무슨 일이 일어난 것인지 설명해보겠습니다. 현재 도커 이미지를 푸시해서 도커 허브에 공유해놓았고 공유된 이미지를 가져와서 kubectl을 이용해 구동했습니다. kubectl 명령은 쿠버네티스의 API서버로 REST http요청을 전달하고 클러스터에 새 레플리케이션 컨트롤러 오브젝트를 생성합니다. 레플리케이션 컨트롤러는 새 파드를 만들고 스케쥴러에 의해 워커 노드 중 하나에 스케줄링을 완료합니다. kubelet은 파드가 할당된 것을 보고 이미지가 로컬에 없는 것을 확인합니다. 이미지를 받기 위해 도커에게 특정 이미지를 풀하도록 지시하고 luksa/kubia 이미지를 받은 후 도커는 컨테이너를 이미지를 이용해 생성하고 실행합니다.  </p>
+<p>과정을 살펴봤듯이, 우리가 직접 컨테이너를 직접 생성하거나 동작하지 않습니다. 파드만을 이용했습니다. 하지만 파드도 직접 만들지 않았고 쿠버네티스에서 알아서 잘 만들었습니다. kubectl run을 하면 레플리케이션 컨트롤러를 생성하고 이것이 실제 파드를 만들어 냅니다. 클러스터 외부에서 파드에 접근하기 위해 쿠버네티스에게 레플리케이션 컨트롤러에 의해 관리되는 모든 파드를 단일 서비스로 노출하도록 명령합니다. 결국 쿠버네티스의 시스템은 레플리케이션 컨트롤러, 파드, 서비스로 구성됩니다. </p>
+<h4 id="가장-중요한-구성요소는-파드입니다"><a href="#가장-중요한-구성요소는-파드입니다" class="headerlink" title="가장 중요한 구성요소는 파드입니다."></a>가장 중요한 구성요소는 파드입니다.</h4><p>여기서 파드는 하나의 컨테이너를 갖고 있지만, 보통 파드는 원하는 갯수의 컨테이너를 가질 수 있습니다. 컨테이너 내부에는 현재 Node.js 프로세스가 있고 포트 8080에 바인딩 되어 http요청을 기다리고 있습니다. 파드는 자체의 고유한 private ip와 host name을 갖습니다.</p>
+<h4 id="레플리케이션-컨트롤러를-살펴보겠습니다"><a href="#레플리케이션-컨트롤러를-살펴보겠습니다" class="headerlink" title="레플리케이션 컨트롤러를 살펴보겠습니다."></a>레플리케이션 컨트롤러를 살펴보겠습니다.</h4><p>레플리케이션 컨트롤러는 항상 정확히 하나의 파드 인스턴스를 실행하도록 지정합니다. 보통 파드를 복제하고 항상 실행 상태로 만듭니다. 여기서는 파드의 replicas를 지정하지 않았습니다. 따라서 파드를 하나만 생성했습니다. 어떤 장애 등의 이유로 파드가 죽어버리면 레플리케이션 컨트롤러는 지정된 파드 수를 채우기 위해 새로운 파드를 생성할 것입니다. </p>
+<h4 id="이제-서비스를-살펴보겠습니다"><a href="#이제-서비스를-살펴보겠습니다" class="headerlink" title="이제 서비스를 살펴보겠습니다."></a>이제 서비스를 살펴보겠습니다.</h4><p>kubia-http 서비스가 필요한 이유를 알기위해 파드의 주요 특성을 더 이해해 볼 필요가 있습니다. 파드는 영원하지 않습니다. ephemeral하기 때문에 사라질 수 있습니다. 파드가 죽어버릴 수 있고 누군가 파드를 kill할 수도 있으며, 비정상 노드에서 파드가 제거될 수 있습니다. 물론 사라지면 레플리케이션 컨트롤러에 의해서 다시 새 파드로 대체됩니다. 중요한 것은 새 파드는 다른 IP주소를 할당받는 다는 것입니다. 그렇기 때문에 서비스가 필요합니다. 서비스를 이용하면, 파드의 IP주소가 바뀌는 문제와 여러 개의 단일 파드를 단일 IP와 포트의 쌍으로 노출하는 문제를 해결할 수 있습니다. </p>
+<p>서비스가 생성되면 정적 IP를 할당받습니다. 그리고 서비스가 있는동안 변경되지 않습니다. 파드에 직접 연결해야 하지만 클라이언트는 서비스의 IP 주소를 통해 연결해야 합니다. 서비스는 어떤 파드가 어떤 IP를 받는지 상관없이 파드 중 하나로 연결해 요청을 처리합니다.<br>서비스는 동일한 서비스를 제공하는 하나 이상의 파드 그룹의 정적인 위치를 나타냅니다. 서비스의 IP와 포트로 요청이 들어오면 그 순간 서비스에 속해 있는 파드 중 하나로 요청을 전달하게 됩니다.</p>
+<h2 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h2><p>쿠버네티스에 대해서 조금이라도 본 사람은 파드에 대해서도 들어본 적이 있을 것입니다. 파드는 노드 안에 구성된 여러개의 컨테이너를 가질 수 있는 컨테이너의 그룹입니다. 쿠버네티스는 개별 컨테이너를 직접 다루지 않고 파드를 다룹니다. 이 파드들은 kubectl로 조회할 수 있습니다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get pods</span><br></pre></td></tr></table></figure>
+<p>혹시 파드의 상태가 Pending상태라면 파드의 단일 컨테이너가 준비가 되지 않은 것이다. 할당된 워커 노드가 컨테이너를 실행하기 전에 컨테이너 이미지를 다운로드하는 중이기 때문일 수도 있고, 리소스 부족일 수도 있다. 조금 기다려본 후 계속 pending으로 나온다면 리소스를 늘려주면 된다. 다운로드가 완료되고 파드의 컨테이너가 생성되면 Running으로 나온다.  파드에 대해서는 간단히 설명하고 나중에 따로 깊게 다뤄 보도록 하겠습니다.<br><img src="/images/pods.png" alt="pods"> </p>
+<hr>
+<h1 id="Summary"><a href="#Summary" class="headerlink" title="Summary."></a>Summary.</h1><p>쿠버네티스에 대해서 공부한 내용을 간단하게 요약해 보겠습니다.</p>
+<ul>
+<li>모놀리스 어플리케이션은 처음에 구축하기 쉽지만 가면 갈수록 유지 관리하기가 힘들고 확장이 불가능해 집니다.</li>
+<li>마이크로서비스 기반 어플리케이션 아키텍쳐는 각 구성 요소의 개발을 요이하게 하지만 하나의 시스템으로 작동하도록 배포하고 구성하기 어렵습니다.</li>
+<li>쿠버네티스는 전체 데이터 센터를 어플리케이션 실행을 위한 컴퓨팅 리소스로 제공하게 합니다.</li>
+<li>쿠버네티스를 통해서 개발자는 시스템 관리자의 도움 없이도 어플리케이션을 배포할 수 있게 됩니다.</li>
+<li>쿠버네티스를 통해서 시스템 관리자는 쿠버네티스가 고장 난 노드가 자동으로 처리되게 함으로써 더 편하게 잠을 잘 수 있게 됩니다. </li>
+<li>쿠버네티스는 마스터 노드와 워커 노드로 이루어져있습니다.</li>
+<li>어플리케이션을 컨테이너 이미지로 패키징하고 원격에 푸시해 누구나 사용하게 할 수 있습니다.</li>
+<li>쿠버네티스는 파드를 이용해 어플리케이션을 배포합니다.</li>
+</ul>
+<p>여러 내용을 전달하려고 하다보니 글이 장황해진 것 같습니다. 다음 글에서는 파드에 대해서 더 깊게 알아보고 네임스페이스로 파드를 겹치지 않는 그룹으로 나누는 방법을 살펴보겠습니다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/08/14/Fasttext/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">SISG를 활용한 Fasttext에 대해서 알아보자</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/18/retrospect2020/">
+                <span class="level-item">2020년 상반기를 보내면서, 회고하기</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2020/07/30/k8s-genesis/';
+        this.page.identifier = '2020/07/30/k8s-genesis/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Kubernetes">
+        <span class="has-mr-6">1</span>
+        <span>Kubernetes?</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Kubernetes을-사용하면-좋은-점">
+        <span class="has-mr-6">1.1</span>
+        <span>Kubernetes을 사용하면 좋은 점</span>
+        </a></li><li>
+        <a class="is-flex" href="#Kubernetes-Architecture">
+        <span class="has-mr-6">1.2</span>
+        <span>Kubernetes Architecture</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Control-Plain">
+        <span class="has-mr-6">1.2.1</span>
+        <span>Control Plain</span>
+        </a></li><li>
+        <a class="is-flex" href="#Node">
+        <span class="has-mr-6">1.2.2</span>
+        <span>Node</span>
+        </a></li><li>
+        <a class="is-flex" href="#Kubernetes-cluster가-상호작용하는-방법">
+        <span class="has-mr-6">1.2.3</span>
+        <span>Kubernetes cluster가 상호작용하는 방법</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#Docker-in-Kubernetes">
+        <span class="has-mr-6">2</span>
+        <span>Docker in Kubernetes</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Docker-Image">
+        <span class="has-mr-6">2.1</span>
+        <span>Docker Image</span>
+        </a></li><li>
+        <a class="is-flex" href="#Kubernetes-client-설치">
+        <span class="has-mr-6">2.2</span>
+        <span>Kubernetes client 설치</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#백그라운드에서-무슨-일이-일어나고-있는-것일까">
+        <span class="has-mr-6">2.2.1</span>
+        <span>백그라운드에서 무슨 일이 일어나고 있는 것일까?</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Pod">
+        <span class="has-mr-6">2.3</span>
+        <span>Pod</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Summary">
+        <span class="has-mr-6">3</span>
+        <span>Summary.</span>
+        </a></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cicd/">
+            <span class="level-start">
+                <span class="level-item">cicd</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cicd/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/devtron/" style="font-size: 10px;">devtron</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/gitops/" style="font-size: 10px;">gitops</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="Kubernetes Beginning" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+</html>
