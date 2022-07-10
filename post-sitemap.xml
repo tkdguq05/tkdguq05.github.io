@@ -8,8 +8,16 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2022/07/09/retrospect-2022-half/</loc>
+        <lastmod>2022-07-10T10:45:25.499Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2022/06/26/zookeeper-etcd/</loc>
-        <lastmod>2022-06-26T01:45:48.099Z</lastmod>
+        <lastmod>2022-06-26T02:35:17.179Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
