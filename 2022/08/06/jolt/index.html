@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>Nifi with Jolt - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="Nifi를 잘 활용하는 방법! Jolt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nifi with Jolt">
+<meta property="og:url" content="http://tkdguq05.github.io/2022/08/06/jolt/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Nifi를 잘 활용하는 방법! Jolt">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://technology.amis.nl/wp-content/uploads/2022/04/jolt-json-to-json-transformation.png">
+<meta property="article:published_time" content="2022-08-06T04:06:47.000Z">
+<meta property="article:modified_time" content="2022-08-06T04:14:45.720Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="nifi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://technology.amis.nl/wp-content/uploads/2022/04/jolt-json-to-json-transformation.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="Nifi with Jolt" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="https://technology.amis.nl/wp-content/uploads/2022/04/jolt-json-to-json-transformation.png" alt="Nifi with Jolt">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2022-08-06T04:06:47.000Z">2022-08-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/engineering/">engineering</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2284 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                Nifi with Jolt
+            
+        </h1>
+        <div class="content">
+            <p>Nifi를 잘 활용하는 방법! Jolt</p>
+<a id="more"></a>
+
+
+
+<h1 id="Jolt"><a href="#Jolt" class="headerlink" title="Jolt"></a>Jolt</h1><ul>
+<li><p><a href="https://github.com/bazaarvoice/jolt">Jolt</a>?</p>
+<p>Jolt(<strong><strong>JsOn Language for Transform</strong></strong>) 는 JSON을 JSON으로 변환하는 데 사용할 수 있는 Java 라이브러리입니다. Jolt 변환 사양 자체도 JSON 파일이기 때문에, Apache NiFi 및 Apache Camel과 같은 제품에서 사용할 수 있습니다.</p>
+<p>Jolt는 전체 JSON을 JSON으로 변환하기 위해 함께 연결할 수 있는 변환 셋들을 제공합니다. Jolt의 특징은 특정 값을 조작하는 것이 아니라 JSON 데이터의 구조를 변환하는 데 중점을 두고 있다는 것입니다.</p>
+<p>Jolt의 공식 github에서는 다음과 같이 설명하고 있습니다.</p>
+<blockquote>
+<p>JSON to JSON transformation library written in Java where the “specification” for the transform is itself a JSON document.</p>
+</blockquote>
+</li>
+</ul>
+<p><br></br></p>
+<p>Jolt 는 다음과 같이 사용할 수 있습니다.</p>
+<ol>
+<li>Transforming JSON data from ElasticSearch, MongoDb, Cassandra, etc before sending it off to the world</li>
+<li>Extracting data from a large JSON documents for your own consumption</li>
+</ol>
+<p><br></br></p>
+<p>JSON 데이터를 변환하는 데 특화되었다는 것을 설명을 통해 알 수 있을 것입니다. Jolt가 갖고 있는 변환 셋들은 5가지가 있습니다.</p>
+<ul>
+<li>shift       : copy data from the input tree and put it the output tree</li>
+<li>default     : apply default values to the tree</li>
+<li>remove      : remove data from the tree</li>
+<li>sort        : sort the Map key values alphabetically ( for debugging and human readability )</li>
+<li>cardinality : “fix” the cardinality of input data.  Eg, the “urls” element is usually a List, but if there is only one, then it is a String</li>
+</ul>
+<p>이 글에서는 shift를 사용해서 nested array로 이루어진 Json을 Flatten하는 것을 예시로 살펴보겠습니다.</p>
+<p><br></br></p>
+<h2 id="Jolt의-간단한-문법"><a href="#Jolt의-간단한-문법" class="headerlink" title="Jolt의 간단한 문법"></a>Jolt의 간단한 문법</h2><p>그 전에 참고할 내용을 먼저 알려드리겠습니다. <strong>LHS (Left Hand Side)</strong>와 <strong>RHS (Right Hand Side)</strong>입니다. LHS는 콜론, 즉, : 를 기준으로 왼쪽을 뜻하고, RHS는 :를 기준으로 오른쪽을 뜻합니다.</p>
+<p>예를 들자면 이렇습니다.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"operation"</span>: <span class="string">"shift"</span>,</span><br><span class="line">    <span class="attr">"spec"</span>: &#123;</span><br><span class="line">LHS -&gt; "customer": &#123;</span><br><span class="line">  LHS -&gt;  "name": "client.fullName",  &lt;- RHS</span><br><span class="line">  LHS -&gt;  "birhtDate": "client.dateOfBirth",  &lt;- RHS</span><br><span class="line">  LHS -&gt;  "address": "client.address.street",  &lt;- RHS</span><br><span class="line">  LHS -&gt;  "country": "client.address.country"  &lt;- RHS</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>이제 기본 구조에 대해서 알아보겠습니다. Jolt는 다음과 같은 기본적인 구조를 갖고 있습니다.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;operation&quot;: &quot;&quot;,</span><br><span class="line">    &quot;spec&quot;: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>“operations”</strong>: 적용할 변환 유형을 정의합니다.</li>
+<li><strong>“spec”</strong>: 어떤 변환을 넣을지 적는 필드입니다.</li>
+<li><strong>“[]”</strong>: Jolt의 기본 구조도 JSON이므로 목록 내에서 여러 작업을 연결할 수 있습니다.</li>
+</ul>
+<p>위에서 변환 셋들에 대해서 간단히 다루긴 했지만, 더 자세한 설명을 보고 싶다면 <a href="https://intercom.help/godigibee/en/articles/4044359-transformer-getting-to-know-jolt">여기</a>에서 확인할 수 있습니다.</p>
+<p><br></br></p>
+<h2 id="Jolt를-활용한-Flatten-작업"><a href="#Jolt를-활용한-Flatten-작업" class="headerlink" title="Jolt를 활용한 Flatten 작업"></a>Jolt를 활용한 Flatten 작업</h2><p>Json 데이터가 nested로 이루어졌을때  Flatten이 필요한 경우가 있습니다. 이럴 때는 AWS라면 EMR, GCP라면 Dataproc에 Spark를 사용해서 처리를 하곤 합니다. 물론 대규모로 이루어진 데이터에 대해서 작업하려면 어쩔 수 없이 사용하겠지만, 미리 Flatten해서 저장을 하면 어떨까요? 그렇다면 비싼 EMR을 사용할 일도 없어질 듯 합니다.</p>
+<p>먼저 이 작업을 위한 방식은 두 가지입니다. <code>JoltTransformJSON</code>, <code>JoltTransformRecord</code> 입니다. </p>
+<p>둘의 차이는 간단합니다. <code>JoltTransformRecord</code>는 레코드 판독기와 레코드 작성기를 사용하는 반면 <code>JoltTransformJSON</code>은 작업할 JSON 흐름 파일 콘텐츠를 찾을 것으로 예상합니다. 두 경우 모두 출력은 플로우 파일 내용으로 끝나고 변환 구성은 동일합니다.</p>
+<p>이제 작업할 대상 데이터를 보겠습니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"data"</span>: &#123;</span><br><span class="line">		<span class="attr">"_id"</span>: <span class="number">1000009195</span>,</span><br><span class="line">		<span class="attr">"code"</span>: <span class="string">"*******"</span>,</span><br><span class="line">		<span class="attr">"name"</span>: <span class="string">"************"</span>,</span><br><span class="line">		<span class="attr">"array_deal_products"</span>: <span class="string">"[ &#123; \"deal_product_no\" : ***, \"code\" : \"***\", \"name\" : \"***\", \"seq\" : 1, \"master_product_code\" : \"***\", ]"</span>,</span><br><span class="line">		<span class="attr">"short_description"</span>: <span class="string">"*******"</span>,</span><br><span class="line">		<span class="attr">"array_site_attributes"</span>: <span class="string">"[ \"MARKET\" ]"</span>,</span><br><span class="line">		<span class="attr">"array_product_tags"</span>: <span class="string">"[ 2 ]"</span>,</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="attr">"metadata"</span>: &#123;</span><br><span class="line">		<span class="attr">"timestamp"</span>: <span class="string">"2022-**-**T01:12:05.790692Z"</span>,</span><br><span class="line">		<span class="attr">"record-type"</span>: <span class="string">"data"</span>,</span><br><span class="line">		<span class="attr">"operation"</span>: <span class="string">"load"</span>,</span><br><span class="line">		<span class="attr">"partition-key-type"</span>: <span class="string">"attribute-name"</span>,</span><br><span class="line">		<span class="attr">"schema-name"</span>: <span class="string">"commerce_product"</span>,</span><br><span class="line">		<span class="attr">"table-name"</span>: <span class="string">"contents_products"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>여기서 작업할 내용을 미리 정의하면 </p>
+<ol>
+<li>data부분과 metadata에서 필요한 것만 가져올 것입니다.</li>
+<li>필요한 것만 가져와서 합칠 것입니다.</li>
+<li>그리고 <strong>array_deal_products</strong>에 싸여있는 데이터를 풀어줄 것입니다.</li>
+</ol>
+<p><br></br></p>
+<h3 id="data-metadata-특정-키-값만-합치기"><a href="#data-metadata-특정-키-값만-합치기" class="headerlink" title="data, metadata 특정 키 값만 합치기"></a>data, metadata 특정 키 값만 합치기</h3><p>미리 만들어 둔 Nifi Task에서 properties로 들어갑니다. Jolt Transformation DSL을 Chain으로 설정하고 Jolt Specification을 작성해줍니다.</p>
+<ul>
+<li><p>Jolt Specification</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"operation"</span>: <span class="string">"shift"</span>,</span><br><span class="line">    <span class="attr">"spec"</span>: &#123;</span><br><span class="line">      <span class="attr">"data"</span>: &#123;</span><br><span class="line">        <span class="attr">"_id"</span>: <span class="string">"&amp;"</span>,</span><br><span class="line">        <span class="attr">"array_deal_products"</span>: <span class="string">"&amp;"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"metadata"</span>: &#123;</span><br><span class="line">        <span class="attr">"operation"</span>: <span class="string">"&amp;"</span>,</span><br><span class="line">        <span class="attr">"timestamp"</span>: <span class="string">"&amp;"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>이제 spec 부분에 어떤 작업을 원하는지를 넣어주면 됩니다.</p>
+<ul>
+<li>위의 specification은 “data” 부분과 “metadata” 부분에 대해서 작업을 할 것이라는 뜻입니다.<ul>
+<li>data에서는 id와 array_deal_products를 가져올 것이고, metedata에서는 operation과 timestamp를 가져올 것입니다.</li>
+</ul>
+</li>
+</ul>
+<p>이렇게 사용했을때 나오는 결과는 다음과 같습니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_id"</span> : <span class="number">1000009195</span>,</span><br><span class="line">  <span class="attr">"array_deal_products"</span> : <span class="string">"[ &#123; \"deal_product_no\" : ***, \"code\" : \"***\", \"name\" : \"***\", \"seq\" : 1, \"master_product_code\" : \"***\", ]"</span>,</span><br><span class="line">  <span class="attr">"operation"</span> : <span class="string">"load"</span>,</span><br><span class="line">  <span class="attr">"timestamp"</span> : <span class="string">"2022-**-**T01:12:05.790692Z"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><br></br></p>
+<h3 id="List로-묶인-값-풀어주기"><a href="#List로-묶인-값-풀어주기" class="headerlink" title="List로 묶인 값 풀어주기"></a>List로 묶인 값 풀어주기</h3><ul>
+<li><strong>SplitJson</strong>을 사용합니다.<ul>
+<li><code>$.[*]</code></li>
+<li><a href="https://community.cloudera.com/t5/Support-Questions/Nifi-SplitJson-how-to-split-json-array-to-individual-recods/td-p/210624">https://community.cloudera.com/t5/Support-Questions/Nifi-SplitJson-how-to-split-json-array-to-individual-recods/td-p/210624</a></li>
+</ul>
+</li>
+</ul>
+<p>SplitJson 프로세서를 만들어주고 위에서 작성한 <code>$.[*]</code> 을 써주면, 원하는 값을 가져와서 리스트로 묶인 값을 풀어줄 수 있습니다.</p>
+<p>파이프라인으로 확인한다면 이렇게 되겠네요</p>
+<p><img src="images/Jolt/jolt1.png" alt=""></p>
+<p><img src="images/Jolt/jolt2.png" alt="EvaluateJsonPath"></p>
+<p>중간에 <strong>EvaluateJsonPath</strong>는 Json을 파싱하는 프로세서입니다. 이 설정에 Destination을 <code>flowfile-content</code>로 설정해두시면 파싱 결과를 content에 저장하고 하나의 JSON path expression만 가질 수 있습니다. 반면 <code>flowfile-attribute</code> 라면 일단 attribute로 저장하겠죠? 그리고 각 JSON path가 명명된 속성 값으로 추출됩니다. 미리 지정한 ****attribute에 저장해둔 array_deal_products에 대해서 SplitJson을 해주는 것이라고 보면 되겠습니다.</p>
+<p><br></br></p>
+<h3 id="을-로-변환하기"><a href="#을-로-변환하기" class="headerlink" title=".을 _로 변환하기"></a>.을 _로 변환하기</h3><p>DB에서 데이터 연동을 하다보면 <code>~~~.~~~.~~</code>로 된 컬럼들이 있습니다. 해당 DB에서야 문제가 없겠는데, 다른 DB로 넣을 때면 문제가 발생하곤 합니다. 보통 _로 처리해서 넣으면 별 일 없기에 이렇게 변환해서 저장을 하거나 연동을 합니다. 하지만 이 간단한 작업을 하는데 Spark로 처리하기에는 너무 아까운 것 같습니다. 별다른 데이터 변환 없이 컬럼 명만 수정하면 되기 때문입니다. 그렇다고 손으로 일일이 하기엔 너무 힘이 들 것 같습니다. 이런 경우에 Jolt를 활용하면 쉽게 .이 들어간 컬럼(또는 키)을 _로 변환할 수 있습니다. </p>
+<ul>
+<li>데이터 예시</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"_id"</span>: <span class="number">1234</span>,</span><br><span class="line">  <span class="attr">"purchase_policy.min"</span>: <span class="number">1</span>,</span><br><span class="line">  <span class="attr">"product_notice.type"</span>: <span class="string">"***"</span>,</span><br><span class="line">  <span class="attr">"product_notice.template_id"</span>: <span class="string">"****"</span>,</span><br><span class="line">  <span class="attr">"product_notice.is_free_template"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"normal_order_type_policy"</span>: <span class="string">"DEFAULT"</span>,</span><br><span class="line">  <span class="attr">"is_search_enabled"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"is_expose_product_list"</span>: <span class="literal">true</span>,</span><br><span class="line">  <span class="attr">"version"</span>: <span class="number">8</span>,</span><br><span class="line">  <span class="attr">"thumbnail.original.service_type"</span>: <span class="string">"***"</span>,</span><br><span class="line">  <span class="attr">"thumbnail.share.service_type"</span>: <span class="string">"***"</span>,</span><br><span class="line">  <span class="attr">"operation"</span>: <span class="string">"update"</span>,</span><br><span class="line">  <span class="attr">"timestamp"</span>: <span class="string">"***************"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>이런 데이터가 있다고 하겠습니다. 이 Json데이터의 키를 잘 보면 중간 중간에 .이 들어간 것을 볼 수 있습니다. <code>thumbnail.original.service_type</code> 처럼 처음, 중간에 .이 들어간 키가 있는 반면에, <code>purchase_policy.min</code> 처럼 중간에 .이 있는 것처럼 보이는 키도 있습니다. 이런 경우에 .을 _로 변경하기 위한 Jolt Spec은 다음과 같습니다.</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line"></span><br><span class="line">  &#123;</span><br><span class="line">    <span class="attr">"operation"</span>: <span class="string">"shift"</span>,</span><br><span class="line">    <span class="attr">"spec"</span>: &#123;</span><br><span class="line">      <span class="attr">"*.*"</span>: <span class="string">"&amp;(0,1)_&amp;(0,2)"</span>,</span><br><span class="line">      <span class="attr">"*.*.*"</span>: <span class="string">"&amp;(0,1)_&amp;(0,2)_&amp;(0,3)"</span>,</span><br><span class="line">      <span class="attr">"*"</span>: <span class="string">"&amp;"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>이번에도 shift operation을 사용할 것입니다. 자세히 봐야할 부분은 <code>*</code> 가 있는 부분입니다. 인풋으로 들어오는 데이터의 키를 쭉 보다보니처음에 .이 붙는 경우와 처음과 그 다음 부분에 .이 붙는 경우가 있습니다. 그래서 spec에 <code>&quot;*.*&quot;: &quot;&amp;(0,1)_&amp;(0,2)&quot;</code>,    <code>&quot;*.*.*&quot;: &quot;&amp;(0,1)_&amp;(0,2)_&amp;(0,3)&quot;</code> 이렇게 넣어줬습니다. 괄호에 있는 숫자는 depth의 level을 뜻합니다. level 0이라면 첫 번째 {}안에 있는 키들을 의미하고 1이라면 키의 첫번째 값을 의미합니다. 예를 들어 <code>purchase_policy.min</code> 자체는 level 0이겠고, purchase_policy는 level 1이 되겠습니다. 그렇다면 min은 level2가 되겠습니다.</p>
+<p>따라서 <code>thumbnail.original.service_type</code> 를 <code>thumbnail_original_service_type</code> 로 바꾸겠다 하면 <code>&quot;*.*.*&quot;: &quot;&amp;(0,1)_&amp;(0,2)_&amp;(0,3)&quot;</code> 이렇게 Spec을 작성하면 되는 것입니다. </p>
+<p>그리고 마지막으로 나머지 값들을 다 사용할 것이므로 <code>&quot;*&quot;: &quot;&amp;&quot;</code> 를 통해 가져오면 끝입니다.</p>
+<hr>
+<p><br></br></p>
+<p>이렇게 해서 Jolt에 대해서 간단하게 알아봤습니다. 생각보다 간단하게 데이터를 Transform할 수 있는데, 이를 통해서 대대적인 상품개편 시에 큰 도움을 받았었습니다. 이것을 일일이 내려서 EMR을 돌리고 하는 작업들을 했었으면 너무 파이프라인이 복잡해지고, 모니터링 할 것도 많아졌을 것 같네요. Nifi를 사용하시는 분들이나 Spark를 사용하시는 분들이라면 Jolt를 한 번쯤 살펴보면 좋을 것 같습니다.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><a href="https://github.com/bazaarvoice/jolt#stock-transforms">https://github.com/bazaarvoice/jolt#stock-transforms</a></li>
+<li><a href="https://intercom.help/godigibee/en/articles/4044359-transformer-getting-to-know-jolt">https://intercom.help/godigibee/en/articles/4044359-transformer-getting-to-know-jolt</a></li>
+<li>[<a href="https://community.cloudera.com/t5/Support-Questions/Nifi-SplitJson-how-to-split-json-array-to-individual-recods/td-p/210624]">https://community.cloudera.com/t5/Support-Questions/Nifi-SplitJson-how-to-split-json-array-to-individual-recods/td-p/210624]</a>(</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/nifi/" rel="tag">nifi</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2022/07/09/retrospect-2022-half/">
+                <span class="level-item">2022년 상반기를 되돌아보기</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2022/08/06/jolt/';
+        this.page.identifier = '2022/08/06/jolt/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Jolt">
+        <span class="has-mr-6">1</span>
+        <span>Jolt</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Jolt의-간단한-문법">
+        <span class="has-mr-6">1.1</span>
+        <span>Jolt의 간단한 문법</span>
+        </a></li><li>
+        <a class="is-flex" href="#Jolt를-활용한-Flatten-작업">
+        <span class="has-mr-6">1.2</span>
+        <span>Jolt를 활용한 Flatten 작업</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#data-metadata-특정-키-값만-합치기">
+        <span class="has-mr-6">1.2.1</span>
+        <span>data, metadata 특정 키 값만 합치기</span>
+        </a></li><li>
+        <a class="is-flex" href="#List로-묶인-값-풀어주기">
+        <span class="has-mr-6">1.2.2</span>
+        <span>List로 묶인 값 풀어주기</span>
+        </a></li><li>
+        <a class="is-flex" href="#을-로-변환하기">
+        <span class="has-mr-6">1.2.3</span>
+        <span>.을 _로 변환하기</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Reference">
+        <span class="has-mr-6">1.3</span>
+        <span>Reference</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cicd/">
+            <span class="level-start">
+                <span class="level-item">cicd</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cicd/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/devtron/" style="font-size: 10px;">devtron</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/gitops/" style="font-size: 10px;">gitops</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 10px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/nifi/" style="font-size: 10px;">nifi</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/retrospect/" style="font-size: 10px;">retrospect</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="Nifi with Jolt" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+</html>
