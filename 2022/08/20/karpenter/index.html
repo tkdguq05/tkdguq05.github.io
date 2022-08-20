@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 4.2.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>karpenter에 대한 설명, eks에 적용하기 - Unreasonable Effectiveness</title>
+
+
+    <meta name="description" content="Kubernetes 노드 관리를 편리하게. Karpenter (Thumbnail image is generated from Dall-e(https:&#x2F;&#x2F;labs.openai.com&#x2F;))">
+<meta property="og:type" content="article">
+<meta property="og:title" content="karpenter에 대한 설명, eks에 적용하기">
+<meta property="og:url" content="http://tkdguq05.github.io/2022/08/20/karpenter/index.html">
+<meta property="og:site_name" content="Unreasonable Effectiveness">
+<meta property="og:description" content="Kubernetes 노드 관리를 편리하게. Karpenter (Thumbnail image is generated from Dall-e(https:&#x2F;&#x2F;labs.openai.com&#x2F;))">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://tkdguq05.github.io/images/karpenter/dalle-karpenter.png">
+<meta property="article:published_time" content="2022-08-20T08:09:19.000Z">
+<meta property="article:modified_time" content="2022-08-20T08:31:16.741Z">
+<meta property="article:author" content="SangHyub Lee, Jose">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="karpenter">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://tkdguq05.github.io/images/karpenter/dalle-karpenter.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/small_geul.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140404038-1');
+</script>
+
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="is-2-column">
+
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/small_geul.png" alt="karpenter에 대한 설명, eks에 적용하기" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    
+   
+    <section class="section">
+
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-image">
+        <span  class="image is-7by1">
+            <img class="thumbnail" src="/images/karpenter/dalle-karpenter.png" alt="karpenter에 대한 설명, eks에 적용하기">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2022-08-20T08:09:19.000Z">2022-08-20</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/engineering/">engineering</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/engineering/k8s/">k8s</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    24 minutes read (About 3565 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                karpenter에 대한 설명, eks에 적용하기
+            
+        </h1>
+        <div class="content">
+            <p>Kubernetes 노드 관리를 편리하게. Karpenter</p>
+<p>(Thumbnail image is generated from Dall-e(<a href="https://labs.openai.com/">https://labs.openai.com/</a>))</p>
+<a id="more"></a>
+
+
+
+<h1 id="Karpenter"><a href="#Karpenter" class="headerlink" title="Karpenter"></a>Karpenter</h1><h2 id="🪚-Intro"><a href="#🪚-Intro" class="headerlink" title="🪚 Intro."></a>🪚 <strong>Intro.</strong></h2><hr>
+<p><strong>AWS</strong>에서 만들고 운영중인 프로젝트로 빠르게 버전이 올라가고 있습니다. 글을 작성하는 와중에도 0.14에서 0.15버전이 업데이트 되었습니다. </p>
+<p>AWS re:Invent 2021 행사에서 Karpenter v0.5이 드디어 정식으로 오픈되었고 GA(Generally Available)로 릴리스 되었습니다. 정식으로 오픈되었다 보니, 이것을 가져다가 운영환경에서도 사용을 하는 것도 가능합니다.</p>
+<p>Karpenter는 간단히 말하면, Kubernetes의 worker node 자동 확장 기능을 담당하는 오픈소스 프로젝트라고 할 수 있는데, 기존의 Node Auto Scaling과 비교해서 어떤 장점이 있는지를 알아보도록 하겠습니다.</p>
+<p><br></br></p>
+<h1 id="Kubernetes의-장점-Node-Auto-Scaling"><a href="#Kubernetes의-장점-Node-Auto-Scaling" class="headerlink" title="Kubernetes의 장점, Node Auto Scaling"></a><strong>Kubernetes의 장점, Node Auto Scaling</strong></h1><p>먼저 쿠버네티스에 대해서 간략하게 알아보도록 하겠습니다. 쿠버네티스는 컨테이너 관리 플랫폼으로 빠른 배포와 뛰어난 확장성을 가졌습니다. 쿠버네티스를 활용해서 배포 관리를 하면 정말정말 편한 부분이 많지만, 운영 부담은 줄여야 하는게 중요합니다. 리소스가 모자라서 파드가 안 뜬다던가 하면 곤란해지거든요. 그래서 AWS를 사용하는 회사에서는 Managed Kubernetes 서비스인 EKS를 통해서 노드 관리의 부담을 줄이려고 하고 있습니다.</p>
+<p>결국 EKS 통해서 <a href="https://kubernetes.io/ko/docs/concepts/overview/components/">Control Plane</a> 운영 부담을 줄여야 하는 게 중요한데, 특히 컨테이너 사용량에 따라 지속적으로 Computing Node를 빠르게 추가하고 줄일 수 있는 Elasticity가 필요하게 됩니다. 이 개념에 딱 맞는게 AWS에 이미 존재하는데 바로 EC2 인스턴스입니다. 추가적인 노드가 필요할 때 Elastic한 성질을 지닌 AWS 컴퓨팅의 기본 단위인 EC2(Amazon Elastic Compute Cloud)를 불러와서 이것을 노드로 붙이는 것입니다. 그리고 여기에 Auto Scaling을 적극적으로 활용하면서 Worker node의 운영 부담을 줄일 수 있게 되는 것입니다.</p>
+<p>EKS에서는 Auto Scaling이 있는데 왜 그럼 Karpenter를 굳이 사용하려고 하는 건가요? 이제 그 이유를 차근차근 알아보겠습니다.</p>
+<p><br></br></p>
+<h2 id="Karpenter에-대한-짧막한-소개"><a href="#Karpenter에-대한-짧막한-소개" class="headerlink" title="Karpenter에 대한 짧막한 소개."></a><strong>Karpenter에 대한 짧막한 소개.</strong></h2><p>Karpenter는 신규 배포될 pod를 지속적으로 체크하고 Worker Node가 부족하면 자동으로 Worker node를 추가배포하고 확장하는 역할을 담당합니다. 추가적인 노드를 확장하는 것 뿐만 아니라, 불필요한 Worker node도 정리하기도 합니다. 따라서, 노드의 비용 효율화와 운영 부담을 최소화 하기 위한 자동화 도구로 Karpenter를 사용할 수 있게 되는 것입니다. 자세한 설명은 아래에서 계속 하도록 하고 이제 기존의 Auto Scaling 방식은 어떤 것이 있는지, 어떻게 이루어지는 지에 대해서 알아보겠습니다.</p>
+<p><br></br></p>
+<h2 id="기존의-Node-Auto-Scaling"><a href="#기존의-Node-Auto-Scaling" class="headerlink" title="기존의 Node Auto Scaling"></a><strong>기존의 Node Auto Scaling</strong></h2><p>기존의 노드 오토스케일링 방법은 <strong>CA</strong>(Cluster Auto Scaler)가 대표적입니다.</p>
+<p>CA는 Cloud Provider(AWS, GCP)마다 각자 다른 방법으로 지원합니다. AWS의 경우에는 EC2 Auto Scaling Group을 사용하여 CA를 구현하는데, EKS에서 제공되는 Node Group기능은 다음과 같습니다.</p>
+<p><strong>Node Group</strong></p>
+<ul>
+<li>Worker Node를 그룹핑하여 관리하는 기능 제공</li>
+<li>Auto Scaling Group과 Launch Template으로 구현됨<ul>
+<li>Launch Template에 어떤 스펙의 Instance, AMI를 사용할 것인지 작성되어 있음.</li>
+</ul>
+</li>
+<li>Worker Node들은 ASG를 통해 확장하는 구조</li>
+<li>ASG를 Cluster Autoscaler가 컨트롤</li>
+</ul>
+<p><img src="/images/karpenter/ng.png" alt="Node Group"></p>
+<p><br></br></p>
+<h3 id="Node-Group의-자동-확장-시나리오"><a href="#Node-Group의-자동-확장-시나리오" class="headerlink" title="Node Group의 자동 확장 시나리오"></a><strong>Node Group의 자동 확장 시나리오</strong></h3><p>그렇다면 이 Node Groupb이 어떻게 Node를 자동으로 확장하는 것인지 알아보겠습니다. 가상의 상황을 가정해보겠습니다. pod가 가득 찼고 더 이상 pod를 배포할 수 없는 상태입니다. 이런 상태에서 신규 pod 생성 요청이 왔습니다. 대략 Airflow에서 KubernetesPodOperator를 통해서 새 파드를 통해 작업을 하려는 것으로 상상해보겠습니다(이 Operator는 Airflow를 통해 작업을 하려고 할때, 작업을 워커에서 수행하지 않고 새 파드를 띄워서 해당 파드에서 작업하도록 합니다).  Kube-Scheduler는 신규 Pod를 배치할 적절한 Node를 선정하려고 합니다. </p>
+<aside>
+💡 **kube-scheduler**는
+[노드](https://kubernetes.io/ko/docs/concepts/architecture/nodes/)가 배정되지 않은 새로 생성된 [파드](https://kubernetes.io/ko/docs/concepts/workloads/pods/) 를 감지하고, 실행할 노드를 선택하는 컨트롤 플레인의 컴포넌트입니다. 스케줄링 결정을 위해서 고려되는 요소는 리소스에 대한 개별 및 총체적 요구 사항, 하드웨어/소프트웨어/정책적 제약, 어피니티(affinity) 및 안티-어피니티(anti-affinity) 명세, 데이터 지역성, 워크로드-간 간섭, 데드라인을 포함합니다.
+</aside>
+
+<p>이제 다양한 Label 정보, 가용량 등을 통해서 pod가 배치될 대상 노드를 필터링 하고 최종으로 자리잡을 노드를 선정하려고 합니다. 이 노드 선정 전까지는 pod는 Pending상태로 나오게 됩니다(Unschedulable pod). 이 상태에서 머물다가 적당한 노드가 없다면 pod의 프로비저닝은 실패하게 됩니다. pod의 상태를 확인하고 노드 선정에 실패하게 된다면 Node Group의 ASG값 중 Desired Capacity 값을 수정하면서 워커 노드의 개수를 증가시도록 설정합니다. </p>
+<p><img src="/images/karpenter/ng_1.png" alt=""></p>
+<p>ASG는 수정된 Desired Capacity값을 읽고 EC2 워커 노드를 추가로 배포하게 됩니다. 이것은 Kubernetes와는 무관하고, AWS의 ASG에 의해 실행된 작업입니다. EC2 AMI, Instance Type은 AWS에 정의된 Launch Template에 있는 내용을 따르게 됩니다. 배포가 완료되어 노드가 Ready 상태가 되면 kube-scheduler는 배포되고 있지 못하던 pod를 새로운 워커 노드로 할당시킵니다. kube-apiserver에 해당 정보를 전달하고 kube-apiserver는 워커 노드에서 실행중인 kubelet에게 pod 배포 명령을 보내게 되고 파드가 해당노드에 프로비저닝 됩니다.</p>
+<p><img src="/images/karpenter/ng_2.png" alt=""></p>
+<p><br></br></p>
+<h2 id="Karpenter의-동작방식"><a href="#Karpenter의-동작방식" class="headerlink" title="Karpenter의 동작방식"></a><strong>Karpenter의 동작방식</strong></h2><p>Karpenter는 ASG와는 조금 다른 구조로 동작하게 됩니다. Karpenter는 AWS에서 개발은 했지만 Cloud Provider와 무관하게 동작 가능한 구조로 설계되었습니다. Karpenter는 지속적으로 신규 pod의 상태를 확인하고 필요하다면 워커노드의 배포와 삭제도 직접 수행하고 kube-scheduler를 대신해서 pod를 특정 워커 노드쪽으로 바인딩 되도록 하는 요청도 수행합니다.</p>
+<p><strong>Karpenter의 자동 확장 시나리오</strong></p>
+<p>위에서 살펴본 상황과 같이 가용공간이 없는 상태에서 신규 pod생성 요청이 왔습니다. kube-scheduler가 신규 pod 배치할 적정 노드를 선정하는 것과 필터링 하는 과정은 같습니다. Unschedulabel 한 pod를 프로비저닝 해주려고 하는 상황인 것입니다. </p>
+<p><img src="/images/karpenter/karpenter_1.png" alt=""></p>
+<p>워커 노드를 생성할 때 어떤 인스턴스 타입을 선택해서 배포할 것인지를 정하는 과정에서 Node Group을 사용하는 Auto Scaling과 차이점이 있습니다. Karpenter는 자체 Custom Resource인 Provisioner를 등록하고 이것에 의해서 새 노드가 어떤 스펙일지를 결정합니다. </p>
+<p><img src="/images/karpenter/karpenter_2.png" alt=""></p>
+<p>Karpenter는 결국 이 Provisioner를 통해 모든 워커 노드의 lifecycle을 결정할 수 있게 됩니다. Karpenter 역시 노드가 배포된 이후에 Ready상태가 되면 직접 pod를 새로운 워커 노드에 배포될 수 있도록 바인딩 요청을 하게 됩니다.</p>
+<p><br></br></p>
+<hr>
+<h3 id="둘의-차이점"><a href="#둘의-차이점" class="headerlink" title="둘의 차이점?"></a>둘의 차이점?</h3><p>둘의 차이점을 본다면, CA는 ASG와 같이 노드확장 같은 작업을 할때 Cloud Provider가 제공하는 기능들과 연계할 수 밖에 없습니다. 그렇기 때문에 훨씬 더 많은 단계를 거쳐야 하게 되고, 이 과정 때문에 노드의 배포과정이 느리고 번거롭게 됩니다.</p>
+<p>Karpenter는 Auto Scaling 할때 일어나는 많은 부분을 Karpenter가 직접처리 합니다. 기존 ASG대비 훨씬 심플한 구조로 빠르게 처리가 가능해지는 것입니다.</p>
+<p><br></br></p>
+<h2 id="🪚-Karpenter의-주요-개념"><a href="#🪚-Karpenter의-주요-개념" class="headerlink" title="🪚 Karpenter의 주요 개념"></a>🪚 <strong>Karpenter의 주요 개념</strong></h2><p>이제 이유를 알았고 둘의 차이를 대충 파악했으니, Karpenter의 주요 개념을 살펴보도록 하겠습니다. Karpenter는 크게 4가지 특성을 갖고 설명할 수 있습니다.</p>
+<ul>
+<li><strong>Watching :</strong> unschedulable한 pod를 계속 보고 있습니다.(파드 자체를 계속 체크)</li>
+<li><strong>Evaluating :</strong> 스케쥴링 하는데 제약이 없는지를 확인합니다.</li>
+<li><strong>Provisioning :</strong> 요구사항에 맞는 노드에 파드를 배포합니다.</li>
+<li><strong>Removing :</strong> 더 이상 노드가 필요없다면 삭제합니다.</li>
+</ul>
+<p>그렇다면 무엇에 의해 노드가 생성되고 어떤 종류의 인스턴스일 것인지, 언제 노드를 삭제할 것인지 등등을 결정할 무엇인가가 필요합니다. 그 설정이 바로 Provisioner입니다.</p>
+<p><br></br></p>
+<h3 id="Provisioner"><a href="#Provisioner" class="headerlink" title="Provisioner"></a><strong>Provisioner</strong></h3><p>Provisioner는 Custom Resource에 대해 작성한 것으로서, 노드 프로비저닝에 대한 제약사항이나 노드가 필요없다고 판단할 설정들, 예를 들어 timeout과 같은 것들을 설정합니다. 여러 설정들이 많지만 주요 설정들을 살펴보겠습니다. </p>
+<ul>
+<li>taints : 프로비저닝 된 노드들에 테인트를 정합니다. 파드가 taint에 대한 toleration이 맞지 않다면 taint에 설정된 대로 이벤트가 발생합니다.<ul>
+<li>NoSchedule, PreferNoSchedule, or NoExecute</li>
+</ul>
+</li>
+<li>labels : 파드에 매칭될 수 있는, 임의의 key-value를 노드에 붙입니다.</li>
+<li>requirements : Acceptable한 것에 In, Unacceptable한 것에 Out을 설정합니다.<ul>
+<li><a href="https://kubernetes.io/docs/reference/labels-annotations-taints/">Well-Known Labels, Annotations and Taints</a> 를 참조해 설정합니다.</li>
+<li><a href="https://kubernetes.io/docs/reference/labels-annotations-taints/#nodekubernetesioinstance-type">instance types</a>, <a href="https://kubernetes.io/docs/reference/labels-annotations-taints/#topologykubernetesiozone">zones</a>, <a href="https://kubernetes.io/docs/reference/labels-annotations-taints/#kubernetes-io-arch">computer architecture</a>, <a href="https://karpenter.sh/v0.15.0/provisioner/#capacity-type">capacity type</a></li>
+</ul>
+</li>
+<li>limits : 클러스터에서 사용할 전체 CPU와 메모리의 제한을 설정합니다.<ul>
+<li>이 설정을 통해 노드 프로비저닝을 효과적으로 중지할 수 있습니다.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><br></br></p>
+<h2 id="Karpenter-Demo-시나리오"><a href="#Karpenter-Demo-시나리오" class="headerlink" title="Karpenter Demo 시나리오"></a><strong>Karpenter Demo 시나리오</strong></h2><p>이제 Karpenter가 얼마나 효과적이고 빠른지를 살펴보기 위해 Karpenter를 직접 세팅해 보겠습니다. 설치 과정은 <a href="https://karpenter.sh/v0.15.0/getting-started/getting-started-with-eksctl/">공식 문서</a>를 참조하시는 게 가장 깔끔합니다. 꼭 최신 버전인지를 한 번 더 확인하시기 바랍니다. 설치가 완료되었다면 샘플 Provisioner를 넣어보겠습니다. </p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">karpenter.sh/v1alpha5</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Provisioner</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  requirements:</span></span><br><span class="line"><span class="attr">    - key:</span> <span class="string">karpenter.sh/capacity-type</span>         <span class="comment"># optional, set to on-demand by default, spot if both are listed</span></span><br><span class="line"><span class="attr">      operator:</span> <span class="string">In</span></span><br><span class="line"><span class="attr">      values:</span> <span class="string">["spot"]</span></span><br><span class="line"><span class="attr">  limits:</span></span><br><span class="line"><span class="attr">    resources:</span></span><br><span class="line"><span class="attr">      cpu:</span> <span class="number">1000</span>                               <span class="comment"># optional, recommended to limit total provisioned CPUs</span></span><br><span class="line"><span class="attr">      memory:</span> <span class="number">1000</span><span class="string">Gi</span></span><br><span class="line"><span class="attr">  ttlSecondsAfterEmpty:</span> <span class="number">30</span>                    <span class="comment"># optional, but never scales down if not set</span></span><br><span class="line"><span class="attr">  ttlSecondsUntilExpired:</span> <span class="number">2592000</span>             <span class="comment"># optional, but never expires if not set</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">karpenter.k8s.aws/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">AWSNodeTemplate</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  subnetSelector:</span>                             <span class="comment"># required</span></span><br><span class="line">    <span class="string">karpenter.sh/discovery:</span> <span class="string">$&#123;CLUSTER_NAME&#125;</span></span><br><span class="line"><span class="attr">  securityGroupSelector:</span>                      <span class="comment"># required, when not using launchTemplate</span></span><br><span class="line">    <span class="string">karpenter.sh/discovery:</span> <span class="string">$&#123;CLUSTER_NAME&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>이제 테스트를 할 새로운 namespace를 만들어주겠습니다(<code>kubectl create namespace test</code>). 그리고 해당 네임스페이스에 파드를 생성할 deployment를 만들고 파드를 10개로 늘려보겠습니다. (<code>kubectl scale deployment inflate --replicas 10 -n test</code>)</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">inflate</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line"><span class="attr">  replicas:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">  selector:</span></span><br><span class="line"><span class="attr">    matchLabels:</span></span><br><span class="line"><span class="attr">      app:</span> <span class="string">inflate</span></span><br><span class="line"><span class="attr">  template:</span></span><br><span class="line"><span class="attr">    metadata:</span></span><br><span class="line"><span class="attr">      labels:</span></span><br><span class="line"><span class="attr">        app:</span> <span class="string">inflate</span></span><br><span class="line"><span class="attr">    spec:</span></span><br><span class="line"><span class="attr">      terminationGracePeriodSeconds:</span> <span class="number">0</span></span><br><span class="line"><span class="attr">      containers:</span></span><br><span class="line"><span class="attr">        - name:</span> <span class="string">inflate</span></span><br><span class="line"><span class="attr">          image:</span> <span class="string">public.ecr.aws/eks-distro/kubernetes/pause:3.2</span></span><br><span class="line"><span class="attr">          resources:</span></span><br><span class="line"><span class="attr">            requests:</span></span><br><span class="line"><span class="attr">              cpu:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>이 설정에서 cpu를 굉장히 작게 요청했기 때문에 pod를 갑자기 늘렸을 때, 파드는 제대로 생성되지 못하고 Pending이 되어 있을 것입니다. </p>
+<p><code>kubectl get po -n test</code>를 통해 확인해보면 다음과 같습니다.</p>
+<p><img src="/images/karpenter/get_pod.png" alt="파드가 제대로 생성되지 못하고 Pending되어 있다."></p>
+<p>Provisioner에서는 어떤일이 일어나고 있을까요?(<code>kubectl logs -f deployment/karpenter -c controller -n karpenter</code>) Provisioner에서는 어떤 리소스가 부족한지를 파악하고 어떤 클러스터의 어떤 서브넷에 어떤 스펙의 노드를 추가할 지를 정하고 있습니다. 노드를 올리게 되고 Ready상태와 함께 pod들은 프로비저닝이 완료됩니다.</p>
+<p><img src="/images/karpenter/provisioner_log.png" alt=""></p>
+<p><br></br></p>
+<h3 id="🤯-Trouble-Shooting"><a href="#🤯-Trouble-Shooting" class="headerlink" title="🤯 Trouble Shooting"></a>🤯 Trouble Shooting</h3><p>karpenter v0.14.0를 사용하면서 provisioner의 requirement에 <code>topology.kubernetes.io/zone</code> 를 설정하고 파드를 프로비저닝 할 때 다음과 같은 에러를 만날 수 있습니다.</p>
+<p><code>2022-08-15T21:16:31.881Z        ERROR   controller.provisioning Could not schedule pod, incompatible with provisioner &quot;default&quot;, incompatible requirements, key topology.kubernetes.io/region does not have known values; incompatible with provisioner &quot;labeltest&quot;, incompatible requirements, key topology.kubernetes.io/region does not have known values {&quot;commit&quot;: &quot;5edcce3&quot;, &quot;pod&quot;: &quot;monitoring/prometheus-helm-kube-prometheus-stack-prometheus-1&quot;}</code> (From Kuberentes Slack, karpenter channel. visokoo’s thread) </p>
+<p>그래서 열심히 구글 검색도 해보고 하다가 슬랙방에 들어가서 비슷한 사례가 없는지 봤는데, 8월 16일에 비슷한 문제를 겪는 사람이 있었습니다. 결국 이유는 버그였습니다. 프로비저닝이 안되어서 2-3일 정도를 허비했는데 조금 허무 했습니다. 하지만 빠르게 버그 픽스가 되었고 v0.15.0이 올라오면서 이 문제는 해결 되었습니다. 꼭 최신 버전을 사용하시기 바랍니다!</p>
+<hr>
+<p><br></br></p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a><strong>Reference</strong></h2><ul>
+<li><a href="https://karpenter.sh/">https://karpenter.sh/</a></li>
+<li><a href="https://karpenter.sh/v0.15.0/">https://karpenter.sh/v0.15.0/</a></li>
+<li><a href="https://youtu.be/EsmG7nCD_hI">https://youtu.be/EsmG7nCD_hI</a></li>
+<li><a href="https://kubernetes.io/ko/docs/concepts/overview/components/">https://kubernetes.io/ko/docs/concepts/overview/components/</a></li>
+<li><a href="https://kubernetes.io/ko/docs/concepts/architecture/nodes/">https://kubernetes.io/ko/docs/concepts/architecture/nodes/</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/k8s/" rel="tag">k8s</a>, <a class="has-link-grey -link" href="/tags/karpenter/" rel="tag">karpenter</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2022/08/06/jolt/">
+                <span class="level-item">Nifi with Jolt</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
+        
+<script>
+    var disqus_config = function () {
+        this.page.url = 'http://tkdguq05.github.io/2022/08/20/karpenter/';
+        this.page.identifier = '2022/08/20/karpenter/';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+<div id="disqus_thread">
+    
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+    </div>
+</div>
+</div>
+                
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
+    
+        
+
+    <div class="card widget" id="toc">
+        <div class="card-content">
+            <div class="menu">
+                <h3 class="menu-label">
+                    Catalogue
+                </h3>
+                <ul class="menu-list"><li>
+        <a class="is-flex" href="#Karpenter">
+        <span class="has-mr-6">1</span>
+        <span>Karpenter</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#🪚-Intro">
+        <span class="has-mr-6">1.1</span>
+        <span>🪚 Intro.</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Kubernetes의-장점-Node-Auto-Scaling">
+        <span class="has-mr-6">2</span>
+        <span>Kubernetes의 장점, Node Auto Scaling</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Karpenter에-대한-짧막한-소개">
+        <span class="has-mr-6">2.1</span>
+        <span>Karpenter에 대한 짧막한 소개.</span>
+        </a></li><li>
+        <a class="is-flex" href="#기존의-Node-Auto-Scaling">
+        <span class="has-mr-6">2.2</span>
+        <span>기존의 Node Auto Scaling</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Node-Group의-자동-확장-시나리오">
+        <span class="has-mr-6">2.2.1</span>
+        <span>Node Group의 자동 확장 시나리오</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Karpenter의-동작방식">
+        <span class="has-mr-6">2.3</span>
+        <span>Karpenter의 동작방식</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#둘의-차이점">
+        <span class="has-mr-6">2.3.1</span>
+        <span>둘의 차이점?</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#🪚-Karpenter의-주요-개념">
+        <span class="has-mr-6">2.4</span>
+        <span>🪚 Karpenter의 주요 개념</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Provisioner">
+        <span class="has-mr-6">2.4.1</span>
+        <span>Provisioner</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Karpenter-Demo-시나리오">
+        <span class="has-mr-6">2.5</span>
+        <span>Karpenter Demo 시나리오</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#🤯-Trouble-Shooting">
+        <span class="has-mr-6">2.5.1</span>
+        <span>🤯 Trouble Shooting</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Reference">
+        <span class="has-mr-6">2.6</span>
+        <span>Reference</span>
+        </a></li></ul></li></ul>
+            </div>
+        </div>
+    </div>
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
+            <span class="level-start">
+                <span class="level-item">Automation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Engieering/">
+            <span class="level-start">
+                <span class="level-item">Engieering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Engineering/">
+            <span class="level-start">
+                <span class="level-item">Engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
+            <span class="level-start">
+                <span class="level-item">Information Theory</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ML/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Statistics/">
+            <span class="level-start">
+                <span class="level-item">Statistics</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">12</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/blog/airflow/">
+            <span class="level-start">
+                <span class="level-item">airflow</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/book/">
+            <span class="level-start">
+                <span class="level-item">book</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/book/ML/">
+            <span class="level-start">
+                <span class="level-item">ML</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cicd/">
+            <span class="level-start">
+                <span class="level-item">cicd</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cicd/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
+            <span class="level-start">
+                <span class="level-item">Algorithm</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/cs/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">13</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/engineering/GCP/">
+            <span class="level-start">
+                <span class="level-item">GCP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/engineering/k8s/">
+            <span class="level-start">
+                <span class="level-item">k8s</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/event/">
+            <span class="level-start">
+                <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/infra/">
+            <span class="level-start">
+                <span class="level-item">infra</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/infra/backend/">
+            <span class="level-start">
+                <span class="level-item">backend</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/linux/">
+            <span class="level-start">
+                <span class="level-item">linux</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/linux/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/papers/">
+            <span class="level-start">
+                <span class="level-item">papers</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/">
+            <span class="level-start">
+                <span class="level-item">python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/python/coding-test/">
+            <span class="level-start">
+                <span class="level-item">coding test</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/python/cs/">
+            <span class="level-start">
+                <span class="level-item">cs</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/recommender/">
+            <span class="level-start">
+                <span class="level-item">recommender</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/spark/">
+            <span class="level-start">
+                <span class="level-item">spark</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/spark/engineering/">
+            <span class="level-start">
+                <span class="level-item">engineering</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/sql/">
+            <span class="level-start">
+                <span class="level-item">sql</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/sql/code/">
+            <span class="level-start">
+                <span class="level-item">code</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/sql/debug/">
+            <span class="level-start">
+                <span class="level-item">debug</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/">
+            <span class="level-start">
+                <span class="level-item">trouble shooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
+            <span class="level-start">
+                <span class="level-item">study</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ubuntu/">
+            <span class="level-start">
+                <span class="level-item">ubuntu</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
+            <span class="level-start">
+                <span class="level-item">troubleshooting</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
+            <span class="level-start">
+                <span class="level-item">blog</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/devtron/" style="font-size: 10px;">devtron</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/gitops/" style="font-size: 10px;">gitops</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/k8s/" style="font-size: 12px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/karpenter/" style="font-size: 10px;">karpenter</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/nifi/" style="font-size: 10px;">nifi</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/retrospect/" style="font-size: 10px;">retrospect</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
+    </div>
+</div>
+    
+    
+</div>
+
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+            </div>
+        </div>
+    <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+    </section>
+    
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/small_geul.png" alt="karpenter에 대한 설명, eks에 적용하기" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("en");</script>
+
+
+<script>
+var IcarusThemeSettings = {
+    site: {
+        url: 'http://tkdguq05.github.io',
+        external_link: {"enable":true,"exclude":[]}
+    },
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: 'unfolded'
+        }
+    }
+};
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+
+
+<script src="/js/animation.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
+
+</body>
+</html>
