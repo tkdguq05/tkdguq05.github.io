@@ -19,7 +19,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://images.velog.io/images/beryl/post/e1e6abdb-6989-49a0-a03f-8b26a5a2c214/Istio.png">
 <meta property="article:published_time" content="2022-10-02T02:17:00.000Z">
-<meta property="article:modified_time" content="2022-10-02T09:27:12.353Z">
+<meta property="article:modified_time" content="2022-10-02T11:20:19.624Z">
 <meta property="article:author" content="SangHyub Lee, Jose">
 <meta property="article:tag" content="kubeflow">
 <meta property="article:tag" content="istio">
@@ -256,7 +256,7 @@
 <h3 id="Mixer"><a href="#Mixer" class="headerlink" title="Mixer"></a>Mixer</h3><p>믹서는 액세스 제어와 정책을 관리하며 각종 모니터링에 필요한 지표들을 수집합니다. 서비스의 총 처리량을 정책으로 지정하면 그 처리량 이상으로 요청을 못받게 하거나 특정 헤더값이 일치해야 요청을 받을 수 있게 할 수 있습니다.</p>
 <h3 id="Citadel"><a href="#Citadel" class="headerlink" title="Citadel"></a>Citadel</h3><p>시타델은 “성(Castle)” 이라는 말로써, 단어 뜻에서 유추할 수 있듯, 보안과 관련이 되어 있습니다. 사용자 인증(Authentication)과 인가(Authorization)와 관련된 역할을 수행합니다. Istio의 모든 트래픽은 TLS를 통해서 암호화가 가능한데 이 암호화에 필요한 인증서를 관리합니다.</p>
 <h3 id="Gallery"><a href="#Gallery" class="headerlink" title="Gallery"></a>Gallery</h3><p>Istio 설정을 Validation, Ingestion, Processing, Distribution 하는 역할을 합니다. 즉, Istio의 구성 및 설정을 검증하고 배포 관리를 진행합니다.</p>
-<p><img src="https://www.solo.io/wp-content/uploads/2022/09/Istio_Architecture_Components_1.svg" alt="1.4버전" style="zoom:25%;" /></p>
+<p><img src="https://t1.daumcdn.net/cfile/tistory/99D9B3375BF8090D27" alt="1.5이전의 버전" style="zoom:25%;" /></p>
 <blockquote>
 <p>Istio 1.4버전까지는 위에 4가지 요소로 나뉘어져 있었으나 그 이후에는 <strong>Istiod</strong> 라는 하나의 모듈로 통합되었습니다. </p>
 <p>istiod는 Mixer 가 없어지고, Pilot 이 Mixer 의 기능까지도 함께 수행합니다.</p>
