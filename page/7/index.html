@@ -155,6 +155,82 @@
 <div class="card">
     
     <div class="card-image">
+        <a href="/2019/05/15/cross-entropy-KL-divergence/" class="image is-7by1">
+            <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="cross_entropy_KL_divergence">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-15T07:23:21.000Z">2019-05-15</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/ML/">ML</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/">Information Theory</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ML/Information-Theory/Statistics/">Statistics</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    6 minutes read (About 946 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/05/15/cross-entropy-KL-divergence/">cross_entropy_KL_divergence</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h1 id="Cross-Entropy와-KL-Divergence에-대해서-알아보자"><a href="#Cross-Entropy와-KL-Divergence에-대해서-알아보자" class="headerlink" title="Cross Entropy와 KL-Divergence에 대해서 알아보자"></a>Cross Entropy와 KL-Divergence에 대해서 알아보자</h1><h3 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h3><p>크로스 엔트로피에 대해서 알아보기 전에, 엔트로피 식을 다시한번 확인해 보자<br>엔트로피는 $H(x)=-\sum P(x)log_2P(x)$로 확률분포 $P(X)$에 대한 기댓값이다. 엔트로피는 확률분포가 있어야 정의가 될 수 있다. 확률 분포의 불확실한 정도를 뜻하는 것이라고 생각하면 된다.</p>
+<p>이제 크로스 엔트로피 식을 확인해 보자<br>$H(P,Q)=-\sum_{X} P(x)logQ(x)$(자연로그 또는 이진로그)<br>식을 자세히 보면, $P(x)$가 들어갈 자리에 $Q(x)$가 들어가 있다. 어떤 의미가 숨어져 있는 것 같은데,</p>
+<p>이 수식이 의미하는 것이 무엇일까?</p>
+<p>크로스 엔트로피(Cross Entropy)는 실제 데이터는 $P$의 분포로부터 생성되지만, 분포 $Q$를 사용해서 정보량을 측정해서 나타낸 평균적 bit수를 의미한다. 이제 수식이 눈에 들어오기 시작할 것이다.</p>
+<p><code>실제 데이터는 분포 P로 부터 생성되는데, 우리가 실제 P에 대해서 몰라서 분포 Q의 정보(or 코딩 스킴)을 대신 활용하면 어떨까?</code>에 대한 답으로써 만들어졌다고 생각하면 편할 것이다.</p>
+<p>크로스 엔트로피는 $H(P,Q)$와 같이 나타내고 일반적으로 $H(P,Q) &gt;=H(P)$이다. 항상 크로스 엔트로피가 크거나 같을 수 밖에 없는 것은 데이터의분포를 Q로 가정한 코딩방식을 사용하게 되면, 실제의 분포 P를 가정한 코딩방식 보다 질의응답에 필요한 코드의 수(code length)가 많아지게 되기 때문이다.</p>
+<h3 id="KL-Divergence"><a href="#KL-Divergence" class="headerlink" title="KL-Divergence"></a>KL-Divergence</h3><p>KL-Divergence는 쿨백 라이블러 발산이라고 불리기도 한다. 이 역시 수식으로 먼저 확인해 보자<br>$D_{KL}(P||Q)=\sum_{X}P(x)log {P(x)\over{Q(x)}}$이다. 이 수식을 자세히 보면, Cross entropy 식이 들어가 있는 것을 확인 할 수 있다. 좀 더 풀어서 써보면</p>
+<p>$D_{KL}(P||Q)=\sum_{X}P(x)log{1\over Q(x)}-P(x)log{1\over P(x)}$로<br>결국 $H(P,Q) - H(P)$, 즉 P와 Q의 크로스엔트로피에서 P의 엔트로피를 빼준 식이다. 이것은 결론적으로 Q를 이용한 정보량이 P의 분포와 얼마나 차이가 나는 지를 알려주는 것이다. 일종의 분포사이의 거리로 이해를 하면 된다. (KL divergence는 두 확률 분포 P와 Q의 차이를 측정한다. 하지만 엄밀히 말해서 거리는 아니다.)</p>
+<p>다른 표현으로 데이터 인코딩 관점에서 보면 KL divergence는 데이터 소스의 분포인 P 대신 다른 분포 Q를 사용해서 인코딩하면 추가로 몇 bit의 낭비가 생기는지 나타낸다고 이해할 수 있다.</p>
+<p>KL-Divergence는 거리함수가 아니다. 왜냐하면 교환법칙이 성립하지 않기 때문이다. Reverse KL은 별도의 개념으로 사용된다. 하지만, 두 분포가 다를수록 큰 값을 가지며 둘이 일치할 때에만 0이 되기 때문에 거리와 비슷한 용도로 사용할 수 있다.<br>[<a href="https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]">https://wiseodd.github.io/techblog/2016/12/21/forward-reverse-kl/]</a></p>
+<p>Cross Entropy와 KL-Divergence가 어떤 관계에 있느냐고 묻는다면, KL-Divergence의 앞쪽 수식에 크로스 엔트로피가 있으므로, 크로스 엔트로피가 작을 수록, KL-Divergence값이 작아진다. 즉, 두 분포가 가까워진다고 말할 수 있겠다.</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-image">
         <a href="/2019/05/15/Boosting/" class="image is-7by1">
             <img class="thumbnail" src="/images/our-technology-image-.jpg" alt="Boosting">
         </a>
@@ -1066,78 +1142,6 @@
 
 
 
-    
-<div class="card">
-    
-    <div class="card-image">
-        <a href="/2019/02/28/supervised-learning/" class="image is-7by1">
-            <img class="thumbnail" src="/images/lizard_book.jpg" alt="지도 학습과 쉬운 모델을 사용하는 이유에 대해서">
-        </a>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-02-28T05:45:24.000Z">2019-02-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/book/">book</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/book/ML/">ML</a>
-                </div>
-                <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    17 minutes read (About 2510 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/02/28/supervised-learning/">지도 학습과 쉬운 모델을 사용하는 이유에 대해서</a>
-            
-        </h1>
-        <div class="content">
-            <p>지도학습과 쉬운 모델을 사용하는 이유는 뭘까?</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/02/28/supervised-learning/#more">Read More</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1208,7 +1212,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            75
+                            76
                         </p>
                     </a>
                 </div>
@@ -1220,7 +1224,7 @@
                     </p>
                     <a href="/categories">
                         <p class="title has-text-weight-normal">
-                            49
+                            50
                         </p>
                     </a>
                 </div>
@@ -1383,7 +1387,7 @@
                 <span class="level-item">blog</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">12</span>
+                <span class="level-item tag">13</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/blog/airflow/">
@@ -1397,6 +1401,14 @@
         <a class="level is-marginless" href="/categories/blog/event/">
             <span class="level-start">
                 <span class="level-item">event</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/blog/%EA%B8%80%EB%98%90/">
+            <span class="level-start">
+                <span class="level-item">글또</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1688,6 +1700,25 @@
         
         <article class="media">
             
+            <a href="/2023/02/12/geultto-8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://s3.nybookeditors.com/blog/2016/12/_1200x630_crop_center-center_82_none/FEATURED_-Start-It-Already-X-Ways-to-Start-Your-Novel.jpg?mtime=20190819114651&amp;focal=none&amp;tmtime=20210427000723" alt="글또 8기와 2022년 회고 및 23년 다짐">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2023-02-11T23:50:24.000Z">2023-02-12</time></div>
+                    <a href="/2023/02/12/geultto-8/" class="title has-link-black-ter is-size-6 has-text-weight-normal">글또 8기와 2022년 회고 및 23년 다짐</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a> / <a class="has-link-grey -link" href="/categories/blog/%EA%B8%80%EB%98%90/">글또</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2022/10/02/kubeflow-istio/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://images.velog.io/images/beryl/post/e1e6abdb-6989-49a0-a03f-8b26a5a2c214/Istio.png" alt="Kubeflow에 Istio가 왜 필요할까?">
@@ -1762,25 +1793,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2022/08/06/jolt/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="https://technology.amis.nl/wp-content/uploads/2022/04/jolt-json-to-json-transformation.png" alt="Nifi with Jolt">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2022-08-06T04:06:47.000Z">2022-08-06</time></div>
-                    <a href="/2022/08/06/jolt/" class="title has-link-black-ter is-size-6 has-text-weight-normal">Nifi with Jolt</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/engineering/">engineering</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1791,6 +1803,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2023/02/">
+                <span class="level-start">
+                    <span class="level-item">February 2023</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2022/10/">
@@ -2252,7 +2275,7 @@
                 
                 </a>
                 <p class="is-size-7">
-                &copy; 2022 SangHyub Lee, Jose&nbsp;
+                &copy; 2023 SangHyub Lee, Jose&nbsp;
                 Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
                         href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
                 
