@@ -155,6 +155,107 @@
 <div class="card">
     
     <div class="card-image">
+        <a href="/2019/04/12/programmers-the-Biggest-Number/" class="image is-7by1">
+            <img class="thumbnail" src="/images/programmers.jpeg" alt="programmers the Biggest Number">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-04-12T05:43:10.000Z">2019-04-12</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/python/">python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/">coding test</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/python/coding-test/Algorithm/">Algorithm</a>
+                </div>
+                <div align=center>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 사각 반응 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-9443112709859631"
+     data-ad-slot="7692350701"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 minutes read (About 710 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/04/12/programmers-the-Biggest-Number/">programmers the Biggest Number</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+<h2 id="프로그래머스-코딩테스트-연습문제-가장-큰-수를-풀어봤다"><a href="#프로그래머스-코딩테스트-연습문제-가장-큰-수를-풀어봤다" class="headerlink" title="프로그래머스 코딩테스트 연습문제 가장 큰 수를 풀어봤다"></a>프로그래머스 코딩테스트 연습문제 가장 큰 수를 풀어봤다</h2><h4 id="가장-큰-수"><a href="#가장-큰-수" class="headerlink" title="가장 큰 수"></a>가장 큰 수</h4><hr>
+<p><strong>문제 설명</strong></p>
+<blockquote>
+<p>0 또는 양의 정수가 주어졌을 때, 정수를 이어 붙여 만들 수 있는 가장 큰 수를 알아내 주세요.</p>
+</blockquote>
+<blockquote>
+<p>예를 들어, 주어진 정수가 [6, 10, 2]라면 [6102, 6210, 1062, 1026, 2610, 2106]를 만들 수 있고, 이중 가장 큰 수는 6210입니다.</p>
+</blockquote>
+<blockquote>
+<p>0 또는 양의 정수가 담긴 배열 numbers가 매개변수로 주어질 때, 순서를 재배치하여 만들 수 있는 가장 큰 수를 문자열로 바꾸어 return 하도록 solution 함수를 작성해주세요.</p>
+</blockquote>
+<p><strong>제한 사항</strong></p>
+<blockquote>
+<p>numbers의 길이는 1 이상 100,000 이하입니다.<br>numbers의 원소는 0 이상 1,000 이하입니다.<br>정답이 너무 클 수 있으니 문자열로 바꾸어 return 합니다.</p>
+</blockquote>
+<hr>
+<p>처음 이 문제를 봤을 때, ‘어 permutation 쓰면 끝이네 개꿀ㅎㅎ’ 이런 생각이 들었다.<br>바로 itertool을 import 해서</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> permutations</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    str_list = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> numbers:</span><br><span class="line">        str_list.append(str(i))</span><br><span class="line">    first=list(map(<span class="string">''</span>.join, permutations(str_list)))</span><br><span class="line">    int_list = []</span><br><span class="line">    <span class="keyword">for</span> li <span class="keyword">in</span> first:</span><br><span class="line">        int_list.append(int(li))</span><br><span class="line">    answer = sorted(int_list, reverse=<span class="keyword">True</span>)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> str(answer)</span><br></pre></td></tr></table></figure>
+<p>이런 코드를 작성해서 제출했다.</p>
+<p>결과는!!</p>
+<p><img src="./images/timeout.png" alt="시간초과"></p>
+<p>시간초과가 떠 버렸다. 효율성이 제로라는 말이다.<br>검색해보니 permutation은 필요하지 않은 부분까지 순열 조합을 만들어 내기 때문에<br>굉장히 비효율적인 코드라는 것을 알아냈다.</p>
+<p>‘그렇다면 순열같이 코드를 짜되 효율적으로 작성해야 한다는 것인가?’ 라는 고찰과 함께<br>코딩을 시작했고 하루를 날렸다.</p>
+<p>당연했다. 문제푸는 방향이 완전히 잘못되었었다. 효율적으로 순열조합 만드는 코드를 짠다면 내가 라이브러리를 새로 만드는 수준인 것이었다.</p>
+<hr>
+<p>방향을 다시 생각해봤다.<br>사실 이 문제를 풀다보면 list에 있는 원소를 편하게 처리하기 위해 str으로 바꿔야 하고 비교하기 위해<br>int로 다시 바꿔줘야 하는 번거로움이 있다.</p>
+<p>그런데 굳이 int–&gt;str 이런식으로 바꿔줄 필요가 없다.</p>
+<p>왜냐하면 정수모양의 str도 정수 값이 증가함에 따라 메모리 값도 증가하기 때문이다.</p>
+<p>이를 <code>id()</code>를 통해 확인해 볼 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(id(<span class="string">'1'</span>))</span><br><span class="line">print(id(<span class="string">'2'</span>))</span><br><span class="line">print(id(<span class="string">'3'</span>))</span><br><span class="line">print(id(<span class="string">'4'</span>))</span><br><span class="line">print(id(<span class="string">'5'</span>))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Out:</span><br><span class="line">4380097928</span><br><span class="line">4380098040</span><br><span class="line">4380111232</span><br><span class="line">4380111288</span><br><span class="line">4379241192</span><br></pre></td></tr></table></figure>
+<p>이를 이용해서 문제를 푼다면 다음과 같은 코드를 작성할 수 있다.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">solution</span><span class="params">(numbers)</span>:</span></span><br><span class="line">    numbers = list(map(str, numbers))</span><br><span class="line">    numbers.sort(key=<span class="keyword">lambda</span> x : x*<span class="number">3</span>, reverse = <span class="keyword">True</span>)</span><br><span class="line">    answer = str(int(<span class="string">''</span>.join(numbers)))</span><br><span class="line">    <span class="keyword">return</span> answer</span><br></pre></td></tr></table></figure>
+
+<p>결론 : 메모리 값에 대한 지식이 있다면, 훨씬 간단하게 문제를 해결할 수 있다!</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-image">
         <a href="/2019/04/01/My-SQL-Workbench-Bug-issue/" class="image is-7by1">
             <img class="thumbnail" src="/images/mysql_workbench.png" alt="My SQL Workbench Bug issue">
         </a>
@@ -947,7 +1048,7 @@
                     </p>
                     <a href="/archives">
                         <p class="title has-text-weight-normal">
-                            77
+                            78
                         </p>
                     </a>
                 </div>
@@ -1122,7 +1223,7 @@
                 <span class="level-item">blog</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">13</span>
+                <span class="level-item tag">14</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/blog/airflow/">
@@ -1443,6 +1544,25 @@
         
         <article class="media">
             
+            <a href="/2023/05/10/gabozagu/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="https://static.thehoneycombers.com/wp-content/uploads/sites/2/2022/12/da-nang-things-to-do-hand-of-god-golden-bridge.jpg" alt="지난 5개월에 대한 회고">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2023-05-10T12:39:59.000Z">2023-05-10</time></div>
+                    <a href="/2023/05/10/gabozagu/" class="title has-link-black-ter is-size-6 has-text-weight-normal">지난 5개월에 대한 회고</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/blog/">blog</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2023/02/25/locust-on-kubernetes/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="https://assets.bwbx.io/images/users/iqjWHBFdfxIU/iqIAS7UBfyf0/v0/1200x660.jpg" alt="kubernetes에서 locust를 이용해 부하테스트해보기">
@@ -1517,25 +1637,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2022/09/01/geultto-con/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/geultto_con/geultto_with_kurly.png" alt="글또콘 with Kurly">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2022-09-01T02:29:05.000Z">2022-09-01</time></div>
-                    <a href="/2022/09/01/geultto-con/" class="title has-link-black-ter is-size-6 has-text-weight-normal">글또콘 with Kurly</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/geultto/">geultto</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
     
@@ -1546,6 +1647,17 @@
             Archives
         </h3>
         <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2023/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2023</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
         
         <li>
             <a class="level is-marginless" href="/archives/2023/02/">
