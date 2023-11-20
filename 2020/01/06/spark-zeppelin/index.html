@@ -30,7 +30,7 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-1-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-end"></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-12"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2020-01-06T12:44:53.000Z" title="2020. 1. 6. 오후 9:44:53">2020-01-06</time></span><span class="level-item">Updated&nbsp;<time dateTime="2020-02-24T10:25:58.000Z" title="2020. 2. 24. 오후 7:25:58">2020-02-24</time></span><span class="level-item"><a class="link-muted" href="/categories/spark/">spark</a><span> / </span><a class="link-muted" href="/categories/spark/engineering/">engineering</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Zeppelin으로 Spark를 다뤄보자 01</h1><div class="content"><p>pyspark로 데이터를 읽으려면 어떻게 해야할까?</p>
-<a id="more"></a>
+<span id="more"></span>
 <h1 id="Zeppelin-이용해서-pyspark로-데이터-읽기-01"><a href="#Zeppelin-이용해서-pyspark로-데이터-읽기-01" class="headerlink" title="Zeppelin 이용해서 pyspark로 데이터 읽기 01"></a>Zeppelin 이용해서 pyspark로 데이터 읽기 01</h1><p>Spark는 고속 범용 분산 컴퓨팅 플랫폼으로 정의되곤 합니다. 대용량 데이터를 가져와 빠르게 분석해 낼 수 있다는 점에서 많은 기업들에서 도입을 검토하고 있고 실제로도 많이 사용되고 있습니다. 오늘은 이 유명한 Spark를 다운받고 Zeppelin으로 띄워서 pyspark를 이용해 데이터를 읽어보는 작업까지 해 보겠습니다.</p>
 <p>먼저 Spark를 다운받아 줍니다. <a target="_blank" rel="noopener" href="https://spark.apache.org/downloads.html">Spark 설치</a></p>
 <p><img src="/images/spark_down.png" alt="스파크 다운로드"><br>링크로 들어가면 다음과 같이 나오는데 다운받는 버전은 아무거나 받아도 상관 없지만 저는 AWS EMR로 Spark를 도입하기 전에 연습하는 용으로 사용하는 것이기 때문에 AWS EMR 버전과 같은 2.4.4버전을 다운받았습니다.</p>
@@ -48,7 +48,7 @@
 <p>그 다음 설정해야 할 것은 java home 경로입니다. jdk가 없다면 jdk 1.8이상 버전을 다운받아 설치합니다.<br>java home 경로는 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$JAVA_HOME</span></span><br></pre></td></tr></table></figure>
 <p>이 명령어로 알아낼 수 있습니다. java home의 경로를 알아냈다면 zshrc에 이 위치를 알려줘야합니다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=<span class="string">"/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=<span class="string">&quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_181.jdk/Contents/Home&quot;</span></span><br></pre></td></tr></table></figure>
 <p>저의 경우는 위치가 다음과 같아서 zsh의 아래쪽에 작성해 주었습니다.</p>
 <p>그리고 설치된 Spark의 위치도 알려줘야 합니다. 아까 저장했던 폴더의 주소를 입력해 줍니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> SPARK_HOME=/Users/sanghyub/spark-2.4.4-bin-hadoop2.7</span><br></pre></td></tr></table></figure>
@@ -56,7 +56,7 @@
 <p>Spark 세팅은 일단 여기까지 하고 Zeppelin으로 넘어가겠습니다.</p>
 <h3 id="Zeppelin-환경-설정"><a href="#Zeppelin-환경-설정" class="headerlink" title="Zeppelin 환경 설정"></a>Zeppelin 환경 설정</h3><p>Zeppelin이 저장된 폴더로 들어가서 conf로 들어가줍니다. conf에는 <code>ls</code>를 입력해보면 여러 파일들이 있는 것을 볼 수 있습니다. </p>
 <p><img src="/images/zeppelin_conf.png" alt="Zeppelin conf files"><br>이 파일들 중에서 zeppelin-env.sh와 zeppelin-site.xml을 사용해야 하는데, .template으로 된 파일들이 보일 것 입니다. template를 <code>cp</code>를 이용해서 바꿔줍니다.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp zeppelin-env.sh.template zeppelin-env.sh</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> zeppelin-env.sh.template zeppelin-env.sh</span><br></pre></td></tr></table></figure>
 <p><code>cp</code>는 복사하는 것도 있지만, 이렇게 이름을 바꿔주는데에도 사용됩니다.<br>zeppelin-env.sh와 zeppelin-site.xml을 얻었다면 vi를 이용해서 zeppelin-env.sh로 들어갑니다.<br>아까 작성한 자바 경로와 스파크 홈 경로를 그대로 갖고와서 작성해줍니다. zeppelin이 이 위치를 보고 Spark와 jdk를 이용할 수 있도록 적어두는 것 입니다.</p>
 <p><img src="/images/zeppelin_sh.png" alt="zeppelin-env.sh 수정, 이렇게 적어주자"></p>
 <p>zeppelin의 포트도 수정해 줍니다. 기본 포트는 8080포트인데 혹시 충돌될 수 있으니, 저는 안정적으로 9999포트로 변경하겠습니다.</p>

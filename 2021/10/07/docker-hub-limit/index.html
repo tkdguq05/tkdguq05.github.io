@@ -30,7 +30,7 @@
       window.addEventListener('hashchange', switchTab, false);
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-10-07T13:10:16.000Z" title="2021. 10. 7. 오후 10:10:16">2021-10-07</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-10-07T13:44:50.000Z" title="2021. 10. 7. 오후 10:44:50">2021-10-07</time></span><span class="level-item"><a class="link-muted" href="/categories/Engineering/">Engineering</a></span></div></div><h1 class="title is-3 is-size-4-mobile">Docker hub pull limit이 발생했다면?</h1><div class="content"><p>Docker Hub 에서 신나게 pull 받다가 limit 때문에 문제가 발생한 경우와, 이를 회피하는 방법에 대해서 작성해봤습니다.</p>
-<a id="more"></a>
+<span id="more"></span>
 
 
 
@@ -61,11 +61,11 @@
 </blockquote>
 <p>이렇게 잘 있는 것을 확인했습니다.</p>
 <p>그 다음 이미지 이름에 태그를 달아주고 어디로 보내줄 것인지를 정의해줬습니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag amd64&#x2F;python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com&#x2F;python37_slim_buster</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker tag amd64/python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/python37_slim_buster</span><br></pre></td></tr></table></figure>
 
 <p>그런데 이때 중요한 것은, ECR의 레포지토리를 미리 만들어줘야 한다는 것입니다. 미리 만들어두지 않으면, 알아서 레포지토리를 만들지 못하기 때문에 에러가 나서 실망하게 됩니다. 한 번에 딲! 끝내고 싶다면 미리 만들어 두십시오.</p>
 <p>태그를 해 준 다음에는 push를 해줍니다.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push amd64&#x2F;python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com&#x2F;python37_slim_buster</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker push amd64/python:3.7 xxxxxxxxxx.dkr.ecr.ap-northeast-2.amazonaws.com/python37_slim_buster</span><br></pre></td></tr></table></figure>
 
 
 
