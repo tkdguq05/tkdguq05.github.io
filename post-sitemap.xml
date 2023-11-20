@@ -2,14 +2,15 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
-        <loc>http://tkdguq05.github.io</loc>
+        <loc>http://tkdguq05.github.io/</loc>
         <changefreq>daily</changefreq>
         <priority>1</priority>
     </url>
 
+
     <url>
         <loc>http://tkdguq05.github.io/2023/05/29/argocd/</loc>
-        <lastmod>2023-06-03T08:04:55.931Z</lastmod>
+        <lastmod>2023-11-19T14:51:32.416Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

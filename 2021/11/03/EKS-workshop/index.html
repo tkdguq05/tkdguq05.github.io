@@ -1,221 +1,42 @@
-<!DOCTYPE html>
-<html  lang="en">
-<head>
-    <meta charset="utf-8" />
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>EKS-workshop - Unreasonable Effectiveness</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Unreasonable Effectiveness"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Unreasonable Effectiveness"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="EKS를 다뤄보고 GitOps까지 실습해봤습니다."><meta property="og:type" content="article"><meta property="og:title" content="EKS-workshop"><meta property="og:url" content="http://tkdguq05.github.io/2021/11/03/EKS-workshop/"><meta property="og:site_name" content="Unreasonable Effectiveness"><meta property="og:description" content="EKS를 다뤄보고 GitOps까지 실습해봤습니다."><meta property="og:locale" content="en_US"><meta property="og:image" content="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png"><meta property="article:published_time" content="2021-11-03T05:40:24.000Z"><meta property="article:modified_time" content="2021-11-03T06:08:22.000Z"><meta property="article:author" content="SangHyub Lee, Jose"><meta property="article:tag" content="k8s"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://tkdguq05.github.io/2021/11/03/EKS-workshop/"},"headline":"EKS-workshop","image":["https://coffeewhale.com/assets/images/k8s-cluster/landing02.png"],"datePublished":"2021-11-03T05:40:24.000Z","dateModified":"2021-11-03T06:08:22.000Z","author":{"@type":"Person","name":"SangHyub Lee, Jose"},"publisher":{"@type":"Organization","name":"Unreasonable Effectiveness","logo":{"@type":"ImageObject"}},"description":"EKS를 다뤄보고 GitOps까지 실습해봤습니다."}</script><link rel="canonical" href="http://tkdguq05.github.io/2021/11/03/EKS-workshop/"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
 
-<meta name="generator" content="Hexo 4.2.0" />
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
 
-<title>EKS-workshop - Unreasonable Effectiveness</title>
-
-
-    <meta name="description" content="EKS를 다뤄보고 GitOps까지 실습해봤습니다.">
-<meta property="og:type" content="article">
-<meta property="og:title" content="EKS-workshop">
-<meta property="og:url" content="http://tkdguq05.github.io/2021/11/03/EKS-workshop/index.html">
-<meta property="og:site_name" content="Unreasonable Effectiveness">
-<meta property="og:description" content="EKS를 다뤄보고 GitOps까지 실습해봤습니다.">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png">
-<meta property="article:published_time" content="2021-11-03T05:40:24.000Z">
-<meta property="article:modified_time" content="2021-11-03T06:08:22.000Z">
-<meta property="article:author" content="SangHyub Lee, Jose">
-<meta property="article:tag" content="k8s">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png">
-
-
-
-
-
-
-
-<link rel="icon" href="/images/small_geul.png">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
-
-
-    
-    
-<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
-
-    
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
-
-    
-    
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
-
-    
-    
-    
-    
-<link rel="stylesheet" href="/css/back-to-top.css">
-
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140404038-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-140404038-1');
-</script>
-
-    
-    
-    
-    
-    
-    <link rel="stylesheet" href="/css/progressbar.css">
-<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
-    
-    
-    
-
-
-<link rel="stylesheet" href="/css/style.css">
-</head>
-
-<body class="is-2-column">
-
-    <nav class="navbar navbar-main">
-    <div class="container">
-        <div class="navbar-brand is-flex-center">
-            <a class="navbar-item navbar-logo" href="/">
-            
-                <img src="/images/small_geul.png" alt="EKS-workshop" height="28">
-            
-            </a>
-        </div>
-        <div class="navbar-menu">
-            
-            <div class="navbar-start">
-                
-                <a class="navbar-item"
-                href="/">Home</a>
-                
-                <a class="navbar-item"
-                href="/archives">Archives</a>
-                
-                <a class="navbar-item"
-                href="/categories">Categories</a>
-                
-                <a class="navbar-item"
-                href="/tags">Tags</a>
-                
-                <a class="navbar-item"
-                href="/about">About</a>
-                
-            </div>
-            
-            <div class="navbar-end">
-                
-                    
-                    <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="http://github.com/tkdguq05">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                    
-                
-                
-                <a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;">
-                    <i class="fas fa-list-ul"></i>
-                </a>
-                
-                
-                <a class="navbar-item search" title="Search" href="javascript:;">
-                    <i class="fas fa-search"></i>
-                </a>
-                
-            </div>
-        </div>
-    </div>
-</nav>
-    <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-    
-   
-    <section class="section">
-
-        <div class="container">
-            <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-10-widescreen has-order-2 column-main">
-<div class="card">
-    
-    <div class="card-image">
-        <span  class="image is-7by1">
-            <img class="thumbnail" src="https://coffeewhale.com/assets/images/k8s-cluster/landing02.png" alt="EKS-workshop">
-        </span>
-    </div>
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2021-11-03T05:40:24.000Z">2021-11-03</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Engineering/">Engineering</a>
-                </div>
-                <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    an hour read (About 8563 words)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                EKS-workshop
-            
-        </h1>
-        <div class="content">
-            <p>EKS를 다뤄보고 GitOps까지 실습해봤습니다.</p>
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-end"><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-11-03T05:40:24.000Z" title="2021. 11. 3. 오후 2:40:24">2021-11-03</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-11-03T06:08:22.000Z" title="2021. 11. 3. 오후 3:08:22">2021-11-03</time></span><span class="level-item"><a class="link-muted" href="/categories/Engineering/">Engineering</a></span></div></div><h1 class="title is-3 is-size-4-mobile">EKS-workshop</h1><div class="content"><p>EKS를 다뤄보고 GitOps까지 실습해봤습니다.</p>
 <a id="more"></a>
 
 
 
 <ul>
-<li><p>실습 링크 : <a href="https://aws-eks-web-application.workshop.aws/ko/10-intro.html">https://aws-eks-web-application.workshop.aws/ko/10-intro.html</a></p>
-<p>실습 영상 : <a href="https://www.youtube.com/watch?v=kb6s0Tmp2CA&ab_channel=AWS%ED%95%9C%EA%B5%AD%EC%82%AC%EC%9A%A9%EC%9E%90%EB%AA%A8%EC%9E%84-AWSKRUG">https://www.youtube.com/watch?v=kb6s0Tmp2CA&amp;ab_channel=AWS한국사용자모임-AWSKRUG</a></p>
+<li><p>실습 링크 : <a target="_blank" rel="noopener" href="https://aws-eks-web-application.workshop.aws/ko/10-intro.html">https://aws-eks-web-application.workshop.aws/ko/10-intro.html</a></p>
+<p>실습 영상 : <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=kb6s0Tmp2CA&ab_channel=AWS%ED%95%9C%EA%B5%AD%EC%82%AC%EC%9A%A9%EC%9E%90%EB%AA%A8%EC%9E%84-AWSKRUG">https://www.youtube.com/watch?v=kb6s0Tmp2CA&amp;ab_channel=AWS한국사용자모임-AWSKRUG</a></p>
 <blockquote>
 <p>AWS 워크샵에서는 다음 내용을 다룹니다.</p>
 </blockquote>
@@ -233,7 +54,7 @@
 <li>쿠버네티스는 컨테이너화된 워크로드와 서비스를 관리하기 위한 이식성이 있고, 확장가능한 오픈소스 플랫폼입니다. 쿠버네티스는 선언적 구성과 자동화를 모두 용이하게 해주는 컨테이너 오케스트레이션 툴입니다.</li>
 </ul>
 <blockquote>
-<p>🌐 쿠버네티스에 대해 더 자세히 알고 싶다면 <a href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">여기</a> 를 클릭하세요.</p>
+<p>🌐 쿠버네티스에 대해 더 자세히 알고 싶다면 <a target="_blank" rel="noopener" href="https://kubernetes.io/docs/concepts/overview/what-is-kubernetes/">여기</a> 를 클릭하세요.</p>
 </blockquote>
 <p><img src="/images/eks-workshop/kuber_architecture.png" alt="쿠버네티스_아키텍쳐"></p>
 <ul>
@@ -252,7 +73,7 @@
 </ul>
 <p>  <br></br></p>
 <h2 id="EKS"><a href="#EKS" class="headerlink" title="EKS"></a>EKS</h2><ul>
-<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">Amazon EKS</a>는 Kubernetes를 쉽게 실행할 수 있는 관리형 서비스입니다. Amazon EKS를 사용하시면 AWS 환경에서 Kubernetes 컨트롤 플레인 또는 노드를 직접 설치, 운영 및 유지할 필요가 없습니다.</p>
+<li><p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html">Amazon EKS</a>는 Kubernetes를 쉽게 실행할 수 있는 관리형 서비스입니다. Amazon EKS를 사용하시면 AWS 환경에서 Kubernetes 컨트롤 플레인 또는 노드를 직접 설치, 운영 및 유지할 필요가 없습니다.</p>
 </li>
 <li><p>Amazon EKS는 여러 가용 영역에서 Kubernetes 컨트롤 플레인 인스턴스를 실행하여 고가용성을 보장합니다. 또한, 비정상 컨트롤 플레인 인스턴스를 자동으로 감지하고 교체하며 자동화된 버전 업그레이드 및 패치를 제공합니다.</p>
 </li>
@@ -277,7 +98,7 @@
 <li><p>쿠버네티스는 오브젝트 생성, 수정 혹은 삭제와 관련한 동작을 수행하기 위해 <strong>쿠버네티스 API</strong>를 사용합니다. 이때, kubectl CLI를 사용하면 해당 명령어가 쿠버네티스 API를 호출해 관련 동작을 수행합니다.</p>
 <p><br></br></p>
 <h3 id="eksctl"><a href="#eksctl" class="headerlink" title="eksctl"></a>eksctl</h3></li>
-<li><p><a href="https://eksctl.io/">eksctl</a>이란 EKS 클러스터를 쉽게 생성 및 관리하는 CLI 툴입니다. Go 언어로 쓰여 있으며 CloudFormation 형태로 배포됩니다.</p>
+<li><p><a target="_blank" rel="noopener" href="https://eksctl.io/">eksctl</a>이란 EKS 클러스터를 쉽게 생성 및 관리하는 CLI 툴입니다. Go 언어로 쓰여 있으며 CloudFormation 형태로 배포됩니다.</p>
 <h3 id="eksctl로-클러스터-생성하기"><a href="#eksctl로-클러스터-생성하기" class="headerlink" title="eksctl로 클러스터 생성하기"></a>eksctl로 클러스터 생성하기</h3></li>
 <li><p>eksctl을 사용하여 아무 설정 값을 주지 않고 이 명령어(<code>eksctl create cluster</code>)를 실행하면 default parameter로 클러스터가 배포됩니다.</p>
 </li>
@@ -298,7 +119,7 @@
 </li>
 <li><p>이 상태에서는 클러스터의 노드를 UI에서 확인할 수 없습니다. Console Crediential을 더해줘야 합니다.</p>
 </li>
-<li><p>Cloud9의 IAM credential을 통해, 클러스터를 생성하였기 때문에 <a href="https://console.aws.amazon.com/eks">Amazon EKS 콘솔창</a>에서 해당 클러스터 정보를 확인하기 위해서는 실제 콘솔에 접근할 IAM entity(사용자 또는 역할)의 AWS Console credential을 클러스터에 추가하는 작업이 필요합니다.</p>
+<li><p>Cloud9의 IAM credential을 통해, 클러스터를 생성하였기 때문에 <a target="_blank" rel="noopener" href="https://console.aws.amazon.com/eks">Amazon EKS 콘솔창</a>에서 해당 클러스터 정보를 확인하기 위해서는 실제 콘솔에 접근할 IAM entity(사용자 또는 역할)의 AWS Console credential을 클러스터에 추가하는 작업이 필요합니다.</p>
 <ul>
 <li><code>rolearn=$(aws cloud9 describe-environment-memberships --environment-id=$C9_PID | jq -r &#39;.memberships[].userArn&#39;)</code></li>
 <li><code>assumedrolename=$(echo ${rolearn} | awk -F/ &#39;{print $(NF-1)}&#39;)
@@ -318,7 +139,7 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>인그레스는 외부 요청 처리에 대한 규칙들을 설정해놓은 것을 의미하며, 이런 설정이 동작하기 위해서 필요한 것이 <strong>인그레스 컨트롤러</strong>입니다. kube-controller-manager의 일부로 실행되는 다른 컨트롤러와 달리 인그레스 컨트롤러는 클러스터와 함께 생성되진 않습니다. 따라서 직접 구현해야 합니다.</p>
 <h3 id="AWS-Load-Balancer-만들기"><a href="#AWS-Load-Balancer-만들기" class="headerlink" title="AWS Load Balancer 만들기"></a>AWS Load Balancer 만들기</h3></li>
-<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html">Amazon EKS의 Application Load Balancing</a>이란 클러스터에 인그레스 자원이 생성될 때에 ALB(Application Load Balancer) 및 필요한 자원이 생성되도록 트리거하는 컨트롤러입니다. 인그레스 자원들은 ALB를 구성하여 HTTP 또는 HTTPS 트래픽을 클러스터 내 파드로 라우팅합니다.</p>
+<li><p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html">Amazon EKS의 Application Load Balancing</a>이란 클러스터에 인그레스 자원이 생성될 때에 ALB(Application Load Balancer) 및 필요한 자원이 생성되도록 트리거하는 컨트롤러입니다. 인그레스 자원들은 ALB를 구성하여 HTTP 또는 HTTPS 트래픽을 클러스터 내 파드로 라우팅합니다.</p>
 <ul>
 <li>쿠버네티스의 <code>Ingress</code>의 경우, <code>Application Load Balancers</code>으로 프로비저닝됩니다.</li>
 <li>쿠버네티스의 <code>Service</code>의 경우, <code>Network Load Balancers</code>으로 프로비저닝됩니다.</li>
@@ -336,14 +157,14 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>AWS Load Balancer 컨트롤러를 배포하기 전, 우리는 몇 가지 작업을 수행해야 합니다. controller가 워커 노드 위에서 동작되기 때문에 IAM permissions를 통해, AWS ALB/NLB 리소스에 접근할 수 있도록 만들어야 합니다. IAM permissions는 ServiceAccount를 위한 IAM roles를 설치하거나 워커 노드의 IAM roles에 직접적으로 붙일 수 있습니다.</p>
 </li>
-<li><p>먼저, 클러스터에 대한 <strong>IAM OIDC(OpenID Connect) identity Provider</strong>를 생성합니다. Pod와 같은 클러스터 내 쿠버네티스가 생성한 항목이 API Server 또는 외부 서비스에 인증하는데 사용되는 <strong><a href="https://kubernetes.io/ko/docs/reference/access-authn-authz/service-accounts-admin/">service account</a></strong>에 IAM role을 사용하기 위해, 생성한 클러스터(현재 실습에서의 <em>eks-demo</em>)에 <strong>IAM OIDC provider</strong>가 존재해야 합니다.</p>
+<li><p>먼저, 클러스터에 대한 <strong>IAM OIDC(OpenID Connect) identity Provider</strong>를 생성합니다. Pod와 같은 클러스터 내 쿠버네티스가 생성한 항목이 API Server 또는 외부 서비스에 인증하는데 사용되는 <strong><a target="_blank" rel="noopener" href="https://kubernetes.io/ko/docs/reference/access-authn-authz/service-accounts-admin/">service account</a></strong>에 IAM role을 사용하기 위해, 생성한 클러스터(현재 실습에서의 <em>eks-demo</em>)에 <strong>IAM OIDC provider</strong>가 존재해야 합니다.</p>
 <ul>
 <li><p>eksctl utils associate-iam-oidc-provider <br>–region ${AWS_REGION} <br>–cluster eks-demo <br>–approve</p>
 </li>
 <li><p>OIDC provider URL</p>
 <ul>
 <li>aws eks describe-cluster –name eks-demo –query “cluster.identity.oidc.issuer” –output text</li>
-<li>output: <a href="https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF">https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF</a><ul>
+<li>output: <a target="_blank" rel="noopener" href="https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF">https://oidc.eks.ap-northeast-2.amazonaws.com/id/8A6E78112D7F1C4DC352B1B511DD13CF</a><ul>
 <li>뒤에 id 부분을 복사해서 다음과 같이 입력합니다.</li>
 <li>aws iam list-open-id-connect-providers | grep 8A6E78112D7F1C4DC352B1B511DD13CF</li>
 <li>결과 값이 출력되면 <strong>IAM OIDC identity provider</strong>가 클러스터에 생성이 된 것이고, 아무 값도 나타나지 않으면 생성 작업을 수행해야 합니다.</li>
@@ -353,7 +174,7 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>AWS Load Balancer Controller에 부여할 IAM Policy를 생성하는 작업을 수행합니다.</p>
 <ul>
-<li>aws iam create-policy <br>–policy-name AWSLoadBalancerControllerIAMPolicy <br>–policy-document <a href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json</a></li>
+<li>aws iam create-policy <br>–policy-name AWSLoadBalancerControllerIAMPolicy <br>–policy-document <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json</a></li>
 </ul>
 </li>
 <li><p>AWS Load Balancer Controller를 위한 ServiceAccount를 생성합니다.</p>
@@ -361,14 +182,14 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 <li>eksctl create iamserviceaccount <br>–cluster eks-demo <br>–namespace kube-system <br>–name aws-load-balancer-controller <br>–attach-policy-arn arn:aws:iam::$ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy <br>–override-existing-serviceaccounts <br>–approve</li>
 </ul>
 </li>
-<li><p>AWS Load Balancer controller를 클러스터에 추가하는 작업을 수행합니다. 먼저, 인증서 구성을 웹훅에 삽입할 수 있도록 <strong><a href="https://github.com/jetstack/cert-manager">cert-manager</a></strong>를 설치합니다. <strong>Cert-manager</strong>는 쿠버네티스 클러스터 내에서 TLS인증서를 자동으로 프로비저닝 및 관리하는 오픈 소스입니다.</p>
+<li><p>AWS Load Balancer controller를 클러스터에 추가하는 작업을 수행합니다. 먼저, 인증서 구성을 웹훅에 삽입할 수 있도록 <strong><a target="_blank" rel="noopener" href="https://github.com/jetstack/cert-manager">cert-manager</a></strong>를 설치합니다. <strong>Cert-manager</strong>는 쿠버네티스 클러스터 내에서 TLS인증서를 자동으로 프로비저닝 및 관리하는 오픈 소스입니다.</p>
 <ul>
-<li>kubectl apply –validate=false -f <a href="https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml">https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml</a></li>
+<li>kubectl apply –validate=false -f <a target="_blank" rel="noopener" href="https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml">https://github.com/jetstack/cert-manager/releases/download/v1.4.1/cert-manager.yaml</a></li>
 </ul>
 </li>
 <li><p>load balancer controller yaml</p>
 <ul>
-<li>wget <a href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/v2_2_1_full.yaml">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/v2_2_1_full.yaml</a></li>
+<li>wget <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/v2_2_1_full.yaml">https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.1/docs/install/v2_2_1_full.yaml</a></li>
 </ul>
 </li>
 <li><p>yaml 파일에서 클러스터의 <code>cluster-name</code>을 편집합니다. 본 실습에서는 <strong>eks-demo</strong>로 설정합니다.</p>
@@ -381,7 +202,7 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 </li>
 <li><p>ServiceAccount yaml spec 삭제</p>
 <ul>
-<li>apiVersion: v1<br>kind: ServiceAccount<br>metadata:<br>labels:<br><a href="http://app.kubernetes.io/component:">app.kubernetes.io/component:</a> controller<br><a href="http://app.kubernetes.io/name:">app.kubernetes.io/name:</a> aws-load-balancer-controller<br>name: aws-load-balancer-controller<br>namespace: kube-system</li>
+<li>apiVersion: v1<br>kind: ServiceAccount<br>metadata:<br>labels:<br><a target="_blank" rel="noopener" href="http://app.kubernetes.io/component:">app.kubernetes.io/component:</a> controller<br><a target="_blank" rel="noopener" href="http://app.kubernetes.io/name:">app.kubernetes.io/name:</a> aws-load-balancer-controller<br>name: aws-load-balancer-controller<br>namespace: kube-system</li>
 </ul>
 <hr>
 </li>
@@ -444,7 +265,7 @@ rolearn=$(aws iam get-role --role-name ${assumedrolename} --query Role.Arn --out
 kubectl apply -f flask-service.yaml
 kubectl apply -f ingress.yaml</code></p>
 </li>
-<li><p>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/contents/aws 여기서 나온 주소로 확인</p>
+<li><p>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/contents/aws 여기서 나온 주소로 확인</p>
 <ul>
 <li>ingress object가 배포되는 동안 기다리고 주소로 접속</li>
 </ul>
@@ -466,14 +287,14 @@ kubectl apply -f ingress.yaml</code></p>
 kubectl apply -f nodejs-service.yaml
 kubectl apply -f ingress.yaml</code></p>
 </li>
-<li><p>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/services/all</p>
+<li><p>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/services/all</p>
 <p>![node.js 백엔드 배포](/images/eks-workshop/Untitled 5.png)</p>
 </li>
 </ul>
 <p><br></br></p>
 <h3 id="프론트엔드-배포"><a href="#프론트엔드-배포" class="headerlink" title="프론트엔드 배포"></a>프론트엔드 배포</h3></li>
 <li><p>프론트엔드 소스 다운</p>
-<p>cd /home/ec2-user/environment<br>git clone <a href="https://github.com/joozero/amazon-eks-frontend.git">https://github.com/joozero/amazon-eks-frontend.git</a></p>
+<p>cd /home/ec2-user/environment<br>git clone <a target="_blank" rel="noopener" href="https://github.com/joozero/amazon-eks-frontend.git">https://github.com/joozero/amazon-eks-frontend.git</a></p>
 </li>
 <li><p>ecr repository 생성</p>
 <p>aws ecr create-repository <br>–repository-name demo-frontend <br>–image-scanning-configuration scanOnPush=true <br>–region ${AWS_REGION}</p>
@@ -481,11 +302,11 @@ kubectl apply -f ingress.yaml</code></p>
 <li><p>프론트엔드 소스에서 url을 백엔드의 ingress 주소로 변경\</p>
 <ul>
 <li>App.js<ul>
-<li>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/contents/‘${search}’</li>
+<li>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/contents/‘${search}’</li>
 </ul>
 </li>
 <li>page/UpperPage.js<ul>
-<li>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/services/all</li>
+<li>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)/services/all</li>
 </ul>
 </li>
 </ul>
@@ -565,7 +386,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>이전과 같은 상태인지 웹 확인</p>
 <ul>
-<li>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)</li>
+<li>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)</li>
 </ul>
 <p><br></br></p>
 <h2 id="GitOps"><a href="#GitOps" class="headerlink" title="GitOps?"></a>GitOps?</h2></li>
@@ -703,7 +524,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 <ul>
 <li>cd ~/environment/amazon-eks-frontend<br>rm -rf .git</li>
 <li>소스 파일들을 푸시합니다.<ul>
-<li>cd ~/environment/amazon-eks-frontend<br>git init<br>git add .<br>git commit -m “first commit”<br>git branch -M main<br>git remote add origin <a href="https://github.com/jinseo-jang/front-app-repo.git">https://github.com/jinseo-jang/front-app-repo.git</a><br>git push -u origin main</li>
+<li>cd ~/environment/amazon-eks-frontend<br>git init<br>git add .<br>git commit -m “first commit”<br>git branch -M main<br>git remote add origin <a target="_blank" rel="noopener" href="https://github.com/jinseo-jang/front-app-repo.git">https://github.com/jinseo-jang/front-app-repo.git</a><br>git push -u origin main</li>
 </ul>
 </li>
 </ul>
@@ -834,13 +655,13 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>Argo CD 설치</p>
 <ul>
-<li>kubectl create namespace argocd<br>kubectl apply -n argocd -f <a href="https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml">https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</a></li>
+<li>kubectl create namespace argocd<br>kubectl apply -n argocd -f <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml">https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml</a></li>
 </ul>
 </li>
 <li><p>Argo CD cli 설치</p>
 <ul>
-<li>cd ~/environment<br>VERSION=$(curl –silent “<a href="https://api.github.com/repos/argoproj/argo-cd/releases/latest">https://api.github.com/repos/argoproj/argo-cd/releases/latest</a>“ | grep ‘“tag_name”‘ | sed -E ‘s/.*”([^”]+)”.*/\1/‘)</li>
-<li>sudo curl –silent –location -o /usr/local/bin/argocd <a href="https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64">https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64</a></li>
+<li>cd ~/environment<br>VERSION=$(curl –silent “<a target="_blank" rel="noopener" href="https://api.github.com/repos/argoproj/argo-cd/releases/latest">https://api.github.com/repos/argoproj/argo-cd/releases/latest</a>“ | grep ‘“tag_name”‘ | sed -E ‘s/.*”([^”]+)”.*/\1/‘)</li>
+<li>sudo curl –silent –location -o /usr/local/bin/argocd <a target="_blank" rel="noopener" href="https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64">https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64</a></li>
 <li>sudo chmod +x /usr/local/bin/argocd</li>
 </ul>
 </li>
@@ -908,7 +729,7 @@ kubectl apply -f frontend-service.yaml</code></p>
 </li>
 <li><p>Sync작업이 모두 끝나면, url로 접속하여 변경사항을 확인합니다.</p>
 <ul>
-<li>echo <a href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)</li>
+<li>echo <a target="_blank" rel="noopener" href="http://%24/">http://$</a>(kubectl get ingress/backend-ingress -o jsonpath=’{.status.loadBalancer.ingress[*].hostname}’)</li>
 <li>짠!</li>
 </ul>
 <p><img src="/images/eks-workshop/demo_hyuby.png" alt="정상동작 확인!"></p>
@@ -919,808 +740,17 @@ kubectl apply -f frontend-service.yaml</code></p>
 </ul>
 <hr>
 <h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><ul>
-<li><a href="https://daddyprogrammer.org/post/14102/argocd-kubernetes-cluster-deploy/">https://daddyprogrammer.org/post/14102/argocd-kubernetes-cluster-deploy/</a></li>
-<li><a href="https://junghyeonsu.tistory.com/65">https://junghyeonsu.tistory.com/65</a></li>
-<li><a href="https://wookiist.dev/159">https://wookiist.dev/159</a></li>
-<li><a href="https://cwal.tistory.com/23">https://cwal.tistory.com/23</a></li>
-<li>[<a href="https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]">https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]</a>(</li>
+<li><a target="_blank" rel="noopener" href="https://daddyprogrammer.org/post/14102/argocd-kubernetes-cluster-deploy/">https://daddyprogrammer.org/post/14102/argocd-kubernetes-cluster-deploy/</a></li>
+<li><a target="_blank" rel="noopener" href="https://junghyeonsu.tistory.com/65">https://junghyeonsu.tistory.com/65</a></li>
+<li><a target="_blank" rel="noopener" href="https://wookiist.dev/159">https://wookiist.dev/159</a></li>
+<li><a target="_blank" rel="noopener" href="https://cwal.tistory.com/23">https://cwal.tistory.com/23</a></li>
+<li>[<a target="_blank" rel="noopener" href="https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]">https://coffeewhale.com/kubernetes/workflow/argo/2020/02/14/argo-wf/]</a>(</li>
 </ul>
-
-        </div>
-        
-        <div class="level is-size-7 is-uppercase">
-            <div class="level-start">
-                <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/k8s/" rel="tag">k8s</a>
-                </div>
-            </div>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2021/11/18/Moving/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">이직의 과정, 그리고 얻은 것</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2021/10/07/docker-hub-limit/">
-                <span class="level-item">Docker hub pull limit이 발생했다면?</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
-
-
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">Comments</h3>
-        
-<script>
-    var disqus_config = function () {
-        this.page.url = 'http://tkdguq05.github.io/2021/11/03/EKS-workshop/';
-        this.page.identifier = '2021/11/03/EKS-workshop/';
-    };
-    (function() {
-        var d = document, s = d.createElement('script');  
-        s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', +new Date());
-        (d.head || d.body).appendChild(s);
-    })();
-</script>
-
-<div id="disqus_thread">
-    
-    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-    </div>
-</div>
-</div>
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-4-widescreen  has-order-3 column-right is-sticky">
-    
-        
-
-    <div class="card widget" id="toc">
-        <div class="card-content">
-            <div class="menu">
-                <h3 class="menu-label">
-                    Catalogue
-                </h3>
-                <ul class="menu-list"><li>
-        <a class="is-flex" href="#Kubernetes-k8s">
-        <span class="has-mr-6">1</span>
-        <span>Kubernetes(k8s)</span>
-        </a></li><li>
-        <a class="is-flex" href="#Kubernetes-Objects">
-        <span class="has-mr-6">2</span>
-        <span>Kubernetes Objects</span>
-        </a></li><li>
-        <a class="is-flex" href="#EKS">
-        <span class="has-mr-6">3</span>
-        <span>EKS</span>
-        </a></li><li>
-        <a class="is-flex" href="#Cloud9">
-        <span class="has-mr-6">4</span>
-        <span>Cloud9</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#kubectl">
-        <span class="has-mr-6">4.1</span>
-        <span>kubectl</span>
-        </a></li><li>
-        <a class="is-flex" href="#eksctl">
-        <span class="has-mr-6">4.2</span>
-        <span>eksctl</span>
-        </a></li><li>
-        <a class="is-flex" href="#eksctl로-클러스터-생성하기">
-        <span class="has-mr-6">4.3</span>
-        <span>eksctl로 클러스터 생성하기</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#Ingress-Controller">
-        <span class="has-mr-6">5</span>
-        <span>Ingress Controller</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#AWS-Load-Balancer-만들기">
-        <span class="has-mr-6">5.1</span>
-        <span>AWS Load Balancer 만들기</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#서비스-배포">
-        <span class="has-mr-6">6</span>
-        <span>서비스 배포</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Flask-배포">
-        <span class="has-mr-6">6.1</span>
-        <span>Flask 배포</span>
-        </a></li><li>
-        <a class="is-flex" href="#node-js-배포">
-        <span class="has-mr-6">6.2</span>
-        <span>node.js 배포</span>
-        </a></li><li>
-        <a class="is-flex" href="#프론트엔드-배포">
-        <span class="has-mr-6">6.3</span>
-        <span>프론트엔드 배포</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#Fargate">
-        <span class="has-mr-6">7</span>
-        <span>Fargate</span>
-        </a></li><li>
-        <a class="is-flex" href="#GitOps">
-        <span class="has-mr-6">8</span>
-        <span>GitOps?</span>
-        </a></li><li>
-        <a class="is-flex" href="#GitOps-전에-알아야-할-개념들">
-        <span class="has-mr-6">9</span>
-        <span>GitOps 전에 알아야 할 개념들</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Kustomize">
-        <span class="has-mr-6">9.1</span>
-        <span>Kustomize</span>
-        </a></li><li>
-        <a class="is-flex" href="#Helm">
-        <span class="has-mr-6">9.2</span>
-        <span>Helm</span>
-        </a></li><li>
-        <a class="is-flex" href="#Argo-CD">
-        <span class="has-mr-6">9.3</span>
-        <span>Argo CD</span>
-        </a></li></ul></li><li>
-        <a class="is-flex" href="#GitOps-실습">
-        <span class="has-mr-6">10</span>
-        <span>GitOps 실습</span>
-        </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#Reference">
-        <span class="has-mr-6">10.1</span>
-        <span>Reference</span>
-        </a></li></ul></li></ul>
-            </div>
-        </div>
-    </div>
-
-    
-        
-<div class="card widget">
-    <div class="card-content">
-        <div class="menu">
-            <h3 class="menu-label">
-                Categories
-            </h3>
-            <ul class="menu-list">
-            <li>
-        <a class="level is-marginless" href="/categories/Algorithm/">
-            <span class="level-start">
-                <span class="level-item">Algorithm</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/Algorithm/Automation/">
-            <span class="level-start">
-                <span class="level-item">Automation</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/Engieering/">
-            <span class="level-start">
-                <span class="level-item">Engieering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Engineering/">
-            <span class="level-start">
-                <span class="level-item">Engineering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/ML/">
-            <span class="level-start">
-                <span class="level-item">ML</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">7</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/ML/Information-Theory/">
-            <span class="level-start">
-                <span class="level-item">Information Theory</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/ML/Statistics/">
-            <span class="level-start">
-                <span class="level-item">Statistics</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/Statistics/">
-            <span class="level-start">
-                <span class="level-item">Statistics</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">3</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/blog/">
-            <span class="level-start">
-                <span class="level-item">blog</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">14</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/blog/airflow/">
-            <span class="level-start">
-                <span class="level-item">airflow</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/blog/event/">
-            <span class="level-start">
-                <span class="level-item">event</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/blog/%EA%B8%80%EB%98%90/">
-            <span class="level-start">
-                <span class="level-item">글또</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/book/">
-            <span class="level-start">
-                <span class="level-item">book</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/book/ML/">
-            <span class="level-start">
-                <span class="level-item">ML</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/cicd/">
-            <span class="level-start">
-                <span class="level-item">cicd</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/cicd/engineering/">
-            <span class="level-start">
-                <span class="level-item">engineering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/coding-test/">
-            <span class="level-start">
-                <span class="level-item">coding test</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/coding-test/Algorithm/">
-            <span class="level-start">
-                <span class="level-item">Algorithm</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/cs/">
-            <span class="level-start">
-                <span class="level-item">cs</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/cs/python/">
-            <span class="level-start">
-                <span class="level-item">python</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/engineering/">
-            <span class="level-start">
-                <span class="level-item">engineering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">17</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/engineering/GCP/">
-            <span class="level-start">
-                <span class="level-item">GCP</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/engineering/k8s/">
-            <span class="level-start">
-                <span class="level-item">k8s</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/engineering/kuburnetes/">
-            <span class="level-start">
-                <span class="level-item">kuburnetes</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/event/">
-            <span class="level-start">
-                <span class="level-item">event</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/geultto/">
-            <span class="level-start">
-                <span class="level-item">geultto</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/infra/">
-            <span class="level-start">
-                <span class="level-item">infra</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/infra/backend/">
-            <span class="level-start">
-                <span class="level-item">backend</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/linux/">
-            <span class="level-start">
-                <span class="level-item">linux</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/linux/engineering/">
-            <span class="level-start">
-                <span class="level-item">engineering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/papers/">
-            <span class="level-start">
-                <span class="level-item">papers</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/python/">
-            <span class="level-start">
-                <span class="level-item">python</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">5</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/python/coding-test/">
-            <span class="level-start">
-                <span class="level-item">coding test</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">4</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/python/cs/">
-            <span class="level-start">
-                <span class="level-item">cs</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/recommender/">
-            <span class="level-start">
-                <span class="level-item">recommender</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/spark/">
-            <span class="level-start">
-                <span class="level-item">spark</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/spark/engineering/">
-            <span class="level-start">
-                <span class="level-item">engineering</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/sql/">
-            <span class="level-start">
-                <span class="level-item">sql</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/sql/code/">
-            <span class="level-start">
-                <span class="level-item">code</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/sql/debug/">
-            <span class="level-start">
-                <span class="level-item">debug</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/trouble-shooting/">
-            <span class="level-start">
-                <span class="level-item">trouble shooting</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/trouble-shooting/study/">
-            <span class="level-start">
-                <span class="level-item">study</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/ubuntu/">
-            <span class="level-start">
-                <span class="level-item">ubuntu</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">3</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/ubuntu/troubleshooting/">
-            <span class="level-start">
-                <span class="level-item">troubleshooting</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">3</span>
-            </span>
-        </a></li></ul></li><li>
-        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/">
-            <span class="level-start">
-                <span class="level-item">글또</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">2</span>
-            </span>
-        </a><ul><li>
-        <a class="level is-marginless" href="/categories/%EA%B8%80%EB%98%90/blog/">
-            <span class="level-start">
-                <span class="level-item">blog</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li></ul></li>
-            </ul>
-        </div>
-    </div>
-</div>
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            Tag Cloud
-        </h3>
-        <a href="/tags/A-B-test/" style="font-size: 10px;">A/B test</a> <a href="/tags/AWS/" style="font-size: 12px;">AWS</a> <a href="/tags/Accuracy/" style="font-size: 10px;">Accuracy</a> <a href="/tags/Ada-Boosting/" style="font-size: 10px;">Ada Boosting</a> <a href="/tags/Boosting/" style="font-size: 10px;">Boosting</a> <a href="/tags/Cross-Entropy/" style="font-size: 10px;">Cross Entropy</a> <a href="/tags/Dimensional-Reduction/" style="font-size: 10px;">Dimensional Reduction</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/ECS/" style="font-size: 10px;">ECS</a> <a href="/tags/EMR/" style="font-size: 10px;">EMR</a> <a href="/tags/Ensemble/" style="font-size: 10px;">Ensemble</a> <a href="/tags/Entropy/" style="font-size: 12px;">Entropy</a> <a href="/tags/GCP/" style="font-size: 10px;">GCP</a> <a href="/tags/GDG/" style="font-size: 10px;">GDG</a> <a href="/tags/Gradient-Boosting/" style="font-size: 10px;">Gradient Boosting</a> <a href="/tags/IaC/" style="font-size: 10px;">IaC</a> <a href="/tags/Information/" style="font-size: 12px;">Information</a> <a href="/tags/Information-Value/" style="font-size: 10px;">Information Value</a> <a href="/tags/KL-Divergence/" style="font-size: 10px;">KL Divergence</a> <a href="/tags/Linear-Regression/" style="font-size: 10px;">Linear Regression</a> <a href="/tags/MAB/" style="font-size: 10px;">MAB</a> <a href="/tags/Metrics/" style="font-size: 10px;">Metrics</a> <a href="/tags/NLP/" style="font-size: 10px;">NLP</a> <a href="/tags/Naive-Bayes/" style="font-size: 10px;">Naive Bayes</a> <a href="/tags/PCA/" style="font-size: 10px;">PCA</a> <a href="/tags/RandomForest/" style="font-size: 10px;">RandomForest</a> <a href="/tags/Supervised-Learning/" style="font-size: 10px;">Supervised Learning</a> <a href="/tags/Task/" style="font-size: 10px;">Task</a> <a href="/tags/Timeseries/" style="font-size: 14px;">Timeseries</a> <a href="/tags/Virtualization/" style="font-size: 10px;">Virtualization</a> <a href="/tags/airflow/" style="font-size: 18px;">airflow</a> <a href="/tags/argocd/" style="font-size: 10px;">argocd</a> <a href="/tags/backend/" style="font-size: 10px;">backend</a> <a href="/tags/blog/" style="font-size: 20px;">blog</a> <a href="/tags/class/" style="font-size: 10px;">class</a> <a href="/tags/code/" style="font-size: 16px;">code</a> <a href="/tags/debug/" style="font-size: 10px;">debug</a> <a href="/tags/devtron/" style="font-size: 10px;">devtron</a> <a href="/tags/elice/" style="font-size: 12px;">elice</a> <a href="/tags/engineering/" style="font-size: 14px;">engineering</a> <a href="/tags/etcd/" style="font-size: 10px;">etcd</a> <a href="/tags/feature-selection/" style="font-size: 10px;">feature selection</a> <a href="/tags/float/" style="font-size: 10px;">float</a> <a href="/tags/geultto/" style="font-size: 10px;">geultto</a> <a href="/tags/gitops/" style="font-size: 10px;">gitops</a> <a href="/tags/infra/" style="font-size: 10px;">infra</a> <a href="/tags/istio/" style="font-size: 10px;">istio</a> <a href="/tags/jovyan/" style="font-size: 10px;">jovyan</a> <a href="/tags/k8s/" style="font-size: 12px;">k8s</a> <a href="/tags/kafka/" style="font-size: 10px;">kafka</a> <a href="/tags/karpenter/" style="font-size: 10px;">karpenter</a> <a href="/tags/keras/" style="font-size: 10px;">keras</a> <a href="/tags/kubeflow/" style="font-size: 10px;">kubeflow</a> <a href="/tags/kuburnetes/" style="font-size: 10px;">kuburnetes</a> <a href="/tags/linux/" style="font-size: 16px;">linux</a> <a href="/tags/locust/" style="font-size: 10px;">locust</a> <a href="/tags/mongoDB/" style="font-size: 10px;">mongoDB</a> <a href="/tags/mysql/" style="font-size: 12px;">mysql</a> <a href="/tags/network/" style="font-size: 12px;">network</a> <a href="/tags/nifi/" style="font-size: 10px;">nifi</a> <a href="/tags/oop/" style="font-size: 10px;">oop</a> <a href="/tags/paper/" style="font-size: 12px;">paper</a> <a href="/tags/programmers/" style="font-size: 14px;">programmers</a> <a href="/tags/python/" style="font-size: 16px;">python</a> <a href="/tags/recommender/" style="font-size: 10px;">recommender</a> <a href="/tags/retrospect/" style="font-size: 10px;">retrospect</a> <a href="/tags/server/" style="font-size: 14px;">server</a> <a href="/tags/spark/" style="font-size: 12px;">spark</a> <a href="/tags/sql/" style="font-size: 12px;">sql</a> <a href="/tags/trouble-shooting/" style="font-size: 10px;">trouble shooting</a> <a href="/tags/ubuntu/" style="font-size: 14px;">ubuntu</a> <a href="/tags/vision/" style="font-size: 10px;">vision</a> <a href="/tags/yaml/" style="font-size: 10px;">yaml</a> <a href="/tags/zookeeper/" style="font-size: 10px;">zookeeper</a> <a href="/tags/%EA%B8%80%EB%98%90/" style="font-size: 16px;">글또</a> <a href="/tags/%EA%B8%B0%EB%A1%9D/" style="font-size: 10px;">기록</a> <a href="/tags/%EB%8B%A4%EC%A7%90/" style="font-size: 10px;">다짐</a>
-    </div>
-</div>
-    
-    
-</div>
-
-                <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-            </div>
-        </div>
-    <div align=center>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 사각 반응 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-9443112709859631"
-     data-ad-slot="7692350701"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-</div>
-    </section>
-    
-    <footer class="footer">
-    <div class="container">
-        <div class="level">
-            <div class="level-start has-text-centered-mobile">
-                <a class="footer-logo is-block has-mb-6" href="/">
-                
-                    <img src="/images/small_geul.png" alt="EKS-workshop" height="28">
-                
-                </a>
-                <p class="is-size-7">
-                &copy; 2023 SangHyub Lee, Jose&nbsp;
-                Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> & <a
-                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a>
-                
-                </p>
-            </div>
-            <div class="level-end">
-            
-                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/">
-                        
-                        <i class="fab fa-creative-commons"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
-                        
-                        <i class="fab fa-creative-commons-by"></i>
-                        
-                    </a>
-                </p>
-                
-                <p class="control">
-                    <a class="button is-white is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
-                        
-                        <i class="fab fa-github"></i>
-                        
-                    </a>
-                </p>
-                
-                </div>
-            
-            </div>
-        </div>
-    </div>
-</footer>
-    
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
-<script>moment.locale("en");</script>
-
-
-<script>
-var IcarusThemeSettings = {
-    site: {
-        url: 'http://tkdguq05.github.io',
-        external_link: {"enable":true,"exclude":[]}
-    },
-    article: {
-        highlight: {
-            clipboard: true,
-            fold: 'unfolded'
-        }
-    }
-};
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
-
-
-
-
-
-<script src="/js/animation.js"></script>
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
-<script src="/js/gallery.js" defer></script>
-
-
-
-<div id="outdated">
-    <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
-            my browser now </a></p>
-    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        outdatedBrowser({
-            bgColor: '#f25648',
-            color: '#ffffff',
-            lowerThan: 'flex'
-        });
-    });
-</script>
-
-
-<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    MathJax.Hub.Config({
-        'HTML-CSS': {
-            matchFontHeight: false
-        },
-        SVG: {
-            matchFontHeight: false
-        },
-        CommonHTML: {
-            matchFontHeight: false
-        },
-        tex2jax: {
-            inlineMath: [
-                ['$','$'],
-                ['\\(','\\)']
-            ]
-        }
-    });
-});
-</script>
-
-
-<a id="back-to-top" title="Back to Top" href="javascript:;">
-    <i class="fas fa-chevron-up"></i>
-</a>
-<script src="/js/back-to-top.js" defer></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<script src="/js/main.js" defer></script>
-
-    
-    <div class="searchbox ins-search">
-    <div class="searchbox-container ins-search-container">
-        <div class="searchbox-input-wrapper">
-            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
-            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
-        </div>
-        <div class="searchbox-result-wrapper ins-section-wrapper">
-            <div class="ins-section-container"></div>
-        </div>
-    </div>
-</div>
-<script>
-    (function (window) {
-        var INSIGHT_CONFIG = {
-            TRANSLATION: {
-                POSTS: 'Posts',
-                PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
-                UNTITLED: '(Untitled)',
-            },
-            CONTENT_URL: '/content.json',
-        };
-        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
-    })(window);
-</script>
-<script src="/js/insight.js" defer></script>
-<link rel="stylesheet" href="/css/search.css">
-<link rel="stylesheet" href="/css/insight.css">
-    
-
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-        tex2jax: {
-            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
-            processEscapes: true
-        }
-    });
-    MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax();
-        for (var i = 0; i < all.length; ++i)
-            all[i].SourceElement().parentNode.className += ' has-jax';
-    });
-</script>
-<!-- <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML'></script>
-
-</body>
-</html>
+</div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/k8s/">k8s</a></div><!--!--></article></div><!--!--><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/11/18/Moving/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">이직의 과정, 그리고 얻은 것</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/10/07/docker-hub-limit/"><span class="level-item">Docker hub pull limit이 발생했다면?</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><!--!--></div><!--!--><div class="column column-right is-3-tablet is-3-desktop is-3-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#Kubernetes-k8s"><span class="level-left"><span class="level-item">1</span><span class="level-item">Kubernetes(k8s)</span></span></a></li><li><a class="level is-mobile" href="#Kubernetes-Objects"><span class="level-left"><span class="level-item">2</span><span class="level-item">Kubernetes Objects</span></span></a></li><li><a class="level is-mobile" href="#EKS"><span class="level-left"><span class="level-item">3</span><span class="level-item">EKS</span></span></a></li><li><a class="level is-mobile" href="#Cloud9"><span class="level-left"><span class="level-item">4</span><span class="level-item">Cloud9</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#kubectl"><span class="level-left"><span class="level-item">4.1</span><span class="level-item">kubectl</span></span></a></li><li><a class="level is-mobile" href="#eksctl"><span class="level-left"><span class="level-item">4.2</span><span class="level-item">eksctl</span></span></a></li><li><a class="level is-mobile" href="#eksctl로-클러스터-생성하기"><span class="level-left"><span class="level-item">4.3</span><span class="level-item">eksctl로 클러스터 생성하기</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Ingress-Controller"><span class="level-left"><span class="level-item">5</span><span class="level-item">Ingress Controller</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#AWS-Load-Balancer-만들기"><span class="level-left"><span class="level-item">5.1</span><span class="level-item">AWS Load Balancer 만들기</span></span></a></li></ul></li><li><a class="level is-mobile" href="#서비스-배포"><span class="level-left"><span class="level-item">6</span><span class="level-item">서비스 배포</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Flask-배포"><span class="level-left"><span class="level-item">6.1</span><span class="level-item">Flask 배포</span></span></a></li><li><a class="level is-mobile" href="#node-js-배포"><span class="level-left"><span class="level-item">6.2</span><span class="level-item">node.js 배포</span></span></a></li><li><a class="level is-mobile" href="#프론트엔드-배포"><span class="level-left"><span class="level-item">6.3</span><span class="level-item">프론트엔드 배포</span></span></a></li></ul></li><li><a class="level is-mobile" href="#Fargate"><span class="level-left"><span class="level-item">7</span><span class="level-item">Fargate</span></span></a></li><li><a class="level is-mobile" href="#GitOps"><span class="level-left"><span class="level-item">8</span><span class="level-item">GitOps?</span></span></a></li><li><a class="level is-mobile" href="#GitOps-전에-알아야-할-개념들"><span class="level-left"><span class="level-item">9</span><span class="level-item">GitOps 전에 알아야 할 개념들</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Kustomize"><span class="level-left"><span class="level-item">9.1</span><span class="level-item">Kustomize</span></span></a></li><li><a class="level is-mobile" href="#Helm"><span class="level-left"><span class="level-item">9.2</span><span class="level-item">Helm</span></span></a></li><li><a class="level is-mobile" href="#Argo-CD"><span class="level-left"><span class="level-item">9.3</span><span class="level-item">Argo CD</span></span></a></li></ul></li><li><a class="level is-mobile" href="#GitOps-실습"><span class="level-left"><span class="level-item">10</span><span class="level-item">GitOps 실습</span></span></a><ul class="menu-list"><li><a class="level is-mobile" href="#Reference"><span class="level-left"><span class="level-item">10.1</span><span class="level-item">Reference</span></span></a></li></ul></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Unreasonable Effectiveness</a><p class="is-size-7"><span>&copy; 2023 SangHyub Lee, Jose</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p></div><div class="level-end"></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><!--!--><script src="/js/main.js" defer></script><!--!--></body></html>
