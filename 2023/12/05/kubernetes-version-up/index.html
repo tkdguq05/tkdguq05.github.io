@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>kubernetes 버전업 1.24 에서 1.26까지 - Unreasonable Effectiveness</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Unreasonable Effectiveness"><meta name="msapplication-TileImage" content="/img/small_geul.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Unreasonable Effectiveness"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="쿠버네티스 버전을 1.24 에서 1.26으로 업그레이드한 과정을 공유합니다. (EKS)"><meta property="og:type" content="blog"><meta property="og:title" content="kubernetes 버전업 1.24 에서 1.26까지"><meta property="og:url" content="http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/"><meta property="og:site_name" content="Unreasonable Effectiveness"><meta property="og:description" content="쿠버네티스 버전을 1.24 에서 1.26으로 업그레이드한 과정을 공유합니다. (EKS)"><meta property="og:locale" content="en_US"><meta property="og:image" content="https://a.storyblok.com/f/153547/768x432/8c2cf3901c/k8s-logo-ft-blog-image-768x432.png"><meta property="article:published_time" content="2023-12-04T23:54:21.000Z"><meta property="article:modified_time" content="2023-12-08T05:51:21.596Z"><meta property="article:author" content="SangHyub Lee, Jose"><meta property="article:tag" content="kubernetes"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://a.storyblok.com/f/153547/768x432/8c2cf3901c/k8s-logo-ft-blog-image-768x432.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/"},"headline":"kubernetes 버전업 1.24 에서 1.26까지","image":["https://a.storyblok.com/f/153547/768x432/8c2cf3901c/k8s-logo-ft-blog-image-768x432.png"],"datePublished":"2023-12-04T23:54:21.000Z","dateModified":"2023-12-08T05:51:21.596Z","author":{"@type":"Person","name":"SangHyub Lee, Jose"},"publisher":{"@type":"Organization","name":"Unreasonable Effectiveness","logo":{"@type":"ImageObject"}},"description":"쿠버네티스 버전을 1.24 에서 1.26으로 업그레이드한 과정을 공유합니다. (EKS)"}</script><link rel="canonical" href="http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/"><link rel="icon" href="/img/small_geul.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+  (function () {
+      function switchTab() {
+          if (!location.hash) {
+            return;
+          }
+
+          const id = '#' + CSS.escape(location.hash.substring(1));
+          const $tabMenu = document.querySelector(`.tabs a[href="${id}"]`);
+          if (!$tabMenu) {
+            return;
+          }
+
+          const $tabMenuContainer = $tabMenu.parentElement.parentElement;
+          Array.from($tabMenuContainer.children).forEach($menu => $menu.classList.remove('is-active'));
+          Array.from($tabMenuContainer.querySelectorAll('a'))
+              .map($menu => document.getElementById($menu.getAttribute("href").substring(1)))
+              .forEach($content => $content.classList.add('is-hidden'));
+
+          if ($tabMenu) {
+              $tabMenu.parentElement.classList.add('is-active');
+          }
+          const $activeTab = document.querySelector(id);
+          if ($activeTab) {
+              $activeTab.classList.remove('is-hidden');
+          }
+      }
+      switchTab();
+      window.addEventListener('hashchange', switchTab, false);
+  })();
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2023-12-04T23:54:21.000Z" title="2023. 12. 5. 오전 8:54:21">2023-12-05</time></span><span class="level-item">Updated&nbsp;<time dateTime="2023-12-08T05:51:21.596Z" title="2023. 12. 8. 오후 2:51:21">2023-12-08</time></span><span class="level-item"><a class="link-muted" href="/categories/engineering/">engineering</a></span><span class="level-item">19 minutes read (About 2780 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">kubernetes 버전업 1.24 에서 1.26까지</h1><div class="content"><p>쿠버네티스 버전을 1.24 에서 1.26으로 업그레이드한 과정을 공유합니다. (EKS)</p>
+<span id="more"></span>
+
+
+
+
+
+<h2 id="버전-업을-해야하는-상황"><a href="#버전-업을-해야하는-상황" class="headerlink" title="버전 업을 해야하는 상황"></a>버전 업을 해야하는 상황</h2><p>EKS를 사용하고 있다 보면 AWS에 어느 순간 메일이 전달됩니다. </p>
+<blockquote>
+<p>안녕하세요,</p>
+<p>Amazon EKS의 Kubernetes 버전 1.24에 대한 표준 지원이 2024년 1월 31일에 종료됩니다. 2024년 2월 1일부터는 이 버전에서 실행되는 모든 Amazon EKS 클러스터에 확장 지원(extended support)이 적용됩니다. Kubernetes 버전 1.24는 2025년 1월 31일까지 확장 지원 상태로 유지되며, 그 이후에는 이 버전이 Amazon EKS에서 더 이상 지원되지 않습니다.2025년 1월 31일 이후에는 더 이상 새로운 Kubernetes 버전 1.24 클러스터를 생성할 수 없으며, 이 버전을 실행하는 모든 EKS 클러스터는 점진적인 배포 프로세스를 통해 Kubernetes 버전 1.25로 업데이트됩니다.</p>
+<p>현재 고객님께서는 Kubernetes 버전 1.24로 실행 중인 EKS 클러스터가 1개 이상 있고 해당 리소스가 AWS 상태 대시보드의 ‘영향을 받는 리소스’ 탭에 나열되어 있기 때문에 이 메시지가 표시되었습니다.</p>
+<p>확장 지원은 현재 평가판을 제공하고 있으며 모든 고객이 무료로 이용할 수 있습니다. 2024년 초에 확장 지원이 일반적으로 제공되면 확장 지원 버전을 실행하는 모든 클러스터에 대해 시간당 클러스터당 추가 요금이 부과됩니다. 비용 정보는 해당 기능이 정식 출시되면 발표될 예정입니다. </p>
+<p>확장 지원을 사용하지 않으려면 표준 지원 종료일인 2024년 1월 31일 이전에 1.24 클러스터를 Kubernetes 버전 1.25 이상으로 업데이트하는 것이 좋습니다. Kubernetes 버전에 대한 지원 확대에 대해 자세히 알아보려면 출시 발표 [1] 를 참조하세요. 클러스터를 업데이트하는 방법에 대한 지침은 Amazon EKS 서비스 설명서 [2] 를 참조하십시오. </p>
+<p>Kubernetes 버전 지원에 대한 자세한 내용은 Amazon EKS 서비스 설명서 [3] 를 참조하시기 바랍니다. </p>
+<p>질문이나 우려 사항이 있는 경우 AWS 지원 [4] 에 문의주시기 바랍니다.</p>
+</blockquote>
+<p>이 메일을 요약하자면 현재 사용하고 있는 1.24버전에 대한 표준 지원이 종료되니, 1.25 또는 그 이상의 버전으로 업데이트 하라는 것입니다. 만약 업데이트하지 않고 있는다면 메일의 내용처럼 25년 1월 31일 이후에 자동으로 1.25로 업데이트가 될 것입니다. 만약 k8s 안에 있는 애플리케이션들이 이에 대한 대비가 되어 있지 않는다면 장애로 이어질 수 있을 것 입니다. 따라서 메일이 전달된 이후 k8s 버전 업에 대한 계획을 세우기 시작했습니다.</p>
+<h2 id="EKS-버전-업-계획"><a href="#EKS-버전-업-계획" class="headerlink" title="EKS 버전 업 계획"></a>EKS 버전 업 계획</h2><p>EKS 버전 업은 1.21에서 1.24로 이미 경험을 한 적이 있었습니다. 당시에 업데이트 하면서 굉장히 오랜시간이 걸렸기 때문에 애플리케이션 다운타임이 상당해서 골치 아팠던 경험이었습니다. 다행히 운영쪽에 사용되는 애플리케이션은 없었고 대부분 개발계 airflow나 mlflow 정도였기 때문에 운영 상의 피해는 거의 없었습니다. 여기서 경험한 바로는 EKS 클러스터의 플러그인 버전을 해당 클러스터 버전에 맞게 맞춰줄 것, 특히 ebs-csi controller log를 확인하면서 ebs 볼륨이 detach, attach 잘 되고 있는지 확인하는 것이 중요했습니다. 또한 AWS 콘솔 상에서 클러스터 버전 업은 금방 처리 되지만 이후에 노드 그룹을 업그레이드를 콘솔에서 하게 되면 상당히 시간이 지체되곤 했습니다. Rancher를 통해 노드 그룹 업데이트를 하는 것도 가능했습니만 이 역시 시간이 상당히 지체되거나 행이 걸리는 경우가 발생했습니다. 그래서 버전 업한 노드그룹을 새로 만들고 기존 노드에 있던 앱들을 옮기는 방식으로 진행했습니다.</p>
+<p>*참고로 이 방식은 권장되는 방식이 아닙니다. 이 클러스터는 MLOps용 클러스터였고 특히나 개발계에서 사용되는 클러스터였기 때문에 잠시 순단이 일어나도 용인 가능한 상황이었습니다. 운영에서 버전 업을 할 때는 순단이 최소한으로 일어날 수 있도록 더 많은 조치가 필요합니다.</p>
+<p>버전 업을 할 때 주로 참고했던 문서는 AWS에서 제공한 이 <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1.26">문서</a>였습니다. 여기서 기본적인 정보를 파악하고 큰 틀의 계획을 잡았습니다.</p>
+<ol>
+<li>플러그인 업데이트 (1.25 기준)<ul>
+<li><strong>CoreDNS</strong> — v1.9.3-eksbuild.2<ul>
+<li>현재 coredns:v1.8.4-eksbuild.1 사용 중</li>
+</ul>
+</li>
+<li><strong>Kube-proxy</strong> — 1.25.6-eksbuild.1<ul>
+<li>현재 v1.21.2-eksbuild.2 사용 중</li>
+</ul>
+</li>
+<li><strong>VPC CNI</strong> — 1.12.2-eksbuild.1<ul>
+<li>현재 v1.10.1-eksbuild.1 사용 중</li>
+</ul>
+</li>
+<li><strong>aws-ebs-csi-driver</strong>- v1.16.0-eksbuild.1<ul>
+<li>현재 v1.14.0-eksbuild.1 사용 중</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>클러스터 버전 업 (AWS 콘솔)</li>
+<li>버전 업된 노드그룹 생성</li>
+<li>기존 노드 Drain</li>
+</ol>
+<h2 id="버전-업-진행"><a href="#버전-업-진행" class="headerlink" title="버전 업 진행"></a>버전 업 진행</h2><p>버전 업을 진행하면서 가장 힘들었던 부분은 플러그인 업데이트에 관한 것이었습니다. 플러그인 업데이트만 딱 하면 끝인 줄 알았더니, 업데이트를 위한 Role이나 IAM조정 등이 필요했습니다. 그 중에서 VPC CNI를 설치하면서 나왔었던 <code>Retrying waiting for IPAM-D</code> 가 대표적이었습니다. VPN-CNI 에 대한 설치는 기존에 AWS 콘솔에 있는 애드 온을 이용했었는데, 이를 이용해 업데이트를 하니 발생했던 에러였습니다. VPN-CNI는 k8s클러스터 내에 노드마다 설치가 되며 이는 <code>aws-node-xxxx</code> 와 같이 나타납니다. 이 파드들이 제대로 running되지 못하고 있었고 이에 따라 노드가 정상적으로 실행되지 못하고 있었습니다. 이에 관해서 이 <a target="_blank" rel="noopener" href="https://velog.io/@egoavara/AWS-EKS-VPC-CNI-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95-Retrying-waiting-for-IPAM-D">블로그 글</a>을 참조했습니다만 저는 AWS의 <a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html">EKS 문서</a>에서 Add-ons 부분을 보고 IAM Role을 override하는 방식으로 진행했습니다. Add-ons 부분에서는 VPC-CNI, Core-DNS, Kube-Proxy에 대해서 설정이 가능하고, ebs-csi의 경우에는 Storage 부분에서 해당 내용을 확인할 수 있습니다. 그 외에 참고할 만한 내용들이 있으니 문서를 보시면 버전 업 외에도 클러스터 운영에 관한 도움을 받을 수 있을 것으로 보입니다.</p>
+<p>설치 중에 ebs-csi에서도 에러가 발생했습니다. 다음과 같은 에러였습니다.</p>
+<blockquote>
+<p>Conflicts found when trying to apply. Will not continue due to resolve conflicts mode. Conflicts: DaemonSet.apps ebs-csi-node - .metadata.labels.app.kubernetes.io/managed-by DaemonSet.apps ebs-csi-node - .metadata.labels.app.kubernetes.io/version DaemonSet.apps ebs-csi-node - .spec.selector DaemonSet.apps ebs-csi-node - .spec.template.metadata.labels.app.kubernetes.io/managed-by DaemonSet.apps ebs-csi-node - .spec.template.metadata.labels.app.kubernetes.io/version DaemonSet.apps ebs-csi-node - .spec.template.spec.containers[name=”ebs-plugin”].env DaemonSet.apps ebs-csi-node - .spec.template.spec.containers[name=”ebs-plugin”].env[name=”CSI_NODE_NAME”] </p>
+<p>…</p>
+</blockquote>
+<p>충돌이 발생했다는 에러메세지였습니다. 아마 AWS 콘솔에서 모든 add-on을 다 설치했다면 이런 에러는 볼 수 없을지도 모릅니다. 왜냐하면 이 에러는 클러스터에 따로 helm으로 ebs-csi를 설치하고, 콘솔을 통해 add-on을 업데이트 하려고 하면 발생하는 에러이기 때문입니다. 클러스터에 설치된 ebs-csi를 제거했고 AWS 콘솔의 add-on으로 설치하니 해당 에러는 발생하지 않았고 정상적으로 설치가 완료 되었습니다.</p>
+<p>플러그인 설치 이후에는 모든 작업이 순조로웠습니다. 클러스터 버전 업도 잘되었고 1.25 노드그룹으로의 이전, 그리고 1.26클러스터 업데이트, 1.26 노드그룹 이전 까지 순차적으로 작업이 완료되었습니다.</p>
+<p>버전업 이후에는 Airflow나 Kubeflow, mlflow 등 클러스터 안에 설치된 애플리케이션의 기능과 실행에 대해서 확인을 했고 정상적으로 실행이 되었습니다.</p>
+<h2 id="주의-점"><a href="#주의-점" class="headerlink" title="주의 점"></a>주의 점</h2><p>앞에서 잠깐 나왔지만, 운영 클러스터에는 이 방법을 적용하기는 어려울 것 같았습니다. 노드그룹을 옮기면서 순단이 발생할 수 있고 애플리케이션에 graceful shutdown이 적용되어 있지 않다면 순단이 매우 길어질 수 있기 때문입니다. 특히 실제 애플리케이션에 노출되는 API의 경우에 순단이 발생한다면 연관 백엔드 API에 장애전파가 일어날 수 있어 서킷 브레이커가 적용되어있는지, 만약 API가 동작하지 않는다면 백업 로직은 어떻게 되어있는지를 면밀히 파악하고, 사전에 stg쪽에서 비슷한 상황으로 시뮬레이션하여 백업로직이 정확히 어떻게 동작하는지를 알아놓는 것이 좋습니다. </p>
+<p>또한 클러스터 내에서 배치작업 등이 실행된다면 순단이 얼마나 발생하는지 예측하여 해당 시간대에 어떤 배치가 동작해야하는지 알고 있어야 합니다. 따라서 배치 담당자들과 사전에 협의를 해놓는 것이 필요하고 실패시에 어떤 방식으로 복구가 가능한지 계획해놓아야 합니다. 그리고 현재 클러스터에는 Karpenter가 적용이 되어 있습니다. Karpenter에 관한 글은 <a target="_blank" rel="noopener" href="https://helloworld.kurly.com/blog/first-mlops/">Kurly의 기술블로그</a> 내용을 참조하면 좋을 것 같습니다. k8s를 업데이트 하면서 deprecated된 API 들이 발생하기 때문에 이를 참고해서 Karpenter의 업그레이드도 버전을 신경써줘야 합니다. 예를 들어 Karpenter <code>v0.28.0</code> 버전은 Kubernetes version 1.26 이상 버전과 호환되지 않습니다. 따라서 1.27이나 1.28을 사용한다면 Karpenter버전을 더 올려주는 것이 좋겠습니다.</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><ul>
+<li><p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1.26">https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/kubernetes-versions-standard.html#kubernetes-1.26</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html">https://docs.aws.amazon.com/eks/latest/userguide/cni-iam-role.html</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://velog.io/@egoavara/AWS-EKS-VPC-CNI-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95-Retrying-waiting-for-IPAM-D">https://velog.io/@egoavara/AWS-EKS-VPC-CNI-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95-Retrying-waiting-for-IPAM-D</a></p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-25">https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-25</a></p>
+</li>
+</ul>
+</div><div class="article-licensing box"><div class="licensing-title"><p>kubernetes 버전업 1.24 에서 1.26까지</p><p><a href="http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/">http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>SangHyub Lee, Jose</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2023-12-05</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2023-12-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/kubernetes/">kubernetes</a></div><!--!--></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="https://www.buymeacoffee.com/sanghyublee" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2023/05/29/argocd/"><span class="level-item">argocd로 App of apps 패턴 적용해서 Kubeflow 배포하기</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+            this.page.url = 'http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/';
+            this.page.identifier = '2023/12/05/kubernetes-version-up/';
+        };
+        (function() {
+            var d = document, s = d.createElement('script');  
+            s.src = '//' + 'https-tkdguq05-github-io' + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();</script></div></div></div><!--!--><div class="column column-right is-3-tablet is-3-desktop is-3-widescreen  order-3 is-sticky"><div class="card widget" id="toc" data-type="toc"><div class="card-content"><div class="menu"><h3 class="menu-label">Catalogue</h3><ul class="menu-list"><li><a class="level is-mobile" href="#버전-업을-해야하는-상황"><span class="level-left"><span class="level-item">1</span><span class="level-item">버전 업을 해야하는 상황</span></span></a></li><li><a class="level is-mobile" href="#EKS-버전-업-계획"><span class="level-left"><span class="level-item">2</span><span class="level-item">EKS 버전 업 계획</span></span></a></li><li><a class="level is-mobile" href="#버전-업-진행"><span class="level-left"><span class="level-item">3</span><span class="level-item">버전 업 진행</span></span></a></li><li><a class="level is-mobile" href="#주의-점"><span class="level-left"><span class="level-item">4</span><span class="level-item">주의 점</span></span></a></li><li><a class="level is-mobile" href="#Reference"><span class="level-left"><span class="level-item">5</span><span class="level-item">Reference</span></span></a></li></ul></div></div><style>#toc .menu-list > li > a.is-active + .menu-list { display: block; }#toc .menu-list > li > a + .menu-list { display: none; }</style><script src="/js/toc.js" defer></script></div></div></div></div></section><footer class="footer"><div class="container"><div class="level"><div class="level-start"><a class="footer-logo is-block mb-2" href="/">Unreasonable Effectiveness</a><p class="is-size-7"><span>&copy; 2023 SangHyub Lee, Jose</span>  Powered by <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> &amp; <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank" rel="noopener">Icarus</a></p><p class="is-size-7">© 2019</p></div><div class="level-end"><div class="field has-addons"><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/"><i class="fab fa-creative-commons-by"></i></a></p><p class="control"><a class="button is-transparent is-large" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a></p></div></div></div></div></footer><script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script><script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script><script>moment.locale("en");</script><script>var IcarusThemeSettings = {
+            article: {
+                highlight: {
+                    clipboard: true,
+                    fold: 'unfolded'
+                }
+            }
+        };</script><script src="/js/column.js"></script><script src="/js/animation.js"></script><a id="back-to-top" title="Back to top" href="javascript:;"><i class="fas fa-chevron-up"></i></a><script src="/js/back_to_top.js" defer></script><script src="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.js" defer></script><script>window.addEventListener("load", () => {
+      window.cookieconsent.initialise({
+        type: "info",
+        theme: "edgeless",
+        static: false,
+        position: "bottom-left",
+        content: {
+          message: "This website uses cookies to improve your experience.",
+          dismiss: "Got it!",
+          allow: "Allow cookies",
+          deny: "Decline",
+          link: "Learn more",
+          policy: "Cookie Policy",
+          href: "https://www.cookiesandyou.com/",
+        },
+        palette: {
+          popup: {
+            background: "#edeff5",
+            text: "#838391"
+          },
+          button: {
+            background: "#4b81e8"
+          },
+        },
+      });
+    });</script><script src="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/js/lightgallery.min.js" defer></script><script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/js/jquery.justifiedGallery.min.js" defer></script><script>window.addEventListener("load", () => {
+            if (typeof $.fn.lightGallery === 'function') {
+                $('.article').lightGallery({ selector: '.gallery-item' });
+            }
+            if (typeof $.fn.justifiedGallery === 'function') {
+                if ($('.justified-gallery > p > .gallery-item').length) {
+                    $('.justified-gallery > p > .gallery-item').unwrap();
+                }
+                $('.justified-gallery').justifiedGallery();
+            }
+        });</script><!--!--><!--!--><!--!--><!--!--><!--!--><script src="/js/main.js" defer></script><div class="searchbox"><div class="searchbox-container"><div class="searchbox-header"><div class="searchbox-input-container"><input class="searchbox-input" type="text" placeholder="Type something..."></div><a class="searchbox-close" href="javascript:;">×</a></div><div class="searchbox-body"></div></div></div><script src="/js/insight.js" defer></script><script>document.addEventListener('DOMContentLoaded', function () {
+            loadInsight({"contentUrl":"/content.json"}, {"hint":"Type something...","untitled":"(Untitled)","posts":"Posts","pages":"Pages","categories":"Categories","tags":"Tags"});
+        });</script></body></html>
