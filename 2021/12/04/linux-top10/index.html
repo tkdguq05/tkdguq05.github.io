@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>linux top 10 명령어들을 정리해봤다 - Unreasonable Effectiveness</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Unreasonable Effectiveness"><meta name="msapplication-TileImage" content="/img/small_geul.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Unreasonable Effectiveness"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."><meta property="og:type" content="blog"><meta property="og:title" content="linux top 10 명령어들을 정리해봤다"><meta property="og:url" content="http://tkdguq05.github.io/2021/12/04/linux-top10/"><meta property="og:site_name" content="Unreasonable Effectiveness"><meta property="og:description" content="자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."><meta property="og:locale" content="en_US"><meta property="og:image" content="https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"><meta property="article:published_time" content="2021-12-04T12:58:45.000Z"><meta property="article:modified_time" content="2021-12-04T14:18:13.000Z"><meta property="article:author" content="SangHyub Lee, Jose"><meta property="article:tag" content="linux"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://tkdguq05.github.io/2021/12/04/linux-top10/"},"headline":"linux top 10 명령어들을 정리해봤다","image":["https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"],"datePublished":"2021-12-04T12:58:45.000Z","dateModified":"2021-12-04T14:18:13.000Z","author":{"@type":"Person","name":"SangHyub Lee, Jose"},"publisher":{"@type":"Organization","name":"Unreasonable Effectiveness","logo":{"@type":"ImageObject"}},"description":"자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."}</script><link rel="canonical" href="http://tkdguq05.github.io/2021/12/04/linux-top10/"><link rel="icon" href="/img/small_geul.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/atom-one-light.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta><title>linux top 10 명령어들을 정리해봤다 - Unreasonable Effectiveness</title><link rel="manifest" href="/manifest.json"><meta name="application-name" content="Unreasonable Effectiveness"><meta name="msapplication-TileImage" content="/img/small_geul.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Unreasonable Effectiveness"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="description" content="자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."><meta property="og:type" content="blog"><meta property="og:title" content="linux top 10 명령어들을 정리해봤다"><meta property="og:url" content="http://tkdguq05.github.io/2021/12/04/linux-top10/"><meta property="og:site_name" content="Unreasonable Effectiveness"><meta property="og:description" content="자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."><meta property="og:locale" content="en_US"><meta property="og:image" content="https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"><meta property="article:published_time" content="2021-12-04T12:58:45.000Z"><meta property="article:modified_time" content="2023-12-08T06:48:29.256Z"><meta property="article:author" content="SangHyub Lee, Jose"><meta property="article:tag" content="linux"><meta property="twitter:card" content="summary"><meta property="twitter:image:src" content="https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"http://tkdguq05.github.io/2021/12/04/linux-top10/"},"headline":"linux top 10 명령어들을 정리해봤다","image":["https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png"],"datePublished":"2021-12-04T12:58:45.000Z","dateModified":"2023-12-08T06:48:29.256Z","author":{"@type":"Person","name":"SangHyub Lee, Jose"},"publisher":{"@type":"Organization","name":"Unreasonable Effectiveness","logo":{"@type":"ImageObject"}},"description":"자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다."}</script><link rel="canonical" href="http://tkdguq05.github.io/2021/12/04/linux-top10/"><link rel="icon" href="/img/small_geul.png"><link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0/css/all.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.7.0/styles/monokai.css"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;600&amp;family=Source+Code+Pro"><link rel="stylesheet" href="/css/default.css"><style>body>.footer,body>.navbar,body>.section{opacity:0}</style><!--!--><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cookieconsent@3.1.1/build/cookieconsent.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.10.0/dist/css/lightgallery.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.8.1/dist/css/justifiedGallery.min.css"><!--!--><!--!--><style>.pace{-webkit-pointer-events:none;pointer-events:none;-webkit-user-select:none;-moz-user-select:none;user-select:none}.pace-inactive{display:none}.pace .pace-progress{background:#3273dc;position:fixed;z-index:2000;top:0;right:100%;width:100%;height:2px}</style><script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js"></script><!--!--><!--!--><!-- hexo injector head_end start --><script>
   (function () {
       function switchTab() {
           if (!location.hash) {
@@ -29,11 +29,8 @@
       switchTab();
       window.addEventListener('hashchange', switchTab, false);
   })();
-  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-12-04T12:58:45.000Z" title="2021. 12. 4. 오후 9:58:45">2021-12-04</time></span><span class="level-item">Updated&nbsp;<time dateTime="2021-12-04T14:18:13.000Z" title="2021. 12. 4. 오후 11:18:13">2021-12-04</time></span><span class="level-item"><a class="link-muted" href="/categories/linux/">linux</a><span> / </span><a class="link-muted" href="/categories/linux/engineering/">engineering</a></span><span class="level-item">32 minutes read (About 4845 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">linux top 10 명령어들을 정리해봤다</h1><div class="content"><p>자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다.</p>
+  </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://cdn.inflearn.com/public/courses/327827/cover/cfac94c0-2832-4e80-a6f9-3496c7bec5b8/327827-eng.png" alt="linux top 10 명령어들을 정리해봤다"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2021-12-04T12:58:45.000Z" title="2021. 12. 4. 오후 9:58:45">2021-12-04</time></span><span class="level-item">Updated&nbsp;<time dateTime="2023-12-08T06:48:29.256Z" title="2023. 12. 8. 오후 3:48:29">2023-12-08</time></span><span class="level-item"><a class="link-muted" href="/categories/linux/">linux</a><span> / </span><a class="link-muted" href="/categories/linux/engineering/">engineering</a></span><span class="level-item">32 minutes read (About 4845 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">linux top 10 명령어들을 정리해봤다</h1><div class="content"><p>자주 사용하지만 잘 까먹게 되는 명령어들을 정리해봤습니다.</p>
 <span id="more"></span>
-
-
-
 <h1 id="Top-10-Linux-명령어-정리"><a href="#Top-10-Linux-명령어-정리" class="headerlink" title="Top 10. Linux 명령어 정리"></a>Top 10. Linux 명령어 정리</h1><p>유튜브 영상을 보다가 자주 사용하는 명령어에 대한 것을 보게 되었고, 그 동안 사용했던 명려어와 관련 내용들을 정리해보면 좋겠다는 생각에 글을 작성하게 되었습니다.</p>
 <p>원본 유튜브 영상 주소는 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=u9RukvKZJZM">https://www.youtube.com/watch?v=u9RukvKZJZM</a> 여기 입니다!</p>
 <p><br></br></p>
@@ -78,21 +75,21 @@
 <h2 id="4-도메인의-IP를-조회하는-방법"><a href="#4-도메인의-IP를-조회하는-방법" class="headerlink" title="4. 도메인의 IP를 조회하는 방법"></a>4. 도메인의 IP를 조회하는 방법</h2><p>도메인의 IP를 확인하고 싶다면 네임서버에 등록된 정보를 조회할 수 있어야 합니다. <code>nslookup</code> 명령어를 잘 사용해야 관련 정보를 갖고 올 수 있을 것입니다. 기본적으로 <code>nslookup &#123;IP Address&#125;</code> 를 하면 도메인의 IP 정보를 알 수 있습니다.</p>
 <p>이를 넘어서 도메인 서버의 동작 원리를 한 번 알아보고 넘어가 보겠습니다.</p>
 <ol>
-<li><p>웹 브라우저에 <a target="_blank" rel="noopener" href="http://www.naver.com을">www.naver.com을</a> 입력하면 먼저 Local DNS에게 “<a target="_blank" rel="noopener" href="http://www.naver.com&quot;이라는">www.naver.com&quot;이라는</a> hostname”에 대한 IP 주소를 질의하여 Local DNS에 없으면 다른 DNS name 서버 정보를 받음(Root DNS 정보 전달 받음)</p>
+<li><p>웹 브라우저에 www.naver.com을 입력하면 먼저 Local DNS에게 “www.naver.com”이라는 hostname”에 대한 IP 주소를 질의하여 Local DNS에 없으면 다른 DNS name 서버 정보를 받음(Root DNS 정보 전달 받음)</p>
 </li>
-<li><p>Root DNS 서버에 “<a target="_blank" rel="noopener" href="http://www.naver.com&quot;">www.naver.com&quot;</a> 질의</p>
+<li><p>Root DNS 서버에 “www.naver.com” 질의</p>
 </li>
 <li><p>Root DNS 서버로 부터 “com 도메인”을 관리하는 TLD (Top-Level Domain) 이름 서버 정보 전달 받음</p>
 </li>
-<li><p>TLD에 “<a target="_blank" rel="noopener" href="http://www.naver.com&quot;">www.naver.com&quot;</a> 질의</p>
+<li><p>TLD에 “www.naver.com” 질의</p>
 </li>
 <li><p>TLD에서 “name.com” 관리하는 DNS 정보 전달</p>
 </li>
-<li><p>“naver.com” 도메인을 관리하는 DNS 서버에 “<a target="_blank" rel="noopener" href="http://www.naver.com&quot;">www.naver.com&quot;</a> 호스트네임에 대한 IP 주소 질의</p>
+<li><p>“naver.com” 도메인을 관리하는 DNS 서버에 “www.naver.com” 호스트네임에 대한 IP 주소 질의</p>
 </li>
-<li><p>Local DNS 서버에게 “응! <a target="_blank" rel="noopener" href="http://www.naver.com에">www.naver.com에</a> 대한 IP 주소는 222.122.195.6 응답 </p>
+<li><p>Local DNS 서버에게 “응! www.naver.com에 대한 IP 주소는 222.122.195.6 응답 </p>
 </li>
-<li><p>Local DNS는 <a target="_blank" rel="noopener" href="http://www.naver.com에">www.naver.com에</a> 대한 IP 주소를 캐싱을 하고 IP 주소 정보 전달 </p>
+<li><p>Local DNS는 www.naver.com에 대한 IP 주소를 캐싱을 하고 IP 주소 정보 전달 </p>
 </li>
 </ol>
 <p><br></br></p>
@@ -145,7 +142,7 @@
 <li><p>u: 특정 사용자의 프로세스 정보 확인, 지정하지 않으면 현재 사용자 기준</p>
 </li>
 <li><p>x: 자신의 터미널이 없는 프로세스도 출력하는 옵션</p>
-<p><img src="/images/linux_top10/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-18_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_2.56.20.png" alt=""></p>
+<p><img src="/images/linux_top10/스크린샷_2021-11-18_오후_2.56.20.png" alt=""></p>
 </li>
 </ul>
 </li>
@@ -190,7 +187,7 @@
 </ul>
 </li>
 <li><p>htop (top보다 더 자세한 정보, 편하게 확인 가능)</p>
-<p><img src="/images/linux_top10/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-18_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_2.59.58.png" alt=""></p>
+<p><img src="/images/linux_top10/스크린샷_2021-11-18_오후_2.59.58.png" alt=""></p>
 <p><br></br></p>
 </li>
 <li><p>sar (System Activity Reporter)</p>
@@ -222,85 +219,7 @@
 <p><br></br></p>
 <ul>
 <li><p>df는 사용 가능한 디스크 공간의 양을 알 수 있습니다.</p>
-<table>
-<thead>
-<tr>
-<th>옵션</th>
-<th>Long옵션</th>
-<th>설명</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-a</td>
-<td>–all</td>
-<td>0 블록의 파일 시스템을 포함하여, 모든 파일시스템을 출력</td>
-</tr>
-<tr>
-<td>-B</td>
-<td>–block-size=SIZE</td>
-<td>지정한 크기(SIZE)를 블록 단위로 정하여 용량을 표시(예:–block-size=1m)</td>
-</tr>
-<tr>
-<td></td>
-<td>–total</td>
-<td>총계를 출력</td>
-</tr>
-<tr>
-<td>-h</td>
-<td>–human-readable</td>
-<td>사람이 읽을 수 있는 형태의 크기로 출력(예:1K, 512M, 4G)</td>
-</tr>
-<tr>
-<td>-H</td>
-<td>–si</td>
-<td>1KB는 1,024Byte지만 사용자가 보기 편하도록 1,000단위로 용량을 표시</td>
-</tr>
-<tr>
-<td>-i</td>
-<td>–inodes</td>
-<td>inode의 남은 공간, 사용 공간, 사용 퍼센트를 출력</td>
-</tr>
-<tr>
-<td>-k</td>
-<td></td>
-<td>–block-size=1K와 같은 의미</td>
-</tr>
-<tr>
-<td>-l</td>
-<td>–local</td>
-<td>출력하는 목록을 로컬 파일 시스템으로 제한</td>
-</tr>
-<tr>
-<td></td>
-<td>–no-sync</td>
-<td>사용 정보를 얻기 전에 싱크를 하지 않음(디폴트 값)</td>
-</tr>
-<tr>
-<td>-P</td>
-<td>–portability</td>
-<td>POSIX에서 사용되는 형태로 출력</td>
-</tr>
-<tr>
-<td></td>
-<td>–sync</td>
-<td>사용 정보를 얻기 전에 싱크</td>
-</tr>
-<tr>
-<td>-t</td>
-<td>–type=TYPE</td>
-<td>보여주는 목록을 파일 시스템의 타입(TYPE)으로 제한</td>
-</tr>
-<tr>
-<td>-T</td>
-<td>–print-type</td>
-<td>파일 시스템의 형태를 추가하여 각각의 파티션 정보를 출력</td>
-</tr>
-<tr>
-<td>-x</td>
-<td>–exclude-type=TYPE</td>
-<td>지정한 형태(TYPE)를 제외하고 나머지 모든 파일 시스템 정보를 출력</td>
-</tr>
-</tbody></table>
+<p>| 옵션 | Long옵션            | 설명                                                         |<br>| — | ————————— | —————————————————————————————- |<br>|  -a  | —all               | 0 블록의 파일 시스템을 포함하여, 모든 파일시스템을 출력      |<br>|  -B  | —block-size=SIZE   | 지정한 크기(SIZE)를 블록 단위로 정하여 용량을 표시(예:—block-size=1m) |<br>|      | —total             | 총계를 출력                                                  |<br>|  -h  | —human-readable    | 사람이 읽을 수 있는 형태의 크기로 출력(예:1K, 512M, 4G)      |<br>|  -H  | —si                | 1KB는 1,024Byte지만 사용자가 보기 편하도록 1,000단위로 용량을 표시 |<br>|  -i  | —inodes            | inode의 남은 공간, 사용 공간, 사용 퍼센트를 출력             |<br>|  -k  |                     | —block-size=1K와 같은 의미                                  |<br>|  -l  | —local             | 출력하는 목록을 로컬 파일 시스템으로 제한                    |<br>|      | —no-sync           | 사용 정보를 얻기 전에 싱크를 하지 않음(디폴트 값)            |<br>|  -P  | —portability       | POSIX에서 사용되는 형태로 출력                               |<br>|      | —sync              | 사용 정보를 얻기 전에 싱크                                   |<br>|  -t  | —type=TYPE         | 보여주는 목록을 파일 시스템의 타입(TYPE)으로 제한            |<br>|  -T  | —print-type        | 파일 시스템의 형태를 추가하여 각각의 파티션 정보를 출력      |<br>|  -x  | —exclude-type=TYPE | 지정한 형태(TYPE)를 제외하고 나머지 모든 파일 시스템 정보를 출력 |</p>
 </li>
 </ul>
 <p><br></br></p>
@@ -308,9 +227,7 @@
 <p>리눅스 서비스 관리하는 명령어는 service와 systemctl이 있습니다.</p>
 <p>서비스를 등록할 때는 이런 파일을 하나 작성합니다.</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Unit]</span><br><span class="line">Description=Service Desceiption</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/path/to/shellscript.sh</span><br><span class="line">Restart=on-failure</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Unit</span><br><span class="line">  - Description: 해당 유닛에 대한 설명</span><br><span class="line">  - Requires : 상위 의존성 구성, 포함하는 유닛이 정상적이어야 실행</span><br><span class="line">  - RequiresOverridable : 상위 의존성 구성이며 이것이 실패하더라도 무시하고 유닛을 시작</span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">Service</span><br><span class="line">  - Type: [simple | forking | oneshot | notify | dbus] 유닛의 타입</span><br><span class="line">  - Environment: 해당 유닛에서 사용할 환경 변수 선언</span><br><span class="line">  - ExecStart: 시작 명령을 정의</span><br><span class="line">  - ExecStop: 중지 명령을 정의</span><br><span class="line"></span><br><span class="line">Install</span><br><span class="line">  - WantedBy: 유닛을 등록하기 위한 종속성 검사. 유닛을 등록할 때 등록에 필요한 유닛을 지정</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>Before=, After=<ul>
 <li>유닛 시작의 전후 관계를 설정합니다. 해당 설정은 “Requires=” 설정과는 독립적입니다. “Before=” 에 나열된 유닛이 시작되기 전에 실행하고 “After=” 은 해당 유닛이 시작된 이후 나열된 유닛이 실행합니다.</li>
@@ -341,8 +258,8 @@
 <li><p>파일이나 폴더의 권한(읽기, 쓰기, 실행)를 변경</p>
 </li>
 <li><p>권한들을 <strong>mode</strong>라고 부른다</p>
-<p><img src="/images/linux_top10/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-18_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_3.11.55.png" alt=""></p>
-<p><img src="/images/linux_top10/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2021-11-18_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_3.12.17.png" alt=""></p>
+<p><img src="/images/linux_top10/스크린샷_2021-11-18_오후_3.11.55.png" alt=""></p>
+<p><img src="/images/linux_top10/스크린샷_2021-11-18_오후_3.12.17.png" alt=""></p>
 </li>
 </ul>
 </li>
@@ -356,7 +273,6 @@
 <li>long listing format</li>
 </ul>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">user@user_group:~/exp$</span> <span class="string">ls</span> <span class="string">-l</span></span><br><span class="line"><span class="string">drwxrwxr-x</span>  <span class="number">2</span> <span class="string">user</span> <span class="string">user_group</span> <span class="number">4096 </span><span class="string">Sep</span> <span class="number">17</span> <span class="number">06</span><span class="string">:39</span> <span class="string">dir1</span></span><br><span class="line"><span class="string">drwxrwxr-x</span>  <span class="number">2</span> <span class="string">user</span> <span class="string">user_group</span> <span class="number">4096 </span><span class="string">Sep</span> <span class="number">17</span> <span class="number">06</span><span class="string">:39</span> <span class="string">dir2</span></span><br><span class="line"><span class="string">-rw-rw-r--</span>  <span class="number">1</span> <span class="string">user</span> <span class="string">user_group</span>    <span class="number">0</span> <span class="string">Sep</span> <span class="number">17</span> <span class="number">06</span><span class="string">:39</span> <span class="string">file1</span></span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>첫번째 블락이 <strong>권한 문자열(Permission string)</strong></li>
 <li>두번째 블락이 해당 디렉토리 내부의 파일과 디렉토리 갯수,</li>
@@ -382,7 +298,7 @@
 <li><a target="_blank" rel="noopener" href="https://blog.voidmainvoid.net/201">https://blog.voidmainvoid.net/201</a></li>
 <li><a target="_blank" rel="noopener" href="https://springboot.cloud/16">https://springboot.cloud/16</a></li>
 </ul>
-</div><div class="article-licensing box"><div class="licensing-title"><p>linux top 10 명령어들을 정리해봤다</p><p><a href="http://tkdguq05.github.io/2021/12/04/linux-top10/">http://tkdguq05.github.io/2021/12/04/linux-top10/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>SangHyub Lee, Jose</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2021-12-04</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2021-12-04</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/linux/">linux</a></div><!--!--></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="https://www.buymeacoffee.com/sanghyublee" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/12/19/kafka-101/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">kafka 첫번째, 개념 정리</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/11/18/Moving/"><span class="level-item">이직의 과정, 그리고 얻은 것</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
+</div><div class="article-licensing box"><div class="licensing-title"><p>linux top 10 명령어들을 정리해봤다</p><p><a href="http://tkdguq05.github.io/2021/12/04/linux-top10/">http://tkdguq05.github.io/2021/12/04/linux-top10/</a></p></div><div class="licensing-meta level is-mobile"><div class="level-left"><div class="level-item is-narrow"><div><h6>Author</h6><p>SangHyub Lee, Jose</p></div></div><div class="level-item is-narrow"><div><h6>Posted on</h6><p>2021-12-04</p></div></div><div class="level-item is-narrow"><div><h6>Updated on</h6><p>2023-12-08</p></div></div><div class="level-item is-narrow"><div><h6>Licensed under</h6><p><a class="icons" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="icon fab fa-creative-commons"></i></a><a class="icons" rel="noopener" target="_blank" title="Attribution" href="https://creativecommons.org/licenses/by/4.0/"><i class="icon fab fa-creative-commons-by"></i></a><a class="icons" rel="noopener" target="_blank" title="Noncommercial" href="https://creativecommons.org/licenses/by-nc/4.0/"><i class="icon fab fa-creative-commons-nc"></i></a></p></div></div></div></div></div><div class="article-tags is-size-7 mb-4"><span class="mr-2">#</span><a class="link-muted mr-2" rel="tag" href="/tags/linux/">linux</a></div><!--!--></article></div><div class="card"><div class="card-content"><h3 class="menu-label has-text-centered">Like this article? Support the author with</h3><div class="buttons is-centered"><a class="button donate" href="https://www.buymeacoffee.com/sanghyublee" target="_blank" rel="noopener" data-type="buymeacoffee"><span class="icon is-small"><i class="fas fa-coffee"></i></span><span>Buy me a coffee</span></a></div></div></div><nav class="post-navigation mt-4 level is-mobile"><div class="level-start"><a class="article-nav-prev level level-item link-muted" href="/2021/12/19/kafka-101/"><i class="level-item fas fa-chevron-left"></i><span class="level-item">kafka 첫번째, 개념 정리</span></a></div><div class="level-end"><a class="article-nav-next level level-item link-muted" href="/2021/11/18/Moving/"><span class="level-item">이직의 과정, 그리고 얻은 것</span><i class="level-item fas fa-chevron-right"></i></a></div></nav><div class="card"><div class="card-content"><h3 class="title is-5">Comments</h3><div id="disqus_thread"><noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript></div><script>var disqus_config = function () {
             this.page.url = 'http://tkdguq05.github.io/2021/12/04/linux-top10/';
             this.page.identifier = '2021/12/04/linux-top10/';
         };
