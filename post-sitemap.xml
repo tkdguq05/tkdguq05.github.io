@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>http://tkdguq05.github.io/2024/10/12/langflow/</loc>
+        <lastmod>2024-10-13T08:37:02.204Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2022/10/02/kubeflow-istio/</loc>
         <lastmod>2024-02-02T09:05:03.388Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -19,6 +27,14 @@
     <url>
         <loc>http://tkdguq05.github.io/2024/01/21/LLM/</loc>
         <lastmod>2024-01-21T11:40:54.003Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2020/02/24/geultto4/</loc>
+        <lastmod>2023-12-08T06:48:29.313Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -67,6 +83,22 @@
     <url>
         <loc>http://tkdguq05.github.io/2022/09/01/geultto-con/</loc>
         <lastmod>2023-12-08T06:48:29.310Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/05/15/Boosting/</loc>
+        <lastmod>2023-12-08T06:48:29.309Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/</loc>
+        <lastmod>2023-12-08T06:48:29.308Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -161,8 +193,32 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2019/07/07/geultto/</loc>
+        <lastmod>2023-12-08T06:48:29.300Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/05/29/Metrics/</loc>
+        <lastmod>2023-12-08T06:48:29.299Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2020/11/29/network-part2/</loc>
         <lastmod>2023-12-08T06:48:29.299Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/09/08/Time-Series02/</loc>
+        <lastmod>2023-12-08T06:48:29.298Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -201,6 +257,14 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2019/02/28/supervised-learning/</loc>
+        <lastmod>2023-12-08T06:48:29.295Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2023/02/12/geultto-8/</loc>
         <lastmod>2023-12-08T06:48:29.294Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -219,6 +283,14 @@
     <url>
         <loc>http://tkdguq05.github.io/2021/04/18/AWS-Immersion-DAY/</loc>
         <lastmod>2023-12-08T06:48:29.292Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/05/15/cross-entropy-KL-divergence/</loc>
+        <lastmod>2023-12-08T06:48:29.291Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -267,6 +339,22 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/12/08/ubuntu3/</loc>
         <lastmod>2023-12-08T06:48:29.288Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/10/20/GDG-DEV-FEST/</loc>
+        <lastmod>2023-12-08T06:48:29.287Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/04/25/Fearuture-Selection-Information-Value/</loc>
+        <lastmod>2023-12-08T06:48:29.286Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -331,6 +419,14 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/11/10/ubuntu/</loc>
         <lastmod>2023-12-08T06:48:29.280Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/09/20/Time-Series-03/</loc>
+        <lastmod>2023-12-08T06:48:29.279Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -409,7 +505,23 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/</loc>
+        <lastmod>2023-12-08T06:48:29.260Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2019/07/18/Bandit/</loc>
+        <lastmod>2023-12-08T06:48:29.259Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/05/14/Information-Theroy-Entropy/</loc>
         <lastmod>2023-12-08T06:48:29.259Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
@@ -457,6 +569,14 @@
     </url>
 
     <url>
+        <loc>http://tkdguq05.github.io/2019/05/23/PCA/</loc>
+        <lastmod>2023-12-08T06:48:29.254Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://tkdguq05.github.io/2022/05/15/geultto7/</loc>
         <lastmod>2023-12-08T06:48:29.253Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -475,6 +595,14 @@
     <url>
         <loc>http://tkdguq05.github.io/2019/04/01/My-SQL-Workbench-Bug-issue/</loc>
         <lastmod>2023-12-08T06:48:29.251Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>http://tkdguq05.github.io/2019/05/05/Ensemble-Model/</loc>
+        <lastmod>2023-12-08T06:48:29.250Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 
@@ -531,126 +659,6 @@
     <url>
         <loc>http://tkdguq05.github.io/2022/05/29/devtron/</loc>
         <lastmod>2023-12-08T06:48:29.243Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2023/12/05/kubernetes-version-up/</loc>
-        <lastmod>2023-12-08T06:39:18.643Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2020/02/24/geultto4/</loc>
-        <lastmod>2020-02-26T00:56:04.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/10/20/GDG-DEV-FEST/</loc>
-        <lastmod>2020-02-24T10:27:48.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/02/28/supervised-learning/</loc>
-        <lastmod>2020-02-24T10:24:14.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/09/20/Time-Series-03/</loc>
-        <lastmod>2020-02-24T10:23:49.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/08/25/Time-Series-Begins/</loc>
-        <lastmod>2020-02-24T10:23:22.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/09/08/Time-Series02/</loc>
-        <lastmod>2020-02-24T10:23:09.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/23/PCA/</loc>
-        <lastmod>2020-02-24T03:19:24.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/29/Metrics/</loc>
-        <lastmod>2020-02-24T03:19:09.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/14/Information-Theroy-Entropy/</loc>
-        <lastmod>2020-02-24T03:18:59.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/07/07/geultto/</loc>
-        <lastmod>2020-02-24T03:18:52.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/04/25/Fearuture-Selection-Information-Value/</loc>
-        <lastmod>2020-02-24T03:18:36.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/05/Ensemble-Model/</loc>
-        <lastmod>2020-02-24T03:18:31.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/15/cross-entropy-KL-divergence/</loc>
-        <lastmod>2020-02-24T03:18:14.000Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.6</priority>
-
-    </url>
-
-    <url>
-        <loc>http://tkdguq05.github.io/2019/05/15/Boosting/</loc>
-        <lastmod>2020-02-24T03:18:01.000Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.6</priority>
 

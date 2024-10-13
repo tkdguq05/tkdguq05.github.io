@@ -31,17 +31,18 @@
   })();
   </script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head><body class="is-2-column"><nav class="navbar navbar-main"><div class="container navbar-container"><div class="navbar-brand justify-content-center"><a class="navbar-item navbar-logo" href="/">Unreasonable Effectiveness</a></div><div class="navbar-menu"><div class="navbar-start"><a class="navbar-item" href="/">Home</a><a class="navbar-item" href="/archives">Archives</a><a class="navbar-item" href="/categories">Categories</a><a class="navbar-item" href="/tags">Tags</a><a class="navbar-item" href="/about">About</a></div><div class="navbar-end"><a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus"><i class="fab fa-github"></i></a><a class="navbar-item is-hidden-tablet catalogue" title="Catalogue" href="javascript:;"><i class="fas fa-list-ul"></i></a><a class="navbar-item search" title="Search" href="javascript:;"><i class="fas fa-search"></i></a></div></div></div></nav><section class="section"><div class="container"><div class="columns"><div class="column order-2 column-main is-9-tablet is-9-desktop is-9-widescreen"><div class="card"><div class="card-image"><span class="image is-7by3"><img class="fill" src="https://cwiki.apache.org/confluence/download/attachments/145723561/wordmark_1.png?api=v2" alt="Airflow EC2에 구축하기"></span></div><article class="card-content article" role="article"><div class="article-meta is-size-7 is-uppercase level is-mobile"><div class="level-left"><span class="level-item">Posted&nbsp;<time dateTime="2020-12-13T08:05:59.000Z" title="2020. 12. 13. 오후 5:05:59">2020-12-13</time></span><span class="level-item">Updated&nbsp;<time dateTime="2023-12-08T06:48:29.310Z" title="2023. 12. 8. 오후 3:48:29">2023-12-08</time></span><span class="level-item"><a class="link-muted" href="/categories/engineering/">engineering</a></span><span class="level-item">25 minutes read (About 3756 words)</span></div></div><h1 class="title is-3 is-size-4-mobile">Airflow EC2에 구축하기</h1><div class="content"><p>Airflow를 AWS EC2에서 실행시켜 보자!</p>
 <span id="more"></span>
+
 <h2 id="AWS-EC2-위에-Airflow-구축하기"><a href="#AWS-EC2-위에-Airflow-구축하기" class="headerlink" title="AWS  EC2 위에 Airflow 구축하기"></a>AWS  EC2 위에 Airflow 구축하기</h2><p>Airflow를 로컬에 구축할 수도 있지만 안정성을 위해서라면 꺼지지 않는 컴퓨터에 Airflow를 구축하는 것이 좋을 것입니다. 이번 글에서는 실제 서비스를 위해서 Airflow를 EC2 위에 구축하는 내용을 담아보겠습니다.</p>
 <p>Airflow에 대한 기본 개념이 궁금하신 분들은 <a href="https://tkdguq05.github.io/2020/03/14/airflow-start/#more">Airflow Basic</a> 을 확인하시면 좋습니다.</p>
 <h2 id="준비물"><a href="#준비물" class="headerlink" title="준비물"></a>준비물</h2><p>Airflow를 구축하기 위해서는 준비물이 필요합니다. 첫번째로는 EC2 서버입니다. 인스턴스 사이즈가 작아도 크게 상관은 없겠지만 여유롭게 t3.large를 선택하도록 하겠습니다. 인스턴스 설정이 끝나면 인스턴스를 생성하고 바로 인스턴스 안으로 들어가 보도록 합니다.</p>
 <p>ssh 명령어를 이용해서 인스턴스 주소를 입력해 접속합니다. 접속이 안된다면 보안그룹에서 22번 포트를 열어줍시다.</p>
 <p>이제 본격적으로 Airflow를 구축해 볼 것입니다. 구축 시에 확인해야 할 체크리스트를 만들어 둡니다.</p>
 <ul>
-<li>[ ]  Airflow 기본 세팅</li>
-<li>[ ]  Redis</li>
-<li>[ ]  MySQL</li>
-<li>[ ]  기타 라이브러리 설치</li>
-<li>[ ]  AMI 이미지 생성하기</li>
+<li><input disabled="" type="checkbox"> Airflow 기본 세팅</li>
+<li><input disabled="" type="checkbox"> Redis</li>
+<li><input disabled="" type="checkbox"> MySQL</li>
+<li><input disabled="" type="checkbox"> 기타 라이브러리 설치</li>
+<li><input disabled="" type="checkbox"> AMI 이미지 생성하기</li>
 </ul>
 <p>마지막에 이미지를 생성하는 이유는 이 작업을 반복하려면 너무 귀찮고 힘들기 때문입니다. 완벽히 구축이 되고 잘 돌아가는 Airflow 이미지를 생성해 두면 나중에 활용할 일이 많습니다. Airflow를 클러스터화 한다던가 그런 곳에 이미지를 사용하면 쉽게 구축할 수 있습니다.</p>
 <p>레크리스트에는 Redis와 MySQL이 포함되어있습니다. 기본 세팅으로 실행해도 상관없지만 기본 세팅의 Executor는 Sequential Executor로 병렬로 Task를 수행할 수밖에 없습니다. 실제 서비스에는 많은 Task가 동시에 실행해야 할 경우가 자주 발생하므로 병렬 처리가 가능한 Celery Executor를 사용할 것이고 이 Executor는 메시지 브로커를 사용합니다. 메시지 브로커에는 RabbitMQ나 Redis 등이 사용되는데 이번 글에서는 Redis를 사용해 보겠습니다. </p>
@@ -60,54 +61,72 @@
 <p>출처 : <a target="_blank" rel="noopener" href="https://airflow.apache.org/docs/apache-airflow/stable/start.html">https://airflow.apache.org/docs/apache-airflow/stable/start.html</a></p>
 <p>Airflow 공식 문서에 따르면 기본 경로는 위 사진에 나와있는 것과 같습니다. 그냥 놔둬도 되지만 나중에 경로를 옮길 때를 대비해서 한번 세팅해봅시다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># EC2</span></span><br><span class="line"><span class="built_in">export</span> AIRFLOW_HOME=/home/ec2-user/airflow</span><br></pre></td></tr></table></figure>
+
 <p>EC2 인스턴스라면 기본 경로를 다음과 같이 설정해 줍니다.</p>
 <p>(여기서 airflow를 바로 설치해도 되긴 하지만 pip3 install apache-airflow로 설치를 하게되면 자잘한 에러들을 만날 수 있습니다. 아래 과정을 마친 뒤 명령을 실행하면 깔끔하게 설치되니 잘 따라가보도록 합니다. )<br><br></br></p>
 <h2 id="2-Redis-세팅"><a href="#2-Redis-세팅" class="headerlink" title="2. Redis 세팅"></a>2. Redis 세팅</h2><p>이제 브로커로 사용할 Redis를 설치해 줍시다. 먼저 AWS Linux의 패키지 설치 도구인 <code>yum</code>을 업데이트하고 필요한 라이브러리를 설치합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum -y update</span><br><span class="line">$ sudo yum -y install gcc make</span><br></pre></td></tr></table></figure>
+
 <p>이제 Redis를 다운 받습니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /tmp</span><br><span class="line">$ wget http://download.redis.io/releases/redis-4.0.0.tar.gz</span><br><span class="line">$ tar xzf redis-4.0.0.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> redis-4.0.0</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure>
+
 <p>Redis 디렉토리를 만들고 파일을 복사합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">mkdir</span> /etc/redis </span><br><span class="line">$ sudo <span class="built_in">mkdir</span> /var/lib/redis</span><br><span class="line">$ sudo <span class="built_in">cp</span> src/redis-server src/redis-cli /usr/local/bin/</span><br><span class="line">$ sudo <span class="built_in">cp</span> redis.conf /etc/redis/</span><br></pre></td></tr></table></figure>
+
 <p>Redis의 configure 파일을 수정합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#/etc/redis/redis.conf</span></span><br><span class="line">[..]</span><br><span class="line">daemonize <span class="built_in">yes</span></span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">[..]</span><br><span class="line"><span class="built_in">bind</span> 0.0.0.0</span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">[..]</span><br><span class="line"><span class="built_in">dir</span> /var/lib/redis</span><br><span class="line">[..]</span><br><span class="line">  </span><br><span class="line">logfile /var/log/redis_6379.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+
 <p>Redis-Server initializize 스크립트를 세팅합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /tmp</span><br><span class="line">$ wget https://raw.github.com/saxenap/install-redis-amazon-linux-centos/master/redis-server</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo <span class="built_in">mv</span> redis-server /etc/init.d</span><br><span class="line">$ sudo <span class="built_in">chmod</span> 755 /etc/init.d/redis-server</span><br><span class="line">$ sudo vim /etc/init.d/redis-server</span><br><span class="line">	</span><br><span class="line">-&gt;  redis=<span class="string">&quot;/usr/local/bin/redis-server&quot;</span> 확인</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chkconfig --add redis-server</span><br><span class="line">$ sudo chkconfig --level 345 redis-server on</span><br></pre></td></tr></table></figure>
+
 <p>서버 실행!</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service redis-server start</span><br><span class="line">$ redis-cli ping -&gt; PONG</span><br><span class="line"></span><br><span class="line"><span class="comment"># 강제 종료시</span></span><br><span class="line"><span class="variable">$sudo</span> service redis-server stop</span><br></pre></td></tr></table></figure>
+
 <p><code>sudo service redis-server start</code>를 해도 별 반응이 없다면 ctrl+c로 종료하고 실제로 돌아가는 프로세스가 있는지 확인합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep redis</span><br></pre></td></tr></table></figure>
+
 <p>제대로 세팅이 되었다면 다음과 같이 나올 것입니다.</p>
 <p><img src="/images/airflow_on_ec2/redis_on.png" alt="Redis가 돌아가고 있다"></p>
 <p>브로커는 구축이 되었습니다.<br><br></br></p>
 <h2 id="3-MySQL-세팅"><a href="#3-MySQL-세팅" class="headerlink" title="3. MySQL 세팅"></a>3. MySQL 세팅</h2><p>Airflow 구축을 하면서 가장 삽질도 많이 하고 시간을 많이 낭비한 부분입니다. 익숙하지 않아서인지 이상하게 MySQL을 다룰 때마다 에러핸들링을 오래 하게 되는 것 같습니다.</p>
 <p>MySQL 설치</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mysql56-server</span><br></pre></td></tr></table></figure>
+
 <p>웹에 검색하면 위와 같은 명령어가 많이 등장합니다. 예전 버전의 AWS CLI였으면 명령어가 적용되었을 것 같은데 mysql이 설치가 되지 않습니다.</p>
 <p>아래의 명령어를 사용해서 설치를 해야합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</span><br><span class="line">$ sudo yum localinstall mysql57-community-release-el7-11.noarch.rpm </span><br><span class="line">$ sudo yum install mysql-community-server</span><br></pre></td></tr></table></figure>
+
 <p>설치가 완료되면 mysql 데몬을 실행합니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld.service</span><br></pre></td></tr></table></figure>
+
 <p><img src="/images/airflow_on_ec2/mysql_error.png" alt="왜 안되지"></p>
 <p><img src="/images/airflow_on_ec2/heavy_ki.png" alt="답답하면 직접 하면 된다"></p>
 <p>이렇게 실행하라는 소리가 많은데 역시나 실행이 되지 않습니다. 왜 꼭 한번에 되게 정리해 놓은 문서는 없을까요? 답답하면 제가 정리해서 글을 올리면 됩니다. 묵-직하게!</p>
 <p>에러가 난다면 코드를 다음과 바꿔서 쳐봅니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service mysqld start</span><br></pre></td></tr></table></figure>
+
 <p>mysqld가 실행되었고 이제 mysql 명령어를 이용하는 게 가능해졌습니다.</p>
 <p>Airflow에서 MySQL을 DB로 사용하기 때문에 해주어야 할 작업이 남았습니다. Airflow 유저를 만들어 줘야하고 airflow database를 만들어줘야 합니다. 유저가 없다면 database에 접근이 불가능하며, airflow database가 없다면 Airflow 실행에 필요한 테이블들을 만들지 못합니다.</p>
 <p>따라서 <code>root</code>유저로 접속해서 유저를 만들고 데이터베이스를 만들어줘야 합니다.</p>
 <h3 id="MySQL-세부-세팅"><a href="#MySQL-세부-세팅" class="headerlink" title="MySQL 세부 세팅"></a>MySQL 세부 세팅</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ mysql -u root -p</span><br><span class="line"><span class="comment"># 패스워드를 입력</span></span><br><span class="line">Enter Password : </span><br></pre></td></tr></table></figure>
+
 <p>루트 유저로 접속하려면 비밀번호를 요구합니다. 하지만 방금 MySQL을 설치했기 때문에 비밀번호를 설정한 적이 없습니다. 그래서 그냥 엔터를 쳐봅니다.</p>
 <p><img src="/images/airflow_on_ec2/mysql_error.png" alt="왜 않되2"></p>
 <p>될리가 없습니다.</p>
 <p>MySQL은 설치가 될때 root 유저에 대한 임시 비밀번호를 만들어 놓기 때문에 접속이 안되는 것입니다. 임시 비밀번호를 찾아 와야 합니다. 임시 비밀번호는 휴대폰 인증을 통해서 이메일로 받는게 정석이지만 MySQL은 조금 다릅니다. </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /var/log/mysqld.log</span><br></pre></td></tr></table></figure>
+
 <p><code>/var/log/mysqld.log</code> 여기에 임시비밀번호가 있습니다. 비밀번호를 복사해 놓은 후 다시 입력해 봅니다.</p>
 <p>mysql 프롬포트가 나왔다면 성공입니다.</p>
 <p>이제 root 유저의 비밀번호를 다시 설정해주고 airflow 유저를 생성하고 database를 만들어 주면 세팅은 끝납니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">UPDATE mysql.user SET Password=PASSWORD(<span class="string">&#x27;패스워드&#x27;</span>)</span><br><span class="line">           WHERE User=<span class="string">&#x27;root&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
 <p>검색해서 나온 위 명령어로 비밀번호를 세팅해줍니다.</p>
 <p>여기서 에러가 발생하는데 두 가지 에러가 발생합니다.</p>
 <ol>
@@ -117,30 +136,40 @@
 <p>1번 에러의 경우에는 <code>&#39;</code> 를 잘 살펴보고 모양이 맞는지 한번 잘 확인해 봅니다. 혹은 mysql 버전에 맞지 않는 명령어일 가능성이 있습니다. mysql 5.7이상의 명령어인지 확인을 다시 해봅니다.</p>
 <p>2번 에러의 경우에는 비밀번호가 너무 쉽다는 것입니다. mysql에는 비밀번호 정책이 상 중 하로 나누어져 있는데 기본 설정은 MEDIUM입니다. 복잡한 비밀번호를 사용하기는 싫었기 때문에 저는 이것을 LOW로 변경할 것입니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> global validate_password_policy=<span class="string">&#x27;LOW&#x27;</span>;</span><br><span class="line"><span class="comment"># 쿼리 성공!</span></span><br></pre></td></tr></table></figure>
+
 <p>LOW로 설정되었다면 비밀번호는 8자 이상으로만 세팅하면 됩니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter user <span class="string">&#x27;root&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified by <span class="string">&#x27;8자 이상 패스워드&#x27;</span>;</span><br><span class="line">use mysql;</span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
 <p>이제 airflow 사용자를 만들어주고 database도 만들어줍니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 사용자 생성</span></span><br><span class="line">create user <span class="string">&#x27;airflow&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> identified by <span class="string">&#x27;비밀번호&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># DB 권한 부여</span></span><br><span class="line">$ grant all privileges on *.* to <span class="string">&#x27;airflow&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line">$ grant all privileges on DB이름.* to <span class="string">&#x27;airflow&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># database 생성</span></span><br><span class="line">create database airflow;</span><br><span class="line"></span><br><span class="line">flush privileges;</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install <span class="string">&#x27;apache-airflow[mysql]&#x27;</span></span><br></pre></td></tr></table></figure>
+
 <p>험난 했던 MySQL 세팅은 완료되었습니다.<br><br></br></p>
 <h2 id="4-Airflow-설치-및-세팅"><a href="#4-Airflow-설치-및-세팅" class="headerlink" title="4. Airflow 설치 및 세팅"></a>4. Airflow 설치 및 세팅</h2><p>이제 Airflow를 설치해봅시다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum update -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install group <span class="string">&quot;Development tools&quot;</span> -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel python3-devel.x86_64 cyrus-sasl-devel.x86_64 -y</span><br><span class="line"></span><br><span class="line">$ sudo yum install libevent-devel -y</span><br><span class="line"></span><br><span class="line">$ sudo pip3 install apache-airflow</span><br></pre></td></tr></table></figure>
+
 <p>설치가 완료되었다면 airflow 폴더애 있는 airflow.cfg를 수정해서 앞서 설치한 redis와 mysql을 airflow와 이어줘야 합니다.</p>
 <p><strong>하지만 아무리 찾아봐도 airflow 폴터가 보이지 않습니다. 분명히 설치를 했는데!</strong></p>
 <p>airflow를 입력해서 airflow 명령어가 동작하는지 먼저 확인합니다. 만약 명령어가 작동한다면 아까 설정해둔 <code>AIRFLOW_HOME</code>경로에 airflow 폴더가 생성될 것입니다. 그 안에 configuration 파일이 있습니다.</p>
 <p>만약 <code>airflow: command not found</code>에러가 발생한다면 </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:~/.local/bin</span><br></pre></td></tr></table></figure>
+
 <p>환경변수를 조정해서 airflow가 bin에서 실행되도록 합니다.</p>
 <h3 id="airflow-cfg-설정"><a href="#airflow-cfg-설정" class="headerlink" title="airflow.cfg 설정"></a>airflow.cfg 설정</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 사용할 dag 폴더 지정</span></span><br><span class="line"><span class="comment"># subfolder in a code repository. This path must be absolute. 꼭 절대경로!</span></span><br><span class="line">dags_folder = /home/ec2-user/airflow/dags</span><br><span class="line"></span><br><span class="line"><span class="comment"># executor = SequentialExecutor</span></span><br><span class="line">executor = CeleryExecutor</span><br><span class="line"></span><br><span class="line"><span class="comment"># sql_alchemy_conn = sqlite:////home/airflow/airflow/airflow.db</span></span><br><span class="line">sql_alchemy_conn =  mysql+pymysql://airflow:비밀번호@127.0.0.1:3306/airflow</span><br><span class="line"></span><br><span class="line"><span class="comment"># catchup_by_default = True</span></span><br><span class="line">catchup_by_default = False</span><br><span class="line"></span><br><span class="line"><span class="comment"># broker_url = sqla+mysql://airflow:airflow@127.0.0.1:3306/airflow</span></span><br><span class="line">broker_url = redis://airflow@127.0.0.1:6379/0</span><br><span class="line"></span><br><span class="line"><span class="comment"># result_backend = db+mysql://airflow:airflow@localhost:3306/airflow</span></span><br><span class="line">result_backend = db+mysql://airflow:비밀번호@127.0.0.1:3306/airflow</span><br><span class="line"></span><br><span class="line"><span class="comment"># load_examples = True</span></span><br><span class="line">load_examples = False</span><br></pre></td></tr></table></figure>
+
 <p>이 정도만 세팅 해줍니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install boto3</span><br><span class="line">sudo pip3 install celery</span><br><span class="line">sudo pip3 install redis</span><br></pre></td></tr></table></figure>
+
 <p>실행에 필요한 라이브러를 설치해주고 airflow db를 초기화 해봅시다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">airflow initdb</span><br></pre></td></tr></table></figure>
+
 <p>Done!이 나왔다면 성공입니다.</p>
 <hr>
 <p><br></br></p>
 <h2 id="Airflow-실행"><a href="#Airflow-실행" class="headerlink" title="Airflow 실행"></a>Airflow 실행</h2><p>Airflow는 스케쥴러, 웹서버, 워커로 구성되어있습니다. 하나하나 백그라운드로 실행시켜줍니다.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nohup</span> airflow webserver &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"><span class="built_in">nohup</span> airflow scheduler &gt; /dev/null 2&gt;&amp;1 &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># queue를 설정했다면 -q를 통해 추가한다</span></span><br><span class="line"><span class="built_in">nohup</span> airflow worker &gt; /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
 <p><img src="/images/airflow_on_ec2/airflow_ui.png" alt="됐다!!!!!"></p>
 <p>웹 UI가 예쁘게 뜬다면 성공입니다!</p>
 <p>example dag를 실행해보고 안된다면 백그라운드로 실행된 프로세스를 종료한 뒤 nohup명령어를 빼고 실행합니다. 로그가 나오므로 해당 에러를 모두 해결한 뒤에 백그라운드로 실행시켜 주면 완료가 됩니다.</p>
@@ -156,6 +185,7 @@
 <p>  또는 OSError: mysql_config not found 이런 에러 메세지로 등장할 수 있다.</p>
 <p> 아래 명령어로 해결한다.</p>
  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install mysql-devel</span><br><span class="line"></span><br><span class="line">pip3 install <span class="string">&#x27;apache-airflow[mysql]&#x27;</span></span><br></pre></td></tr></table></figure>
+
 </li>
 </ol>
 <hr>
